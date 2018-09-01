@@ -16,8 +16,6 @@ namespace GameBase
     /// </summary>
     public class Game1 : Game
     {
-        public static IGameController GameController { get; private set; }
-
         IGameController gameController;
 
         MonoGameScreenRenderer screenRenderer;
@@ -28,7 +26,6 @@ namespace GameBase
         public Game1(IGameController gameController)
         {
             this.gameController = gameController;
-            GameController = gameController;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 

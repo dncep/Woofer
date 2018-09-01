@@ -4,7 +4,7 @@ using System.Drawing;
 using GameInterfaces.Controller;
 using GameInterfaces.GraphicsInterface;
 
-namespace Woofer.Controller
+namespace WooferGame.Controller
 {
     class WooferRenderingUnit : IRenderingUnit
     {

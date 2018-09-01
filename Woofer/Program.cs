@@ -4,17 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GameBase;
-using Woofer.Controller;
+using WooferGame.Controller;
 
-namespace Woofer
+namespace WooferGame
 {
-    class Program
+    public static class Woofer
     {
+        public static WooferController Controller;
+
         [STAThread]
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            GameStart.Start(new WooferController());
+            GameStart.Start(Controller = new WooferController());
         }
     }
 }

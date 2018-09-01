@@ -7,9 +7,10 @@ using EntityComponentSystem.Util;
 using GameBase;
 using GameInterfaces.Controller;
 using GameInterfaces.GraphicsInterface;
-using Woofer.Systems.Physics;
+using GameInterfaces.Input;
+using WooferGame.Systems.Physics;
 
-namespace Woofer.Test_Data
+namespace WooferGame.Test_Data
 {
     class Box : Entity
     {
@@ -17,7 +18,7 @@ namespace Woofer.Test_Data
         {
             Components.Add(new Spatial(x, y));
             Components.Add(new Renderable("grass", new Rectangle(-8, -8, 16, 16)));
-            Components.Add(new RectangleBody(new BoundingBox(-8, -8, 16, 16), 4f, false));
+            Components.Add(new RectangleBody(new CollisionBox(-8, -8, 16, 16), 4f, false));
             Components.Add(new LevelTile());
         }
 
@@ -30,33 +31,36 @@ namespace Woofer.Test_Data
         {
             Components.Add(new Spatial(16 * tileX, 16 * tileY));
             Components.Add(new Renderable(texture, new Rectangle(-8, -8, 16, 16)));
-            Components.Add(new RectangleBody(new BoundingBox(-8, -8, 16, 16), 4f, true) { Velocity = (texture == "grass") ? new Vector2D(-16, 0) : new Vector2D()});
+            Components.Add(new RectangleBody(new CollisionBox(-8, -8, 16, 16) {
+                TopFaceProperties = new CollisionFaceProperties(true, 0.3)/*,
+                LeftFaceProperties = new CollisionFaceProperties(),
+                BottomFaceProperties = new CollisionFaceProperties(),
+                RightFaceProperties = new CollisionFaceProperties()*/
+            }, 4f, true));
             Components.Add(new LevelTile());
         }
 
         public override string ToString() => "TileEntity{Texture=" + (Components["renderable"] as Renderable).Texture + ",Position=" + (Components["spatial"] as Spatial).Position + "}";
     }
 
+    [Component("level_tile")]
     class LevelTile : Component
     {
         public string Texture { get; private set; }
-
-        public LevelTile() => ComponentName = "level_tile";
     }
 
+    [Component("renderable")]
     class Renderable : Component
     {
         public string Texture { get; set; }
         public Rectangle Bounds { get; set; }
 
-        public Renderable() => ComponentName = "renderable";
-
-        public Renderable(string texture) : this()
+        public Renderable(string texture)
         {
             this.Texture = texture;
         }
 
-        public Renderable(string texture, Rectangle bounds) : this()
+        public Renderable(string texture, Rectangle bounds)
         {
             this.Texture = texture;
             this.Bounds = bounds;
@@ -64,36 +68,22 @@ namespace Woofer.Test_Data
 
         public void Render<TSurface, TSource>(DirectGraphicsContext<TSurface, TSource> layer, CameraView view, ScreenRenderer<TSurface, TSource> r)
         {
-            IGameController controller = Game1.GameController;
+            IGameController controller = Woofer.Controller;
 
-            Spatial physical = Owner.Components["spatial"] as Spatial;
-            float x = ((float)physical.X - 8);
-            float y = ((float)-physical.Y - 8);
+            Spatial spatial = Owner.Components["spatial"] as Spatial;
+            float x = ((float)(spatial.X - 8));
+            float y = ((float)(-spatial.Y - 8));
             int size = 16;
 
-            x -= (float) controller.ActiveScene.CurrentViewport.X;
-            y += (float)controller.ActiveScene.CurrentViewport.Y;
-
+            x -= (int)controller.ActiveScene.CurrentViewport.X;
+            y += (int)controller.ActiveScene.CurrentViewport.Y;
+            
             x += layer.GetSize().Width / 2;
             y += layer.GetSize().Height / 2;
 
             System.Drawing.Rectangle drawingRect = new System.Drawing.Rectangle((int)Math.Floor(x), (int)Math.Floor(y), size, size);
             
             layer.Draw(r.SpriteManager[Texture], drawingRect);
-        }
-    }
-
-    class CameraMove : ComponentSystem
-    {
-        public CameraMove()
-        {
-            this.SystemName = "free_camera";
-            this.InputProcessing = true;
-        }
-
-        public override void Input()
-        {
-            Owner.CurrentViewport.Location += Game1.GameController.InputUnit.GamePads[0].Thumbsticks.Right;
         }
     }
 
@@ -108,6 +98,7 @@ namespace Woofer.Test_Data
         }
     }
 
+    [ComponentSystem("fpscounter")]
     public class FramerateCounter : ComponentSystem
     {
         private float _elapsed = 0;
@@ -118,7 +109,6 @@ namespace Woofer.Test_Data
 
         public FramerateCounter()
         {
-            SystemName = "fpscounter";
             TickProcessing = true;
             RenderProcessing = true;
 
@@ -149,11 +139,11 @@ namespace Woofer.Test_Data
         }
     }
 
+    [ComponentSystem("level_renderer")]
     public class LevelRenderer : ComponentSystem
     {
         public LevelRenderer()
         {
-            SystemName = "level_renderer";
             Watching = new string[] { "level_tile" };
             RenderProcessing = true;
         }

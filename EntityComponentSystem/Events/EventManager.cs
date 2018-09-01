@@ -27,26 +27,28 @@ namespace EntityComponentSystem.Events
 
         public void InvokeEvent(Event evt)
         {
-            EventDictionary[evt.EventType].Invoke(this, evt);
+            EventDictionary[evt.EventName].Invoke(this, evt);
         }
 
         public void InvokeEvent(Event evt, Entity target, object sender)
         {
-            foreach (Component component in target.Components)
+            //TODO
+            /*foreach (Component component in target.Components)
             {
                 if (component.ListenedEvents.Contains(evt.EventType))
                 {
                     component.EventFired(sender, evt);
                 }
-            }
+            }*/
         }
 
         public void InvokeEvent(Event evt, List<Entity> targets, object sender)
         {
-            foreach (Entity target in targets)
+            //TODO
+            /*foreach (Entity target in targets)
             {
                 InvokeEvent(evt, target, sender);
-            }
+            }*/
         }
     }
 }

@@ -7,10 +7,9 @@ using EntityComponentSystem.Util;
 
 namespace EntityComponentSystem.Components
 {
+    [Component("spatial")]
     public class Spatial : Component
     {
-        public const string Identifier = "spatial";
-
         private Vector2D position = new Vector2D();
         public Vector2D Position
         {
@@ -46,7 +45,7 @@ namespace EntityComponentSystem.Components
             }
         }
 
-        public Spatial() => ComponentName = Identifier;
+        public Spatial() { }
 
         public Spatial(float X, float Y) : this()
         {

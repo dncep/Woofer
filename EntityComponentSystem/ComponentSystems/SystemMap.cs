@@ -48,11 +48,28 @@ namespace EntityComponentSystem.ComponentSystems
                     }
                 }
             }
+
+            foreach(string eventName in system.Listening)
+            {
+                Owner.Events.RegisterEventType(eventName);
+                Owner.Events.EventDictionary[eventName] += system.EventFired;
+            }
         }
         
         public void Clear() => _dict.Clear();
         public bool Contains(string name) => _dict.ContainsKey(name);
-        public bool Remove(string name) => _dict.Remove(name);
+        public bool Remove(string name)
+        {
+            if (!_dict.ContainsKey(name)) return false;
+            ComponentSystem system = _dict[name];
+            foreach(string eventName in system.Listening)
+            {
+                Owner.Events.RegisterEventType(eventName);
+                Owner.Events.EventDictionary[eventName] -= system.EventFired;
+            }
+            _dict.Remove(name);
+            return true;
+        }
 
         internal void InvokeInput() => _inputSystems.ForEach((s) => s.Input());
         internal void InvokeTick() => _tickSystems.ForEach((s) => s.Tick());

@@ -61,12 +61,14 @@ namespace EntityComponentSystem.Scenes
         {
             foreach (Component component in e.Entity.Components)
             {
-                foreach (string eventType in component.ListenedEvents)
+
+                //TODO: btw this removes event listeners of the removed components
+                /*foreach (string eventType in component.ListenedEvents)
                 {
                     Events.RegisterEventType(eventType);
                     if (e.WasRemoved) Events.EventDictionary[eventType] -= component.EventFired;
                     else Events.EventDictionary[eventType] += component.EventFired;
-                }
+                }*/
 
                 foreach (ComponentSystem system in Systems)
                 {

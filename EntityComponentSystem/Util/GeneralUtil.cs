@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace EntityComponentSystem.Util
 {
-    public sealed class GeneralUtil
+    public static class GeneralUtil
     {
-        public static string EnumerableToString<T>(IEnumerable<T> arr)
+        public static string EnumerableToString<T>(this IEnumerable<T> arr)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append('[');
@@ -43,5 +43,26 @@ namespace EntityComponentSystem.Util
         {
             return (a % n + n) % n;
         }
+
+        public static T RequireAttribute<T>(Type type) where T : Attribute
+        {
+            object[] attributesFound = type.GetCustomAttributes(typeof(T), false);
+            if (attributesFound.Count() != 1)
+            {
+                throw new AttributeException(
+                    $"Required attribute of class '{typeof(T)}' " +
+                    ((attributesFound.Count() == 0) ? "not found" : "found more than once") +
+                    $" in derived class '{type}'");
+            }
+            else return attributesFound.First() as T;
+        }
+    }
+    
+    [Serializable]
+    public sealed class AttributeException : Exception
+    {
+        public AttributeException() { }
+        public AttributeException(string message) : base(message) { }
+        public AttributeException(string message, Exception inner) : base(message, inner) { }
     }
 }

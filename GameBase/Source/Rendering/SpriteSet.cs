@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woofer.Source.Rendering
+namespace WooferGame.Source.Rendering
 {
     public class SpriteSet
     {

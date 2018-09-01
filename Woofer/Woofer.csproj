@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{73F476D5-7C8E-47A2-B646-33CF0288E4FB}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Woofer</RootNamespace>
+    <RootNamespace>WooferGame</RootNamespace>
     <AssemblyName>Woofer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -43,15 +43,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\BackgroundRenderingLayer.cs" />
+    <Compile Include="Input\InputTimeframe.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controller\LevelRenderingLayer.cs" />
     <Compile Include="Controller\WooferController.cs" />
     <Compile Include="Controller\WooferRenderingUnit.cs" />
-    <Compile Include="Systems\Physics\BoundingBox.cs" />
+    <Compile Include="Systems\Camera\CameraSystem.cs" />
+    <Compile Include="Systems\Camera\CameraTracked.cs" />
+    <Compile Include="Systems\Movement\PlayerMovement.cs" />
+    <Compile Include="Systems\Physics\CollisionBox.cs" />
+    <Compile Include="Systems\Physics\CollisionEvent.cs" />
+    <Compile Include="Systems\Physics\CollisionFaceProperties.cs" />
+    <Compile Include="Systems\Physics\PhysicsDebug.cs" />
     <Compile Include="Systems\Physics\PhysicsSystem.cs" />
     <Compile Include="Systems\Physics\RectangleBody.cs" />
+    <Compile Include="Systems\Player\Actions\PulseAbility.cs" />
+    <Compile Include="Systems\Player\Actions\PulseSystem.cs" />
+    <Compile Include="Systems\Player\PlayerOrientation.cs" />
+    <Compile Include="Systems\Player\PlayerOrientationSystem.cs" />
     <Compile Include="TestData\Box.cs" />
+    <Compile Include="Systems\Movement\PlayerMovementComponent.cs" />
     <Compile Include="TestData\TestScene.cs" />
   </ItemGroup>
   <ItemGroup>

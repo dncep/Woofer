@@ -1,8 +1,8 @@
 ﻿using EntityComponentSystem.Scenes;
 using GameInterfaces.Controller;
-using Woofer.Scenes;
+using WooferGame.Scenes;
 
-namespace Woofer.Controller
+namespace WooferGame.Controller
 {
     public class WooferController : IGameController
     {

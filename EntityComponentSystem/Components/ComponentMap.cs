@@ -33,5 +33,18 @@ namespace EntityComponentSystem.Components
         public IEnumerator<Component> GetEnumerator() => _dict.Values.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => _dict.GetEnumerator();
 
+        public T Get<T>() where T : Component
+        {
+            var classAttr = typeof(T).GetCustomAttributes(typeof(ComponentAttribute), false);
+            if (classAttr.Count() == 1) return this[(classAttr.First() as ComponentAttribute).ComponentName] as T;
+            
+            //Console.WriteLine(T.ComponentName);
+            return null;
+        }
+
+        public bool Has<T>() where T : Component
+        {
+            return _dict.ContainsKey(Component.IdentifierOf<T>());
+        }
     }
 }

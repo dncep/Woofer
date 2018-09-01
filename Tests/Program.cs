@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using EntityComponentSystem.Util;
-using Woofer.Systems.Physics;
+using WooferGame.Systems.Physics;
 
 namespace Tests
 {
@@ -83,8 +83,8 @@ namespace Tests
         [Test]
         public static void IsAheadOfNormalTest()
         {
-            Assert(PhysicsSystem.IsAheadOfNormal(new BoundingBox(-8, -8, 16, 16), new FreeVector2D(new Vector2D(10, 0), new Vector2D(10, 5))), true);
-            Assert(PhysicsSystem.IsAheadOfNormal(new BoundingBox(-8, -8, 16, 16), new FreeVector2D(new Vector2D(7, 0), new Vector2D(7, 5))), false);
+            Assert(PhysicsSystem.IsAheadOfNormal(new CollisionBox(-8, -8, 16, 16), new FreeVector2D(new Vector2D(10, 0), new Vector2D(10, 5))), true);
+            Assert(PhysicsSystem.IsAheadOfNormal(new CollisionBox(-8, -8, 16, 16), new FreeVector2D(new Vector2D(7, 0), new Vector2D(7, 5))), false);
         }
 
         public static void Assert(object real, object expected)

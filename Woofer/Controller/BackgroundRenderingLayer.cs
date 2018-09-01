@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GameInterfaces.Controller;
 
-namespace Woofer.Controller
+namespace WooferGame.Controller
 {
     public class BackgroundRenderingLayer : IRenderingLayer
     {

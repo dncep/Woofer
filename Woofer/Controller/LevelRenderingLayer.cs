@@ -3,7 +3,7 @@ using System.Drawing;
 
 using GameInterfaces.Controller;
 
-namespace Woofer.Controller
+namespace WooferGame.Controller
 {
     public class LevelRenderingLayer : IRenderingLayer
     {

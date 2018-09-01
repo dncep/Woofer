@@ -1,13 +1,14 @@
-﻿using System.Threading;
-using EntityComponentSystem.Components;
-using EntityComponentSystem.Scenes;
+﻿using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
-using GameBase;
-using GameInterfaces.Input;
-using Woofer.Systems.Physics;
-using Woofer.Test_Data;
 
-namespace Woofer.Scenes
+using WooferGame.Systems.Camera;
+using WooferGame.Systems.Movement;
+using WooferGame.Systems.Physics;
+using WooferGame.Systems.Player;
+using WooferGame.Systems.Player.Actions;
+using WooferGame.Test_Data;
+
+namespace WooferGame.Scenes
 {
     class TestScene : Scene
     {
@@ -44,18 +45,28 @@ namespace Woofer.Scenes
             Sprites.AddSpriteSheet(note);*/
 
             //Entities.Add(new TileEntity("grass", 16, 8));
-            for (int x = -1; x <= 30; x++)
+            for (int x = -1; x <= 5; x++)
             {
                 Entities.Add(new TileEntity("brick", x, 0));
                 Entities.Add(new TileEntity("brick", x, 8));
 
                 //if (x < 2) Entities.Add(new TileEntity("brick", x, 1));
             }
-            //Entities.Add(new TileEntity("brick", 5, 1));
+            for(int y = 0; y <= 5; y++)
+            {
+                Entities.Add(new TileEntity("brick", 7, y));
+            }
+            //Entities.Add(new TileEntity("brick", 15, 1));
+            Entities.Add(new TileEntity("brick", -3, 8));
 
             box = new Box(-24f, 64f);
             
-            (box.Components[RectangleBody.Identifier] as RectangleBody).Velocity += new Vector2D(80, 0);
+            box.Components.Get<RectangleBody>().Velocity += new Vector2D(80, 0);
+            box.Components.Add(new PlayerMovementComponent());
+            box.Components.Add(new CameraTracked() { Offset = new Vector2D(0, 8) });
+            box.Components.Add(new PhysicsDebug());
+            box.Components.Add(new PlayerOrientation());
+            box.Components.Add(new PulseAbility());
             Entities.Add(box);
 
             //Entities.Add(new Box(0f, 16f));
@@ -63,10 +74,13 @@ namespace Woofer.Scenes
             //Entities.Add(new Slope(1, 1, false));
 
             //Input
-            Systems.Add(new CameraMove());
+            Systems.Add(new CameraSystem());
+            Systems.Add(new PlayerMovement());
+            Systems.Add(new PlayerOrientationSystem());
 
             //Tick
             Systems.Add(new PhysicsSystem());
+            Systems.Add(new PulseSystem());
 
             //Rendering
             Systems.Add(new LevelRenderer());
@@ -81,12 +95,11 @@ namespace Woofer.Scenes
             System.Console.WriteLine();*/
 
 
-            var boxrb = (box.Components[RectangleBody.Identifier] as RectangleBody);
-            if (Game1.GameController.InputUnit.GamePads[0].Buttons.A.IsPressed()) boxrb.Velocity.Y = 128;
+            var boxrb = box.Components.Get<RectangleBody>();
             //var boxrb = (box.Components["rigidbody"]) as RigidBody;
             if (boxrb.Position.Y < -1000)
             {
-                boxrb.Position = new Vector2D(8, 64);
+                boxrb.Position = new Vector2D(32.001, 64);
                 boxrb.Velocity = new Vector2D();
             }
             //CurrentViewport.Y = (float) (16d*Math.Sin(2*time));
