@@ -1,4 +1,5 @@
-﻿using EntityComponentSystem.Scenes;
+﻿using EntityComponentSystem.Entities;
+using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 
 using WooferGame.Systems.Camera;
@@ -14,7 +15,7 @@ namespace WooferGame.Scenes
     {
         //TestEntity a;
 
-        Box box;
+        Entity box;
 
         public TestScene() : base()
         {
@@ -45,21 +46,26 @@ namespace WooferGame.Scenes
             Sprites.AddSpriteSheet(note);*/
 
             //Entities.Add(new TileEntity("grass", 16, 8));
-            for (int x = -1; x <= 5; x++)
+            for (int x = -1; x <= 20; x++)
             {
                 Entities.Add(new TileEntity("brick", x, 0));
+
+
                 Entities.Add(new TileEntity("brick", x, 8));
 
-                //if (x < 2) Entities.Add(new TileEntity("brick", x, 1));
+                if (x < 2 || x > 18) Entities.Add(new TileEntity("brick", x, 1));
+                //else if(x < 10) Entities.Add(new Box(x * 16, 2));
             }
-            for(int y = 0; y <= 5; y++)
+            for(int y = 1; y <= 5; y++)
             {
                 Entities.Add(new TileEntity("brick", 7, y));
             }
             //Entities.Add(new TileEntity("brick", 15, 1));
             Entities.Add(new TileEntity("brick", -3, 8));
 
-            box = new Box(-24f, 64f);
+            box = new Box(-24, 64);
+
+            Entities.Add(new Box(48, 32));
             
             box.Components.Get<RectangleBody>().Velocity += new Vector2D(80, 0);
             box.Components.Add(new PlayerMovementComponent());

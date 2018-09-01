@@ -49,6 +49,7 @@ namespace WooferGame.Systems.Physics
             get => faceProperties[LeftFace];
             set => faceProperties[LeftFace] = value;
         }
+        public Vector2D Center => new Vector2D(X + (Width / 2), Y + (Height / 2));
 
         public CollisionBox(double x, double y, double width, double height)
         {

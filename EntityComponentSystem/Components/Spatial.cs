@@ -47,7 +47,7 @@ namespace EntityComponentSystem.Components
 
         public Spatial() { }
 
-        public Spatial(float X, float Y) : this()
+        public Spatial(double X, double Y) : this()
         {
             this.X = X;
             this.Y = Y;

@@ -25,7 +25,6 @@ namespace WooferGame.Systems.Player
 
         public override void Input()
         {
-            Console.Clear();
             IGamePad gamePad = Woofer.Controller.InputUnit.GamePads[0];
 
             Vector2D thumbstick = gamePad.Thumbsticks.Left;
@@ -35,7 +34,6 @@ namespace WooferGame.Systems.Player
                 foreach(PlayerOrientation po in WatchedComponents)
                 {
                     po.Unit = thumbstick.Unit();
-                    Console.WriteLine(po.Unit);
                 }
             }
         }

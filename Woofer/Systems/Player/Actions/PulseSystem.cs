@@ -34,8 +34,6 @@ namespace WooferGame.Systems.Player.Actions
                 if (pulseButton.IsPressed()) pa.Pulse.RegisterPressed();
                 else pa.Pulse.RegisterUnpressed();
 
-                Console.WriteLine($"{pa.EnergyMeter}/{pa.MaxEnergy}");
-
                 if(pa.EnergyMeter >= pa.PulseCost)
                 {
                     if(pulseButton.IsPressed() && pa.Pulse.Execute())
@@ -51,7 +49,6 @@ namespace WooferGame.Systems.Player.Actions
             foreach(PulseAbility pa in WatchedComponents)
             {
                 if (pa.Owner.Components.Get<PlayerMovementComponent>().OnGround) pa.EnergyMeter = pa.MaxEnergy;
-                Console.WriteLine(pa.EnergyMeter);
                 pa.Pulse.Tick();
             }
         }

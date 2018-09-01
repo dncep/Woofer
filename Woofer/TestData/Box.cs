@@ -14,7 +14,7 @@ namespace WooferGame.Test_Data
 {
     class Box : Entity
     {
-        public Box(float x, float y)
+        public Box(double x, double y)
         {
             Components.Add(new Spatial(x, y));
             Components.Add(new Renderable("grass", new Rectangle(-8, -8, 16, 16)));

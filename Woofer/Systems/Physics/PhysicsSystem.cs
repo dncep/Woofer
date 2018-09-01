@@ -120,7 +120,21 @@ namespace WooferGame.Systems.Physics
                                 Owner.Events.InvokeEvent(new CollisionEvent(other, rb.Owner, normal));
                             } else //Soft Collision
                             {
+                                Vector2D center0 = rb.RealBounds.Center;
+                                Vector2D center1 = other.RealBounds.Center;
 
+                                double distance = (center0 - center1).Magnitude;
+                                if (distance <= 1e-4) continue;
+
+                                double force = 2*Owner.FixedDeltaTime * intersection.Area * (rb.Mass + other.Mass);
+
+                                Vector2D forceVec = (center1 - center0).Unit() * force;
+                                forceVec.Y = 0;
+
+                                rb.Velocity -= forceVec / rb.Mass;
+                                other.Velocity -= -forceVec / other.Mass;
+
+                                //Console.WriteLine(force);
                             }
                         }
 
