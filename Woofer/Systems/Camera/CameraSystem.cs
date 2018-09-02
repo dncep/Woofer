@@ -23,15 +23,15 @@ namespace WooferGame.Systems.Camera
         public override void Input()
         {
             Owner.CurrentViewport.Location += Woofer.Controller.InputUnit.GamePads[0].Thumbsticks.Right;
-            if (WatchedComponents.Count > 0)
-            {
-                Owner.CurrentViewport.Location = WatchedComponents.First().Owner.Components.Get<Spatial>().Position + (WatchedComponents.First() as CameraTracked).Offset;
-            }
+            
         }
 
         public override void Tick()
         {
-            
+            if (WatchedComponents.Count > 0)
+            {
+                Owner.CurrentViewport.Location = WatchedComponents.First().Owner.Components.Get<Spatial>().Position + (WatchedComponents.First() as CameraTracked).Offset;
+            }
         }
     }
 }

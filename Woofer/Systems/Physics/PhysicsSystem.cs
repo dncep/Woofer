@@ -10,7 +10,6 @@ namespace WooferGame.Systems.Physics
     [ComponentSystem("physics")]
     public class PhysicsSystem : ComponentSystem
     {
-
         private Vector2D Gravity = new Vector2D(0, -362);
 
         public PhysicsSystem()
@@ -23,6 +22,7 @@ namespace WooferGame.Systems.Physics
 
         public override void Tick()
         {
+            //Console.Clear();
             if (Owner.FixedDeltaTime == 0) return;
             accumulator += Owner.DeltaTime;
 
@@ -32,10 +32,11 @@ namespace WooferGame.Systems.Physics
                 foreach (Collider rb in WatchedComponents)
                 {
                     rb.PreviousPosition = rb.Position;
-                    rb.PreviousVelocity = rb.Velocity;
 
                     if (!rb.Immovable) rb.Velocity += Gravity * Owner.FixedDeltaTime;
                     rb.Position += rb.Velocity * Owner.FixedDeltaTime;
+
+                    rb.PreviousVelocity = rb.Velocity;
                 }
                 
                 WatchedComponents = WatchedComponents.OrderBy(a => GetCrossTickLeft(a as Collider)).ToList();
@@ -65,24 +66,28 @@ namespace WooferGame.Systems.Physics
                         {
                             if (other.Immovable) //Hard collision
                             {
-                                Vector2D totalVelocity = rb.Velocity - other.Velocity;
+                                Vector2D totalVelocity = rb.PreviousVelocity - other.Velocity;
+
+                                Console.WriteLine();
 
                                 List<FreeVector2D> sides = intersection.GetSides().Where(s => BelongsToBox(s, other.RealBounds)).Where(s => GeneralUtil.SubtractAngles(s.Normal.Angle, totalVelocity.Angle) > Math.PI / 2).ToList();
 
                                 if (sides.Count == 0) //It's stuck inside a tile
                                 {
+                                    Console.WriteLine($"totalVelocity: {totalVelocity}: angle: {totalVelocity.Angle*180/Math.PI}");
+                                    Console.WriteLine($"intersection: {intersection}");
+                                    Console.WriteLine($"skipping {other.Owner}");
                                     continue;
                                 }
 
-                                FreeVector2D normalSide;
+                                FreeVector2D normalSide = sides[0];
                                 Vector2D normal = sides[0].Normal;
 
                                 if (sides.Count > 1)
                                 {
-
-                                    if (IsAheadOfNormal(rb.Bounds.Offset(rb.PreviousPosition), sides[0]))
+                                    if (IsAheadOfNormal(rb.PreviousBounds, sides[0]))
                                     {
-                                        if (IsAheadOfNormal(rb.Bounds.Offset(rb.PreviousPosition), sides[1]))
+                                        if (IsAheadOfNormal(rb.PreviousBounds, sides[1]))
                                         {
                                             normalSide = sides[0].Normal.X == 0 ? sides[0] : sides[1];
                                         }
@@ -93,24 +98,42 @@ namespace WooferGame.Systems.Physics
                                     normal = normalSide.Normal;
                                 }
                                 CollisionFaceProperties faceProperties = intersection.GetFaceProperties(normal);
+                                //Console.WriteLine(other.Owner);
+
+                                Console.WriteLine();
+                                Console.WriteLine($"normal: {normal} for obj {other.Owner}");
 
                                 if (normal.X == 0)
                                 {
-                                    if (intersection.Height <= Math.Abs(rb.Position.Y - rb.PreviousPosition.Y) || true)
+                                    double displacement = Math.Abs(normalSide.A.Y - (normal.Y > 0 ? rb.RealBounds.Bottom : rb.RealBounds.Top));
+                                    if (faceProperties.Snap || Math.Round(displacement,8) <= Math.Round(Math.Abs(rb.Position.Y - rb.PreviousPosition.Y),8))
                                     {
-                                        rb.Position += new Vector2D(0, intersection.Height) * normal.Y;
+                                        rb.Position += new Vector2D(0, displacement) * normal.Y;
                                         rb.Velocity = new Vector2D(rb.Velocity.X * (1 - faceProperties.Friction), 0);
-
+                                        Console.WriteLine($"new velocity: {rb.Velocity}");
                                     }
-                                    else continue;
+                                    else
+                                    {
+                                        Console.WriteLine("something didn't happen part 1");
+                                        Console.WriteLine($"why: faceProperties.Snap = {faceProperties.Snap}");
+                                        Console.WriteLine($"intersection = {intersection}");
+                                        Console.WriteLine($"Position.Y = {rb.Position.Y}");
+                                        Console.WriteLine($"PreviousPosition.Y = {rb.PreviousPosition.Y}");
+                                        continue;
+                                    }
                                 } else
                                 {
-                                    if (intersection.Width <= Math.Abs(rb.Position.X - rb.PreviousPosition.X) || true)
+                                    double displacement = Math.Abs(normalSide.A.X - (normal.X > 0 ? rb.RealBounds.Left : rb.RealBounds.Right));
+                                    if (faceProperties.Snap || Math.Round(displacement,8) <= Math.Round(Math.Abs(rb.Position.X - rb.PreviousPosition.X),8))
                                     {
-                                        rb.Position += new Vector2D(intersection.Width, 0) * normal.X;
+                                        rb.Position += new Vector2D(displacement, 0) * normal.X;
                                         rb.Velocity = new Vector2D(0, rb.Velocity.Y * (1 - faceProperties.Friction));
                                     }
-                                    else continue;
+                                    else
+                                    {
+                                        Console.WriteLine("something didn't happen part 2");
+                                        continue;
+                                    }
                                 }
 
                                 Owner.Events.InvokeEvent(new CollisionEvent(rb, other.Owner, normal));

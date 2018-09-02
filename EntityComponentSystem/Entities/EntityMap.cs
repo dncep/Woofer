@@ -9,19 +9,19 @@ namespace EntityComponentSystem.Entities
 {
     public class EntityMap : IEnumerable<Entity>
     {
-        private readonly Dictionary<int, Entity> _dict = new Dictionary<int, Entity>();
-        private readonly Dictionary<int, Entity> _scheduledAdd = new Dictionary<int, Entity>();
-        private readonly List<int> _scheduledRemove = new List<int>();
+        private readonly Dictionary<long, Entity> _dict = new Dictionary<long, Entity>();
+        private readonly Dictionary<long, Entity> _scheduledAdd = new Dictionary<long, Entity>();
+        private readonly List<long> _scheduledRemove = new List<long>();
 
         public void Flush()
         {
-            foreach (KeyValuePair<int, Entity> item in _scheduledAdd)
+            foreach (KeyValuePair<long, Entity> item in _scheduledAdd)
             {
                 _dict.Add(item.Key, item.Value);
                 Changed.Invoke(new EntityChangedEventArgs(item.Value, false));
             }
             _scheduledAdd.Clear();
-            foreach (int id in _scheduledRemove)
+            foreach (long id in _scheduledRemove)
             {
                 Changed.Invoke(new EntityChangedEventArgs(_dict[id], true));
                 _dict.Remove(id);
@@ -31,7 +31,7 @@ namespace EntityComponentSystem.Entities
 
         public event EntityChangedEventHandler Changed;
 
-        public Entity this[int key] { get => _dict[key]; }
+        public Entity this[long key] { get => _dict[key]; }
 
         public int Count => _dict.Count;
 
@@ -45,7 +45,7 @@ namespace EntityComponentSystem.Entities
             _dict.Clear();
         }
 
-        public bool ContainsId(int id)
+        public bool ContainsId(long id)
         {
             return _dict.ContainsKey(id);
         }
@@ -55,7 +55,7 @@ namespace EntityComponentSystem.Entities
             return ContainsId(entity.Id);
         }
 
-        public bool Remove(int id)
+        public bool Remove(long id)
         {
             if (ContainsId(id))
             {

@@ -33,7 +33,8 @@ namespace WooferGame.Test_Data
         {
             Components.Add(new Spatial(16 * tileX, 16 * tileY));
             Components.Add(new Renderable(texture, new Rectangle(-8, -8, 16, 16)));
-            Components.Add(new Collider(new CollisionBox(-8, -8, 16, 16) {
+            Components.Add(new Collider(new CollisionBox(-8, -8, 16, 16)
+            {
                 TopFaceProperties = new CollisionFaceProperties(true, 0.3)/*,
                 LeftFaceProperties = new CollisionFaceProperties(),
                 BottomFaceProperties = new CollisionFaceProperties(),
@@ -43,6 +44,25 @@ namespace WooferGame.Test_Data
         }
 
         public override string ToString() => "TileEntity{Texture=" + (Components["renderable"] as Renderable).Texture + ",Position=" + (Components["spatial"] as Spatial).Position + "}";
+    }
+
+    class Slab : Entity
+    {
+        public Slab(string texture, double tileX, double tileY)
+        {
+            Components.Add(new Spatial(16 * tileX, 16 * tileY));
+            Components.Add(new Renderable(texture, new Rectangle(-8, -8, 16, 16)));
+            Components.Add(new Collider(new CollisionBox(-8, -8, 16, 8)
+            {
+                TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                LeftFaceProperties = new CollisionFaceProperties(),
+                BottomFaceProperties = new CollisionFaceProperties(true, 0, false),
+                RightFaceProperties = new CollisionFaceProperties()
+            }, 4f, true));
+            Components.Add(new LevelTile());
+        }
+
+        public override string ToString() => "Slab{Texture=" + (Components["renderable"] as Renderable).Texture + ",Position=" + (Components["spatial"] as Spatial).Position + "}";
     }
 
     [Component("level_tile")]

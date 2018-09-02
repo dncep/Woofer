@@ -9,9 +9,9 @@ namespace EntityComponentSystem.Entities
 {
     public class Entity
     {
-        private static int NEW_ID = 0;
+        private static long NEW_ID = 0;
 
-        public int Id { get; }
+        public long Id { get; }
         public ComponentMap Components { get; }
 
         public Entity()

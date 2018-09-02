@@ -48,14 +48,15 @@ namespace WooferGame.Scenes
 
             //Entities.Add(new TileEntity("grass", 16, 8));
 
-            for(int x = -1; x <= 60; x++)
+            for (int x = -1; x <= 20; x++)
             {
-                int h = (int) (5*Math.Sin(x / Math.PI));
+                int h = (int) Math.Round(5*Math.Sin(x / Math.PI));
                 for(int y = 0; y <= h+5; y++)
                 {
                     Entities.Add(new TileEntity("brick", x, y-5));
                 }
             }
+            Entities.Add(new Slab("brick", 5, 6));
 
             /*for (int x = -1; x <= 20; x++)
             {
@@ -67,7 +68,7 @@ namespace WooferGame.Scenes
                 if (x < 2 || x > 18) Entities.Add(new TileEntity("brick", x, 1));
                 //else if(x < 10) Entities.Add(new Box(x * 16, 2));
             }*/
-            for(int y = 1; y <= 5; y++)
+            for (int y = 1; y <= 5; y++)
             {
                 //Entities.Add(new TileEntity("brick", 7, y));
             }
@@ -76,11 +77,11 @@ namespace WooferGame.Scenes
 
             box = new Box(-24, 64);
 
-            Entities.Add(new Box(48, 32));
+            //Entities.Add(new Box(48, 32));
             
             box.Components.Get<Collider>().Velocity += new Vector2D(80, 0);
             box.Components.Add(new PlayerMovementComponent());
-            //box.Components.Add(new CameraTracked() { Offset = new Vector2D(0, 8) });
+            box.Components.Add(new CameraTracked() { Offset = new Vector2D(0, 8) });
             box.Components.Add(new PhysicsDebug());
             box.Components.Add(new PlayerOrientation());
             box.Components.Add(new PulseAbility());
@@ -91,13 +92,13 @@ namespace WooferGame.Scenes
             //Entities.Add(new Slope(1, 1, false));
 
             //Input
-            Systems.Add(new CameraSystem());
             Systems.Add(new PlayerMovement());
             Systems.Add(new PlayerOrientationSystem());
 
             //Tick
             Systems.Add(new PhysicsSystem());
             Systems.Add(new PulseSystem());
+            Systems.Add(new CameraSystem());
 
             //Rendering
             Systems.Add(new LevelRenderer());

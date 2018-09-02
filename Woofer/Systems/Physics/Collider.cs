@@ -1,6 +1,7 @@
 ﻿using System;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.Util;
+using System.Linq;
 
 namespace WooferGame.Systems.Physics
 {
@@ -8,8 +9,7 @@ namespace WooferGame.Systems.Physics
     class Collider : Component
     {
         public CollisionBox Bounds { get; private set; }
-        public float Mass { get; set; }
-        public float Friction { get; set; } = 0.3f;
+        public float Mass { get; set; } 
         public bool Immovable { get; set; }
 
         //Friction:
@@ -17,6 +17,7 @@ namespace WooferGame.Systems.Physics
         // Brick-like: 0.3f
 
         public CollisionBox RealBounds => Bounds.Offset(Position);
+        public CollisionBox PreviousBounds => Bounds.Offset(PreviousPosition);
 
         public Vector2D Velocity = new Vector2D();
 
