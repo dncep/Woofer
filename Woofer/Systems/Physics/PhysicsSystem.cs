@@ -37,11 +37,10 @@ namespace WooferGame.Systems.Physics
                     if (!rb.Immovable) rb.Velocity += Gravity * Owner.FixedDeltaTime;
                     rb.Position += rb.Velocity * Owner.FixedDeltaTime;
                 }
-
-                WatchedComponents.Sort((a, b) => GetCrossTickLeft(a as Collider).CompareTo(GetCrossTickLeft(b as Collider)));
+                
+                WatchedComponents = WatchedComponents.OrderBy(a => GetCrossTickLeft(a as Collider)).ToList();
 
                 List<Collider> sweeper = new List<Collider>();
-
 
                 //Handle collision
                 foreach (Collider rb0 in WatchedComponents)
@@ -101,7 +100,6 @@ namespace WooferGame.Systems.Physics
                                     {
                                         rb.Position += new Vector2D(0, intersection.Height) * normal.Y;
                                         rb.Velocity = new Vector2D(rb.Velocity.X * (1 - faceProperties.Friction), 0);
-                                        rb.Velocity.Round();
 
                                     }
                                     else continue;
@@ -111,7 +109,6 @@ namespace WooferGame.Systems.Physics
                                     {
                                         rb.Position += new Vector2D(intersection.Width, 0) * normal.X;
                                         rb.Velocity = new Vector2D(0, rb.Velocity.Y * (1 - faceProperties.Friction));
-                                        rb.Velocity.Round();
                                     }
                                     else continue;
                                 }
@@ -133,8 +130,6 @@ namespace WooferGame.Systems.Physics
 
                                 rb.Velocity -= forceVec / rb.Mass;
                                 other.Velocity -= -forceVec / other.Mass;
-
-                                //Console.WriteLine(force);
                             }
                         }
 

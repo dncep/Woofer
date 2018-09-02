@@ -1,4 +1,5 @@
-﻿using EntityComponentSystem.Components;
+﻿using System;
+using EntityComponentSystem.Components;
 using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Physics
@@ -24,8 +25,8 @@ namespace WooferGame.Systems.Physics
             get => Owner.Components.Get<Spatial>().Position;
             set => Owner.Components.Get<Spatial>().Position = value;
         }
-        public Vector2D PreviousPosition { get; internal set; }
-        public Vector2D PreviousVelocity { get; internal set; }
+        public Vector2D PreviousPosition;
+        public Vector2D PreviousVelocity;
 
         public Collider(CollisionBox bounds, float mass, bool immovable)
         {

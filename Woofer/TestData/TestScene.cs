@@ -1,4 +1,5 @@
-﻿using EntityComponentSystem.Entities;
+﻿using System;
+using EntityComponentSystem.Entities;
 using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 
@@ -27,7 +28,7 @@ namespace WooferGame.Scenes
             {
                 Entities.Add(new TestEntity(0, i));
             }*/
-            //CurrentViewport.Scale = 1f;
+            //CurrentViewport.Scale = 0.5f;
             CurrentViewport.Y = 64;
 
             //Entities.Add(new TestEntity(0, 0));
@@ -46,7 +47,17 @@ namespace WooferGame.Scenes
             Sprites.AddSpriteSheet(note);*/
 
             //Entities.Add(new TileEntity("grass", 16, 8));
-            for (int x = -1; x <= 20; x++)
+
+            for(int x = -1; x <= 60; x++)
+            {
+                int h = (int) (5*Math.Sin(x / Math.PI));
+                for(int y = 0; y <= h+5; y++)
+                {
+                    Entities.Add(new TileEntity("brick", x, y-5));
+                }
+            }
+
+            /*for (int x = -1; x <= 20; x++)
             {
                 Entities.Add(new TileEntity("brick", x, 0));
 
@@ -55,7 +66,7 @@ namespace WooferGame.Scenes
 
                 if (x < 2 || x > 18) Entities.Add(new TileEntity("brick", x, 1));
                 //else if(x < 10) Entities.Add(new Box(x * 16, 2));
-            }
+            }*/
             for(int y = 1; y <= 5; y++)
             {
                 //Entities.Add(new TileEntity("brick", 7, y));
@@ -69,7 +80,7 @@ namespace WooferGame.Scenes
             
             box.Components.Get<Collider>().Velocity += new Vector2D(80, 0);
             box.Components.Add(new PlayerMovementComponent());
-            box.Components.Add(new CameraTracked() { Offset = new Vector2D(0, 8) });
+            //box.Components.Add(new CameraTracked() { Offset = new Vector2D(0, 8) });
             box.Components.Add(new PhysicsDebug());
             box.Components.Add(new PlayerOrientation());
             box.Components.Add(new PulseAbility());
