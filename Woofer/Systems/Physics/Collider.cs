@@ -3,8 +3,8 @@ using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Physics
 {
-    [Component("rectanglebody")]
-    class RectangleBody : Component
+    [Component("collider")]
+    class Collider : Component
     {
         public CollisionBox Bounds { get; private set; }
         public float Mass { get; set; }
@@ -19,7 +19,7 @@ namespace WooferGame.Systems.Physics
 
         public Vector2D Velocity = new Vector2D();
 
-        internal Vector2D Position
+        public Vector2D Position
         {
             get => Owner.Components.Get<Spatial>().Position;
             set => Owner.Components.Get<Spatial>().Position = value;
@@ -27,7 +27,7 @@ namespace WooferGame.Systems.Physics
         public Vector2D PreviousPosition { get; internal set; }
         public Vector2D PreviousVelocity { get; internal set; }
 
-        public RectangleBody(CollisionBox bounds, float mass, bool immovable)
+        public Collider(CollisionBox bounds, float mass, bool immovable)
         {
             this.Bounds = bounds;
             this.Mass = mass;

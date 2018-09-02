@@ -9,6 +9,7 @@ using GameInterfaces.Controller;
 using GameInterfaces.GraphicsInterface;
 using GameInterfaces.Input;
 using WooferGame.Systems.Physics;
+using WooferGame.Systems.Pulse;
 
 namespace WooferGame.Test_Data
 {
@@ -18,7 +19,8 @@ namespace WooferGame.Test_Data
         {
             Components.Add(new Spatial(x, y));
             Components.Add(new Renderable("grass", new Rectangle(-8, -8, 16, 16)));
-            Components.Add(new RectangleBody(new CollisionBox(-8, -8, 16, 16), 4f, false));
+            Components.Add(new Collider(new CollisionBox(-8, -8, 16, 16), 4f, false));
+            Components.Add(new PulsePushable());
             Components.Add(new LevelTile());
         }
 
@@ -31,7 +33,7 @@ namespace WooferGame.Test_Data
         {
             Components.Add(new Spatial(16 * tileX, 16 * tileY));
             Components.Add(new Renderable(texture, new Rectangle(-8, -8, 16, 16)));
-            Components.Add(new RectangleBody(new CollisionBox(-8, -8, 16, 16) {
+            Components.Add(new Collider(new CollisionBox(-8, -8, 16, 16) {
                 TopFaceProperties = new CollisionFaceProperties(true, 0.3)/*,
                 LeftFaceProperties = new CollisionFaceProperties(),
                 BottomFaceProperties = new CollisionFaceProperties(),

@@ -57,11 +57,14 @@
     <Compile Include="Systems\Physics\CollisionFaceProperties.cs" />
     <Compile Include="Systems\Physics\PhysicsDebug.cs" />
     <Compile Include="Systems\Physics\PhysicsSystem.cs" />
-    <Compile Include="Systems\Physics\RectangleBody.cs" />
+    <Compile Include="Systems\Physics\Collider.cs" />
     <Compile Include="Systems\Player\Actions\PulseAbility.cs" />
     <Compile Include="Systems\Player\Actions\PulseSystem.cs" />
     <Compile Include="Systems\Player\PlayerOrientation.cs" />
     <Compile Include="Systems\Player\PlayerOrientationSystem.cs" />
+    <Compile Include="Systems\Pulse\PulseEvent.cs" />
+    <Compile Include="Systems\Pulse\PulsePushable.cs" />
+    <Compile Include="Systems\Pulse\PulseReceiver.cs" />
     <Compile Include="TestData\Box.cs" />
     <Compile Include="Systems\Movement\PlayerMovementComponent.cs" />
     <Compile Include="TestData\TestScene.cs" />

@@ -18,7 +18,7 @@ namespace EntityComponentSystem.Components
             _owner = owner;
         }
 
-        public Component this[string name] => _dict[name];
+        public Component this[string name] => _dict.ContainsKey(name) ? _dict[name] : null;
 
         public int Count => _dict.Count;
         public void Add(Component component)
@@ -37,8 +37,6 @@ namespace EntityComponentSystem.Components
         {
             var classAttr = typeof(T).GetCustomAttributes(typeof(ComponentAttribute), false);
             if (classAttr.Count() == 1) return this[(classAttr.First() as ComponentAttribute).ComponentName] as T;
-            
-            //Console.WriteLine(T.ComponentName);
             return null;
         }
 

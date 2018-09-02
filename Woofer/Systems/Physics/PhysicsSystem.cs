@@ -15,7 +15,7 @@ namespace WooferGame.Systems.Physics
 
         public PhysicsSystem()
         {
-            Watching = new string[] { Component.IdentifierOf<RectangleBody>() };
+            Watching = new string[] { Component.IdentifierOf<Collider>() };
             TickProcessing = true;
         }
 
@@ -29,7 +29,7 @@ namespace WooferGame.Systems.Physics
             while (accumulator >= Owner.FixedDeltaTime)
             {
                 accumulator -= Owner.FixedDeltaTime;
-                foreach (RectangleBody rb in WatchedComponents)
+                foreach (Collider rb in WatchedComponents)
                 {
                     rb.PreviousPosition = rb.Position;
                     rb.PreviousVelocity = rb.Velocity;
@@ -38,13 +38,13 @@ namespace WooferGame.Systems.Physics
                     rb.Position += rb.Velocity * Owner.FixedDeltaTime;
                 }
 
-                WatchedComponents.Sort((a, b) => GetCrossTickLeft(a as RectangleBody).CompareTo(GetCrossTickLeft(b as RectangleBody)));
+                WatchedComponents.Sort((a, b) => GetCrossTickLeft(a as Collider).CompareTo(GetCrossTickLeft(b as Collider)));
 
-                List<RectangleBody> sweeper = new List<RectangleBody>();
+                List<Collider> sweeper = new List<Collider>();
 
 
                 //Handle collision
-                foreach (RectangleBody rb0 in WatchedComponents)
+                foreach (Collider rb0 in WatchedComponents)
                 {
 
                     double x = GetCrossTickLeft(rb0);
@@ -54,11 +54,11 @@ namespace WooferGame.Systems.Physics
                         sweeper.RemoveAt(0);
                     }
 
-                    foreach (RectangleBody rb1 in sweeper)
+                    foreach (Collider rb1 in sweeper)
                     {
                         if (rb0.Immovable && rb1.Immovable) continue;
-                        RectangleBody rb = !rb0.Immovable ? rb0 : rb1;
-                        RectangleBody other = rb == rb0 ? rb1 : rb0;
+                        Collider rb = !rb0.Immovable ? rb0 : rb1;
+                        Collider other = rb == rb0 ? rb1 : rb0;
 
                         CollisionBox intersection = rb.RealBounds.Intersect(other.RealBounds);
 
@@ -171,12 +171,12 @@ namespace WooferGame.Systems.Physics
             throw new ArgumentException("Side given is not horizontal nor vertical");
         }
 
-        private bool IntersectsX(RectangleBody rb, double x)
+        private bool IntersectsX(Collider rb, double x)
         {
             return GetCrossTickLeft(rb) <= x && x <= GetCrossTickRight(rb);
         }
 
-        private double GetCrossTickLeft(RectangleBody rb)
+        private double GetCrossTickLeft(Collider rb)
         {
             return Math.Min(
                 rb.Bounds.Offset(rb.Position).Left,
@@ -184,7 +184,7 @@ namespace WooferGame.Systems.Physics
             );
         }
 
-        private double GetCrossTickRight(RectangleBody rb)
+        private double GetCrossTickRight(Collider rb)
         {
             return Math.Max(
                 rb.Bounds.Offset(rb.Position).Right,
