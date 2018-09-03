@@ -100,6 +100,22 @@ namespace WooferGame.Systems.Physics
             return newBox;
         }
 
+        public CollisionBox Union(CollisionBox rectangle)
+        {
+            double x1 = Math.Min(this.Left, rectangle.Left);
+            double y1 = Math.Min(this.Bottom, rectangle.Bottom);
+            double x2 = Math.Max(this.Right, rectangle.Right);
+            double y2 = Math.Max(this.Top, rectangle.Top);
+
+            CollisionBox newBox = new CollisionBox(x1, y1, x2 - x1, y2 - y1);
+            newBox.faceProperties[TopFace] = (newBox.Top == this.Top ? this : rectangle).faceProperties[TopFace];
+            newBox.faceProperties[RightFace] = (newBox.Right == this.Right ? this : rectangle).faceProperties[RightFace];
+            newBox.faceProperties[BottomFace] = (newBox.Bottom == this.Bottom ? this : rectangle).faceProperties[BottomFace];
+            newBox.faceProperties[LeftFace] = (newBox.Left == this.Left ? this : rectangle).faceProperties[LeftFace];
+
+            return newBox;
+        }
+
         public Vector2D[] GetVertices()
         {
             Vector2D[] vertices = new Vector2D[4];

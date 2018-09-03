@@ -19,7 +19,8 @@ namespace WooferGame.Test_Data
         {
             Components.Add(new Spatial(x, y));
             Components.Add(new Renderable("grass", new Rectangle(-8, -8, 16, 16)));
-            Components.Add(new Collider(new CollisionBox(-8, -8, 16, 16), 4f, false));
+            Components.Add(new Physical());
+            Components.Add(new SoftBody(new CollisionBox(-8, -8, 16, 16), 4f));
             Components.Add(new PulsePushable());
             Components.Add(new LevelTile());
         }
@@ -33,32 +34,77 @@ namespace WooferGame.Test_Data
         {
             Components.Add(new Spatial(16 * tileX, 16 * tileY));
             Components.Add(new Renderable(texture, new Rectangle(-8, -8, 16, 16)));
-            Components.Add(new Collider(new CollisionBox(-8, -8, 16, 16)
+            Components.Add(new Physical() { GravityMultiplier = 0 });
+            Components.Add(new RigidBody(new CollisionBox[] {new CollisionBox(-8, -8, 16, 16)
             {
                 TopFaceProperties = new CollisionFaceProperties(true, 0.3)/*,
                 LeftFaceProperties = new CollisionFaceProperties(),
                 BottomFaceProperties = new CollisionFaceProperties(),
                 RightFaceProperties = new CollisionFaceProperties()*/
-            }, 4f, true));
+            }}));
             Components.Add(new LevelTile());
         }
 
         public override string ToString() => "TileEntity{Texture=" + (Components["renderable"] as Renderable).Texture + ",Position=" + (Components["spatial"] as Spatial).Position + "}";
     }
 
-    class Slab : Entity
+    class Slope : Entity
     {
-        public Slab(string texture, double tileX, double tileY)
+        public Slope(string texture, double tileX, double tileY)
         {
             Components.Add(new Spatial(16 * tileX, 16 * tileY));
             Components.Add(new Renderable(texture, new Rectangle(-8, -8, 16, 16)));
-            Components.Add(new Collider(new CollisionBox(-8, -8, 16, 8)
-            {
-                TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
-                LeftFaceProperties = new CollisionFaceProperties(),
-                BottomFaceProperties = new CollisionFaceProperties(true, 0, false),
-                RightFaceProperties = new CollisionFaceProperties()
-            }, 4f, true));
+            Components.Add(new Physical() { GravityMultiplier = 0 });
+            Components.Add(new RigidBody(new CollisionBox[] {
+                new CollisionBox(-8, -8, 16, 2)
+                {
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    LeftFaceProperties = new CollisionFaceProperties(),
+                    RightFaceProperties = new CollisionFaceProperties()
+                },
+                new CollisionBox(-6, -6, 14, 2)
+                {
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    LeftFaceProperties = new CollisionFaceProperties(),
+                    RightFaceProperties = new CollisionFaceProperties()
+                },
+                new CollisionBox(-4, -4, 12, 2)
+                {
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    LeftFaceProperties = new CollisionFaceProperties(),
+                    RightFaceProperties = new CollisionFaceProperties()
+                },
+                new CollisionBox(-2, -2, 10, 2)
+                {
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    LeftFaceProperties = new CollisionFaceProperties(),
+                    RightFaceProperties = new CollisionFaceProperties()
+                },
+                new CollisionBox(0, 0, 8, 2)
+                {
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    LeftFaceProperties = new CollisionFaceProperties(),
+                    RightFaceProperties = new CollisionFaceProperties()
+                },
+                new CollisionBox(2, 2, 6, 2)
+                {
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    LeftFaceProperties = new CollisionFaceProperties(),
+                    RightFaceProperties = new CollisionFaceProperties()
+                },
+                new CollisionBox(4, 4, 4, 2)
+                {
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    LeftFaceProperties = new CollisionFaceProperties(),
+                    RightFaceProperties = new CollisionFaceProperties()
+                },
+                new CollisionBox(6, 6, 2, 2)
+                {
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    LeftFaceProperties = new CollisionFaceProperties(),
+                    RightFaceProperties = new CollisionFaceProperties()
+                }
+            }));
             Components.Add(new LevelTile());
         }
 
@@ -106,17 +152,6 @@ namespace WooferGame.Test_Data
             System.Drawing.Rectangle drawingRect = new System.Drawing.Rectangle((int)Math.Floor(x), (int)Math.Floor(y), size, size);
             
             layer.Draw(r.SpriteManager[Texture], drawingRect);
-        }
-    }
-
-    class Slope : Entity
-    {
-        public Slope(float x, float y, bool left)
-        {
-            Components.Add(new Spatial(16 * x, 16 * y));
-            Components.Add(new Renderable(left ? "brick_slope_left" : "brick_slope_right", new Rectangle(-8, -8, 16, 16)));
-            //Components.Add(new RigidBody(new Polygon(new Vector2D(8, -8), new Vector2D(-8, -8), new Vector2D(left ? 8 : -8, 8)), 4f, true));
-            Components.Add(new LevelTile());
         }
     }
 

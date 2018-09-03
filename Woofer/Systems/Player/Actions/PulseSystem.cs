@@ -44,9 +44,9 @@ namespace WooferGame.Systems.Player.Actions
                     {
                         double strength = (pa.PulseStrength * Math.Sqrt(pa.EnergyMeter / pa.MaxEnergy));
 
-                        if (pa.Owner.Components.Has<Collider>() && pa.Owner.Components.Has<PlayerOrientation>())
+                        if (pa.Owner.Components.Has<Physical>() && pa.Owner.Components.Has<PlayerOrientation>())
                         {
-                            pa.Owner.Components.Get<Collider>().Velocity = pa.Owner.Components.Get<PlayerOrientation>().Unit * -strength;
+                            pa.Owner.Components.Get<Physical>().Velocity = pa.Owner.Components.Get<PlayerOrientation>().Unit * -strength;
                         }
 
                         pa.EnergyMeter -= pa.PulseCost;
@@ -82,10 +82,10 @@ namespace WooferGame.Systems.Player.Actions
                 foreach(PulsePushable pp in WatchedComponents.Where(c => c is PulsePushable))
                 {
                     if (pp.Owner == re.Sender.Owner) continue;
-                    if (!pp.Owner.Components.Has<Spatial>() || !pp.Owner.Components.Has<Collider>()) continue;
-                    Collider cl = pp.Owner.Components.Get<Collider>();
+                    if (!pp.Owner.Components.Has<Spatial>() || !pp.Owner.Components.Has<Physical>()) continue;
+                    Physical ph = pp.Owner.Components.Get<Physical>();
 
-                    Vector2D center = cl.RealBounds.Center;
+                    Vector2D center = pp.Owner.Components.Has<SoftBody>() ? pp.Owner.Components.Get<SoftBody>().Bounds.Offset(ph.Position).Center : ph.Position;
 
                     double distance = (center - e.Source).Magnitude;
 
@@ -93,7 +93,9 @@ namespace WooferGame.Systems.Player.Actions
 
                     if(e.Source.Magnitude == 0 || GeneralUtil.SubtractAngles((center - e.Source).Angle, e.Direction.Angle) <= Math.PI/4)
                     {
-                        cl.Velocity += ((center - e.Source).Unit() * ((e.Reach - distance) * e.Strength/8) / cl.Mass);
+                        double mass = 1;
+                        if (pp.Owner.Components.Has<SoftBody>()) mass = pp.Owner.Components.Get<SoftBody>().Mass;
+                        ph.Velocity += ((center - e.Source).Unit() * ((e.Reach - distance) * e.Strength/8) / mass);
                     }
                 }
             }

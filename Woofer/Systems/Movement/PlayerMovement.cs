@@ -30,7 +30,7 @@ namespace WooferGame.Systems.Movement
 
             foreach(PlayerMovementComponent pmc in WatchedComponents)
             {
-                Collider rb = pmc.Owner.Components.Get<Collider>();
+                Physical rb = pmc.Owner.Components.Get<Physical>();
 
                 ButtonState jumpButton = gamePad.Buttons.A;
 
