@@ -143,8 +143,8 @@ namespace WooferGame.Test_Data
             float y = ((float)(-spatial.Y - 8));
             int size = 16;
 
-            x -= (int)controller.ActiveScene.CurrentViewport.X;
-            y += (int)controller.ActiveScene.CurrentViewport.Y;
+            x -= (int)Math.Floor(controller.ActiveScene.CurrentViewport.X);
+            y += (int)Math.Floor(controller.ActiveScene.CurrentViewport.Y);
             
             x += layer.GetSize().Width / 2;
             y += layer.GetSize().Height / 2;
