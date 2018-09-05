@@ -10,6 +10,10 @@ namespace EntityComponentSystem.Util
     {
         public const int Rounding = 7;
 
+        public static readonly Vector2D Empty = new Vector2D();
+        public static readonly Vector2D UnitI = new Vector2D(1, 0);
+        public static readonly Vector2D UnitJ = new Vector2D(0, 1);
+
         public double X;
         public double Y;
 

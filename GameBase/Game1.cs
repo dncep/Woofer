@@ -29,6 +29,8 @@ namespace GameBase
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
+            //IsFixedTimeStep = false;
+
             graphics.PreferredBackBufferWidth = gameController.RenderingUnit.ScreenSize.Width;
             graphics.PreferredBackBufferHeight = gameController.RenderingUnit.ScreenSize.Height;
         }

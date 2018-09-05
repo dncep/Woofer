@@ -22,7 +22,7 @@ namespace GameBase.MonoGameInput
 
         public int VerticalScrollWheelValue => Mouse.GetState().ScrollWheelValue;
 
-        public int HorizontalScrollWheelValue => Mouse.GetState().HorizontalScrollWheelValue;
+        public int HorizontalScrollWheelValue => Mouse.GetState().ScrollWheelValue;
 
         public ButtonState LeftButton => Mouse.GetState().LeftButton.ToInterface();
 

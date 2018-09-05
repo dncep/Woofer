@@ -8,7 +8,7 @@ using WooferGame.Controller;
 
 namespace WooferGame
 {
-    public static class Woofer
+    static class Woofer
     {
         public static WooferController Controller;
 

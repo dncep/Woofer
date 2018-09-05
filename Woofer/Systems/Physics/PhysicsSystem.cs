@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
@@ -19,14 +20,20 @@ namespace WooferGame.Systems.Physics
         }
 
         private float accumulator = 0.0f;
+        private Stopwatch sw = new Stopwatch();
 
         public override void Tick()
         {
             if (Owner.FixedDeltaTime == 0) return;
             accumulator += Owner.DeltaTime;
 
+
+            int timesExecuted = 0;
+
+            sw.Restart();
             while (accumulator >= Owner.FixedDeltaTime)
             {
+                timesExecuted++;
                 accumulator -= Owner.FixedDeltaTime;
                 foreach (Physical ph in WatchedComponents.Where(c => c is Physical))
                 {
@@ -42,17 +49,22 @@ namespace WooferGame.Systems.Physics
 
                 List<Component> sweeper = new List<Component>();
 
+                int softBodies = 0;
+
                 //Handle collision
-                if(true) foreach (Component c0 in WatchedComponents.Where(c => c is RigidBody || c is SoftBody).OrderBy(a => GetCrossTickLeft(a)))
+                foreach (Component c0 in WatchedComponents.Where(c => c is RigidBody || c is SoftBody).OrderBy(a => GetCrossTickLeft(a)))
                 {
                     double x = GetCrossTickLeft(c0);
 
+                    if (c0 is SoftBody) softBodies++;
+
                     while (sweeper.Count > 0 && !IntersectsX(sweeper[0], x))
                     {
+                        if (sweeper[0] is SoftBody) softBodies--;
                         sweeper.RemoveAt(0);
                     }
-
-                    foreach (Component c1 in sweeper)
+                    
+                    if(softBodies > 0) foreach (Component c1 in sweeper)
                     {
                         if (c0 is RigidBody && c1 is RigidBody) continue;
 
@@ -152,6 +164,9 @@ namespace WooferGame.Systems.Physics
                     sweeper.Add(c0);
                 }
             }
+
+            sw.Stop();
+            //Console.WriteLine($"Executed {timesExecuted} iterations in {sw.ElapsedMilliseconds} ms");
         }
 
         public static bool IsAheadOfNormal(CollisionBox box, FreeVector2D side)

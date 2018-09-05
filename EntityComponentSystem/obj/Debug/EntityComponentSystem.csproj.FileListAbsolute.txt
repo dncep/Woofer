@@ -4,3 +4,9 @@ C:\Users\Usuario\source\repos\Game\EntityComponentSystem\bin\Debug\EntityCompone
 C:\Users\Usuario\source\repos\Game\EntityComponentSystem\obj\Debug\EntityComponentSystem.dll
 C:\Users\Usuario\source\repos\Game\EntityComponentSystem\obj\Debug\EntityComponentSystem.pdb
 C:\Users\Usuario\source\repos\Game\EntityComponentSystem\obj\Debug\EntityComponentSystem.csprojAssemblyReference.cache
+C:\Users\User\source\repos\Woofer\EntityComponentSystem\bin\Debug\EntityComponentSystem.dll
+C:\Users\User\source\repos\Woofer\EntityComponentSystem\bin\Debug\EntityComponentSystem.pdb
+C:\Users\User\source\repos\Woofer\EntityComponentSystem\obj\Debug\EntityComponentSystem.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Woofer\EntityComponentSystem\obj\Debug\EntityComponentSystem.dll
+C:\Users\User\source\repos\Woofer\EntityComponentSystem\obj\Debug\EntityComponentSystem.pdb
+C:\Users\User\source\repos\Woofer\EntityComponentSystem\obj\Debug\EntityComponentSystem.csprojResolveAssemblyReference.cache

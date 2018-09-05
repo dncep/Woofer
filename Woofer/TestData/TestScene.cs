@@ -48,23 +48,23 @@ namespace WooferGame.Scenes
 
             //Entities.Add(new TileEntity("grass", 16, 8));
 
-            for (int x = -1; x <= 20; x++)
+            /*for (int x = -1; x <= 20; x++)
             {
                 int h = (int) Math.Round(5*Math.Sin(x / Math.PI));
                 for(int y = 0; y <= h+5; y++)
                 {
                     Entities.Add(new TileEntity("brick", x, y-5));
                 }
-            }
-            Slope sl;
+            }*/
+            /*Slope sl;
             Entities.Add(sl = new Slope("brick_slope_right", 3, 5));
             Entities.Add(sl = new Slope("brick_slope_right", 2, 4));
             Entities.Add(sl = new Slope("brick_slope_right", 1, 3));
             Entities.Add(sl = new Slope("brick_slope_right", 0, 1));
-            Entities.Add(sl = new Slope("brick_slope_right", -1, -1));
+            Entities.Add(sl = new Slope("brick_slope_right", -1, -1));*/
             //sl.Components.Get<Physical>().Velocity = new Vector2D(8, -2);
 
-            /*for (int x = -1; x <= 20; x++)
+            for (int x = -1; x <= 20; x++)
             {
                 Entities.Add(new TileEntity("brick", x, 0));
 
@@ -73,7 +73,7 @@ namespace WooferGame.Scenes
 
                 if (x < 2 || x > 18) Entities.Add(new TileEntity("brick", x, 1));
                 //else if(x < 10) Entities.Add(new Box(x * 16, 2));
-            }*/
+            }
             for (int y = 1; y <= 5; y++)
             {
                 //Entities.Add(new TileEntity("brick", 7, y));

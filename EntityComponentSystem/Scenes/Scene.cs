@@ -34,10 +34,12 @@ namespace EntityComponentSystem.Scenes
 
             Entities.Changed += new EntityChangedEventHandler(NotifyEntityChange);
             CurrentViewport = new CameraView();
+
         }
 
         public void Draw<TSurface, TSource>(ScreenRenderer<TSurface, TSource> screenRenderer)
         {
+            //Console.WriteLine("render");
             Systems.InvokeRender(screenRenderer);
         }
 
@@ -48,8 +50,10 @@ namespace EntityComponentSystem.Scenes
 
         public void InvokeTick(TimeSpan deltaTime, TimeSpan fixedTime)
         {
+            //Console.WriteLine("ticks");
             DeltaTime = (float)(deltaTime.TotalMilliseconds / 1000d);
-            FixedDeltaTime = (float)(fixedTime.TotalMilliseconds / 1000d);
+            //Console.WriteLine($"DeltaTime: {DeltaTime}");
+            //FixedDeltaTime = (float)(fixedTime.TotalMilliseconds / 1000d);
             Entities.Flush();
 
             Systems.InvokeTick();
@@ -81,6 +85,10 @@ namespace EntityComponentSystem.Scenes
             }
         }
 
-        public void InvokeInput() => Systems.InvokeInput();
+        public void InvokeInput()
+        {
+            //Console.WriteLine("input");
+            Systems.InvokeInput();
+        }
     }
 }

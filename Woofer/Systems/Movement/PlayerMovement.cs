@@ -9,6 +9,7 @@ using EntityComponentSystem.Events;
 using GameBase;
 using GameInterfaces.Input;
 using GameInterfaces.Input.GamePad;
+using WooferGame.Input;
 using WooferGame.Systems.Physics;
 
 namespace WooferGame.Systems.Movement
@@ -26,13 +27,13 @@ namespace WooferGame.Systems.Movement
 
         public override void Input()
         {
-            IGamePad gamePad = Woofer.Controller.InputUnit.GamePads[0];
+            IInputMap inputMap = Woofer.Controller.InputMap;
 
             foreach(PlayerMovementComponent pmc in WatchedComponents)
             {
                 Physical rb = pmc.Owner.Components.Get<Physical>();
 
-                ButtonState jumpButton = gamePad.Buttons.A;
+                ButtonState jumpButton = inputMap.Jump;
 
                 if (jumpButton.IsPressed()) pmc.Jump.RegisterPressed();
                 else pmc.Jump.RegisterUnpressed();
@@ -45,7 +46,7 @@ namespace WooferGame.Systems.Movement
                     }
                 }
 
-                double xMovement = gamePad.Thumbsticks.Left.X * pmc.CurrentSpeed;
+                double xMovement = inputMap.Movement.X * pmc.CurrentSpeed;
                 double xMovementCap = pmc.CurrentMaxSpeed;
 
                 if(xMovement > 0)

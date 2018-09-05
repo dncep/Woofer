@@ -8,6 +8,7 @@ using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Util;
 using GameBase;
 using GameInterfaces.Input.GamePad;
+using WooferGame.Input;
 
 namespace WooferGame.Systems.Player
 {
@@ -25,9 +26,9 @@ namespace WooferGame.Systems.Player
 
         public override void Input()
         {
-            IGamePad gamePad = Woofer.Controller.InputUnit.GamePads[0];
+            IInputMap inputMap = Woofer.Controller.InputMap;
 
-            Vector2D thumbstick = gamePad.Thumbsticks.Left;
+            Vector2D thumbstick = inputMap.Orientation;
 
             if(thumbstick.Magnitude >= deadzone)
             {

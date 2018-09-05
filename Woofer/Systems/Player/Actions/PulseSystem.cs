@@ -10,6 +10,7 @@ using EntityComponentSystem.Util;
 using GameBase;
 using GameInterfaces.Input;
 using GameInterfaces.Input.GamePad;
+using WooferGame.Input;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Pulse;
@@ -29,11 +30,11 @@ namespace WooferGame.Systems.Player.Actions
 
         public override void Input()
         {
-            IGamePad gamePad = Woofer.Controller.InputUnit.GamePads[0];
+            IInputMap inputMap = Woofer.Controller.InputMap;
 
             foreach(PulseAbility pa in WatchedComponents.Where(c => c is PulseAbility))
             {
-                ButtonState pulseButton = gamePad.Buttons.X;
+                ButtonState pulseButton = inputMap.Pulse;
 
                 if (pulseButton.IsPressed()) pa.Pulse.RegisterPressed();
                 else pa.Pulse.RegisterUnpressed();
