@@ -1,4 +1,6 @@
-﻿using EntityComponentSystem.Util;
+﻿using System.Collections;
+using System.Collections.Generic;
+using EntityComponentSystem.Util;
 using GameInterfaces.Input;
 using GameInterfaces.Input.GamePad;
 using GamePad = Microsoft.Xna.Framework.Input.GamePad;
@@ -7,13 +9,15 @@ namespace GameBase.MonoGameInput
 {
     public class MonoGameGamePad : IGamePad
     {
-        public IGamePadButtons Buttons { get; private set; }
-
-        public IGamePadTriggers Triggers { get; private set; }
-
-        public IGamePadThumbsticks Thumbsticks { get; private set; }
-
-        public IGamePadDPad DPad { get; private set; }
+        private MonoGameGamePadButtons Buttons { get; set; }
+        private MonoGameGamePadTriggers Triggers { get; set; }
+        private MonoGameGamePadThumbsticks Thumbsticks { get; set; }
+        private MonoGameGamePadDPad DPad { get; set; }
+        
+        IGamePadButtons IGamePad.Buttons => Buttons;
+        IGamePadTriggers IGamePad.Triggers => Triggers;
+        IGamePadThumbsticks IGamePad.Thumbsticks => Thumbsticks;
+        IGamePadDPad IGamePad.DPad => DPad;
 
         private int playerId;
 
@@ -26,6 +30,8 @@ namespace GameBase.MonoGameInput
             Thumbsticks = new MonoGameGamePadThumbsticks(playerId);
             DPad = new MonoGameGamePadDPad(playerId);
         }
+
+        public bool IsBeingUsed => Buttons.IsBeingUsed || Triggers.IsBeingUsed || Thumbsticks.IsBeingUsed || DPad.IsBeingUsed;
 
         public void SetVibration(float left, float right) => GamePad.SetVibration(playerId, left, right);
     }
@@ -51,6 +57,18 @@ namespace GameBase.MonoGameInput
         {
             this.playerId = playerId;
         }
+
+        public bool IsBeingUsed => A.IsPressed() ||
+                                   B.IsPressed() ||
+                                   X.IsPressed() ||
+                                   Y.IsPressed() ||
+                                   Start.IsPressed() ||
+                                   Back.IsPressed() ||
+                                   Home.IsPressed() ||
+                                   LeftBumper.IsPressed() ||
+                                   RightBumper.IsPressed() ||
+                                   LeftStick.IsPressed() ||
+                                   RightStick.IsPressed();
     }
 
     class MonoGameGamePadTriggers : IGamePadTriggers
@@ -65,6 +83,8 @@ namespace GameBase.MonoGameInput
         {
             this.playerId = playerId;
         }
+
+        public bool IsBeingUsed => Left > 0 || Right > 0;
     }
 
     class MonoGameGamePadDPad : IGamePadDPad
@@ -81,6 +101,11 @@ namespace GameBase.MonoGameInput
         {
             this.playerId = playerId;
         }
+
+        public bool IsBeingUsed => Up.IsPressed() ||
+                                   Down.IsPressed() ||
+                                   Left.IsPressed() ||
+                                   Right.IsPressed();
     }
 
     class MonoGameGamePadThumbsticks : IGamePadThumbsticks
@@ -95,5 +120,7 @@ namespace GameBase.MonoGameInput
         {
             this.playerId = playerId;
         }
+
+        public bool IsBeingUsed => Left.Magnitude > 0 || Right.Magnitude > 0;
     }
 }

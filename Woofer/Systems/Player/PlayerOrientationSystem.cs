@@ -26,7 +26,7 @@ namespace WooferGame.Systems.Player
 
         public override void Input()
         {
-            IInputMap inputMap = Woofer.Controller.InputMap;
+            IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
 
             Vector2D thumbstick = inputMap.Orientation;
 

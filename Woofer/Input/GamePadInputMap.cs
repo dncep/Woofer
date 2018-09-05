@@ -9,8 +9,10 @@ using GameInterfaces.Input.GamePad;
 
 namespace WooferGame.Input
 {
-    class ControllerInputMap : IInputMap
+    class GamePadInputMap : IInputMap
     {
+        public string Name => "Game Pad";
+
         public Vector2D Movement => gamePad.Thumbsticks.Left;
 
         public Vector2D Orientation => gamePad.Thumbsticks.Left;
@@ -19,8 +21,12 @@ namespace WooferGame.Input
 
         public ButtonState Pulse => gamePad.Buttons.X;
 
+
         private IGamePad gamePad;
 
-        public ControllerInputMap(IGamePad gamePad) => this.gamePad = gamePad;
+        public GamePadInputMap(IGamePad gamePad) => this.gamePad = gamePad;
+        
+        public bool IsBeingUsed => gamePad.IsBeingUsed;
+
     }
 }

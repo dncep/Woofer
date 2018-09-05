@@ -17,5 +17,7 @@ namespace EntityComponentSystem.Interfaces.Input.Mouse
         ButtonState LeftButton { get; }
         ButtonState MiddleButton { get; }
         ButtonState RightButton { get; }
+        
+        bool IsBeingUsed { get; }
     }
 }

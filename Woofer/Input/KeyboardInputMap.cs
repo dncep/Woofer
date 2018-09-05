@@ -12,6 +12,8 @@ namespace WooferGame.Input
 {
     class KeyboardInputMap : IInputMap
     {
+        public string Name => "Keyboard and Mouse";
+
         public Vector2D Movement
         {
             get
@@ -46,5 +48,7 @@ namespace WooferGame.Input
             this.keyboard = keyboard;
             this.mouse = mouse;
         }
+
+        public bool IsBeingUsed => keyboard.IsBeingUsed || mouse.IsBeingUsed;
     }
 }

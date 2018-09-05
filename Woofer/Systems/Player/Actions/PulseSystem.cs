@@ -30,7 +30,7 @@ namespace WooferGame.Systems.Player.Actions
 
         public override void Input()
         {
-            IInputMap inputMap = Woofer.Controller.InputMap;
+            IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
 
             foreach(PulseAbility pa in WatchedComponents.Where(c => c is PulseAbility))
             {

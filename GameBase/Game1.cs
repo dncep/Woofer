@@ -89,7 +89,7 @@ namespace GameBase
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            gameController.ActiveScene.InvokeInput();
+            gameController.Input();
 
             /*if(!stop && GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed)
             {
@@ -98,7 +98,7 @@ namespace GameBase
             }*/
 
             // TODO: Add your update logic here
-            gameController.ActiveScene.InvokeTick(gameTime.TotalGameTime - lastTick, gameTime.ElapsedGameTime);
+            gameController.Tick(gameTime.TotalGameTime - lastTick, gameTime.ElapsedGameTime);
             lastTick = gameTime.TotalGameTime;
             /*System.Console.WriteLine(gameTime.TotalGameTime);
             System.Console.WriteLine(gameTime.ElapsedGameTime);

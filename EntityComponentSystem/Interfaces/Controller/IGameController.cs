@@ -1,4 +1,5 @@
-﻿using EntityComponentSystem.Scenes;
+﻿using System;
+using EntityComponentSystem.Scenes;
 
 namespace GameInterfaces.Controller
 {
@@ -10,5 +11,7 @@ namespace GameInterfaces.Controller
         IInputUnit InputUnit { get; set; }
 
         void Initialize();
+        void Tick(TimeSpan timeSpan, TimeSpan elapsedGameTime);
+        void Input();
     }
 }

@@ -43,8 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\BackgroundRenderingLayer.cs" />
-    <Compile Include="Input\ControllerInputMap.cs" />
+    <Compile Include="Input\GamePadInputMap.cs" />
     <Compile Include="Input\IInputMap.cs" />
+    <Compile Include="Input\InputMapSwitcher.cs" />
     <Compile Include="Input\InputTimeframe.cs" />
     <Compile Include="Input\KeyboardInputMap.cs" />
     <Compile Include="Program.cs" />

@@ -9,5 +9,6 @@ namespace GameInterfaces.Input.Keyboard
     public interface IKeyboard
     {
         ButtonState this[Key key] { get; }
+        bool IsBeingUsed { get; }
     }
 }

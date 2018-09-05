@@ -27,7 +27,7 @@ namespace WooferGame.Systems.Movement
 
         public override void Input()
         {
-            IInputMap inputMap = Woofer.Controller.InputMap;
+            IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
 
             foreach(PlayerMovementComponent pmc in WatchedComponents)
             {

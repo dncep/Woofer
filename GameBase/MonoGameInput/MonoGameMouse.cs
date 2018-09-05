@@ -29,5 +29,7 @@ namespace GameBase.MonoGameInput
         public ButtonState MiddleButton => Mouse.GetState().MiddleButton.ToInterface();
 
         public ButtonState RightButton => Mouse.GetState().RightButton.ToInterface();
+
+        public bool IsBeingUsed => LeftButton.IsPressed() || MiddleButton.IsPressed() || RightButton.IsPressed();
     }
 }

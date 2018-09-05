@@ -33,7 +33,6 @@ namespace WooferGame.Scenes
 
             //Entities.Add(new TestEntity(0, 0));
 
-
             /*SpriteSheet sprites0 = new SpriteSheet(Properties.Resources.sprites0);
             sprites0.AddRegion("grass", 0, 0, 16, 16);
             sprites0.AddRegion("brick", 16, 0, 16, 16);

@@ -13,6 +13,8 @@ namespace GameInterfaces.Input.GamePad
         IGamePadTriggers Triggers { get; }
         IGamePadDPad DPad { get; }
 
+        bool IsBeingUsed { get; }
+
         void SetVibration(float left, float right);
     }
 }
