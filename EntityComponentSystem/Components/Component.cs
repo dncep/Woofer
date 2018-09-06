@@ -14,6 +14,8 @@ namespace EntityComponentSystem.Components
         public Entity Owner { get; set; }
         public string ComponentName { get; private set; }
 
+        private static readonly Dictionary<Type, string> identifierCache = new Dictionary<Type, string>();
+
         protected Component()
         {
             this.ComponentName = GeneralUtil.RequireAttribute<ComponentAttribute>(this.GetType()).ComponentName;
@@ -25,8 +27,9 @@ namespace EntityComponentSystem.Components
 
         public static string IdentifierOf<T>() where T : Component
         {
-            ComponentAttribute attribute = typeof(T).GetCustomAttributes(typeof(ComponentAttribute), false).First() as ComponentAttribute;
-            return attribute.ComponentName;
+            Type type = typeof(T);
+            if (!identifierCache.ContainsKey(type)) identifierCache[type] = (type.GetCustomAttributes(typeof(ComponentAttribute), false).First() as ComponentAttribute).ComponentName;
+            return identifierCache[type];
         }
     }
 

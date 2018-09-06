@@ -35,9 +35,7 @@ namespace EntityComponentSystem.Components
 
         public T Get<T>() where T : Component
         {
-            var classAttr = typeof(T).GetCustomAttributes(typeof(ComponentAttribute), false);
-            if (classAttr.Count() == 1) return this[(classAttr.First() as ComponentAttribute).ComponentName] as T;
-            return null;
+            return _dict[Component.IdentifierOf<T>()] as T;
         }
 
         public bool Has<T>() where T : Component

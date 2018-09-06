@@ -45,26 +45,22 @@ namespace WooferGame.Systems.Physics
                     ph.PreviousVelocity = ph.Velocity;
                 }
                 
-                //WatchedComponents = WatchedComponents.OrderBy(a => GetCrossTickLeft(a)).ToList();
+                WatchedComponents = WatchedComponents.OrderBy(a => GetCrossTickLeft(a)).ToList();
 
                 List<Component> sweeper = new List<Component>();
 
-                int softBodies = 0;
-
                 //Handle collision
-                foreach (Component c0 in WatchedComponents.Where(c => c is RigidBody || c is SoftBody).OrderBy(a => GetCrossTickLeft(a)))
+                foreach (Component c0 in WatchedComponents)
                 {
+                    if (c0 is Physical) continue;
                     double x = GetCrossTickLeft(c0);
-
-                    if (c0 is SoftBody) softBodies++;
 
                     while (sweeper.Count > 0 && !IntersectsX(sweeper[0], x))
                     {
-                        if (sweeper[0] is SoftBody) softBodies--;
                         sweeper.RemoveAt(0);
                     }
                     
-                    if(softBodies > 0) foreach (Component c1 in sweeper)
+                    foreach (Component c1 in sweeper)
                     {
                         if (c0 is RigidBody && c1 is RigidBody) continue;
 
@@ -201,13 +197,12 @@ namespace WooferGame.Systems.Physics
 
         private double GetCrossTickLeft(Component c)
         {
-            Physical ph = c.Owner.Components.Get<Physical>();
+            if (c is Physical ph) return Math.Min(ph.Position.X, ph.PreviousPosition.X);
+            ph = c.Owner.Components.Get<Physical>();
+            SoftBody sb = c as SoftBody;
 
-            CollisionBox box = 
-                (c is RigidBody) ? (c as RigidBody).UnionBounds : 
-                (c is SoftBody) ? (c as SoftBody).Bounds : 
-                throw new ArgumentException("c");
-            
+            CollisionBox box = (c is RigidBody rb) ? rb.UnionBounds : sb?.Bounds;
+
             return Math.Min(
                 box.Offset(ph.Position).Left,
                 box.Offset(ph.PreviousPosition).Left
@@ -216,12 +211,11 @@ namespace WooferGame.Systems.Physics
 
         private double GetCrossTickRight(Component c)
         {
-            Physical ph = c.Owner.Components.Get<Physical>();
+            if (c is Physical ph) return Math.Min(ph.Position.X, ph.PreviousPosition.X);
+            ph = c.Owner.Components.Get<Physical>();
+            SoftBody sb = c as SoftBody;
 
-            CollisionBox box =
-                (c is RigidBody) ? (c as RigidBody).UnionBounds :
-                (c is SoftBody) ? (c as SoftBody).Bounds :
-                throw new ArgumentException("c");
+            CollisionBox box = (c is RigidBody rb) ? rb.UnionBounds : sb?.Bounds;
 
             return Math.Max(
                 box.Offset(ph.Position).Right,
