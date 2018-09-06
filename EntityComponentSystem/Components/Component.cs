@@ -18,7 +18,14 @@ namespace EntityComponentSystem.Components
 
         protected Component()
         {
-            this.ComponentName = GeneralUtil.RequireAttribute<ComponentAttribute>(this.GetType()).ComponentName;
+            try
+            {
+                this.ComponentName = IdentifierOf(this.GetType());
+            }
+            catch (Exception ex) {
+                throw new AttributeException(
+                    $"Required attribute of class 'ComponentAttribute' not found in derived class '{GetType()}'", ex);
+            }
         }
 
         public virtual void EventFired(object sender, Event e)
@@ -27,7 +34,11 @@ namespace EntityComponentSystem.Components
 
         public static string IdentifierOf<T>() where T : Component
         {
-            Type type = typeof(T);
+            return IdentifierOf(typeof(T));
+        }
+
+        public static string IdentifierOf(Type type)
+        {
             if (!identifierCache.ContainsKey(type)) identifierCache[type] = (type.GetCustomAttributes(typeof(ComponentAttribute), false).First() as ComponentAttribute).ComponentName;
             return identifierCache[type];
         }

@@ -13,6 +13,8 @@ namespace EntityComponentSystem.ComponentSystems
 {
     public abstract class ComponentSystem
     {
+        private static readonly Dictionary<Type, string> identifierCache = new Dictionary<Type, string>();
+
         public string SystemName { get; private set; }
 
         private const byte _input = 0b001;
@@ -44,7 +46,15 @@ namespace EntityComponentSystem.ComponentSystems
         
         public ComponentSystem()
         {
-            this.SystemName = GeneralUtil.RequireAttribute<ComponentSystemAttribute>(this.GetType()).SystemName;
+            try
+            {
+                this.SystemName = IdentifierOf(this.GetType());
+            }
+            catch (Exception ex)
+            {
+                throw new AttributeException(
+                    $"Required attribute of class 'ComponentSystemAttribute' not found in derived class '{GetType()}'", ex);
+            }
         }
 
         public virtual void RemoveWatchedComponent(Component component)
@@ -75,8 +85,13 @@ namespace EntityComponentSystem.ComponentSystems
 
         public static string IdentifierOf<T>() where T : ComponentSystem
         {
-            ComponentSystemAttribute attribute = typeof(T).GetCustomAttributes(typeof(ComponentSystemAttribute), false).First() as ComponentSystemAttribute;
-            return attribute.SystemName;
+            return IdentifierOf(typeof(T));
+        }
+
+        public static string IdentifierOf(Type type)
+        {
+            if (!identifierCache.ContainsKey(type)) identifierCache[type] = (type.GetCustomAttributes(typeof(ComponentSystemAttribute), false).First() as ComponentSystemAttribute).SystemName;
+            return identifierCache[type];
         }
     }
 
