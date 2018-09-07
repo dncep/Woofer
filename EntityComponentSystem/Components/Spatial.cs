@@ -52,5 +52,10 @@ namespace EntityComponentSystem.Components
             this.X = X;
             this.Y = Y;
         }
+
+        public Spatial(Vector2D position)
+        {
+            this.Position = position;
+        }
     }
 }

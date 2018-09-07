@@ -8,6 +8,7 @@ using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player;
 using WooferGame.Systems.Player.Actions;
+using WooferGame.Systems.Visual;
 using WooferGame.Test_Data;
 
 namespace WooferGame.Scenes
@@ -16,7 +17,7 @@ namespace WooferGame.Scenes
     {
         //TestEntity a;
 
-        Entity box;
+        Entity player;
 
         public TestScene() : base()
         {
@@ -46,15 +47,16 @@ namespace WooferGame.Scenes
             Sprites.AddSpriteSheet(note);*/
 
             //Entities.Add(new TileEntity("grass", 16, 8));
+            Entities.Add(new Room0(0, 128));
 
-            for (int x = -1; x <= 60; x++)
+            /*for (int x = -1; x <= 100; x++)
             {
                 int h = (int) Math.Round(5*Math.Sin(x / Math.PI));
                 for(int y = 0; y <= h+5; y++)
                 {
                     Entities.Add(new TileEntity("brick", x, y-5));
                 }
-            }
+            }*/
             /*Slope sl;
             Entities.Add(sl = new Slope("brick_slope_right", 3, 5));
             Entities.Add(sl = new Slope("brick_slope_right", 2, 4));
@@ -63,34 +65,25 @@ namespace WooferGame.Scenes
             Entities.Add(sl = new Slope("brick_slope_right", -1, -1));*/
             //sl.Components.Get<Physical>().Velocity = new Vector2D(8, -2);
 
-            /*for (int x = -1; x <= 20; x++)
+            for (int x = -1; x <= 20; x++)
             {
                 Entities.Add(new TileEntity("brick", x, 0));
 
 
-                Entities.Add(new TileEntity("brick", x, 8));
+                //Entities.Add(new TileEntity("brick", x, 8));
 
-                if (x < 2 || x > 18) Entities.Add(new TileEntity("brick", x, 1));
+                //if (x < 2 || x > 18) Entities.Add(new TileEntity("brick", x, 1));
                 //else if(x < 10) Entities.Add(new Box(x * 16, 2));
-            }*/
+            }
             for (int y = 1; y <= 5; y++)
             {
                 //Entities.Add(new TileEntity("brick", 7, y));
             }
             //Entities.Add(new TileEntity("brick", 15, 1));
-            Entities.Add(new TileEntity("brick", -3, 8));
-
-            box = new Box(-24, 64);
-
-            //Entities.Add(new Box(48, 32));
+            Entities.Add(new TileEntity("brick", 0, 128/16));
             
-            box.Components.Get<Physical>().Velocity += new Vector2D(80, 0);
-            box.Components.Add(new PlayerMovementComponent());
-            box.Components.Add(new CameraTracked() { Offset = new Vector2D(0, 8) });
-            box.Components.Add(new PhysicsDebug());
-            box.Components.Add(new PlayerOrientation());
-            box.Components.Add(new PulseAbility());
-            Entities.Add(box);
+
+            Entities.Add(player = new PlayerEntity(-24, 64));
 
             //Entities.Add(new Box(0f, 16f));
             //Entities.Add(new Slope(0, 1, true));
@@ -107,7 +100,6 @@ namespace WooferGame.Scenes
 
             //Rendering
             Systems.Add(new LevelRenderer());
-            //Systems.Add(new ObjectRenderer());
         }
 
 
@@ -118,7 +110,7 @@ namespace WooferGame.Scenes
             System.Console.WriteLine();*/
 
 
-            var boxrb = box.Components.Get<Physical>();
+            var boxrb = player.Components.Get<Physical>();
             //var boxrb = (box.Components["rigidbody"]) as RigidBody;
             if (boxrb.Position.Y < -1000)
             {

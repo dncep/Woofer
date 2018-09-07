@@ -58,7 +58,7 @@ namespace WooferGame.Systems.Physics
             Width = width;
             Height = height;
 
-            faceProperties[0] = new CollisionFaceProperties() { Enabled = true }; //top
+            faceProperties[0] = new CollisionFaceProperties() { Enabled = true, Friction = 0.3 }; //top
             faceProperties[1] = new CollisionFaceProperties() { Enabled = true }; //right
             faceProperties[2] = new CollisionFaceProperties() { Enabled = true }; //bottom
             faceProperties[3] = new CollisionFaceProperties() { Enabled = true }; //left

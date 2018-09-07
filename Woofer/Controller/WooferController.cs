@@ -24,7 +24,7 @@ namespace WooferGame.Controller
         public WooferController()
         {
             RenderingUnit = new WooferRenderingUnit(this);
-            ActiveScene = new TestScene();
+            ActiveScene = new IntroScene();
         }
 
 

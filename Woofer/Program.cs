@@ -15,7 +15,6 @@ namespace WooferGame
         [STAThread]
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
             GameStart.Start(Controller = new WooferController());
         }
     }

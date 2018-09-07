@@ -20,5 +20,7 @@ namespace EntityComponentSystem.Util
             Width = width;
             Height = height;
         }
+
+        public override string ToString() => $"Rectangle[X={X},Y={Y},Width={Width},Height={Height}]";
     }
 }

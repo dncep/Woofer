@@ -13,6 +13,7 @@ namespace EntityComponentSystem.Entities
 
         public long Id { get; }
         public ComponentMap Components { get; }
+        public bool Active = true;
 
         public Entity()
         {
