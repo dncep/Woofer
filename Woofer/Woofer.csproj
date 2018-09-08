@@ -54,8 +54,13 @@
     <Compile Include="Controller\WooferController.cs" />
     <Compile Include="Controller\WooferRenderingUnit.cs" />
     <Compile Include="Scenes\IntroScene.cs" />
+    <Compile Include="Scenes\MainMenuScene.cs" />
+    <Compile Include="Systems\Camera\CameraLocationQueryEvent.cs" />
+    <Compile Include="Systems\Camera\CameraLocationResponseEvent.cs" />
     <Compile Include="Systems\Camera\CameraSystem.cs" />
     <Compile Include="Systems\Camera\CameraTracked.cs" />
+    <Compile Include="Systems\Camera\Shake\CameraShakeEvent.cs" />
+    <Compile Include="Systems\Camera\Shake\CameraShakeSystem.cs" />
     <Compile Include="Systems\Checkpoints\Checkpoint.cs" />
     <Compile Include="Systems\Checkpoints\CheckpointComponent.cs" />
     <Compile Include="Systems\Checkpoints\CheckpointSystem.cs" />
@@ -65,6 +70,11 @@
     <Compile Include="Systems\DeathBarrier\DeathBarrierComponent.cs" />
     <Compile Include="Systems\DeathBarrier\DeathBarrierSystem.cs" />
     <Compile Include="Systems\DeathBarrier\RemoveOnBarrierComponent.cs" />
+    <Compile Include="Systems\Debug.cs" />
+    <Compile Include="Systems\Environment\BreakableGlassComponent.cs" />
+    <Compile Include="Systems\Environment\BreakableGlassEntity.cs" />
+    <Compile Include="Systems\Environment\GlassBreakingSystem.cs" />
+    <Compile Include="Systems\Interaction\ActivationEvent.cs" />
     <Compile Include="Systems\Movement\PlayerMovement.cs" />
     <Compile Include="Systems\Physics\CollisionBox.cs" />
     <Compile Include="Systems\Physics\CollisionEvent.cs" />
@@ -75,7 +85,7 @@
     <Compile Include="Systems\Physics\RigidBody.cs" />
     <Compile Include="Systems\Physics\SoftBody.cs" />
     <Compile Include="Systems\Player\Actions\PulseAbility.cs" />
-    <Compile Include="Systems\Player\Actions\PulseSystem.cs" />
+    <Compile Include="Systems\Pulse\PulseSystem.cs" />
     <Compile Include="Systems\Player\PlayerEntity.cs" />
     <Compile Include="Systems\Player\PlayerOrientation.cs" />
     <Compile Include="Systems\Player\PlayerOrientationSystem.cs" />

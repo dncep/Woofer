@@ -6,14 +6,19 @@ using System.Threading.Tasks;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
+using WooferGame.Systems;
 using WooferGame.Systems.Camera;
+using WooferGame.Systems.Camera.Shake;
 using WooferGame.Systems.Checkpoints;
 using WooferGame.Systems.DeathBarrier;
+using WooferGame.Systems.Environment;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player;
 using WooferGame.Systems.Player.Actions;
+using WooferGame.Systems.Pulse;
 using WooferGame.Systems.Visual;
+using WooferGame.Test_Data;
 
 namespace WooferGame.Scenes
 {
@@ -27,9 +32,11 @@ namespace WooferGame.Scenes
 
             Entities.Add(new PlayerEntity(96, 208));
 
-            Entities.Add(new Checkpoint(96, 200, true));
+            Entities.Add(new Checkpoint(96, 300, true));
 
             Entities.Add(new DeathBarrier(-1000));
+
+            Entities.Add(new BreakableGlassEntity(new Rectangle(54, 224 + 128, 8, 48)));
 
             //Input
             Systems.Add(new PlayerMovement());
@@ -39,8 +46,13 @@ namespace WooferGame.Scenes
             Systems.Add(new PhysicsSystem());
             Systems.Add(new PulseSystem());
             Systems.Add(new CameraSystem());
+            Systems.Add(new CameraShakeSystem());
             Systems.Add(new CheckpointSystem());
             Systems.Add(new DeathBarrierSystem());
+
+            //Systems.Add(new DebugSystem());
+
+            Systems.Add(new GlassBreakingSystem());
 
             //Rendering
             Systems.Add(new LevelRenderer());
@@ -54,7 +66,7 @@ namespace WooferGame.Scenes
             this.AddCollision(new CollisionBox(0, 0, 314, 64)); //Floor
             this.AddCollision(new CollisionBox(0, 64, 64, 160)); //Left Wall
             this.AddCollision(new CollisionBox(32, 272, 32, 96)); //Left Wall Above Glass
-            this.AddCollision(new CollisionBox(54, 224, 8, 48)); //Glass
+            //this.AddCollision(new CollisionBox(54, 224, 8, 48)); //Glass
             this.AddCollision(new CollisionBox(288, 112, 32, 256)); //Right Wall
             this.AddCollision(new CollisionBox(208, 152, 80, 8)
             {

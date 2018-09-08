@@ -11,11 +11,14 @@ using GameBase;
 using GameInterfaces.Input;
 using GameInterfaces.Input.GamePad;
 using WooferGame.Input;
+using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
+using WooferGame.Systems.Player;
+using WooferGame.Systems.Player.Actions;
 using WooferGame.Systems.Pulse;
 
-namespace WooferGame.Systems.Player.Actions
+namespace WooferGame.Systems.Pulse
 {
     [ComponentSystem("pulse_system")]
     class PulseSystem : ComponentSystem
@@ -24,7 +27,10 @@ namespace WooferGame.Systems.Player.Actions
         {
             InputProcessing = true;
             TickProcessing = true;
-            Watching = new string[] { Component.IdentifierOf<PulseAbility>(), Component.IdentifierOf<PulsePushable>() };
+            Watching = new string[] {
+                Component.IdentifierOf<PulseAbility>(),
+                Component.IdentifierOf<PulsePushable>(),
+                Component.IdentifierOf<PulseReceiver>() };
             Listening = new string[] { Event.IdentifierOf<PulseEvent>() };
         }
 
@@ -97,6 +103,24 @@ namespace WooferGame.Systems.Player.Actions
                         double mass = 1;
                         if (pp.Owner.Components.Has<SoftBody>()) mass = pp.Owner.Components.Get<SoftBody>().Mass;
                         ph.Velocity += ((center - e.Source).Unit() * ((e.Reach - distance) * e.Strength/8) / mass);
+                    }
+                }
+
+                foreach(PulseReceiver pr in WatchedComponents.Where(c => c is PulseReceiver))
+                {
+                    if (pr.Owner == re.Sender.Owner) continue;
+
+                    Vector2D point = pr.Offset;
+
+                    if (pr.Owner.Components.Get<Spatial>() is Spatial sp) point += sp.Position;
+
+                    if(e.Source.Magnitude == 0 || GeneralUtil.SubtractAngles((point - e.Source).Angle, e.Direction.Angle) <= Math.PI/4)
+                    {
+                        double distance = (point - e.Source).Magnitude;
+                        if(distance <= e.Reach * pr.Sensitivity)
+                        {
+                            Owner.Events.InvokeEvent(new ActivationEvent(e.Sender, pr.Owner));
+                        }
                     }
                 }
             }

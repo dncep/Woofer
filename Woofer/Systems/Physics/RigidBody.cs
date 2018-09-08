@@ -10,7 +10,7 @@ namespace WooferGame.Systems.Physics
     [Component("rigidbody")]
     class RigidBody : Component
     {
-        public CollisionBox[] Bounds { get; private set; }
+        public CollisionBox[] Bounds { get; set; }
         public CollisionBox UnionBounds {
             get
             {

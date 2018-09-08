@@ -21,7 +21,7 @@ namespace WooferGame.Test_Data
             Components.Add(new Spatial(x, y));
             Components.Add(new Renderable("grass", new Rectangle(-8, -8, 16, 16)));
             Components.Add(new Physical());
-            Components.Add(new SoftBody(new CollisionBox(-8, -8, 16, 16), 4f));
+            Components.Add(new SoftBody(new CollisionBox(-8, -8, 16, 16), 1f));
             Components.Add(new PulsePushable());
             Components.Add(new LevelRenderable());
         }

@@ -20,17 +20,14 @@ namespace WooferGame.Systems.Physics
         }
 
         private float accumulator = 0.0f;
-        private Stopwatch sw = new Stopwatch();
 
         public override void Tick()
         {
             if (Owner.FixedDeltaTime == 0) return;
             accumulator += Owner.DeltaTime;
-
-
+            
             int timesExecuted = 0;
-
-            sw.Restart();
+            
             while (accumulator >= Owner.FixedDeltaTime)
             {
                 timesExecuted++;
@@ -160,9 +157,6 @@ namespace WooferGame.Systems.Physics
                     sweeper.Add(c0);
                 }
             }
-
-            sw.Stop();
-            //Console.WriteLine($"Executed {timesExecuted} iterations in {sw.ElapsedMilliseconds} ms");
         }
 
         public static bool IsAheadOfNormal(CollisionBox box, FreeVector2D side)
