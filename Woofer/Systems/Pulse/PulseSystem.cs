@@ -1,39 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
-using GameBase;
+
 using GameInterfaces.Input;
-using GameInterfaces.Input.GamePad;
+
 using WooferGame.Input;
 using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player;
 using WooferGame.Systems.Player.Actions;
-using WooferGame.Systems.Pulse;
 
 namespace WooferGame.Systems.Pulse
 {
-    [ComponentSystem("pulse_system")]
+    [ComponentSystem("pulse_system", 
+        ProcessingCycles.Input | ProcessingCycles.Tick),
+        Watching(typeof(PulseAbility), typeof(PulsePushable), typeof(PulseReceiver)),
+        Listening(typeof(PulseEvent))]
     class PulseSystem : ComponentSystem
     {
-        public PulseSystem()
-        {
-            InputProcessing = true;
-            TickProcessing = true;
-            Watching = new string[] {
-                Component.IdentifierOf<PulseAbility>(),
-                Component.IdentifierOf<PulsePushable>(),
-                Component.IdentifierOf<PulseReceiver>() };
-            Listening = new string[] { Event.IdentifierOf<PulseEvent>() };
-        }
-
         public override void Input()
         {
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
@@ -88,6 +77,7 @@ namespace WooferGame.Systems.Pulse
 
                 foreach(PulsePushable pp in WatchedComponents.Where(c => c is PulsePushable))
                 {
+                    if (!pp.Owner.Active) continue;
                     if (pp.Owner == re.Sender.Owner) continue;
                     if (!pp.Owner.Components.Has<Spatial>() || !pp.Owner.Components.Has<Physical>()) continue;
                     Physical ph = pp.Owner.Components.Get<Physical>();
@@ -108,6 +98,7 @@ namespace WooferGame.Systems.Pulse
 
                 foreach(PulseReceiver pr in WatchedComponents.Where(c => c is PulseReceiver))
                 {
+                    if (!pr.Owner.Active) return;
                     if (pr.Owner == re.Sender.Owner) continue;
 
                     Vector2D point = pr.Offset;
@@ -119,7 +110,7 @@ namespace WooferGame.Systems.Pulse
                         double distance = (point - e.Source).Magnitude;
                         if(distance <= e.Reach * pr.Sensitivity)
                         {
-                            Owner.Events.InvokeEvent(new ActivationEvent(e.Sender, pr.Owner));
+                            Owner.Events.InvokeEvent(new ActivationEvent(e.Sender, pr.Owner, e));
                         }
                     }
                 }

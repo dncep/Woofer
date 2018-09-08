@@ -4,14 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EntityComponentSystem.Components;
+using EntityComponentSystem.Scenes;
 
 namespace EntityComponentSystem.Entities
 {
     public class EntityMap : IEnumerable<Entity>
     {
+        private readonly Scene Owner;
         private readonly Dictionary<long, Entity> _dict = new Dictionary<long, Entity>();
         private readonly Dictionary<long, Entity> _scheduledAdd = new Dictionary<long, Entity>();
         private readonly List<long> _scheduledRemove = new List<long>();
+
+        public EntityMap(Scene owner)
+        {
+            Owner = owner;
+        }
 
         public void Flush()
         {
@@ -29,7 +37,7 @@ namespace EntityComponentSystem.Entities
             _scheduledRemove.Clear();
         }
 
-        public event EntityChangedEventHandler Changed;
+        public event EntityChangedEventHandler Changed = Dummy;
 
         public Entity this[long key] { get => _dict[key]; }
 
@@ -38,6 +46,7 @@ namespace EntityComponentSystem.Entities
         public void Add(Entity entity)
         {
             _scheduledAdd[entity.Id] = entity;
+            entity.Owner = Owner;
         }
 
         public void Clear()
@@ -57,6 +66,7 @@ namespace EntityComponentSystem.Entities
 
         public bool Remove(long id)
         {
+            Console.WriteLine("Removing entity ID " + id);
             if (ContainsId(id))
             {
                 _scheduledRemove.Add(id);
@@ -84,6 +94,8 @@ namespace EntityComponentSystem.Entities
         {
             return _dict.GetEnumerator();
         }
+
+        private static void Dummy(EntityChangedEventArgs e) { }
     }
 
     public delegate void EntityChangedEventHandler(EntityChangedEventArgs e);

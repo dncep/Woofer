@@ -27,12 +27,12 @@ namespace EntityComponentSystem.Scenes
 
         public Scene()
         {
-            Entities = new EntityMap();
+            Entities = new EntityMap(this);
             Systems = new SystemMap(this);
             Sprites = new SpriteSet();
             Events = new EventManager();
 
-            Entities.Changed += new EntityChangedEventHandler(NotifyEntityChange);
+            Entities.Changed += NotifyEntityChange;
             CurrentViewport = new CameraView();
 
         }
@@ -63,24 +63,27 @@ namespace EntityComponentSystem.Scenes
 
         private void NotifyEntityChange(EntityChangedEventArgs e)
         {
-            foreach (Component component in e.Entity.Components)
+            foreach(Component component in e.Entity.Components)
             {
+                NotifyComponentChange(new ComponentChangedEventArgs(component, e.WasRemoved));
+            }
+            if(e.WasRemoved)
+            {
+                e.Entity.Components.Changed -= NotifyComponentChange;
+            } else
+            {
+                e.Entity.Components.Changed += NotifyComponentChange;
+            }
+        }
 
-                //TODO: btw this removes event listeners of the removed components
-                /*foreach (string eventType in component.ListenedEvents)
+        private void NotifyComponentChange(ComponentChangedEventArgs e)
+        {
+            foreach (ComponentSystem system in Systems)
+            {
+                if (system.Watching.Contains(e.Component.ComponentName))
                 {
-                    Events.RegisterEventType(eventType);
-                    if (e.WasRemoved) Events.EventDictionary[eventType] -= component.EventFired;
-                    else Events.EventDictionary[eventType] += component.EventFired;
-                }*/
-
-                foreach (ComponentSystem system in Systems)
-                {
-                    if (system.Watching.Contains(component.ComponentName))
-                    {
-                        if (e.WasRemoved) system.RemoveWatchedComponent(component);
-                        else system.AddWatchedComponent(component);
-                    }
+                    if (e.WasRemoved) system.RemoveWatchedComponent(e.Component);
+                    else system.AddWatchedComponent(e.Component);
                 }
             }
         }

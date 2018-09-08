@@ -13,7 +13,7 @@ namespace EntityComponentSystem.ComponentSystems
 {
     public abstract class ComponentSystem
     {
-        private static readonly Dictionary<Type, string> identifierCache = new Dictionary<Type, string>();
+        private static readonly Dictionary<Type, ComponentSystemAttribute> attributeCache = new Dictionary<Type, ComponentSystemAttribute>();
 
         public string SystemName { get; private set; }
 
@@ -22,25 +22,13 @@ namespace EntityComponentSystem.ComponentSystems
         private const byte _render = 0b100;
 
         public Scene Owner { get; set; }
-        public string[] Watching { get; protected set; } = new string[0];
-        public string[] Listening { get; protected set; } = new string[0];
-        private byte _processing_loop = 0;
+        public string[] Watching { get; private set; } = new string[0];
+        public string[] Listening { get; private set; } = new string[0];
+        private readonly ProcessingCycles ProcessingCycles = ProcessingCycles.None;
 
-        public bool InputProcessing
-        {
-            get => (_processing_loop & _input) != 0;
-            set => _processing_loop = (byte)(value ? (_processing_loop | _input) : (_processing_loop & ~_input));
-        }
-        public bool TickProcessing
-        {
-            get => (_processing_loop & _tick) != 0;
-            set => _processing_loop = (byte)(value ? (_processing_loop | _tick) : (_processing_loop & ~_tick));
-        }
-        public bool RenderProcessing
-        {
-            get => (_processing_loop & _render) != 0;
-            set => _processing_loop = (byte)(value ? (_processing_loop | _render) : (_processing_loop & ~_render));
-        }
+        public bool InputProcessing => (ProcessingCycles & ProcessingCycles.Input) != ProcessingCycles.None;
+        public bool TickProcessing => (ProcessingCycles & ProcessingCycles.Tick) != ProcessingCycles.None;
+        public bool RenderProcessing => (ProcessingCycles & ProcessingCycles.Render) != ProcessingCycles.None;
 
         protected List<Component> WatchedComponents = new List<Component>();
         
@@ -48,7 +36,11 @@ namespace EntityComponentSystem.ComponentSystems
         {
             try
             {
-                this.SystemName = IdentifierOf(this.GetType());
+                ComponentSystemAttribute attr = AttributeOf(this.GetType());
+                this.SystemName = attr.SystemName;
+                this.ProcessingCycles = attr.ProcessingCycles;
+                this.Watching = attr.Watching;
+                this.Listening = attr.Listening;
             }
             catch (Exception ex)
             {
@@ -90,18 +82,61 @@ namespace EntityComponentSystem.ComponentSystems
 
         public static string IdentifierOf(Type type)
         {
-            if (!identifierCache.ContainsKey(type)) identifierCache[type] = (type.GetCustomAttributes(typeof(ComponentSystemAttribute), false).First() as ComponentSystemAttribute).SystemName;
-            return identifierCache[type];
+            return AttributeOf(type).SystemName;
+        }
+
+        private static ComponentSystemAttribute AttributeOf(Type type)
+        {
+            if (!attributeCache.ContainsKey(type))
+            {
+                attributeCache[type] = (type.GetCustomAttributes(typeof(ComponentSystemAttribute), false).First() as ComponentSystemAttribute);
+                attributeCache[type].Watching = (type.GetCustomAttributes(typeof(WatchingAttribute), false).FirstOrDefault() as WatchingAttribute)?.Watching ?? new string[0];
+                attributeCache[type].Listening = (type.GetCustomAttributes(typeof(ListeningAttribute), false).FirstOrDefault() as ListeningAttribute)?.Listening ?? new string[0];
+            }
+            return attributeCache[type];
         }
     }
 
     public sealed class ComponentSystemAttribute : Attribute
     {
         public readonly string SystemName;
+        public readonly ProcessingCycles ProcessingCycles;
+        public string[] Watching;
+        public string[] Listening;
 
-        public ComponentSystemAttribute(string systemName)
+        public ComponentSystemAttribute(string systemName, ProcessingCycles cycles)
         {
             SystemName = systemName;
+            ProcessingCycles = cycles;
         }
+    }
+
+    public sealed class WatchingAttribute : Attribute
+    {
+        public readonly string[] Watching;
+        public WatchingAttribute(params Type[] watching)
+        {
+            if (!watching.All(t => typeof(Component).IsAssignableFrom(t))) throw new ArgumentException("watching");
+            Watching = watching.Select(t => Component.IdentifierOf(t)).ToArray();
+        }
+    }
+
+    public sealed class ListeningAttribute : Attribute
+    {
+        public readonly string[] Listening;
+        public ListeningAttribute(params Type[] listening)
+        {
+            if (!listening.All(t => typeof(Event).IsAssignableFrom(t))) throw new ArgumentException("listening");
+            Listening = listening.Select(t => Event.IdentifierOf(t)).ToArray();
+        }
+    }
+
+    [Flags]
+    public enum ProcessingCycles
+    {
+        None = 0,
+        Input = 1,
+        Tick = 2,
+        Render = 4
     }
 }

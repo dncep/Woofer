@@ -1,13 +1,11 @@
-﻿using System;
-using EntityComponentSystem.Components;
+﻿using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
-using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
-using GameBase;
+
 using GameInterfaces.Controller;
-using GameInterfaces.GraphicsInterface;
-using GameInterfaces.Input;
+
+using WooferGame.Systems.DeathBarrier;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Pulse;
 using WooferGame.Systems.Visual;
@@ -16,14 +14,15 @@ namespace WooferGame.Test_Data
 {
     class Box : Entity
     {
-        public Box(double x, double y)
+        public Box(Vector2D position)
         {
-            Components.Add(new Spatial(x, y));
+            Components.Add(new Spatial(position));
             Components.Add(new Renderable("grass", new Rectangle(-8, -8, 16, 16)));
             Components.Add(new Physical());
             Components.Add(new SoftBody(new CollisionBox(-8, -8, 16, 16), 1f));
             Components.Add(new PulsePushable());
             Components.Add(new LevelRenderable());
+            Components.Add(new RemoveOnBarrierComponent());
         }
 
         public override string ToString() => "Box{Texture=" + (Components["renderable"] as Renderable).Texture + ",Position=" + (Components["spatial"] as Spatial).Position + "}";
@@ -117,7 +116,9 @@ namespace WooferGame.Test_Data
     {
     }
 
-    [ComponentSystem("fpscounter")]
+    [ComponentSystem("fpscounter",
+        ProcessingCycles.Tick | ProcessingCycles.Render
+        )]
     public class FramerateCounter : ComponentSystem
     {
         private float _elapsed = 0;
@@ -125,14 +126,6 @@ namespace WooferGame.Test_Data
         public int Framerate { get; private set; }
 
         //private Font font;
-
-        public FramerateCounter()
-        {
-            TickProcessing = true;
-            RenderProcessing = true;
-
-            //font = new Font(Game_Implementation.Properties.Resources.consola, 11);
-        }
 
         public override void Tick()
         {

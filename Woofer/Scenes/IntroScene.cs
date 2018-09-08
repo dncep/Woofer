@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EntityComponentSystem.Entities;
-using EntityComponentSystem.Scenes;
+﻿using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
-using WooferGame.Systems;
+
 using WooferGame.Systems.Camera;
 using WooferGame.Systems.Camera.Shake;
 using WooferGame.Systems.Checkpoints;
@@ -15,10 +9,8 @@ using WooferGame.Systems.Environment;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player;
-using WooferGame.Systems.Player.Actions;
 using WooferGame.Systems.Pulse;
 using WooferGame.Systems.Visual;
-using WooferGame.Test_Data;
 
 namespace WooferGame.Scenes
 {
@@ -32,7 +24,7 @@ namespace WooferGame.Scenes
 
             Entities.Add(new PlayerEntity(96, 208));
 
-            Entities.Add(new Checkpoint(96, 300, true));
+            Entities.Add(new Checkpoint(96, 200, true));
 
             Entities.Add(new DeathBarrier(-1000));
 

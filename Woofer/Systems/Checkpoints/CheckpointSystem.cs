@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EntityComponentSystem.Components;
+﻿using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
+
 using WooferGame.Systems.Physics;
 
 namespace WooferGame.Systems.Checkpoints
 {
-    [ComponentSystem("checkpoint_system")]
+    [ComponentSystem("checkpoint_system", ProcessingCycles.None),
+        Watching(typeof(CheckpointComponent)),
+        Listening(typeof(CheckpointRequestEvent))]
     class CheckpointSystem : ComponentSystem
     {
-
-        public CheckpointSystem()
-        {
-            Watching = new string[] { Component.IdentifierOf<CheckpointComponent>() };
-            Listening = new string[] { Event.IdentifierOf<CheckpointRequestEvent>() };
-        }
 
         public override void EventFired(object sender, Event re)
         {

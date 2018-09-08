@@ -1,28 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EntityComponentSystem.Components;
-using EntityComponentSystem.ComponentSystems;
+﻿using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Util;
-using GameBase;
-using GameInterfaces.Input.GamePad;
+
 using WooferGame.Input;
 
 namespace WooferGame.Systems.Player
 {
-    [ComponentSystem("player_orientation_system")]
+    [ComponentSystem("player_orientation_system", ProcessingCycles.Input | ProcessingCycles.Tick),
+        Watching(typeof(PlayerOrientation))]
     class PlayerOrientationSystem : ComponentSystem
     {
-        private double deadzone = 0.3;
-
-        public PlayerOrientationSystem()
-        {
-            this.Watching = new string[] { Component.IdentifierOf<PlayerOrientation>() };
-            this.InputProcessing = true;
-            this.TickProcessing = true;
-        }
+        private readonly double deadzone = 0.3;
 
         public override void Input()
         {

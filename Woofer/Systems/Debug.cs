@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EntityComponentSystem.ComponentSystems;
+﻿using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Util;
+
 using WooferGame.Systems.Camera.Shake;
 
 namespace WooferGame.Systems
 {
-    [ComponentSystem("debug")]
+    [ComponentSystem("debug",
+        ProcessingCycles.Input
+        )]
     class DebugSystem : ComponentSystem
     {
-        public DebugSystem()
-        {
-            InputProcessing = true;
-        }
 
         private bool enabled = true;
 

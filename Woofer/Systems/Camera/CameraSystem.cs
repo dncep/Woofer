@@ -1,31 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
+
 using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
-using GameBase;
 
 namespace WooferGame.Systems.Camera
 {
-    [ComponentSystem("camera_system")]
+    [ComponentSystem("camera_system", ProcessingCycles.Input | ProcessingCycles.Tick),
+        Watching(typeof(CameraTracked)),
+        Listening(typeof(CameraLocationQueryEvent), typeof(CameraLocationResponseEvent))]
     class CameraSystem : ComponentSystem
     {
         private Vector2D location;
-
-        public CameraSystem()
-        {
-            Watching = new string[] { Component.IdentifierOf<CameraTracked>() };
-            Listening = new string[] {
-                Event.IdentifierOf<CameraLocationQueryEvent>(),
-                Event.IdentifierOf<CameraLocationResponseEvent>()
-            };
-            InputProcessing = true;
-            TickProcessing = true;
-        }
 
         public override void Input()
         {

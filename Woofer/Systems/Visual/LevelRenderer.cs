@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EntityComponentSystem.Components;
-using EntityComponentSystem.ComponentSystems;
+﻿using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Scenes;
+
 using GameInterfaces.Controller;
-using WooferGame.Test_Data;
 
 namespace WooferGame.Systems.Visual
 {
-    [ComponentSystem("level_renderer")]
+    [ComponentSystem("level_renderer", ProcessingCycles.Render),
+        Watching(typeof(LevelRenderable))]
     public class LevelRenderer : ComponentSystem
     {
-        public LevelRenderer()
-        {
-            Watching = new string[] { Component.IdentifierOf<LevelRenderable>() };
-            RenderProcessing = true;
-        }
 
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {

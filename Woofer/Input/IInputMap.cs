@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EntityComponentSystem.Util;
+﻿using EntityComponentSystem.Util;
+
 using GameInterfaces.Input;
 
 namespace WooferGame.Input

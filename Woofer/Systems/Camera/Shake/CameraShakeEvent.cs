@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EntityComponentSystem.Components;
+﻿using EntityComponentSystem.Components;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Camera.Shake
 {
     [Event("camera_shake")]
     class CameraShakeEvent : Event
     {
-        public double Strength { get; set; }
+        public Vector2D Motion { get; set; }
 
-        public CameraShakeEvent(Component sender, double strength) : base(sender)
+        public CameraShakeEvent(Component sender, Vector2D motion) : base(sender)
         {
-            this.Strength = strength;
+            this.Motion = motion;
+        }
+
+        public CameraShakeEvent(Component sender, double strength) : this(sender, new Vector2D(0, -strength))
+        {
         }
 
     }

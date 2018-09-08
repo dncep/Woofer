@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EntityComponentSystem.Interfaces.Input.Mouse;
+﻿using EntityComponentSystem.Interfaces.Input.Mouse;
 using EntityComponentSystem.Util;
+
 using GameInterfaces.Input;
 using GameInterfaces.Input.Keyboard;
 

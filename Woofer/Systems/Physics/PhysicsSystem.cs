@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+
 using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Physics
 {
-    [ComponentSystem("physics")]
+    [ComponentSystem("physics", ProcessingCycles.Tick),
+        Watching(typeof(Physical), typeof(RigidBody), typeof(SoftBody))]
     public class PhysicsSystem : ComponentSystem
     {
         private Vector2D Gravity = new Vector2D(0, -362);
-
-        public PhysicsSystem()
-        {
-            Watching = new string[] { Component.IdentifierOf<Physical>(), Component.IdentifierOf<RigidBody>(), Component.IdentifierOf<SoftBody>() };
-            TickProcessing = true;
-        }
 
         private float accumulator = 0.0f;
 
@@ -34,6 +29,7 @@ namespace WooferGame.Systems.Physics
                 accumulator -= Owner.FixedDeltaTime;
                 foreach (Physical ph in WatchedComponents.Where(c => c is Physical))
                 {
+                    if (!ph.Owner.Active) continue;
                     ph.PreviousPosition = ph.Position;
 
                     ph.Velocity += Gravity * ph.GravityMultiplier * Owner.FixedDeltaTime;
@@ -50,6 +46,7 @@ namespace WooferGame.Systems.Physics
                 foreach (Component c0 in WatchedComponents)
                 {
                     if (c0 is Physical) continue;
+                    if (!c0.Owner.Active) continue;
                     double x = GetCrossTickLeft(c0);
 
                     while (sweeper.Count > 0 && !IntersectsX(sweeper[0], x))

@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EntityComponentSystem.Components;
+
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Events;
-using GameBase;
+
 using GameInterfaces.Input;
-using GameInterfaces.Input.GamePad;
+
 using WooferGame.Input;
 using WooferGame.Systems.Physics;
 
 namespace WooferGame.Systems.Movement
 {
-    [ComponentSystem("player_controller")]
+    [ComponentSystem("player_controller", ProcessingCycles.Input | ProcessingCycles.Tick),
+        Watching(typeof(PlayerMovementComponent)),
+        Listening(typeof(CollisionEvent))]
     class PlayerMovement : ComponentSystem
     {
-        public PlayerMovement()
-        {
-            Watching = new string[] { Component.IdentifierOf<PlayerMovementComponent>() };
-            Listening = new string[] { Event.IdentifierOf<CollisionEvent>() };
-            InputProcessing = true;
-            TickProcessing = true;
-        }
-
         public override void Input()
         {
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
