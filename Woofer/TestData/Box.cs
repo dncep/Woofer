@@ -52,8 +52,8 @@ namespace WooferGame.Test_Data
     {
         public Slope(string texture, double tileX, double tileY)
         {
-            Components.Add(new Spatial(16 * tileX, 16 * tileY));
-            Components.Add(new Renderable(texture, new Rectangle(0, 0, 16, 16)));
+            Components.Add(new Spatial(tileX, tileY));
+            Components.Add(new Renderable(texture, new Rectangle(-8, -8, 16, 16)));
             Components.Add(new Physical() { GravityMultiplier = 0 });
             Components.Add(new RigidBody(new CollisionBox[] {
                 new CollisionBox(-8, -8, 16, 2)

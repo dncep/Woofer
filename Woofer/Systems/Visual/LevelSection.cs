@@ -57,6 +57,7 @@ namespace WooferGame.Systems.Visual
                     LeftFaceProperties = new CollisionFaceProperties(),
                     RightFaceProperties = new CollisionFaceProperties()
                 });
+                AddCollision(new CollisionBox(x + (to.Y > from.Y ? -stepWidth : +stepWidth), y, stepWidth, stepHeight));
                 y += (to.Y > from.Y) ? -stepHeight : stepHeight;
             }
         }
