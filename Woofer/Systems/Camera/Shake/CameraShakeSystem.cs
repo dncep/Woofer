@@ -13,10 +13,9 @@ namespace WooferGame.Systems.Camera.Shake
     class CameraShakeSystem : ComponentSystem
     {
         private Vector2D Offset { get; set; }
-        private Vector2D TargetOffset { get; set; }
         private Vector2D OffsetVelocity { get; set; }
 
-        private double timeScale = 64;
+        private readonly double timeScale = 64;
 
         public CameraShakeSystem()
         {
@@ -34,7 +33,7 @@ namespace WooferGame.Systems.Camera.Shake
                 Offset += OffsetVelocity * Owner.DeltaTime;
                 OffsetVelocity += (-Offset * Owner.DeltaTime);
                 OffsetVelocity *= 0.995;
-                if(OffsetVelocity.Magnitude < 1e-4 && Offset.Magnitude < 1e-4)
+                if(OffsetVelocity.Magnitude < 1e-1 && Offset.Magnitude < 1e-1)
                 {
                     OffsetVelocity = Vector2D.Empty;
                     Offset = Vector2D.Empty;
