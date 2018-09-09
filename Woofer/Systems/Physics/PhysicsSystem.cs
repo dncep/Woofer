@@ -6,6 +6,7 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
+using WooferGame.Systems.Player.Actions;
 
 namespace WooferGame.Systems.Physics
 {
@@ -169,7 +170,7 @@ namespace WooferGame.Systems.Physics
                 if (re.Intersected == null) re.Intersected = new List<RaycastIntersection>();
                 
                 //Filter all soft and rigid bodies whose X axis intersects the given ray.
-                List<Component> intersectingX = WatchedComponents.Where(c => !(c is Physical) && c.Owner.Active && (IntersectsX(c, re.Ray.A.X) || IntersectsX(c, re.Ray.B.X))).ToList();
+                List<Component> intersectingX = WatchedComponents.Where(c => !(c is Physical) && c.Owner.Active && (IntersectsX(c, re.Ray.A.X, re.Ray.B.X))).ToList();
 
                 foreach(Component c in intersectingX)
                 {
@@ -224,6 +225,21 @@ namespace WooferGame.Systems.Physics
         private bool IntersectsX(Component c, double x)
         {
             return GetCrossTickLeft(c) <= x && x <= GetCrossTickRight(c);
+        }
+
+        private bool IntersectsX(Component c, double x0, double x1)
+        {
+            if(x0 > x1)
+            {
+                double temp = x0;
+                x0 = x1;
+                x1 = temp;
+            }
+
+            double left = GetCrossTickLeft(c);
+            double right = GetCrossTickRight(c);
+
+            return left < x1 && right > x0;
         }
 
         private double GetCrossTickLeft(Component c)

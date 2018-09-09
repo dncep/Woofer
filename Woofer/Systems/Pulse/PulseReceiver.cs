@@ -9,4 +9,9 @@ namespace WooferGame.Systems.Pulse
         public Vector2D Offset { get; set; }
         public double Sensitivity { get; set; } = 1;
     }
+
+    [Component("pulse_receiver_physical")]
+    class PulseReceiverPhysical : Component
+    {
+    }
 }
