@@ -8,12 +8,12 @@ namespace EntityComponentSystem.Util
 {
     public class Rectangle
     {
-        public int X;
-        public int Y;
-        public int Width;
-        public int Height;
+        public double X;
+        public double Y;
+        public double Width;
+        public double Height;
 
-        public Rectangle(int x, int y, int width, int height)
+        public Rectangle(double x, double y, double width, double height)
         {
             X = x;
             Y = y;
@@ -21,6 +21,33 @@ namespace EntityComponentSystem.Util
             Height = height;
         }
 
+        public Rectangle(Vector2D pos, double width, double height)
+        {
+            X = pos.X;
+            Y = pos.Y;
+            Width = width;
+            Height = height;
+        }
+
+        public Rectangle(Vector2D pos, Size size)
+        {
+            X = pos.X;
+            Y = pos.Y;
+            Width = size.Width;
+            Height = size.Height;
+        }
+
+        public static Rectangle operator +(Rectangle rect, Vector2D vect) => new Rectangle(rect.X + vect.X, rect.Y + vect.Y, rect.Width, rect.Height);
+        public static Rectangle operator -(Rectangle rect, Vector2D vect) => new Rectangle(rect.X - vect.X, rect.Y - vect.Y, rect.Width, rect.Height);
+
         public override string ToString() => $"Rectangle[X={X},Y={Y},Width={Width},Height={Height}]";
+    }
+
+    public static class RectangleConversion
+    {
+        public static System.Drawing.Rectangle ToDrawing(this Rectangle rect)
+        {
+            return new System.Drawing.Rectangle((int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height);
+        }
     }
 }

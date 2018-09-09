@@ -9,7 +9,7 @@ namespace WooferGame.Systems.Checkpoints
 {
     [ComponentSystem("checkpoint_system", ProcessingCycles.None),
         Watching(typeof(CheckpointComponent)),
-        Listening(typeof(CheckpointRequestEvent))]
+        Listening(typeof(CheckpointRequestEvent), typeof(SoftCollisionEvent))]
     class CheckpointSystem : ComponentSystem
     {
 
@@ -28,6 +28,16 @@ namespace WooferGame.Systems.Checkpoints
                         if(ph != null) ph.Velocity = Vector2D.Empty;
                         break;
                     }
+                }
+            } else if(re is SoftCollisionEvent ce &&
+                ce.Victim.Components.Get<CheckpointComponent>() is CheckpointComponent checkpoint &&
+                ce.Sender.Owner.Components.Has<CheckpointTrigger>())
+            {
+                if(!checkpoint.Selected)
+                {
+                    WatchedComponents.ForEach(c => (c as CheckpointComponent).Selected = false);
+                    checkpoint.Selected = true;
+                    System.Console.WriteLine("Changed checkpoint");
                 }
             }
         }

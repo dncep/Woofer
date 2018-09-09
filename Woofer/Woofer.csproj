@@ -65,6 +65,7 @@
     <Compile Include="Systems\Checkpoints\CheckpointComponent.cs" />
     <Compile Include="Systems\Checkpoints\CheckpointSystem.cs" />
     <Compile Include="Systems\Checkpoints\CheckpointRequestEvent.cs" />
+    <Compile Include="Systems\Checkpoints\CheckpointTrigger.cs" />
     <Compile Include="Systems\DeathBarrier\CheckpointOnBarrierComponent.cs" />
     <Compile Include="Systems\DeathBarrier\DeathBarrier.cs" />
     <Compile Include="Systems\DeathBarrier\DeathBarrierComponent.cs" />
@@ -85,6 +86,8 @@
     <Compile Include="Systems\Physics\RigidBody.cs" />
     <Compile Include="Systems\Physics\SoftBody.cs" />
     <Compile Include="Systems\Player\Actions\PulseAbility.cs" />
+    <Compile Include="Systems\Player\Animation\PlayerAnimation.cs" />
+    <Compile Include="Systems\Player\Animation\PlayerAnimationSystem.cs" />
     <Compile Include="Systems\Pulse\PulseSystem.cs" />
     <Compile Include="Systems\Player\PlayerEntity.cs" />
     <Compile Include="Systems\Player\PlayerOrientation.cs" />
@@ -96,6 +99,7 @@
     <Compile Include="Systems\Visual\LevelRenderer.cs" />
     <Compile Include="Systems\Visual\LevelSection.cs" />
     <Compile Include="Systems\Visual\Renderable.cs" />
+    <Compile Include="Systems\Visual\Sprite.cs" />
     <Compile Include="TestData\Box.cs" />
     <Compile Include="Systems\Movement\PlayerMovementComponent.cs" />
     <Compile Include="TestData\TestScene.cs" />
@@ -113,5 +117,6 @@
       <Name>GameBase</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

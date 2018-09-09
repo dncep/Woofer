@@ -7,6 +7,7 @@ namespace WooferGame.Systems.Physics
     {
         public CollisionBox Bounds { get; private set; }
         public float Mass { get; set; }
+        public bool Movable { get; set; } = true;
 
         public SoftBody(CollisionBox bounds, float mass)
         {

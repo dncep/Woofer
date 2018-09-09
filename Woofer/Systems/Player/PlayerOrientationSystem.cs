@@ -9,7 +9,7 @@ namespace WooferGame.Systems.Player
         Watching(typeof(PlayerOrientation))]
     class PlayerOrientationSystem : ComponentSystem
     {
-        private readonly double deadzone = 0.3;
+        private readonly double deadzone = 0.1;
 
         public override void Input()
         {

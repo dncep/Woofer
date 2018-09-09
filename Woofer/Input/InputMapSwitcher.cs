@@ -10,7 +10,6 @@ namespace WooferGame.Input
 
         public InputMapManager()
         {
-
         }
 
         public void Add(IInputMap inputMap)

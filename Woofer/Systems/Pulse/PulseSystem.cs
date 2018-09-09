@@ -92,7 +92,7 @@ namespace WooferGame.Systems.Pulse
                     {
                         double mass = 1;
                         if (pp.Owner.Components.Has<SoftBody>()) mass = pp.Owner.Components.Get<SoftBody>().Mass;
-                        ph.Velocity += ((center - e.Source).Unit() * ((e.Reach - distance) * e.Strength/8) / mass);
+                        ph.Velocity += ((center - e.Source).Unit() * ((e.Reach - distance) * e.Strength/2) / mass);
                     }
                 }
 

@@ -126,24 +126,27 @@ namespace WooferGame.Systems.Physics
                                         else continue;
                                     }
 
-                                    Owner.Events.InvokeEvent(new CollisionEvent(objA, objB.Owner, normal));
-                                    Owner.Events.InvokeEvent(new CollisionEvent(objB, objA.Owner, normal));
+                                    Owner.Events.InvokeEvent(new RigidCollisionEvent(objA, objB.Owner, normal));
+                                    Owner.Events.InvokeEvent(new RigidCollisionEvent(objB, objA.Owner, normal));
                                 }
                                 else //Soft Collision
                                 {
+                                    Owner.Events.InvokeEvent(new SoftCollisionEvent(objA, objB.Owner));
+                                    Owner.Events.InvokeEvent(new SoftCollisionEvent(objB, objA.Owner));
+
                                     Vector2D center0 = objA.Bounds.Offset(physA.Position).Center;
                                     Vector2D center1 = otherBounds.Center;
 
                                     double distance = (center0 - center1).Magnitude;
                                     if (distance <= 1e-4) continue;
 
-                                    double force = 2 * Owner.FixedDeltaTime * intersection.Area * (objA.Mass + (objB as SoftBody).Mass);
+                                    double force = 2 * Owner.FixedDeltaTime * intersection.Area * (objA.Mass * (objB as SoftBody).Mass);
 
                                     Vector2D forceVec = (center1 - center0).Unit() * force;
                                     forceVec.Y = 0;
 
-                                    physA.Velocity -= forceVec / objA.Mass;
-                                    physB.Velocity -= -forceVec / (objB as SoftBody).Mass;
+                                    if(objA.Movable && objA.Mass != 0) physA.Velocity -= forceVec / (objA.Mass);
+                                    if ((objB as SoftBody).Movable && (objB as SoftBody).Mass != 0) physB.Velocity -= -forceVec / (objB as SoftBody).Mass;
                                 }
                             }
                         }

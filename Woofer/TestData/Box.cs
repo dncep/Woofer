@@ -19,13 +19,13 @@ namespace WooferGame.Test_Data
             Components.Add(new Spatial(position));
             Components.Add(new Renderable("grass", new Rectangle(-8, -8, 16, 16)));
             Components.Add(new Physical());
-            Components.Add(new SoftBody(new CollisionBox(-8, -8, 16, 16), 1f));
+            Components.Add(new SoftBody(new CollisionBox(-8, -8, 16, 16), 8f));
             Components.Add(new PulsePushable());
             Components.Add(new LevelRenderable());
             Components.Add(new RemoveOnBarrierComponent());
         }
 
-        public override string ToString() => "Box{Texture=" + (Components["renderable"] as Renderable).Texture + ",Position=" + (Components["spatial"] as Spatial).Position + "}";
+        public override string ToString() => "Box{Position=" + (Components["spatial"] as Spatial).Position + "}";
     }
 
     class TileEntity : Entity
@@ -45,7 +45,7 @@ namespace WooferGame.Test_Data
             Components.Add(new LevelRenderable());
         }
 
-        public override string ToString() => "TileEntity{Texture=" + (Components["renderable"] as Renderable).Texture + ",Position=" + (Components["spatial"] as Spatial).Position + "}";
+        public override string ToString() => "TileEntity{Position=" + (Components["spatial"] as Spatial).Position + "}";
     }
 
     class Slope : Entity
@@ -108,7 +108,7 @@ namespace WooferGame.Test_Data
             Components.Add(new LevelRenderable());
         }
 
-        public override string ToString() => "Slab{Texture=" + (Components["renderable"] as Renderable).Texture + ",Position=" + (Components["spatial"] as Spatial).Position + "}";
+        public override string ToString() => "Slab{Position=" + (Components["spatial"] as Spatial).Position + "}";
     }
 
     [Component("level_tile")]

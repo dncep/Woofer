@@ -55,3 +55,5 @@ C:\Users\User\source\repos\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\in
 C:\Users\User\source\repos\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\ascii.xnb
 C:\Users\User\source\repos\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\notes.xnb
 C:\Users\User\source\repos\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\sprites0.xnb
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\char.png
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\char.xnb

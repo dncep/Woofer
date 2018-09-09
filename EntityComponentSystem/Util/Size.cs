@@ -8,15 +8,15 @@ namespace EntityComponentSystem.Util
 {
     public class Size
     {
-        public int Width;
-        public int Height;
+        public double Width;
+        public double Height;
 
         public Size() : this(0, 0)
         {
 
         }
 
-        public Size(int width, int height)
+        public Size(double width, double height)
         {
             Width = width;
             Height = height;

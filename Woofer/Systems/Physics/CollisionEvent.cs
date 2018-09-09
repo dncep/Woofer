@@ -5,16 +5,26 @@ using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Physics
 {
-    [Event("collision")]
-    class CollisionEvent : Event
+    [Event("rigid_collision")]
+    class RigidCollisionEvent : Event
     {
         public Entity Victim { get; private set; }
         public Vector2D Normal { get; private set; }
 
-        public CollisionEvent(Component sender, Entity victim, Vector2D normal) : base(sender)
+        public RigidCollisionEvent(Component sender, Entity victim, Vector2D normal) : base(sender)
         {
             this.Victim = victim;
             this.Normal = normal;
+        }
+    }
+    [Event("soft_collision")]
+    class SoftCollisionEvent : Event
+    {
+        public Entity Victim { get; private set; }
+
+        public SoftCollisionEvent(Component sender, Entity victim) : base(sender)
+        {
+            this.Victim = victim;
         }
     }
 }

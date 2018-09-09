@@ -12,7 +12,7 @@ namespace WooferGame.Systems.Movement
 {
     [ComponentSystem("player_controller", ProcessingCycles.Input | ProcessingCycles.Tick),
         Watching(typeof(PlayerMovementComponent)),
-        Listening(typeof(CollisionEvent))]
+        Listening(typeof(RigidCollisionEvent))]
     class PlayerMovement : ComponentSystem
     {
         public override void Input()
@@ -57,9 +57,9 @@ namespace WooferGame.Systems.Movement
 
         public override void EventFired(object sender, Event re)
         {
-            if(re is CollisionEvent)
+            if(re is RigidCollisionEvent)
             {
-                CollisionEvent e = re as CollisionEvent;
+                RigidCollisionEvent e = re as RigidCollisionEvent;
 
                 if(e.Victim.Components.Has<PlayerMovementComponent>() && e.Normal.Y > 0)
                 {
