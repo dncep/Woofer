@@ -21,7 +21,7 @@ namespace WooferGame.Systems.Player
             //Physics
             Components.Add(new Spatial(x, y));
             Components.Add(new Physical());
-            Components.Add(new SoftBody(new CollisionBox(-8, 0, 16, 16), 4f));
+            Components.Add(new SoftBody(new CollisionBox(-6, 0, 12, 16), 4f));
             Components.Add(new PulsePushable());
 
             //Rendering
@@ -29,7 +29,6 @@ namespace WooferGame.Systems.Player
             Components.Add(new LevelRenderable());
 
             Components.Add(new PlayerAnimation("char"));
-
 
             //Movement
             Components.Add(new PlayerMovementComponent());

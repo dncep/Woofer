@@ -24,6 +24,8 @@ namespace WooferGame.Scenes
             Entities.Add(new Room0(0, 128));
             //Entities.Add(new Room0(320, -32));
 
+            //CurrentViewport.Scale = 2;
+
             Entities.Add(new PlayerEntity(96, 200));
 
             Entities.Add(new Checkpoint(96, 200, new Rectangle(-8, -8, 16, 16), true));

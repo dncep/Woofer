@@ -16,12 +16,13 @@ namespace WooferGame.Systems.Player.Animation
         Watching(typeof(PlayerAnimation))]
     class PlayerAnimationSystem : ComponentSystem
     {
-        private const int Head = 0;
-        private const int Legs = 1;
-        private const int Woofer = 2;
-        private const int Arms = 3;
+        private const int Torso = 0;
+        private const int Head = 1;
+        private const int Legs = 2;
+        private const int Woofer = 3;
+        private const int Arms = 4;
 
-        private static readonly int[] Origins = { 0, 32, 128, 320 };
+        private static readonly int[] Origins = { 0, 32, 64, 160, 352 };
 
         private static readonly Vector2D OrientationOffset = new Vector2D(256, 0);
 
@@ -33,24 +34,28 @@ namespace WooferGame.Systems.Player.Animation
             {
                 Renderable renderable = player.Owner.Components.Get<Renderable>();
 
-                Vector2D[] offsets = new Vector2D[4];
-                offsets[Head] = new Vector2D(0, Origins[Head]);
-                offsets[Legs] = new Vector2D(0, Origins[Legs]);
-                offsets[Woofer] = new Vector2D(0, Origins[Woofer]);
-                offsets[Arms] = new Vector2D(0, Origins[Arms]);
+                Vector2D[] srcOffsets = new Vector2D[5];
+                srcOffsets[Torso] = new Vector2D(0, Origins[Torso]);
+                srcOffsets[Head] = new Vector2D(0, Origins[Head]);
+                srcOffsets[Legs] = new Vector2D(0, Origins[Legs]);
+                srcOffsets[Woofer] = new Vector2D(0, Origins[Woofer]);
+                srcOffsets[Arms] = new Vector2D(0, Origins[Arms]);
 
+                Vector2D[] destOffsets = new Vector2D[5];
+                destOffsets[Torso] = destOffsets[Head] = destOffsets[Legs] = destOffsets[Woofer] = destOffsets[Arms] = Vector2D.Empty;
+                destOffsets[Head] += new Vector2D(0, 0);
 
                 if(!player.Initialized)
                 {
                     renderable.Sprites = new Sprite[]
                     {
-                        new Sprite(player.SpritesheetName, Destination, new Rectangle(offsets[Head], 32, 32)),
-                        new Sprite(player.SpritesheetName, Destination, new Rectangle(offsets[Legs], 32, 32)),
-                        new Sprite(player.SpritesheetName, Destination, new Rectangle(offsets[Woofer], 32, 32)),
-                        new Sprite(player.SpritesheetName, Destination, new Rectangle(offsets[Arms], 32, 32))
+                        new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Torso], 32, 32)),
+                        new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Head], 32, 32)),
+                        new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Legs], 32, 32)),
+                        new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Woofer], 32, 32)),
+                        new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Arms], 32, 32))
                     };
                     player.Initialized = true;
-
                 }
 
                 Physical physical = player.Owner.Components.Get<Physical>();
@@ -59,26 +64,45 @@ namespace WooferGame.Systems.Player.Animation
 
                 if (orientation.Unit.X > 0 || player.LastLookedRight)
                 {
-                    for (int i = Head; i <= Arms; i++) offsets[i] += OrientationOffset;
+                    for (int i = Torso; i <= Arms; i++) srcOffsets[i] += OrientationOffset;
                 }
+
                 if(orientation.Unit.Y >= Math.Sin(Math.PI/6))
                 {
-                    offsets[Head].X += 32;
+
+                    srcOffsets[Head].X += 32;
+                    srcOffsets[Woofer].X += 32;
+                    srcOffsets[Arms].X += 32;
+                    if(orientation.Unit.Y >= Math.Sin(2*Math.PI/6))
+                    {
+                        srcOffsets[Woofer].X += 32;
+                        srcOffsets[Arms].X += 32;
+                    }
                 } else if(orientation.Unit.Y <= Math.Sin(-Math.PI/6))
                 {
-                    offsets[Head].X += 64;
+                    srcOffsets[Head].X += 64;
+                    srcOffsets[Woofer].X += 96;
+                    srcOffsets[Arms].X += 96;
+                    if (orientation.Unit.Y <= Math.Sin(-2 * Math.PI / 6))
+                    {
+                        srcOffsets[Woofer].X += 32;
+                        destOffsets[Woofer] += new Vector2D(0, -3); //Offset woofer down since it goes out of the spritesheet grid
+                        srcOffsets[Arms].X += 32;
+                    }
                 }
 
                 if (orientation.Unit.X != 0) player.LastLookedRight = orientation.Unit.X > 0;
 
                 if(pulse != null)
                 {
-                    offsets[Woofer].Y += 32 * 5*(1-(pulse.EnergyMeter / pulse.MaxEnergy));
+                    srcOffsets[Woofer].Y += 32 * 5*(1-(pulse.EnergyMeter / pulse.MaxEnergy));
                 }
 
-                for(int i = Head; i <= Arms; i++)
+                for(int i = Torso; i <= Arms; i++)
                 {
-                    renderable.Sprites[i].Source = new Rectangle(offsets[i], 32, 32);
+                    renderable.Sprites[i].Source = new Rectangle(srcOffsets[i], 32, 32);
+                    //if (i == Woofer) renderable.Sprites[i].Source = new Rectangle(0, 0, 0, 0);
+                    renderable.Sprites[i].Destination = Destination + destOffsets[i];
                 }
             }
         }
