@@ -15,5 +15,7 @@ namespace WooferGame.Systems.Player.Animation
         public bool LastLookedRight = true;
 
         public PlayerAnimation(string spritesheetName) => SpritesheetName = spritesheetName;
+
+        public int WalkAnimationProgress { get; internal set; }
     }
 }

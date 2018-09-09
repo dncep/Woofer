@@ -2,7 +2,7 @@
 
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Events;
-
+using EntityComponentSystem.Util;
 using GameInterfaces.Input;
 
 using WooferGame.Input;
@@ -25,9 +25,9 @@ namespace WooferGame.Systems.Movement
 
                 ButtonState jumpButton = inputMap.Jump;
 
+                //Jump logic
                 if (jumpButton.IsPressed()) pmc.Jump.RegisterPressed();
                 else pmc.Jump.RegisterUnpressed();
-
                 if (pmc.OnGround)
                 {
                     if(jumpButton.IsPressed() && pmc.Jump.Execute())
@@ -36,9 +36,9 @@ namespace WooferGame.Systems.Movement
                     }
                 }
 
+                //Walking logic
                 double xMovement = inputMap.Movement.X * pmc.CurrentSpeed;
                 double xMovementCap = pmc.CurrentMaxSpeed;
-
                 if(xMovement > 0)
                 {
                     if(rb.Velocity.X <= xMovementCap)
@@ -50,6 +50,24 @@ namespace WooferGame.Systems.Movement
                     if (rb.Velocity.X >= -xMovementCap)
                     {
                         rb.Velocity.X = Math.Max(rb.Velocity.X + xMovement, -xMovementCap);
+                    }
+                }
+
+                //For smoothly walking down slopes
+                if(rb.Velocity.Y <= 0)
+                {
+                    //Raycast down under the player's feet up to a distance of 4 pixels
+                    RaycastEvent raycast = new RaycastEvent(pmc, new FreeVector2D(rb.Position, rb.Position - 4 * Vector2D.UnitJ));
+                    Owner.Events.InvokeEvent(raycast);
+                    foreach(RaycastIntersection intersection in raycast.Intersected)
+                    {
+                        if(intersection.Component.Owner != pmc.Owner)
+                        {
+                            if(intersection.FaceProperties.Snap) //If the intersected face has the 'snap' property enabled (for slopes)
+                            {
+                                rb.Position = intersection.Point; //Move the player down to the point of intersection, assuming the player's origin is at their feet
+                            }
+                        }
                     }
                 }
             }

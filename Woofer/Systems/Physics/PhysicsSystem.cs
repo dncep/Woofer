@@ -4,12 +4,14 @@ using System.Linq;
 
 using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
+using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Physics
 {
     [ComponentSystem("physics", ProcessingCycles.Tick),
-        Watching(typeof(Physical), typeof(RigidBody), typeof(SoftBody))]
+        Watching(typeof(Physical), typeof(RigidBody), typeof(SoftBody)),
+        Listening(typeof(RaycastEvent))]
     public class PhysicsSystem : ComponentSystem
     {
         private Vector2D Gravity = new Vector2D(0, -362);
@@ -155,6 +157,41 @@ namespace WooferGame.Systems.Physics
                     }
 
                     sweeper.Add(c0);
+                }
+            }
+        }
+
+        public override void EventFired(object sender, Event e)
+        {
+            if (e is RaycastEvent re)
+            {
+                //Initialize list of intersections
+                if (re.Intersected == null) re.Intersected = new List<RaycastIntersection>();
+                
+                //Filter all soft and rigid bodies whose X axis intersects the given ray.
+                List<Component> intersectingX = WatchedComponents.Where(c => !(c is Physical) && c.Owner.Active && (IntersectsX(c, re.Ray.A.X) || IntersectsX(c, re.Ray.B.X))).ToList();
+
+                foreach(Component c in intersectingX)
+                {
+                    Physical phys = c.Owner.Components.Get<Physical>();
+
+                    IEnumerable<CollisionBox> solidBoxes =
+                            c is SoftBody ?
+                                new CollisionBox[] { (c as SoftBody).Bounds.Offset(phys.Position) } :
+                                (c as RigidBody).Bounds.Select(b => b.Offset(phys.Position));
+
+                    foreach(CollisionBox box in solidBoxes)
+                    {
+                        List<FreeVector2D> sides = box.GetSides();
+                        foreach(FreeVector2D side in sides)
+                        {
+                            Vector2D? intersection = re.Ray.GetIntersection(side);
+                            if(intersection.HasValue)
+                            {
+                                re.Intersected.Add(new RaycastIntersection(intersection.Value, side, box, c, box.GetFaceProperties(side.Normal)));
+                            }
+                        }
+                    }
                 }
             }
         }

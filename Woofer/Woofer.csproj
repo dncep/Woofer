@@ -83,6 +83,8 @@
     <Compile Include="Systems\Physics\Physical.cs" />
     <Compile Include="Systems\Physics\PhysicsDebug.cs" />
     <Compile Include="Systems\Physics\PhysicsSystem.cs" />
+    <Compile Include="Systems\Physics\RaycastEvent.cs" />
+    <Compile Include="Systems\Physics\RaycastIntersection.cs" />
     <Compile Include="Systems\Physics\RigidBody.cs" />
     <Compile Include="Systems\Physics\SoftBody.cs" />
     <Compile Include="Systems\Player\Actions\PulseAbility.cs" />
