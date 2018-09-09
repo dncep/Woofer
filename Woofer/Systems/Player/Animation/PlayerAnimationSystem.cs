@@ -101,7 +101,6 @@ namespace WooferGame.Systems.Player.Animation
                 for(int i = Torso; i <= Arms; i++)
                 {
                     renderable.Sprites[i].Source = new Rectangle(srcOffsets[i], 32, 32);
-                    //if (i == Woofer) renderable.Sprites[i].Source = new Rectangle(0, 0, 0, 0);
                     renderable.Sprites[i].Destination = Destination + destOffsets[i];
                 }
             }
