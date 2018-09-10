@@ -39,7 +39,7 @@ namespace EntityComponentSystem.Entities
 
         public event EntityChangedEventHandler Changed = Dummy;
 
-        public Entity this[long key] { get => _dict[key]; }
+        public Entity this[long key] { get => _dict.ContainsKey(key) ? _dict[key] : null; }
 
         public int Count => _dict.Count;
 
@@ -67,7 +67,6 @@ namespace EntityComponentSystem.Entities
 
         public bool Remove(long id)
         {
-            Console.WriteLine("Removing entity ID " + id);
             if (ContainsId(id))
             {
                 _scheduledRemove.Add(id);

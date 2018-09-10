@@ -5,6 +5,7 @@ using EntityComponentSystem.Util;
 using WooferGame.Systems.Camera;
 using WooferGame.Systems.Checkpoints;
 using WooferGame.Systems.DeathBarrier;
+using WooferGame.Systems.Linking;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player.Actions;
@@ -34,6 +35,8 @@ namespace WooferGame.Systems.Player
             Components.Add(new PlayerMovementComponent());
             Components.Add(new PlayerOrientation());
             Components.Add(new PulseAbility() { Offset = new Vector2D(0, 16) });
+
+            Components.Add(new FollowedComponent());
             
             //Camera
             Components.Add(new CameraTracked() { Offset = new Vector2D(0, 24) });

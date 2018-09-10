@@ -2,6 +2,7 @@
 using EntityComponentSystem.Util;
 
 using WooferGame.Input;
+using WooferGame.Systems.Linking;
 
 namespace WooferGame.Systems.Player
 {
@@ -22,6 +23,7 @@ namespace WooferGame.Systems.Player
                 foreach(PlayerOrientation po in WatchedComponents)
                 {
                     po.Unit = thumbstick.Unit();
+                    po.Owner.Components.Get<FollowedComponent>().Offset = new Vector2D(0, 16) + po.Unit * 24;
                 }
             }
         }

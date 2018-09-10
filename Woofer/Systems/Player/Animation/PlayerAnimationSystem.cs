@@ -1,23 +1,25 @@
 ﻿using System;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
+using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
 
 using GameInterfaces.Controller;
-
+using WooferGame.Systems.Linking;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player.Actions;
 using WooferGame.Systems.Pulse;
 using WooferGame.Systems.Visual;
+using WooferGame.Systems.Visual.Animation;
 using WooferGame.Systems.Visual.Particles;
 
 namespace WooferGame.Systems.Player.Animation
 {
     [ComponentSystem("player_animation_system", ProcessingCycles.Render),
         Watching(typeof(PlayerAnimation)),
-        Listening(typeof(PlayerJumpEvent), typeof(PulseEvent))]
+        Listening(typeof(PlayerJumpEvent), typeof(PulseEvent), typeof(AnimationStartEvent))]
     class PlayerAnimationSystem : ComponentSystem
     {
         private const int Legs = 0;
@@ -151,8 +153,25 @@ namespace WooferGame.Systems.Player.Animation
             {
                 if(pe.Sender.Owner.Components.Has<PlayerAnimation>())
                 {
-                    Owner.Entities.Add(new CloudParticle(pe.Source + pe.Direction * 16));
+                    for(int i = Owner.Random.Next(2, 16); i > 0; i--)
+                    {
+                        Owner.Entities.Add(new CloudParticle(pe.Source + pe.Direction.Rotate(Owner.Random.NextDouble()*Math.PI/4 - Math.PI/8) * (12 + Owner.Random.NextDouble()*24), Owner.Random.Next(0, 9)));
+                    }
+                    for(int i = 0; i < 5*Math.Pow(pe.Strength / 256,2); i++)
+                    {
+                        SoundParticle particle = new SoundParticle(pe.Source + pe.Direction * 12, i * 8);
+                        particle.Components.Add(new FollowingComponent(pe.Sender.Owner));
+                        Owner.Entities.Add(particle);
+                    }
                 }
+            } else if(
+                e is AnimationStartEvent se &&
+                se.Component.Owner is SoundParticle &&
+                se.Component.Owner.Components.Get<FollowingComponent>() is FollowingComponent following &&
+                Owner.Entities[following.FollowedID] is Entity followed &&
+                followed.Components.Has<PlayerAnimation>())
+            {
+                se.Component.Owner.Components.Remove<FollowingComponent>();
             }
         }
     }

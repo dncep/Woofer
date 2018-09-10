@@ -67,6 +67,7 @@
     <Compile Include="Interfaces\Input\Keyboard\Key.cs" />
     <Compile Include="Interfaces\Input\Mouse\IMouse.cs" />
     <Compile Include="Interfaces\Visuals\DirectGraphicsContext.cs" />
+    <Compile Include="Interfaces\Visuals\DrawMode.cs" />
     <Compile Include="Interfaces\Visuals\IGraphicsContext.cs" />
     <Compile Include="Interfaces\Visuals\ISpriteManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,6 +6,7 @@ using WooferGame.Systems.Camera.Shake;
 using WooferGame.Systems.Checkpoints;
 using WooferGame.Systems.DeathBarrier;
 using WooferGame.Systems.Environment;
+using WooferGame.Systems.Linking;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player;
@@ -14,6 +15,7 @@ using WooferGame.Systems.Player.Feedback;
 using WooferGame.Systems.Pulse;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Animation;
+using WooferGame.Systems.Visual.Particles;
 using WooferGame.Test_Data;
 
 namespace WooferGame.Scenes
@@ -53,6 +55,7 @@ namespace WooferGame.Scenes
 
             //Other
             Systems.Add(new PlayerFeedbackSystem());
+            Systems.Add(new FollowingSystem());
 
             //Systems.Add(new DebugSystem());
 
@@ -61,6 +64,7 @@ namespace WooferGame.Scenes
             Systems.Add(new PlayerAnimationSystem());
             Systems.Add(new AnimationSystem());
             Systems.Add(new LevelRenderer());
+            Systems.Add(new ParticleSystem());
         }
     }
 

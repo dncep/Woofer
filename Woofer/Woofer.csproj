@@ -76,6 +76,9 @@
     <Compile Include="Systems\Environment\BreakableGlassEntity.cs" />
     <Compile Include="Systems\Environment\GlassBreakingSystem.cs" />
     <Compile Include="Systems\Interaction\ActivationEvent.cs" />
+    <Compile Include="Systems\Linking\FollowedComponent.cs" />
+    <Compile Include="Systems\Linking\FollowingComponent.cs" />
+    <Compile Include="Systems\Linking\FollowingSystem.cs" />
     <Compile Include="Systems\Movement\PlayerJumpEvent.cs" />
     <Compile Include="Systems\Movement\PlayerMovement.cs" />
     <Compile Include="Systems\Physics\CollisionBox.cs" />
@@ -102,6 +105,7 @@
     <Compile Include="Systems\Visual\Animation\AnimationComponent.cs" />
     <Compile Include="Systems\Visual\Animation\AnimatedSprite.cs" />
     <Compile Include="Systems\Visual\Animation\AnimationEndEvent.cs" />
+    <Compile Include="Systems\Visual\Animation\AnimationStartEvent.cs" />
     <Compile Include="Systems\Visual\Animation\AnimationSystem.cs" />
     <Compile Include="Systems\Visual\LevelRenderable.cs" />
     <Compile Include="Systems\Visual\LevelRenderer.cs" />
@@ -109,6 +113,7 @@
     <Compile Include="Systems\Visual\Particles\CloudParticle.cs" />
     <Compile Include="Systems\Visual\Particles\ParticleComponent.cs" />
     <Compile Include="Systems\Visual\Particles\ParticleSystem.cs" />
+    <Compile Include="Systems\Visual\Particles\SoundParticle.cs" />
     <Compile Include="Systems\Visual\Renderable.cs" />
     <Compile Include="Systems\Visual\Sprite.cs" />
     <Compile Include="TestData\Box.cs" />

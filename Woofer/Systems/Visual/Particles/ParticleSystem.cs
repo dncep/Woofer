@@ -18,8 +18,8 @@ namespace WooferGame.Systems.Visual.Particles
             if(evt is AnimationEndEvent ae)
             {
                 if (!ae.Component.Owner.Components.Has<ParticleComponent>()) return;
-                ae.Component.Animations.Remove(ae.Animation);
-                if (ae.Component.Animations.Count == 0) ae.Component.Owner.Remove();
+                /*ae.Component.Animations.Remove(ae.Animation);
+                if (ae.Component.Animations.Count == 0) */ae.Component.Owner.Remove();
             }
         }
     }

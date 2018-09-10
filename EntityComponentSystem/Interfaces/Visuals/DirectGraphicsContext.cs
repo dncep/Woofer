@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EntityComponentSystem.Interfaces.Visuals;
 
 namespace GameInterfaces.GraphicsInterface
 {
@@ -33,8 +34,13 @@ namespace GameInterfaces.GraphicsInterface
 
         public void Draw(TSurface subject, Rectangle destination) => GraphicsContext.Draw(subject, Surface, destination);
         public void Draw(TSurface subject, Rectangle destination, Rectangle? source) => GraphicsContext.Draw(subject, Surface, destination, source);
+        public void Draw(TSurface subject, Rectangle destination, DrawMode mode) => GraphicsContext.Draw(subject, Surface, destination, mode);
+        public void Draw(TSurface subject, Rectangle destination, Rectangle? source, DrawMode mode) => GraphicsContext.Draw(subject, Surface, destination, source, mode);
+
         public void Draw(TSource subject, Rectangle destination) => GraphicsContext.Draw(subject, Surface, destination);
         public void Draw(TSource subject, Rectangle destination, Rectangle? source) => GraphicsContext.Draw(subject, Surface, destination, source);
+        public void Draw(TSource subject, Rectangle destination, DrawMode mode) => GraphicsContext.Draw(subject, Surface, destination, mode);
+        public void Draw(TSource subject, Rectangle destination, Rectangle? source, DrawMode mode) => GraphicsContext.Draw(subject, Surface, destination, source, mode);
 
         public TSurface CreateTarget(int width, int height) => GraphicsContext.CreateTarget(width, height);
 

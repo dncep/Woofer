@@ -56,15 +56,14 @@ namespace WooferGame.Systems.Visual
                 x += layer.GetSize().Width / 2;
                 y += layer.GetSize().Height / 2;
 
-
                 System.Drawing.Rectangle drawingRect = new System.Drawing.Rectangle((int)Math.Floor(x), (int)Math.Floor(y), (int)width, (int)height);
 
                 if(sprite.Source is Rectangle source)
                 {
-                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, sprite.Source.ToDrawing());
+                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, sprite.Source.ToDrawing(), sprite.DrawMode);
                 } else
                 {
-                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect);
+                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, sprite.DrawMode);
                 }
             }
 

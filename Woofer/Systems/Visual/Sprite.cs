@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EntityComponentSystem.Interfaces.Visuals;
 using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Visual
@@ -12,6 +13,8 @@ namespace WooferGame.Systems.Visual
         public string Texture;
         public Rectangle Destination;
         public Rectangle Source;
+
+        public DrawMode DrawMode = DrawMode.Normal;
 
         public Sprite(string texture, Rectangle destination) : this(texture, destination, null)
         {

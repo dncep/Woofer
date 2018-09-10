@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using EntityComponentSystem.Interfaces.Visuals;
 
 namespace GameInterfaces.GraphicsInterface
 {
@@ -11,8 +12,12 @@ namespace GameInterfaces.GraphicsInterface
 
         void Draw(TSurface subject, TSurface target, Rectangle destination);
         void Draw(TSurface subject, TSurface target, Rectangle destination, Rectangle? source);
+        void Draw(TSurface subject, TSurface target, Rectangle destination, DrawMode mode);
+        void Draw(TSurface subject, TSurface target, Rectangle destination, Rectangle? source, DrawMode mode);
         void Draw(TSource subject, TSurface target, Rectangle destination);
         void Draw(TSource subject, TSurface target, Rectangle destination, Rectangle? source);
+        void Draw(TSource subject, TSurface target, Rectangle destination, DrawMode mode);
+        void Draw(TSource subject, TSurface target, Rectangle destination, Rectangle? source, DrawMode mode);
         TSurface CreateTarget(int width, int height);
         TSurface Scale(TSurface surface, double scaleX, double scaleY, bool antialias);
         TSurface Scale(TSurface surface, double scale, bool antialias);

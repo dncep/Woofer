@@ -32,7 +32,7 @@ namespace WooferGame.Systems.Visual.Animation
             FrameDurations = frameDurations;
 
             CurrentFrame = 0;
-            FrameProgress = 0;
+            FrameProgress = -1;
             Loop = false;
         }
 
@@ -47,7 +47,7 @@ namespace WooferGame.Systems.Visual.Animation
             for (int i = 0; i < frameCount; i++) FrameDurations[i] = frameDuration;
 
             CurrentFrame = 0;
-            FrameProgress = 0;
+            FrameProgress = -1;
             Loop = false;
         }
     }
