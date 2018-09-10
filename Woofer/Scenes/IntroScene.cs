@@ -10,6 +10,7 @@ using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player;
 using WooferGame.Systems.Player.Animation;
+using WooferGame.Systems.Player.Feedback;
 using WooferGame.Systems.Pulse;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Animation;
@@ -48,10 +49,13 @@ namespace WooferGame.Scenes
             Systems.Add(new CameraShakeSystem());
             Systems.Add(new CheckpointSystem());
             Systems.Add(new DeathBarrierSystem());
+            Systems.Add(new GlassBreakingSystem());
+
+            //Other
+            Systems.Add(new PlayerFeedbackSystem());
 
             //Systems.Add(new DebugSystem());
 
-            Systems.Add(new GlassBreakingSystem());
 
             //Rendering
             Systems.Add(new PlayerAnimationSystem());

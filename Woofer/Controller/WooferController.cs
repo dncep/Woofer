@@ -20,7 +20,7 @@ namespace WooferGame.Controller
         public void Initialize() {
             InputManager = new InputMapManager();
             InputManager.Add(new KeyboardInputMap(InputUnit.Keyboard, InputUnit.Mouse));
-            InputManager.Add(new GamePadInputMap(InputUnit.GamePads[0]));
+            InputManager.Add(new GamePadDualInputMap(InputUnit.GamePads[0]));
         }
 
 

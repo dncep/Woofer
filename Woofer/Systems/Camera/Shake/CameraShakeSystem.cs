@@ -25,6 +25,8 @@ namespace WooferGame.Systems.Camera.Shake
                     OffsetVelocity = Vector2D.Empty;
                     Offset = Vector2D.Empty;
                 }
+
+                Woofer.Controller.InputManager.ActiveInputMap.SetVibration((float)(Offset.Magnitude / 256));
             }
         }
 

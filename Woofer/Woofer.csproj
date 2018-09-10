@@ -91,6 +91,7 @@
     <Compile Include="Systems\Player\Actions\PulseAbility.cs" />
     <Compile Include="Systems\Player\Animation\PlayerAnimation.cs" />
     <Compile Include="Systems\Player\Animation\PlayerAnimationSystem.cs" />
+    <Compile Include="Systems\Player\Feedback\PlayerFeedbackSystem.cs" />
     <Compile Include="Systems\Pulse\PulseSystem.cs" />
     <Compile Include="Systems\Player\PlayerEntity.cs" />
     <Compile Include="Systems\Player\PlayerOrientation.cs" />

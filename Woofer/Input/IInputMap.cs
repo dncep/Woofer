@@ -14,5 +14,7 @@ namespace WooferGame.Input
         ButtonState Pulse { get; }
 
         bool IsBeingUsed { get; }
+
+        void SetVibration(float amount);
     }
 }

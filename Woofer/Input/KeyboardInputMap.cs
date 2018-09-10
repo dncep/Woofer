@@ -46,5 +46,7 @@ namespace WooferGame.Input
         }
 
         public bool IsBeingUsed => keyboard.IsBeingUsed || mouse.IsBeingUsed;
+
+        public void SetVibration(float amount) { }
     }
 }

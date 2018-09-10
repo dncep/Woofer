@@ -18,5 +18,9 @@ namespace GameInterfaces.Input
         {
             return state == ButtonState.Pressed;
         }
+        public static ButtonState TriggerToButtonState(this float trigger)
+        {
+            return trigger > 0 ? ButtonState.Pressed : ButtonState.Released;
+        }
     }
 }
