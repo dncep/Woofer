@@ -26,16 +26,15 @@ namespace WooferGame.Controller
             SpriteManager.LoadSprite("sprites0");
             SpriteManager.LoadSprite("intro_bg");
             SpriteManager.LoadSprite("char");
+            SpriteManager.LoadSprite("particles");
 
             ClipSprite("brick", "sprites0", new Rectangle(16, 0, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
             ClipSprite("grass", "sprites0", new Rectangle(0, 0, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
 
             ClipSprite("brick_slope_left", "sprites0", new Rectangle(16, 16, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
             ClipSprite("brick_slope_right", "sprites0", new Rectangle(16, 32, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
-
+            
             ClipSprite("room0", "intro_bg", new Rectangle(0, 0, 432, 400), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
-
-            ClipSprite("char0", "char", new Rectangle(0, 0, 32, 32), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
         }
 
         private void ClipSprite<TSurface, TSource>(string spriteName, string spritesheet, Rectangle spriteBounds, IGraphicsContext<TSurface, TSource> graphicsContext, ISpriteManager<TSource> spriteManager)

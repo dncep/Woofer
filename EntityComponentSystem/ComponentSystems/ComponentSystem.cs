@@ -104,6 +104,11 @@ namespace EntityComponentSystem.ComponentSystems
         public string[] Watching;
         public string[] Listening;
 
+        public ComponentSystemAttribute(string systemName) : this(systemName, ProcessingCycles.None)
+        {
+
+        }
+
         public ComponentSystemAttribute(string systemName, ProcessingCycles cycles)
         {
             SystemName = systemName;

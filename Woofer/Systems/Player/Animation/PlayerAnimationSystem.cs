@@ -1,6 +1,7 @@
 ﻿using System;
-
+using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
+using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
 
 using GameInterfaces.Controller;
@@ -8,12 +9,15 @@ using GameInterfaces.Controller;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player.Actions;
+using WooferGame.Systems.Pulse;
 using WooferGame.Systems.Visual;
+using WooferGame.Systems.Visual.Particles;
 
 namespace WooferGame.Systems.Player.Animation
 {
     [ComponentSystem("player_animation_system", ProcessingCycles.Render),
-        Watching(typeof(PlayerAnimation))]
+        Watching(typeof(PlayerAnimation)),
+        Listening(typeof(PlayerJumpEvent), typeof(PulseEvent))]
     class PlayerAnimationSystem : ComponentSystem
     {
         private const int Legs = 0;
@@ -130,6 +134,24 @@ namespace WooferGame.Systems.Player.Animation
                 {
                     renderable.Sprites[i].Source = new Rectangle(srcOffsets[i], 32, 32);
                     renderable.Sprites[i].Destination = Destination + destOffsets[i];
+                }
+            }
+        }
+
+        public override void EventFired(object sender, Event e)
+        {
+            if(e is PlayerJumpEvent je)
+            {
+                if(je.Sender.Owner.Components.Has<PlayerAnimation>() && je.Sender.Owner.Components.Get<Spatial>() is Spatial sp)
+                {
+                    Owner.Entities.Add(new CloudParticle(sp.Position + 2 * Vector2D.UnitJ + new Vector2D(-3, 0)));
+                    Owner.Entities.Add(new CloudParticle(sp.Position + 2 * Vector2D.UnitJ + new Vector2D(3, 1)));
+                }
+            } else if(e is PulseEvent pe)
+            {
+                if(pe.Sender.Owner.Components.Has<PlayerAnimation>())
+                {
+                    Owner.Entities.Add(new CloudParticle(pe.Source + pe.Direction * 16));
                 }
             }
         }

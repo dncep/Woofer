@@ -1,7 +1,7 @@
 ﻿using System;
 
 using EntityComponentSystem.Components;
-
+using EntityComponentSystem.Util;
 using WooferGame.Input;
 
 namespace WooferGame.Systems.Player.Actions
@@ -17,6 +17,8 @@ namespace WooferGame.Systems.Player.Actions
 
         public double MaxArc = Math.PI / 6;
         public double MaxRange = 48;
+
+        public Vector2D Offset { get; set; }
 
         public InputTimeframe Pulse = new InputTimeframe(5);
     }

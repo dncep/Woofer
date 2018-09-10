@@ -7,6 +7,7 @@ using GameInterfaces.Input;
 
 using WooferGame.Input;
 using WooferGame.Systems.Physics;
+using WooferGame.Systems.Visual.Particles;
 
 namespace WooferGame.Systems.Movement
 {
@@ -33,6 +34,7 @@ namespace WooferGame.Systems.Movement
                     if(jumpButton.IsPressed() && pmc.Jump.Execute())
                     {
                         rb.Velocity.Y = pmc.JumpSpeed;
+                        Owner.Events.InvokeEvent(new PlayerJumpEvent(pmc));
                     }
                 }
 

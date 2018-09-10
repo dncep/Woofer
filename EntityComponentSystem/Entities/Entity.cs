@@ -29,5 +29,10 @@ namespace EntityComponentSystem.Entities
             Active = false;
             Owner.Entities.Remove(Id);
         }
+
+        public virtual void Initialize()
+        {
+
+        }
     }
 }

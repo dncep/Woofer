@@ -55,7 +55,7 @@ namespace WooferGame.Systems.Pulse
                             if (sp == null) continue;
                             PlayerOrientation po = pa.Owner.Components.Get<PlayerOrientation>();
 
-                            Owner.Events.InvokeEvent(new PulseEvent(pa, sp.Position, po != null ? po.Unit : new Vector2D(), strength, pa.MaxRange));
+                            Owner.Events.InvokeEvent(new PulseEvent(pa, sp.Position + pa.Offset, po != null ? po.Unit : new Vector2D(), strength, pa.MaxRange));
                         }
                     }
                 }

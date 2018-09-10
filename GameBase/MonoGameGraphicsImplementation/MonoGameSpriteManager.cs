@@ -16,13 +16,7 @@ namespace GameBase.MonoGameGraphicsImplementation
         
         public Texture2D this[string name] {
             get => sprites[name];
-            set
-            {
-                sprites[name] = value;
-                /*var fs = new System.IO.FileStream(@"C:\Users\Usuario\Desktop\" + name + ".png", System.IO.FileMode.Create);
-                value.SaveAsPng(fs, value.Width, value.Height);
-                fs.Close();*/
-            }
+            set => sprites[name] = value;
         }
 
         public MonoGameSpriteManager(ContentManager content)
@@ -33,7 +27,6 @@ namespace GameBase.MonoGameGraphicsImplementation
         public void LoadSprite(string name)
         {
             sprites[name] = content.Load<Texture2D>(name);
-            
         }
     }
 }

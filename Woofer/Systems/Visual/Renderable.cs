@@ -24,6 +24,11 @@ namespace WooferGame.Systems.Visual
             Sprites = new Sprite[] { new Sprite(texture, bounds) };
         }
 
+        public Renderable(params Sprite[] sprites)
+        {
+            Sprites = sprites;
+        }
+
         public void Render<TSurface, TSource>(DirectGraphicsContext<TSurface, TSource> layer, CameraView view, ScreenRenderer<TSurface, TSource> r)
         {
             IGameController controller = Woofer.Controller;

@@ -33,7 +33,7 @@ namespace WooferGame.Systems.Player
             //Movement
             Components.Add(new PlayerMovementComponent());
             Components.Add(new PlayerOrientation());
-            Components.Add(new PulseAbility());
+            Components.Add(new PulseAbility() { Offset = new Vector2D(0, 16) });
             
             //Camera
             Components.Add(new CameraTracked() { Offset = new Vector2D(0, 24) });

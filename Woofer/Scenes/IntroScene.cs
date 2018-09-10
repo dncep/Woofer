@@ -12,6 +12,7 @@ using WooferGame.Systems.Player;
 using WooferGame.Systems.Player.Animation;
 using WooferGame.Systems.Pulse;
 using WooferGame.Systems.Visual;
+using WooferGame.Systems.Visual.Animation;
 using WooferGame.Test_Data;
 
 namespace WooferGame.Scenes
@@ -54,6 +55,7 @@ namespace WooferGame.Scenes
 
             //Rendering
             Systems.Add(new PlayerAnimationSystem());
+            Systems.Add(new AnimationSystem());
             Systems.Add(new LevelRenderer());
         }
     }

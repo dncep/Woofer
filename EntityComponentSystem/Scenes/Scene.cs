@@ -23,6 +23,8 @@ namespace EntityComponentSystem.Scenes
         public CameraView CurrentViewport { get; }
 
         public float DeltaTime { get; private set; } = 0;
+        public Random Random { get; set; } = new Random();
+
         public float FixedDeltaTime = 1 / 60f;
 
         public Scene()

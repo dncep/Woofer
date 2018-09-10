@@ -47,6 +47,7 @@ namespace EntityComponentSystem.Entities
         {
             _scheduledAdd[entity.Id] = entity;
             entity.Owner = Owner;
+            entity.Initialize();
         }
 
         public void Clear()
