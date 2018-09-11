@@ -17,6 +17,7 @@ using WooferGame.Systems.Player;
 using WooferGame.Systems.Player.Animation;
 using WooferGame.Systems.Player.Feedback;
 using WooferGame.Systems.Pulse;
+using WooferGame.Systems.Refill;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Animation;
 using WooferGame.Systems.Visual.Particles;
@@ -39,6 +40,8 @@ namespace WooferGame.Scenes
 
             Entities.Add(new DeathBarrier(-1000));
 
+            Entities.Add(new EnergyRefillOrb(new Vector2D(360, 296)));
+
             Entities.Add(new PlayerEntity(96, 200));
 
 
@@ -58,6 +61,7 @@ namespace WooferGame.Scenes
             //Other
             Systems.Add(new PlayerFeedbackSystem());
             Systems.Add(new FollowingSystem());
+            Systems.Add(new EnergyRefillSystem());
 
             //Systems.Add(new DebugSystem());
 

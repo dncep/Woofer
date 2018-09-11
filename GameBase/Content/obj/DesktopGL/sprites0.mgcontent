@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Usuario/source/repos/Game/GameBase/Content/sprites0.png</SourceFile>
-  <SourceTime>2018-09-04T22:40:57.8611979-04:00</SourceTime>
-  <DestFile>C:/Users/Usuario/source/repos/Game/GameBase/Content/bin/DesktopGL/sprites0.xnb</DestFile>
-  <DestTime>2018-09-07T22:49:40.8973229-04:00</DestTime>
+  <SourceFile>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/sprites0.png</SourceFile>
+  <SourceTime>2018-09-04T23:09:33.8999625-04:00</SourceTime>
+  <DestFile>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/bin/DesktopGL/sprites0.xnb</DestFile>
+  <DestTime>2018-09-11T11:09:54.6513332-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T11:05:36-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

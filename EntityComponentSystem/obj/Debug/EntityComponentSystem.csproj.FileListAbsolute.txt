@@ -10,3 +10,9 @@ C:\Users\User\source\repos\Woofer\EntityComponentSystem\obj\Debug\EntityComponen
 C:\Users\User\source\repos\Woofer\EntityComponentSystem\obj\Debug\EntityComponentSystem.dll
 C:\Users\User\source\repos\Woofer\EntityComponentSystem\obj\Debug\EntityComponentSystem.pdb
 C:\Users\User\source\repos\Woofer\EntityComponentSystem\obj\Debug\EntityComponentSystem.csprojResolveAssemblyReference.cache
+C:\Users\Usuario\Documents\GitHub\Woofer\EntityComponentSystem\bin\Debug\EntityComponentSystem.dll
+C:\Users\Usuario\Documents\GitHub\Woofer\EntityComponentSystem\bin\Debug\EntityComponentSystem.pdb
+C:\Users\Usuario\Documents\GitHub\Woofer\EntityComponentSystem\obj\Debug\EntityComponentSystem.csprojAssemblyReference.cache
+C:\Users\Usuario\Documents\GitHub\Woofer\EntityComponentSystem\obj\Debug\EntityComponentSystem.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\Documents\GitHub\Woofer\EntityComponentSystem\obj\Debug\EntityComponentSystem.dll
+C:\Users\Usuario\Documents\GitHub\Woofer\EntityComponentSystem\obj\Debug\EntityComponentSystem.pdb
