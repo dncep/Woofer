@@ -100,6 +100,8 @@
     <Compile Include="Systems\Player\Animation\PlayerAnimation.cs" />
     <Compile Include="Systems\Player\Animation\PlayerAnimationSystem.cs" />
     <Compile Include="Systems\Player\Feedback\PlayerFeedbackSystem.cs" />
+    <Compile Include="Systems\Pulse\PulseEmitter.cs" />
+    <Compile Include="Systems\Pulse\PulseEmitterComponent.cs" />
     <Compile Include="Systems\Pulse\PulseSystem.cs" />
     <Compile Include="Systems\Player\PlayerEntity.cs" />
     <Compile Include="Systems\Player\PlayerOrientation.cs" />
@@ -110,6 +112,11 @@
     <Compile Include="Systems\Refill\EnergyRefillComponent.cs" />
     <Compile Include="Systems\Refill\EnergyRefillOrb.cs" />
     <Compile Include="Systems\Refill\EnergyRefillSystem.cs" />
+    <Compile Include="Systems\Sailboat\Sailboat.cs" />
+    <Compile Include="Systems\Sailboat\SailboatComponent.cs" />
+    <Compile Include="Systems\Sailboat\SailboatSystem.cs" />
+    <Compile Include="Systems\Timer\TimerComponent.cs" />
+    <Compile Include="Systems\Timer\TimerSystem.cs" />
     <Compile Include="Systems\Visual\Animation\AnimationComponent.cs" />
     <Compile Include="Systems\Visual\Animation\AnimatedSprite.cs" />
     <Compile Include="Systems\Visual\Animation\AnimationEndEvent.cs" />

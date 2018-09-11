@@ -30,14 +30,12 @@ namespace WooferGame.Systems.Checkpoints
                     }
                 }
             } else if(re is SoftCollisionEvent ce &&
-                ce.Victim.Components.Get<CheckpointComponent>() is CheckpointComponent checkpoint &&
+                ce.Victim.Components.Has<CheckpointComponent>() &&
                 ce.Sender.Owner.Components.Has<CheckpointTrigger>())
             {
-                if(!checkpoint.Selected)
+                foreach(CheckpointComponent checkpoint in WatchedComponents)
                 {
-                    WatchedComponents.ForEach(c => (c as CheckpointComponent).Selected = false);
-                    checkpoint.Selected = true;
-                    System.Console.WriteLine("Changed checkpoint");
+                    checkpoint.Selected = checkpoint.Owner == ce.Victim;
                 }
             }
         }

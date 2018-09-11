@@ -26,8 +26,6 @@ namespace WooferGame.Scenes.LevelObjects
 
             double descent = 20;
 
-            Console.WriteLine($"from: {from}, to: {to}");
-
             this.Components.Add(new Renderable(
                 new Sprite("lab_objects", 
                 new Rectangle(minX - from.X + spriteOffset.X, minY - from.Y + spriteOffset.Y - descent, width, height + descent), 

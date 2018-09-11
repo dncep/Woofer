@@ -137,7 +137,7 @@ namespace WooferGame.Systems.Physics
                                     Owner.Events.InvokeEvent(new SoftCollisionEvent(objA, objB.Owner));
                                     Owner.Events.InvokeEvent(new SoftCollisionEvent(objB, objA.Owner));
 
-                                    Vector2D center0 = objA.Bounds.Offset(physA.Position).Center;
+                                    /*Vector2D center0 = objA.Bounds.Offset(physA.Position).Center;
                                     Vector2D center1 = otherBounds.Center;
 
                                     double distance = (center0 - center1).Magnitude;
@@ -150,6 +150,7 @@ namespace WooferGame.Systems.Physics
 
                                     if(objA.Movable && objA.Mass != 0) physA.Velocity -= forceVec / (objA.Mass);
                                     if ((objB as SoftBody).Movable && (objB as SoftBody).Mass != 0) physB.Velocity -= -forceVec / (objB as SoftBody).Mass;
+                                    */
                                 }
                             }
                         }

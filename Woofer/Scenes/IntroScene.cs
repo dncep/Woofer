@@ -18,6 +18,8 @@ using WooferGame.Systems.Player.Animation;
 using WooferGame.Systems.Player.Feedback;
 using WooferGame.Systems.Pulse;
 using WooferGame.Systems.Refill;
+using WooferGame.Systems.Sailboat;
+using WooferGame.Systems.Timer;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Animation;
 using WooferGame.Systems.Visual.Particles;
@@ -42,6 +44,10 @@ namespace WooferGame.Scenes
 
             Entities.Add(new EnergyRefillOrb(new Vector2D(360, 296)));
 
+            Entities.Add(new Sailboat(new Vector2D(600, 180)));
+
+            Entities.Add(new PulseEmitter(new Vector2D(360, 168), Vector2D.UnitJ, 128, 48));
+
             Entities.Add(new PlayerEntity(96, 200));
 
 
@@ -57,11 +63,13 @@ namespace WooferGame.Scenes
             Systems.Add(new CheckpointSystem());
             Systems.Add(new DeathBarrierSystem());
             Systems.Add(new GlassBreakingSystem());
+            Systems.Add(new TimerSystem());
 
             //Other
             Systems.Add(new PlayerFeedbackSystem());
             Systems.Add(new FollowingSystem());
             Systems.Add(new EnergyRefillSystem());
+            Systems.Add(new SailboatSystem());
 
             //Systems.Add(new DebugSystem());
 

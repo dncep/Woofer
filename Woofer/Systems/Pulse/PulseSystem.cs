@@ -16,13 +16,15 @@ using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player;
 using WooferGame.Systems.Player.Actions;
+using WooferGame.Systems.Player.Animation;
+using WooferGame.Systems.Visual.Particles;
 
 namespace WooferGame.Systems.Pulse
 {
     [ComponentSystem("pulse_system", 
         ProcessingCycles.Input | ProcessingCycles.Tick),
         Watching(typeof(PulseAbility), typeof(PulsePushable), typeof(PulseReceiver)),
-        Listening(typeof(PulseEvent))]
+        Listening(typeof(PulseEvent), typeof(ActivationEvent))]
     class PulseSystem : ComponentSystem
     {
         public override void Input()
@@ -73,7 +75,8 @@ namespace WooferGame.Systems.Pulse
 
         public override void EventFired(object sender, Event evt)
         {
-            if(evt is PulseEvent pe)
+            PulseEmitterComponent pem;
+            if (evt is PulseEvent pe)
             {
                 foreach(PulsePushable pp in WatchedComponents.Where(c => c is PulsePushable))
                 {
@@ -136,6 +139,20 @@ namespace WooferGame.Systems.Pulse
                         }
                     }
                 }
+
+                if (!pe.Sender.Owner.Components.Has<PlayerAnimation>())
+                {
+                    for (int i = 0; i < 5 * Math.Pow(pe.Strength / 256, 2); i++)
+                    {
+                        SoundParticle particle = new SoundParticle(pe.Source + pe.Direction * 12, i * 8);
+                        Owner.Entities.Add(particle);
+                    }
+                }
+            } else if(evt is ActivationEvent e && (pem = e.Affected.Components.Get<PulseEmitterComponent>()) != null)
+            {
+                Vector2D source = pem.Offset;
+                if (pem.Owner.Components.Get<Spatial>() is Spatial sp) source += sp.Position;
+                Owner.Events.InvokeEvent(new PulseEvent(pem, source, pem.Direction, pem.Strength, pem.Reach));
             }
         }
     }
