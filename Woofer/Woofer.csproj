@@ -53,7 +53,12 @@
     <Compile Include="Controller\LevelRenderingLayer.cs" />
     <Compile Include="Controller\WooferController.cs" />
     <Compile Include="Controller\WooferRenderingUnit.cs" />
+    <Compile Include="Scenes\CommonSprites\Vent.cs" />
     <Compile Include="Scenes\IntroScene.cs" />
+    <Compile Include="Scenes\LabRoomBuilder.cs" />
+    <Compile Include="Scenes\LabRoomTileset.cs" />
+    <Compile Include="Scenes\LevelObjects\Ramp.cs" />
+    <Compile Include="Scenes\LevelObjects\Shelf.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
     <Compile Include="Systems\Camera\CameraLocationQueryEvent.cs" />
     <Compile Include="Systems\Camera\CameraLocationResponseEvent.cs" />

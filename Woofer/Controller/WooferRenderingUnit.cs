@@ -27,6 +27,8 @@ namespace WooferGame.Controller
             SpriteManager.LoadSprite("intro_bg");
             SpriteManager.LoadSprite("char");
             SpriteManager.LoadSprite("particles");
+            SpriteManager.LoadSprite("lab_tileset");
+            SpriteManager.LoadSprite("lab_objects");
 
             ClipSprite("brick", "sprites0", new Rectangle(16, 0, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
             ClipSprite("grass", "sprites0", new Rectangle(0, 0, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);

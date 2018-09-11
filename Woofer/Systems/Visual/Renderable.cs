@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Linq;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
@@ -12,21 +13,26 @@ namespace WooferGame.Systems.Visual
     [Component("renderable")]
     class Renderable : Component
     {
-        public Sprite[] Sprites { get; set; }
+        public List<Sprite> Sprites { get; set; }
 
         public Renderable()
         {
-            Sprites = new Sprite[0];
+            Sprites = new List<Sprite>();
         }
 
         public Renderable(string texture, Rectangle bounds)
         {
-            Sprites = new Sprite[] { new Sprite(texture, bounds) };
+            Sprites = new List<Sprite>() { new Sprite(texture, bounds) };
         }
 
         public Renderable(params Sprite[] sprites)
         {
-            Sprites = sprites;
+            Sprites = sprites.ToList();
+        }
+
+        public void AddSprite(Sprite sprite)
+        {
+            Sprites.Add(sprite);
         }
 
         public void Render<TSurface, TSource>(DirectGraphicsContext<TSurface, TSource> layer, CameraView view, ScreenRenderer<TSurface, TSource> r)

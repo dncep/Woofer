@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
@@ -52,7 +53,7 @@ namespace WooferGame.Systems.Player.Animation
 
                 if(!player.Initialized)
                 {
-                    renderable.Sprites = new Sprite[]
+                    renderable.Sprites = new List<Sprite>()
                     {
                         new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Legs], 32, 32)),
                         new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Torso], 32, 32)),

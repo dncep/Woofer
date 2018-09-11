@@ -12,6 +12,7 @@ namespace WooferGame.Systems.Visual
     class LevelSection : Entity
     {
         private List<CollisionBox> collision = new List<CollisionBox>();
+        private List<Entity> queuedEntities = new List<Entity>();
 
         public LevelSection(string texture, Rectangle bounds)
         {
@@ -23,6 +24,11 @@ namespace WooferGame.Systems.Visual
         protected void AddCollision(CollisionBox box)
         {
             collision.Add(box);
+        }
+
+        protected void QueueEntity(Entity entity)
+        {
+            queuedEntities.Add(entity);
         }
 
         protected void AddSlope(Vector2D from, Vector2D to, double friction)
@@ -66,6 +72,19 @@ namespace WooferGame.Systems.Visual
         {
             Components.Add(new Physical() { GravityMultiplier = 0 });
             Components.Add(new RigidBody(collision.ToArray()));
+        }
+
+        public override void Initialize()
+        {
+            foreach(Entity entity in queuedEntities)
+            {
+                if(entity.Components.Get<Spatial>() is Spatial sp)
+                {
+                    sp.Position += this.Components.Get<Spatial>().Position;
+                }
+                Owner.Entities.Add(entity);
+            }
+            queuedEntities.Clear();
         }
     }
 }

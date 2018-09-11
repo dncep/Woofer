@@ -50,6 +50,14 @@ namespace EntityComponentSystem.Entities
             entity.Initialize();
         }
 
+        public void AddRange(IEnumerable<Entity> entities)
+        {
+            foreach (Entity entity in entities)
+            {
+                Add(entity);
+            }
+        }
+
         public void Clear()
         {
             _dict.Clear();

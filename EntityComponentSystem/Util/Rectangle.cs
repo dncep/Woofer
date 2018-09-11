@@ -13,6 +13,9 @@ namespace EntityComponentSystem.Util
         public double Width;
         public double Height;
 
+        public Vector2D Position => new Vector2D(X, Y);
+        public Size Size => new Size(Width, Height);
+
         public Rectangle(double x, double y, double width, double height)
         {
             X = x;

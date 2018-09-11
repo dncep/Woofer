@@ -59,3 +59,7 @@ C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\c
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\char.xnb
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\particles.png
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\particles.xnb
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\lab_tileset.png
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\lab_tileset.xnb
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\lab_objects.png
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\lab_objects.xnb

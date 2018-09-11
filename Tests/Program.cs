@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using EntityComponentSystem.Util;
+using WooferGame.Scenes;
 using WooferGame.Systems.Physics;
 
 namespace Tests
@@ -85,6 +86,15 @@ namespace Tests
         {
             Assert(PhysicsSystem.IsAheadOfNormal(new CollisionBox(-8, -8, 16, 16), new FreeVector2D(new Vector2D(10, 0), new Vector2D(10, 5))), true);
             Assert(PhysicsSystem.IsAheadOfNormal(new CollisionBox(-8, -8, 16, 16), new FreeVector2D(new Vector2D(7, 0), new Vector2D(7, 5))), false);
+        }
+
+        [Test]
+        public static void TileNeighborTest()
+        {
+            RoomTileRaw tile = new RoomTileRaw();
+            tile.Enabled = true;
+            tile.Neighbors = 0b1011_1111;
+            Assert(Convert.ToString(tile.GetSignificantSecondaryNeighbors(), 2), Convert.ToString(0b0010, 2));
         }
 
         public static void Assert(object real, object expected)

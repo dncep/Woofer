@@ -65,3 +65,7 @@ C:\Users\Usuario\source\repos\Game\Woofer\bin\Debug\Content\notes.xnb
 C:\Users\Usuario\source\repos\Game\Woofer\bin\Debug\Content\sprites0.xnb
 C:\Users\Usuario\source\repos\Game\Woofer\bin\Debug\Content\particles.png
 C:\Users\Usuario\source\repos\Game\Woofer\bin\Debug\Content\particles.xnb
+C:\Users\Usuario\source\repos\Game\Woofer\bin\Debug\Content\lab_tileset.png
+C:\Users\Usuario\source\repos\Game\Woofer\bin\Debug\Content\lab_tileset.xnb
+C:\Users\Usuario\source\repos\Game\Woofer\bin\Debug\Content\lab_objects.png
+C:\Users\Usuario\source\repos\Game\Woofer\bin\Debug\Content\lab_objects.xnb

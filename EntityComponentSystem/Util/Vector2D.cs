@@ -55,6 +55,9 @@ namespace EntityComponentSystem.Util
         public override bool Equals(object obj) => obj is Vector2D && Equals((Vector2D)obj);
         public bool Equals(Vector2D other) => X == other.X && Y == other.Y;
 
+        public static bool operator ==(Vector2D a, Vector2D b) => a.Equals(b);
+        public static bool operator !=(Vector2D a, Vector2D b) => !a.Equals(b);
+
         public override int GetHashCode()
         {
             var hashCode = 1861411795;

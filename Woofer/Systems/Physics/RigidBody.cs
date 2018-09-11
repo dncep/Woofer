@@ -22,6 +22,6 @@ namespace WooferGame.Systems.Physics
                 }
             }
         }
-        public RigidBody(CollisionBox[] bounds) => Bounds = bounds;
+        public RigidBody(params CollisionBox[] bounds) => Bounds = bounds;
     }
 }
