@@ -109,3 +109,5 @@ C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\obj\Debug\Woofer.csproj.CoreComp
 C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\obj\Debug\Woofer.csproj.CopyComplete
 C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\obj\Debug\Woofer.exe
 C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\obj\Debug\Woofer.pdb
+C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\bin\Debug\Content\gui.png
+C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\bin\Debug\Content\gui.xnb

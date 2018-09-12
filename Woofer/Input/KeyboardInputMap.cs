@@ -36,6 +36,8 @@ namespace WooferGame.Input
 
         public ButtonState Pulse => keyboard[Key.LeftControl];
 
+        public ButtonState Interact => keyboard[Key.E];
+
         IKeyboard keyboard;
         IMouse mouse;
 

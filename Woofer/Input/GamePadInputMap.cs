@@ -17,6 +17,8 @@ namespace WooferGame.Input
 
         public ButtonState Pulse => gamePad.Triggers.Right.TriggerToButtonState();
 
+        public ButtonState Interact => gamePad.Buttons.B;
+
         private IGamePad gamePad;
 
         public GamePadDualInputMap(IGamePad gamePad) => this.gamePad = gamePad;
@@ -37,6 +39,8 @@ namespace WooferGame.Input
         public ButtonState Jump => gamePad.Buttons.A;
 
         public ButtonState Pulse => gamePad.Buttons.B;
+
+        public ButtonState Interact => gamePad.Buttons.B;
 
         private IGamePad gamePad;
 

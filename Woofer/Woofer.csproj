@@ -57,6 +57,7 @@
     <Compile Include="Scenes\IntroScene.cs" />
     <Compile Include="Scenes\LabRoomBuilder.cs" />
     <Compile Include="Scenes\LabRoomTileset.cs" />
+    <Compile Include="Scenes\LevelObjects\MovableBox.cs" />
     <Compile Include="Scenes\LevelObjects\Ramp.cs" />
     <Compile Include="Scenes\LevelObjects\Shelf.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
@@ -81,6 +82,11 @@
     <Compile Include="Systems\Environment\BreakableGlassEntity.cs" />
     <Compile Include="Systems\Environment\GlassBreakingSystem.cs" />
     <Compile Include="Systems\Interaction\ActivationEvent.cs" />
+    <Compile Include="Systems\Interaction\Interactable.cs" />
+    <Compile Include="Systems\Interaction\InteractingAgent.cs" />
+    <Compile Include="Systems\Interaction\InteractionRangeEnter.cs" />
+    <Compile Include="Systems\Interaction\InteractionRangeExit.cs" />
+    <Compile Include="Systems\Interaction\InteractionSystem.cs" />
     <Compile Include="Systems\Linking\FollowedComponent.cs" />
     <Compile Include="Systems\Linking\FollowingComponent.cs" />
     <Compile Include="Systems\Linking\FollowingSystem.cs" />
@@ -109,6 +115,8 @@
     <Compile Include="Systems\Pulse\PulseEvent.cs" />
     <Compile Include="Systems\Pulse\PulsePushable.cs" />
     <Compile Include="Systems\Pulse\PulseReceiver.cs" />
+    <Compile Include="Systems\Puzzles\AvoidCorners.cs" />
+    <Compile Include="Systems\Puzzles\CornerAvoidanceSystem.cs" />
     <Compile Include="Systems\Refill\EnergyRefillComponent.cs" />
     <Compile Include="Systems\Refill\EnergyRefillOrb.cs" />
     <Compile Include="Systems\Refill\EnergyRefillSystem.cs" />

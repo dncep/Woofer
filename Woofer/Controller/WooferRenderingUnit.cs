@@ -22,13 +22,14 @@ namespace WooferGame.Controller
         public void LoadContent<TSurface, TSource>(ScreenRenderer<TSurface, TSource> screenRenderer)
         {
             ISpriteManager<TSource> SpriteManager = screenRenderer.SpriteManager;
-            SpriteManager.LoadSprite("notes");
             SpriteManager.LoadSprite("sprites0");
             SpriteManager.LoadSprite("intro_bg");
             SpriteManager.LoadSprite("char");
             SpriteManager.LoadSprite("particles");
             SpriteManager.LoadSprite("lab_tileset");
             SpriteManager.LoadSprite("lab_objects");
+
+            SpriteManager.LoadSprite("gui");
 
             ClipSprite("brick", "sprites0", new Rectangle(16, 0, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
             ClipSprite("grass", "sprites0", new Rectangle(0, 0, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);

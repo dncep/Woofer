@@ -12,6 +12,7 @@ namespace WooferGame.Input
         Vector2D Orientation { get; }
         ButtonState Jump { get; }
         ButtonState Pulse { get; }
+        ButtonState Interact { get; }
 
         bool IsBeingUsed { get; }
 

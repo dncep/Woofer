@@ -5,6 +5,7 @@ using EntityComponentSystem.Util;
 using WooferGame.Systems.Camera;
 using WooferGame.Systems.Checkpoints;
 using WooferGame.Systems.DeathBarrier;
+using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Linking;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
@@ -46,6 +47,8 @@ namespace WooferGame.Systems.Player
             //Checkpoints
             Components.Add(new CheckpointTrigger());
             Components.Add(new CheckpointOnBarrierComponent());
+
+            Components.Add(new InteractingAgent(32));
         }
     }
 }

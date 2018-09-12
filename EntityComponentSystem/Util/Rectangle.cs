@@ -16,6 +16,11 @@ namespace EntityComponentSystem.Util
         public Vector2D Position => new Vector2D(X, Y);
         public Size Size => new Size(Width, Height);
 
+        public double Left => X;
+        public double Right => X + Width;
+        public double Bottom => Y;
+        public double Top => Y + Height;
+
         public Rectangle(double x, double y, double width, double height)
         {
             X = x;
@@ -44,6 +49,11 @@ namespace EntityComponentSystem.Util
         public static Rectangle operator -(Rectangle rect, Vector2D vect) => new Rectangle(rect.X - vect.X, rect.Y - vect.Y, rect.Width, rect.Height);
 
         public override string ToString() => $"Rectangle[X={X},Y={Y},Width={Width},Height={Height}]";
+        public bool IntersectsWith(Rectangle other) => 
+            this.Left < other.Right &&
+            this.Right > other.Left &&
+            this.Bottom < other.Top &&
+            this.Top > other.Bottom;
     }
 
     public static class RectangleConversion
