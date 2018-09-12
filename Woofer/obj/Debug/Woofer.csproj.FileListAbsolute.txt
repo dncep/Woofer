@@ -111,3 +111,5 @@ C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\obj\Debug\Woofer.exe
 C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\obj\Debug\Woofer.pdb
 C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\bin\Debug\Content\gui.png
 C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\bin\Debug\Content\gui.xnb
+C:\Users\Usuario\source\repos\Game\Woofer\bin\Debug\Content\gui.png
+C:\Users\Usuario\source\repos\Game\Woofer\bin\Debug\Content\gui.xnb

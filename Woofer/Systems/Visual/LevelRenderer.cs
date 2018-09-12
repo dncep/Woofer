@@ -1,4 +1,5 @@
-﻿using EntityComponentSystem.ComponentSystems;
+﻿using System.Linq;
+using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Scenes;
 
 using GameInterfaces.Controller;
@@ -19,6 +20,8 @@ namespace WooferGame.Systems.Visual
             var layer = r.GetLayerGraphics("level");
 
             CameraView view = Owner.CurrentViewport;
+
+            WatchedComponents = WatchedComponents.OrderBy(c => ((LevelRenderable) c).ZOrder).ToList();
 
             foreach (LevelRenderable tile in WatchedComponents)
             {

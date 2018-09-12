@@ -67,6 +67,7 @@ namespace WooferGame.Scenes
             Systems.Add(new DeathBarrierSystem());
             Systems.Add(new GlassBreakingSystem());
             Systems.Add(new TimerSystem());
+            Systems.Add(new DoorSystem());
 
             //Other
             Systems.Add(new PlayerFeedbackSystem());
@@ -150,10 +151,11 @@ namespace WooferGame.Scenes
             this.AddSegment(rb, new Rectangle(4, 7, 2, 5)); //Left Wall
             this.AddSegment(rb, new Rectangle(24, 7, 2, 5)); //Right Wall
             this.AddSegment(rb, new Rectangle(4, 11, 22, 6)); //Ceiling
-            this.AddSegment(rb, new Rectangle(24, 4, 1, 8));
+            //this.AddSegment(rb, new Rectangle(24, 4, 1, 8));
             rb.Set(13, 3, false);
             this.QueueEntity(new MovableBox(new Vector2D(13 * 16, 5 * 16)));
             this.QueueEntity(new PulseEmitter(new Vector2D(13.5 * 16, 3.5 * 16), Vector2D.UnitJ, 128, 48));
+            this.QueueEntity(new Door(new Vector2D(25 * 16, 7 * 16)));
 
             rb.ResolveNeighbors();
             renderable.Sprites.AddRange(rb.Build());

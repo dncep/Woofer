@@ -102,3 +102,5 @@ C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\obj\Debug\GameBase.dll
 C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\obj\Debug\GameBase.pdb
 C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\gui.png
 C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\gui.xnb
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\gui.png
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\gui.xnb

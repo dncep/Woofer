@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/lab_tileset.png</SourceFile>
-  <SourceTime>2018-09-11T11:09:35.2068275-04:00</SourceTime>
-  <DestFile>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/bin/DesktopGL/lab_tileset.xnb</DestFile>
-  <DestTime>2018-09-11T11:09:54.857345-04:00</DestTime>
+  <SourceFile>C:/Users/Usuario/source/repos/Game/GameBase/Content/lab_tileset.png</SourceFile>
+  <SourceTime>2018-09-10T22:41:43.6842801-04:00</SourceTime>
+  <DestFile>C:/Users/Usuario/source/repos/Game/GameBase/Content/bin/DesktopGL/lab_tileset.xnb</DestFile>
+  <DestTime>2018-09-12T11:49:51.0178457-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T11:05:36-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

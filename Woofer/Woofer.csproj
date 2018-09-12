@@ -117,6 +117,10 @@
     <Compile Include="Systems\Pulse\PulseReceiver.cs" />
     <Compile Include="Systems\Puzzles\AvoidCorners.cs" />
     <Compile Include="Systems\Puzzles\CornerAvoidanceSystem.cs" />
+    <Compile Include="Systems\Puzzles\Door.cs" />
+    <Compile Include="Systems\Puzzles\DoorComponent.cs" />
+    <Compile Include="Systems\Puzzles\DoorSystem.cs" />
+    <Compile Include="Systems\Puzzles\Switch.cs" />
     <Compile Include="Systems\Refill\EnergyRefillComponent.cs" />
     <Compile Include="Systems\Refill\EnergyRefillOrb.cs" />
     <Compile Include="Systems\Refill\EnergyRefillSystem.cs" />

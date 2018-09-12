@@ -4,12 +4,12 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/intro_bg.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/sprites0.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/char.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/particles.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/lab_tileset.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/lab_objects.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/gui.png</File>
+    <File>C:/Users/Usuario/source/repos/Game/GameBase/Content/intro_bg.png</File>
+    <File>C:/Users/Usuario/source/repos/Game/GameBase/Content/sprites0.png</File>
+    <File>C:/Users/Usuario/source/repos/Game/GameBase/Content/char.png</File>
+    <File>C:/Users/Usuario/source/repos/Game/GameBase/Content/particles.png</File>
+    <File>C:/Users/Usuario/source/repos/Game/GameBase/Content/lab_tileset.png</File>
+    <File>C:/Users/Usuario/source/repos/Game/GameBase/Content/lab_objects.png</File>
+    <File>C:/Users/Usuario/source/repos/Game/GameBase/Content/gui.png</File>
   </SourceFiles>
 </SourceFileCollection>
