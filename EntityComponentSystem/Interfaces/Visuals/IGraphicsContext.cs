@@ -10,6 +10,8 @@ namespace GameInterfaces.GraphicsInterface
         Size GetSize(TSource source);
         Size GetSize(TSurface surface);
 
+        Size GetScreenSize();
+
         void Draw(TSurface subject, TSurface target, Rectangle destination);
         void Draw(TSurface subject, TSurface target, Rectangle destination, Rectangle? source);
         void Draw(TSurface subject, TSurface target, Rectangle destination, DrawMode mode);

@@ -8,14 +8,16 @@ namespace GameBase.MonoGameGraphics
 {
     public class MonoGameGraphicsContext : IGraphicsContext<RenderTarget2D, Texture2D>
     {
-        public readonly GraphicsDevice device;
-        public readonly SpriteBatch spriteBatch;
+        private readonly GraphicsDeviceManager manager;
+        private readonly GraphicsDevice device;
+        private readonly SpriteBatch spriteBatch;
 
         private RenderTarget2D lastRenderTarget = null;
 
         //Constructors
-        public MonoGameGraphicsContext(GraphicsDevice device, SpriteBatch spriteBatch)
+        public MonoGameGraphicsContext(GraphicsDeviceManager manager, GraphicsDevice device, SpriteBatch spriteBatch)
         {
+            this.manager = manager;
             this.device = device;
             this.spriteBatch = spriteBatch;
         }
@@ -60,8 +62,9 @@ namespace GameBase.MonoGameGraphics
             spriteBatch.End();
         }
 
-        //Retrieve size of texture
+        //Retrieve size of texture or screen
         public System.Drawing.Size GetSize(Texture2D surface) => new System.Drawing.Size(surface.Width, surface.Height);
+        public System.Drawing.Size GetScreenSize() => new System.Drawing.Size(manager.PreferredBackBufferWidth, manager.PreferredBackBufferHeight);
 
         //Scale texture
         public RenderTarget2D Scale(RenderTarget2D surface, double scaleX, double scaleY, bool antialias)

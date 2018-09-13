@@ -1,9 +1,9 @@
 ﻿using System;
-
+using EntityComponentSystem.Commands;
 using EntityComponentSystem.Scenes;
 
 using GameInterfaces.Controller;
-
+using WooferGame.Controller.Commands;
 using WooferGame.Input;
 using WooferGame.Scenes;
 
@@ -41,5 +41,16 @@ namespace WooferGame.Controller
             ActiveScene.InvokeInput();
         }
 
+        public void CommandFired(Command command)
+        {
+            if(command is ChangeOrientationOriginCommand)
+            {
+                ChangeOrientationOriginCommand changeOrigin = command as ChangeOrientationOriginCommand;
+                if(InputManager.ActiveInputMap is IScreenAwareInput screenAware)
+                {
+                    screenAware.SetOrientationOrigin(changeOrigin.newOrigin);
+                }
+            }
+        }
     }
 }

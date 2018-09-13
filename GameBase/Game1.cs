@@ -33,6 +33,7 @@ namespace GameBase
 
             graphics.PreferredBackBufferWidth = gameController.RenderingUnit.ScreenSize.Width;
             graphics.PreferredBackBufferHeight = gameController.RenderingUnit.ScreenSize.Height;
+
         }
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace GameBase
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             this.screenRenderer = new MonoGameScreenRenderer(
-                new MonoGameGraphicsContext(GraphicsDevice, spriteBatch),
+                new MonoGameGraphicsContext(graphics, GraphicsDevice, spriteBatch),
                 new MonoGameSpriteManager(Content),
                 gameController.RenderingUnit);
 

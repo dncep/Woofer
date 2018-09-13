@@ -6,9 +6,11 @@ using GameInterfaces.Input.Keyboard;
 
 namespace WooferGame.Input
 {
-    class KeyboardInputMap : IInputMap
+    class KeyboardInputMap : IInputMap, IScreenAwareInput
     {
         public string Name => "Keyboard and Mouse";
+
+        public Vector2D Origin;
 
         public Vector2D Movement
         {
@@ -26,7 +28,7 @@ namespace WooferGame.Input
         public Vector2D Orientation {
             get
             {
-                Vector2D orientation = mouse.Position - new Vector2D(1280, 720) / 2;
+                Vector2D orientation = mouse.Position - Origin;
                 orientation.Y *= -1;
                 return orientation;
             }
@@ -50,5 +52,7 @@ namespace WooferGame.Input
         public bool IsBeingUsed => keyboard.IsBeingUsed || mouse.IsBeingUsed;
 
         public void SetVibration(float amount) { }
+
+        public void SetOrientationOrigin(Vector2D origin) => Origin = origin;
     }
 }
