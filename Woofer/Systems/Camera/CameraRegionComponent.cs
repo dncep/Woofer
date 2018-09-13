@@ -18,6 +18,8 @@ namespace WooferGame.Systems.Camera
         public Vector2D Focus;
 
         public double Easing = 0;
+        public double EasingStep = 0.01;
+        internal double MaxEasing = 1;
 
         public CameraRegionComponent(Rectangle area) : this(area, area.Center)
         {

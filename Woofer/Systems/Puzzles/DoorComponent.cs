@@ -16,6 +16,6 @@ namespace WooferGame.Systems.Puzzles
 
         public double OpeningDirection = 0;
 
-        public bool Toggle = true;
+        public bool Toggle = false;
     }
 }

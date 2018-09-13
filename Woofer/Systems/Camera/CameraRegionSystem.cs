@@ -25,23 +25,14 @@ namespace WooferGame.Systems.Camera
                     Spatial sp = region.Owner.Components.Get<Spatial>();
                     Rectangle area = region.Area;
                     if (sp != null) area += sp.Position;
-                    if(area.Contains(qe.SuggestedLocation))
+
+                    bool contained = false;
+
+                    if((contained = area.Contains(qe.SuggestedLocation)) || region.Easing > 0)
                     {
-                        region.Easing += 0.01;
-                        if (region.Easing > 1) region.Easing = 1;
-
-                        Vector2D oldPos = qe.SuggestedLocation;
-                        Vector2D newPos = region.Focus;
-
-                        if (sp != null) newPos += sp.Position;
-
-                        Vector2D mixedPos = region.Easing * newPos + (1 - region.Easing) * oldPos;
-
-                        qe.SuggestedLocation = mixedPos;
-                    } else if(region.Easing > 0)
-                    {
-                        region.Easing -= 0.01;
+                        region.Easing += (contained ? 1 : -1) * region.EasingStep;
                         if (region.Easing < 0) region.Easing = 0;
+                        if (region.Easing > region.MaxEasing) region.Easing = region.MaxEasing;
 
                         Vector2D oldPos = qe.SuggestedLocation;
                         Vector2D newPos = region.Focus;

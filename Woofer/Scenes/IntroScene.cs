@@ -49,7 +49,7 @@ namespace WooferGame.Scenes
 
             //Entities.Add(new Sailboat(new Vector2D(600, 180)));
 
-            Entities.Add(new PulseEmitter(new Vector2D(440, 168), Vector2D.UnitJ, 128, 48));
+            Entities.Add(new PulseEmitter(new Vector2D(440, 168 + 32), Vector2D.UnitJ, 128, 48));
 
             Entities.Add(new PlayerEntity(96, 200));
 
@@ -140,6 +140,10 @@ namespace WooferGame.Scenes
 
             this.QueueEntity(new Ramp(new Vector2D(374, 32), new Vector2D(314, 64), 0.5, new Vector2D(6, 0)));
             this.QueueEntity(new Ramp(new Vector2D(386 + 192+4, 32), new Vector2D(446 + 192+4, 64), 0.5, new Vector2D(-6, 0)));
+
+            Rectangle cameraArea = new Rectangle(3 * 16, 11 * 16, 17 * 16, 10 * 16);
+
+            this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(0, -32)));
         }
     }
 
@@ -159,7 +163,7 @@ namespace WooferGame.Scenes
             this.QueueEntity(new MovableBox(new Vector2D(13 * 16, 5 * 16)));
             this.QueueEntity(new PulseEmitter(new Vector2D(13.5 * 16, 3.5 * 16), Vector2D.UnitJ, 128, 48));
 
-            Door door = new Door(new Vector2D(21 * 16, 7 * 16));
+            Door door = new Door(new Vector2D(21 * 16, 7 * 16), true);
             this.QueueEntity(door);
 
             Switch @switch = new Switch(new Vector2D(13.5 * 16, 11 * 16), new Rectangle(-16, -4, 32, 4));
