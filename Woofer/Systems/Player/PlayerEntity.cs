@@ -48,7 +48,7 @@ namespace WooferGame.Systems.Player
             Components.Add(new CheckpointTrigger());
             Components.Add(new CheckpointOnBarrierComponent());
 
-            Components.Add(new InteractingAgent(32));
+            Components.Add(new InteractingAgent(48));
         }
     }
 }

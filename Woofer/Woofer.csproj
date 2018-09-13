@@ -62,7 +62,9 @@
     <Compile Include="Scenes\LevelObjects\Shelf.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
     <Compile Include="Systems\Camera\CameraLocationQueryEvent.cs" />
-    <Compile Include="Systems\Camera\CameraLocationResponseEvent.cs" />
+    <Compile Include="Systems\Camera\CameraRegion.cs" />
+    <Compile Include="Systems\Camera\CameraRegionComponent.cs" />
+    <Compile Include="Systems\Camera\CameraRegionSystem.cs" />
     <Compile Include="Systems\Camera\CameraSystem.cs" />
     <Compile Include="Systems\Camera\CameraTracked.cs" />
     <Compile Include="Systems\Camera\Shake\CameraShakeEvent.cs" />
@@ -82,11 +84,13 @@
     <Compile Include="Systems\Environment\BreakableGlassEntity.cs" />
     <Compile Include="Systems\Environment\GlassBreakingSystem.cs" />
     <Compile Include="Systems\Interaction\ActivationEvent.cs" />
+    <Compile Include="Systems\Interaction\ActivationSystem.cs" />
     <Compile Include="Systems\Interaction\Interactable.cs" />
     <Compile Include="Systems\Interaction\InteractingAgent.cs" />
     <Compile Include="Systems\Interaction\InteractionRangeEnter.cs" />
     <Compile Include="Systems\Interaction\InteractionRangeExit.cs" />
     <Compile Include="Systems\Interaction\InteractionSystem.cs" />
+    <Compile Include="Systems\Interaction\LinkedActivationComponent.cs" />
     <Compile Include="Systems\Linking\FollowedComponent.cs" />
     <Compile Include="Systems\Linking\FollowingComponent.cs" />
     <Compile Include="Systems\Linking\FollowingSystem.cs" />
@@ -121,6 +125,8 @@
     <Compile Include="Systems\Puzzles\DoorComponent.cs" />
     <Compile Include="Systems\Puzzles\DoorSystem.cs" />
     <Compile Include="Systems\Puzzles\Switch.cs" />
+    <Compile Include="Systems\Puzzles\SwitchComponent.cs" />
+    <Compile Include="Systems\Puzzles\SwitchSystem.cs" />
     <Compile Include="Systems\Refill\EnergyRefillComponent.cs" />
     <Compile Include="Systems\Refill\EnergyRefillOrb.cs" />
     <Compile Include="Systems\Refill\EnergyRefillSystem.cs" />

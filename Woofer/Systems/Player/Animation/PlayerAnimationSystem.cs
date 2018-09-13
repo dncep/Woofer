@@ -74,7 +74,7 @@ namespace WooferGame.Systems.Player.Animation
                     for (int i = Legs; i <= Arms; i++) srcOffsets[i] += OrientationOffset;
                 }
 
-                if(orientation.Unit.Y >= Math.Sin(Math.PI/6))
+                if(orientation.Unit.Y >= Math.Sin(Math.PI/9))
                 {
 
                     srcOffsets[Head].X += 32;
@@ -85,7 +85,7 @@ namespace WooferGame.Systems.Player.Animation
                         srcOffsets[Woofer].X += 32;
                         srcOffsets[Arms].X += 32;
                     }
-                } else if(orientation.Unit.Y <= Math.Sin(-Math.PI/6))
+                } else if(orientation.Unit.Y <= Math.Sin(-Math.PI/9))
                 {
                     srcOffsets[Head].X += 64;
                     srcOffsets[Woofer].X += 96;

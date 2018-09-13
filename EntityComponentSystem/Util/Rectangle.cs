@@ -21,6 +21,8 @@ namespace EntityComponentSystem.Util
         public double Bottom => Y;
         public double Top => Y + Height;
 
+        public Vector2D Center => new Vector2D(X + Width / 2, Y + Height / 2);
+
         public Rectangle(double x, double y, double width, double height)
         {
             X = x;
@@ -54,6 +56,11 @@ namespace EntityComponentSystem.Util
             this.Right > other.Left &&
             this.Bottom < other.Top &&
             this.Top > other.Bottom;
+
+        public bool Contains(Vector2D point)
+        {
+            return Left <= point.X && point.X <= Right && Bottom <= point.Y && point.Y <= Top;
+        }
     }
 
     public static class RectangleConversion

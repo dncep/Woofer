@@ -9,11 +9,9 @@ namespace WooferGame.Systems.Camera
 {
     [ComponentSystem("camera_system", ProcessingCycles.Input | ProcessingCycles.Tick),
         Watching(typeof(CameraTracked)),
-        Listening(typeof(CameraLocationQueryEvent), typeof(CameraLocationResponseEvent))]
+        Listening(typeof(CameraLocationQueryEvent))]
     class CameraSystem : ComponentSystem
     {
-        private Vector2D location;
-
         public override void Input()
         {
             Owner.CurrentViewport.Location += Woofer.Controller.InputManager.ActiveInputMap.Movement;
@@ -21,27 +19,18 @@ namespace WooferGame.Systems.Camera
 
         public override void Tick()
         {
-            location = Owner.CurrentViewport.Location;
-            
-            Owner.Events.InvokeEvent(new CameraLocationQueryEvent(null));
+            CameraLocationQueryEvent query = new CameraLocationQueryEvent(null, Owner.CurrentViewport.Location);
+            Owner.Events.InvokeEvent(query);
 
-            Owner.CurrentViewport.Location = location;
+            Owner.CurrentViewport.Location = query.SuggestedLocation;
         }
 
         public override void EventFired(object sender, Event e)
         {
             if (e is CameraLocationQueryEvent qe && WatchedComponents.Count > 0)
             {
-                Owner.Events.InvokeEvent(new CameraLocationResponseEvent(null,
-                    WatchedComponents.First().Owner.Components.Get<Spatial>().Position + 
-                    (WatchedComponents.First() as CameraTracked).Offset,
-                    true
-                    ));
-            }
-            else if (e is CameraLocationResponseEvent re)
-            {
-                if (re.Overwrite) location = re.Location;
-                else location += re.Location;
+                qe.SuggestedLocation = WatchedComponents.First().Owner.Components.Get<Spatial>().Position +
+                    (WatchedComponents.First() as CameraTracked).Offset;
             }
         }
     }

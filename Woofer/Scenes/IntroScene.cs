@@ -59,7 +59,9 @@ namespace WooferGame.Scenes
             Systems.Add(new InteractionSystem());
 
             //Tick
+            Systems.Add(new SwitchSystem());
             Systems.Add(new PhysicsSystem());
+            Systems.Add(new ActivationSystem());
             Systems.Add(new PulseSystem());
             Systems.Add(new CameraSystem());
             Systems.Add(new CameraShakeSystem());
@@ -75,6 +77,7 @@ namespace WooferGame.Scenes
             Systems.Add(new EnergyRefillSystem());
             Systems.Add(new SailboatSystem());
             Systems.Add(new CornerAvoidanceSystem());
+            Systems.Add(new CameraRegionSystem());
 
             //Systems.Add(new DebugSystem());
             
@@ -149,13 +152,23 @@ namespace WooferGame.Scenes
             LabRoomBuilder rb = new LabRoomBuilder(64, 25, "lab_tileset");
             this.AddSegment(rb, new Rectangle(0, 0, 64, 4)); //Floor
             this.AddSegment(rb, new Rectangle(4, 7, 2, 5)); //Left Wall
-            this.AddSegment(rb, new Rectangle(24, 7, 2, 5)); //Right Wall
-            this.AddSegment(rb, new Rectangle(4, 11, 22, 6)); //Ceiling
+            this.AddSegment(rb, new Rectangle(20, 7, 2, 5)); //Right Wall
+            this.AddSegment(rb, new Rectangle(4, 11, 18, 6)); //Ceiling
             //this.AddSegment(rb, new Rectangle(24, 4, 1, 8));
             rb.Set(13, 3, false);
             this.QueueEntity(new MovableBox(new Vector2D(13 * 16, 5 * 16)));
             this.QueueEntity(new PulseEmitter(new Vector2D(13.5 * 16, 3.5 * 16), Vector2D.UnitJ, 128, 48));
-            this.QueueEntity(new Door(new Vector2D(25 * 16, 7 * 16)));
+
+            Door door = new Door(new Vector2D(21 * 16, 7 * 16));
+            this.QueueEntity(door);
+
+            Switch @switch = new Switch(new Vector2D(13.5 * 16, 11 * 16), new Rectangle(-16, -4, 32, 4));
+            @switch.Components.Add(new LinkedActivationComponent(door.Id));
+            this.QueueEntity(@switch);
+
+            Rectangle cameraArea = new Rectangle(4 * 16, 4 * 16, 18 * 16, 8 * 16);
+
+            this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(0, -16)));
 
             rb.ResolveNeighbors();
             renderable.Sprites.AddRange(rb.Build());

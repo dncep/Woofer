@@ -37,7 +37,7 @@ namespace WooferGame.Systems.Camera.Shake
                 OffsetVelocity += se.Motion;
             } else if(e is CameraLocationQueryEvent qe)
             {
-                Owner.Events.InvokeEvent(new CameraLocationResponseEvent(null, Offset));
+                qe.SuggestedLocation += Offset;
             }
         }
     }

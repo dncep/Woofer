@@ -49,6 +49,11 @@ namespace WooferGame.Systems.Physics
         }
         public Vector2D Center => new Vector2D(X + (Width / 2), Y + (Height / 2));
 
+        public CollisionBox(Rectangle rectangle) : this(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height)
+        {
+
+        }
+
         public CollisionBox(double x, double y, double width, double height)
         {
             X = x;
