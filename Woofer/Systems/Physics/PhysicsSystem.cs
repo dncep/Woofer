@@ -44,6 +44,7 @@ namespace WooferGame.Systems.Physics
                 WatchedComponents = WatchedComponents.OrderBy(a => GetCrossTickLeft(a)).ToList();
 
                 List<Component> sweeper = new List<Component>();
+                List<SingleCollision> collisions = new List<SingleCollision>();
 
                 //Handle collision
                 foreach (Component c0 in WatchedComponents)
@@ -56,106 +57,121 @@ namespace WooferGame.Systems.Physics
                     {
                         sweeper.RemoveAt(0);
                     }
-                    
-                    foreach (Component c1 in sweeper)
+
+                    foreach(Component c1 in sweeper)
                     {
                         if (c0 is RigidBody && c1 is RigidBody) continue;
 
-                        SoftBody objA = c0 is SoftBody ? (SoftBody) c0 : (SoftBody) c1;
+                        SoftBody objA = c0 is SoftBody ? (SoftBody)c0 : (SoftBody)c1;
                         Component objB = objA == c0 ? c1 : c0;
 
                         Physical physA = objA.Owner.Components.Get<Physical>();
                         Physical physB = objB.Owner.Components.Get<Physical>();
 
-                        IEnumerable<CollisionBox> solidBoxes = 
-                            objB is SoftBody ? 
-                                new CollisionBox[] { (objB as SoftBody).Bounds.Offset(physB.Position) } : 
+                        IEnumerable<CollisionBox> solidBoxes =
+                            objB is SoftBody ?
+                                new CollisionBox[] { (objB as SoftBody).Bounds.Offset(physB.Position) } :
                                 (objB as RigidBody).Bounds.Select(b => b.Offset(physB.Position));
 
                         foreach(CollisionBox otherBounds in solidBoxes)
                         {
                             CollisionBox intersection = objA.Bounds.Offset(physA.Position).Intersect(otherBounds);
-
-                            if (intersection != null)
+                            if(intersection != null)
                             {
-                                if (objB is RigidBody) //Hard collision
-                                {
-                                    Vector2D totalVelocity = physA.PreviousVelocity - physB.Velocity;
-
-                                    List<FreeVector2D> sides = intersection.GetSides().Where(s => BelongsToBox(s, otherBounds)).Where(s => GeneralUtil.SubtractAngles(s.Normal.Angle, totalVelocity.Angle) > Math.PI / 2).ToList();
-
-                                    if (sides.Count == 0) //It's "stuck" inside a tile or that tile doesn't have one of the sides enabled
-                                    {
-                                        continue;
-                                    }
-
-                                    FreeVector2D normalSide = sides[0];
-                                    Vector2D normal = sides[0].Normal;
-
-                                    if (sides.Count > 1)
-                                    {
-                                        if (IsAheadOfNormal(objA.Bounds.Offset(physA.PreviousPosition), sides[0]))
-                                        {
-                                            if (IsAheadOfNormal(objA.Bounds.Offset(physA.PreviousPosition), sides[1]))
-                                            {
-                                                normalSide = sides[0].Normal.X == 0 ? sides[0] : sides[1];
-                                            }
-                                            else normalSide = sides[0];
-                                        }
-                                        else normalSide = sides[1];
-
-                                        normal = normalSide.Normal;
-                                    }
-                                    CollisionFaceProperties faceProperties = intersection.GetFaceProperties(normal);
-
-                                    if (normal.X == 0)
-                                    {
-                                        double displacement = Math.Abs(normalSide.A.Y - (normal.Y > 0 ? objA.Bounds.Offset(physA.Position).Bottom : objA.Bounds.Offset(physA.Position).Top));
-                                        if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.Y - physA.PreviousPosition.Y), 8))
-                                        {
-                                            physA.Position += new Vector2D(0, displacement) * normal.Y;
-                                            physA.Velocity = new Vector2D(physA.Velocity.X * (1 - faceProperties.Friction), 0) + physB.Velocity * faceProperties.Friction;
-                                        }
-                                        else continue;
-                                    }
-                                    else
-                                    {
-                                        double displacement = Math.Abs(normalSide.A.X - (normal.X > 0 ? objA.Bounds.Offset(physA.Position).Left : objA.Bounds.Offset(physA.Position).Right));
-                                        if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.X - physA.PreviousPosition.X), 8))
-                                        {
-                                            physA.Position += new Vector2D(displacement, 0) * normal.X;
-                                            physA.Velocity = new Vector2D(0, physA.Velocity.Y * (1 - faceProperties.Friction)) + physB.Velocity * faceProperties.Friction;
-                                        }
-                                        else continue;
-                                    }
-
-                                    Owner.Events.InvokeEvent(new RigidCollisionEvent(objA, objB.Owner, normal));
-                                    Owner.Events.InvokeEvent(new RigidCollisionEvent(objB, objA.Owner, normal));
-                                }
-                                else //Soft Collision
-                                {
-                                    Owner.Events.InvokeEvent(new SoftCollisionEvent(objA, objB.Owner));
-                                    Owner.Events.InvokeEvent(new SoftCollisionEvent(objB, objA.Owner));
-
-                                    Vector2D center0 = objA.Bounds.Offset(physA.Position).Center;
-                                    Vector2D center1 = otherBounds.Center;
-
-                                    double distance = (center0 - center1).Magnitude;
-                                    if (distance <= 1e-4) continue;
-
-                                    double force = 2 * Owner.FixedDeltaTime * intersection.Area * (objA.Mass * (objB as SoftBody).Mass);
-
-                                    Vector2D forceVec = (center1 - center0).Unit() * force;
-                                    forceVec.Y = 0;
-
-                                    if(objA.Movable && objA.Mass != 0) physA.Velocity -= forceVec / (objA.Mass);
-                                    if ((objB as SoftBody).Movable && (objB as SoftBody).Mass != 0) physB.Velocity -= -forceVec / (objB as SoftBody).Mass;
-                                }
+                                collisions.Add(new SingleCollision(objA, objB, otherBounds, intersection));
                             }
                         }
-
-
                     }
+
+                    foreach(SingleCollision collision in collisions.OrderByDescending(c => c.intersection.Area))
+                    {
+                        SoftBody objA = collision.objA;
+                        Component objB = collision.objB;
+
+                        Physical physA = objA.Owner.Components.Get<Physical>();
+                        Physical physB = objB.Owner.Components.Get<Physical>();
+
+                        CollisionBox otherBounds = collision.box;
+                        CollisionBox intersection = objA.Bounds.Offset(physA.Position).Intersect(otherBounds);
+
+                        if (intersection == null) continue;
+
+                        if (objB is RigidBody) //Hard collision
+                        {
+                            Vector2D totalVelocity = physA.PreviousVelocity - physB.Velocity;
+
+                            List<FreeVector2D> sides = intersection.GetSides().Where(s => BelongsToBox(s, otherBounds)).Where(s => GeneralUtil.SubtractAngles(s.Normal.Angle, totalVelocity.Angle) > Math.PI / 2).ToList();
+
+                            if (sides.Count == 0) //It's "stuck" inside a tile or that tile doesn't have one of the sides enabled
+                            {
+                                continue;
+                            }
+
+                            FreeVector2D normalSide = sides[0];
+                            Vector2D normal = sides[0].Normal;
+
+                            if (sides.Count > 1)
+                            {
+                                if (IsAheadOfNormal(objA.Bounds.Offset(physA.PreviousPosition), sides[0]))
+                                {
+                                    if (IsAheadOfNormal(objA.Bounds.Offset(physA.PreviousPosition), sides[1]))
+                                    {
+                                        normalSide = sides[0].Normal.X == 0 ? sides[0] : sides[1];
+                                    }
+                                    else normalSide = sides[0];
+                                }
+                                else normalSide = sides[1];
+
+                                normal = normalSide.Normal;
+                            }
+                            CollisionFaceProperties faceProperties = intersection.GetFaceProperties(normal);
+
+                            if (normal.X == 0)
+                            {
+                                double displacement = Math.Abs(normalSide.A.Y - (normal.Y > 0 ? objA.Bounds.Offset(physA.Position).Bottom : objA.Bounds.Offset(physA.Position).Top));
+                                if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.Y - physA.PreviousPosition.Y), 8))
+                                {
+                                    physA.Position += new Vector2D(0, displacement) * normal.Y;
+                                    physA.Velocity = new Vector2D(physA.Velocity.X * (1 - faceProperties.Friction), 0) + physB.Velocity * faceProperties.Friction;
+                                }
+                                else continue;
+                            }
+                            else
+                            {
+                                double displacement = Math.Abs(normalSide.A.X - (normal.X > 0 ? objA.Bounds.Offset(physA.Position).Left : objA.Bounds.Offset(physA.Position).Right));
+                                if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.X - physA.PreviousPosition.X), 8))
+                                {
+                                    physA.Position += new Vector2D(displacement, 0) * normal.X;
+                                    physA.Velocity = new Vector2D(0, physA.Velocity.Y * (1 - faceProperties.Friction)) + physB.Velocity * faceProperties.Friction;
+                                }
+                                else continue;
+                            }
+
+                            Owner.Events.InvokeEvent(new RigidCollisionEvent(objA, objB.Owner, normal));
+                            Owner.Events.InvokeEvent(new RigidCollisionEvent(objB, objA.Owner, normal));
+                        }
+                        else //Soft Collision
+                        {
+                            Owner.Events.InvokeEvent(new SoftCollisionEvent(objA, objB.Owner));
+                            Owner.Events.InvokeEvent(new SoftCollisionEvent(objB, objA.Owner));
+
+                            Vector2D center0 = objA.Bounds.Offset(physA.Position).Center;
+                            Vector2D center1 = otherBounds.Center;
+
+                            double distance = (center0 - center1).Magnitude;
+                            if (distance <= 1e-4) continue;
+
+                            double force = 2 * Owner.FixedDeltaTime * intersection.Area * (objA.Mass * (objB as SoftBody).Mass);
+
+                            Vector2D forceVec = (center1 - center0).Unit() * force;
+                            forceVec.Y = 0;
+
+                            if (objA.Movable && objA.Mass != 0) physA.Velocity -= forceVec / (objA.Mass);
+                            if ((objB as SoftBody).Movable && (objB as SoftBody).Mass != 0) physB.Velocity -= -forceVec / (objB as SoftBody).Mass;
+                        }
+                    }
+
+                    collisions.Clear();
 
                     sweeper.Add(c0);
                 }
@@ -269,5 +285,23 @@ namespace WooferGame.Systems.Physics
                 box.Offset(ph.PreviousPosition).Right
             );
         }
+    }
+
+    internal class SingleCollision
+    {
+        internal SoftBody objA;
+        internal Component objB;
+        internal CollisionBox box;
+        internal CollisionBox intersection;
+
+        public SingleCollision(SoftBody objA, Component objB, CollisionBox box, CollisionBox intersection)
+        {
+            this.objA = objA;
+            this.objB = objB;
+            this.box = box;
+            this.intersection = intersection;
+        }
+
+        public override string ToString() => $"SingleCollision[objA={objA.Owner},objB={objB.Owner},box={box},intersection={intersection},intersection.Area={intersection.Area}]";
     }
 }
