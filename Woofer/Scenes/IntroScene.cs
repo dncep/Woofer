@@ -202,7 +202,7 @@ namespace WooferGame.Scenes
             this.AddSegment(rb, new Rectangle(10, 11, 3, 2));
 
             rb.Set(7, 7, false);
-            PulseEmitter emitter = new PulseEmitter(new Vector2D(7.5 * 16, 7.5 * 16), Vector2D.UnitJ, 150, 48);
+            PulseEmitter emitter = new PulseEmitter(new Vector2D(7.5 * 16, 7.5 * 16), Vector2D.UnitJ, 128, 48);
             emitter.Components.Add(new TimerComponent(1));
             this.QueueEntity(emitter);
 
