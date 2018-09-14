@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Util;
-
+using WooferGame.Scenes;
 using WooferGame.Systems.Physics;
 
 namespace WooferGame.Systems.Visual
@@ -14,10 +14,10 @@ namespace WooferGame.Systems.Visual
         private List<CollisionBox> collision = new List<CollisionBox>();
         private List<Entity> queuedEntities = new List<Entity>();
 
-        public LevelSection(string texture, Rectangle bounds)
+        public LevelSection(string texture, Vector2D pos, Rectangle bounds)
         {
-            Components.Add(new Spatial(bounds.X, bounds.Y));
-            Components.Add(new Renderable(texture, new Rectangle(0, 0, bounds.Width, bounds.Height)));
+            Components.Add(new Spatial(pos));
+            Components.Add(new Renderable(texture, bounds));
             Components.Add(new LevelRenderable());
         }
 
@@ -63,6 +63,12 @@ namespace WooferGame.Systems.Visual
             }
             queuedEntities.Clear();
             queuedEntities = null;
+        }
+
+        protected void AddSegment(LabRoomBuilder rb, Rectangle rect)
+        {
+            rb.Fill(rect, true);
+            this.AddCollision(CoordinateMode.Grid, new CollisionBox(rect.X, rect.Y, rect.Width, rect.Height));
         }
     }
 

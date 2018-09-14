@@ -83,6 +83,8 @@
     <Compile Include="Systems\DeathBarrier\DeathBarrierSystem.cs" />
     <Compile Include="Systems\DeathBarrier\RemoveOnBarrierComponent.cs" />
     <Compile Include="Systems\Debug.cs" />
+    <Compile Include="Systems\Debug\DebugClippable.cs" />
+    <Compile Include="Systems\Debug\DebugClipping.cs" />
     <Compile Include="Systems\Environment\BreakableGlassComponent.cs" />
     <Compile Include="Systems\Environment\BreakableGlassEntity.cs" />
     <Compile Include="Systems\Environment\GlassBreakingSystem.cs" />

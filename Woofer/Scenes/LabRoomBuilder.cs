@@ -23,12 +23,12 @@ namespace WooferGame.Scenes
 
         private RoomTileRaw this[int x, int y] => (x >= 0 && y >= 0 && x < Width && y < Height) ? TileMap[x, y] : RoomTileRaw.CreateOutOfBounds();
 
-        public LabRoomBuilder(int width, int height, string Texture)
+        public LabRoomBuilder(int width, int height, string Texture, int seedChange = 0)
         {
             Spritesheet = Texture;
             Width = width;
             Height = height;
-            Random = new Random(width * height);
+            Random = new Random(width * height + seedChange);
             TileMap = new RoomTileRaw[width, height];
         }
 

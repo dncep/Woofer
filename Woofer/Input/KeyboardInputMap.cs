@@ -21,7 +21,7 @@ namespace WooferGame.Input
                 if (keyboard[Key.A].IsPressed()) movement -= Vector2D.UnitI;
                 if (keyboard[Key.S].IsPressed()) movement -= Vector2D.UnitJ;
                 if (keyboard[Key.D].IsPressed()) movement += Vector2D.UnitI;
-                return movement;
+                return movement.Unit();
             }
         }
 
@@ -39,6 +39,9 @@ namespace WooferGame.Input
         public ButtonState Pulse => keyboard[Key.LeftControl];
 
         public ButtonState Interact => keyboard[Key.E];
+
+        public ButtonState Debug => keyboard[Key.F3];
+        public Vector2D DebugMovement => Movement;
 
         IKeyboard keyboard;
         IMouse mouse;

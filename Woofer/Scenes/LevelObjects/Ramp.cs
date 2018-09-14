@@ -13,25 +13,31 @@ namespace WooferGame.Scenes.LevelObjects
 {
     class Ramp : Entity
     {
+
         public Ramp(Vector2D from, Vector2D to, double friction, Vector2D spriteOffset)
         {
             this.Components.Add(new Spatial(from));
             this.Components.Add(new Physical() { GravityMultiplier = 0 });
             this.Components.Add(new RigidBody(CreateCollisionBoxesForSlope(from-from, to-from, friction).ToArray()));
 
-            double minX = Math.Min(from.X, to.X) - 4;
-            double width = Math.Abs(from.X - to.X) + 12;
+            double minX = Math.Min(from.X, to.X) - 8;
+            double width = Math.Abs(from.X - to.X) + 16;
             double minY = Math.Min(from.Y, to.Y);
             double height = Math.Abs(from.Y - to.Y);
 
-            double descent = 20;
+            double descent = 22;
 
-            this.Components.Add(new Renderable(
+            double slope = (to.Y - from.Y) / (to.X - from.X);
+
+            Renderable rend;
+
+            this.Components.Add(rend = new Renderable(
                 new Sprite("lab_objects", 
                 new Rectangle(minX - from.X + spriteOffset.X, minY - from.Y + spriteOffset.Y - descent, width, height + descent), 
-                new Rectangle(((to.Y - from.Y) / (to.X - from.X) > 0) ? width : 0, 0, width, height+descent))
+                new Rectangle((slope > 0) ? width : 0, 0, width, height+descent))
                 ));
             this.Components.Add(new LevelRenderable());
+
         }
 
         public static List<CollisionBox> CreateCollisionBoxesForSlope(Vector2D from, Vector2D to, double friction)

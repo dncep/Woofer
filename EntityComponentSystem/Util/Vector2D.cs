@@ -26,7 +26,7 @@ namespace EntityComponentSystem.Util
             Y = y;
         }
 
-        public Vector2D Unit() => this / Magnitude;
+        public Vector2D Unit() => this == Empty ? Empty : this / Magnitude;
 
         public Vector2D Rotate(double rad)
         {

@@ -18,6 +18,8 @@ namespace WooferGame.Systems.Interaction
             this.Components.Add(new Renderable(new Sprite("gui", new Rectangle(-4.5, -4.5, 9, 9), new Rectangle(9, 0, 9, 9))));
             this.Components.Add(new LevelRenderable(99));
             this.Components.Add(new InteractionIcon());
+
+            this.Active = false;
         }
     }
 }

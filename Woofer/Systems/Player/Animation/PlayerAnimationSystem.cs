@@ -64,6 +64,7 @@ namespace WooferGame.Systems.Player.Animation
                     player.Initialized = true;
                 }
 
+
                 Physical physical = player.Owner.Components.Get<Physical>();
                 PlayerMovementComponent movement = player.Owner.Components.Get<PlayerMovementComponent>();
                 PlayerOrientation orientation = player.Owner.Components.Get<PlayerOrientation>();

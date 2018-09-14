@@ -27,6 +27,9 @@ namespace WooferGame.Input
 
         public int ButtonIconOffset => 0;
 
+        public ButtonState Debug => gamePad.Buttons.RightStick;
+        public Vector2D DebugMovement => Orientation;
+
         public void SetVibration(float amount) => gamePad.SetVibration(amount, amount);
     }
 
@@ -52,8 +55,9 @@ namespace WooferGame.Input
 
         public int ButtonIconOffset => 0;
 
+        public ButtonState Debug => gamePad.Buttons.RightStick;
+        public Vector2D DebugMovement => Orientation;
+
         public void SetVibration(float amount) => gamePad.SetVibration(amount, amount);
-
-
     }
 }
