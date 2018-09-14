@@ -63,7 +63,6 @@ C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\l
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\lab_tileset.xnb
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\lab_objects.png
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\lab_objects.xnb
-C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\ascii.png
 C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\char.png
 C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\intro_bg.png
 C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\lab_objects.png

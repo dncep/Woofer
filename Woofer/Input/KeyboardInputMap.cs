@@ -36,7 +36,7 @@ namespace WooferGame.Input
 
         public ButtonState Jump => keyboard[Key.Space];
 
-        public ButtonState Pulse => keyboard[Key.LeftControl];
+        public ButtonState Pulse => ButtonStateExtensions.ButtonOr(keyboard[Key.LeftControl], mouse.LeftButton);
 
         public ButtonState Interact => keyboard[Key.E];
 

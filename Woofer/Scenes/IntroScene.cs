@@ -32,6 +32,7 @@ namespace WooferGame.Scenes
 
         public IntroScene()
         {
+            Entities.Add(new Room2(62 * 16, 128));
             Entities.Add(new Room1(640, 128));
             Entities.Add(new Room0(0, 128));
 
@@ -41,13 +42,13 @@ namespace WooferGame.Scenes
             Entities.Add(new Checkpoint(224, 360, new Rectangle(-8, -8, 16, 16)));
             Entities.Add(new Checkpoint(24, 424, new Rectangle(-8, -8, 16, 16)));
 
-            Entities.Add(new DeathBarrier(-1000));
+            Entities.Add(new DeathBarrier(0));
 
             //Entities.Add(new EnergyRefillOrb(new Vector2D(440, 360)));
 
             //Entities.Add(new Sailboat(new Vector2D(600, 180)));
 
-            Entities.Add(new PlayerEntity(96, 264));
+            Entities.Add(new PlayerEntity(800, 264));
 
             //Input
             Systems.Add(new PlayerMovement());
@@ -153,13 +154,12 @@ namespace WooferGame.Scenes
         {
             Renderable renderable = this.Components.Get<Renderable>();
 
-            LabRoomBuilder rb = new LabRoomBuilder(64, 43, "lab_tileset");
-            this.AddSegment(rb, new Rectangle(0, 0, 64, 8)); //Floor
+            LabRoomBuilder rb = new LabRoomBuilder(22, 43, "lab_tileset");
+            this.AddSegment(rb, new Rectangle(0, 0, 22, 8)); //Floor
             this.AddSegment(rb, new Rectangle(4, 11, 2, 5)); //Left Wall
             this.AddSegment(rb, new Rectangle(20, 11, 2, 5)); //Right Wall
             this.AddSegment(rb, new Rectangle(4, 15, 18, 22)); //Ceiling
             this.AddSegment(rb, new Rectangle(0, 27, 4, 10)); //Previous room extended ceiling
-            //this.AddSegment(rb, new Rectangle(24, 8, 1, 8));
             rb.Set(13, 7, false);
             this.QueueEntity(new MovableBox(new Vector2D(17 * 16, 9 * 16)));
             PulseEmitter emitter = new PulseEmitter(new Vector2D(13.5 * 16, 7.5 * 16), Vector2D.UnitJ, 128, 48);
@@ -175,6 +175,43 @@ namespace WooferGame.Scenes
             this.QueueEntity(@switch);
 
             Rectangle cameraArea = new Rectangle(4 * 16, 8 * 16, 18 * 16, 8 * 16);
+
+            this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(0, -16)));
+
+            this.QueueEntity(new Checkpoint(5.5 * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
+
+            rb.ResolveNeighbors();
+            renderable.Sprites.AddRange(rb.Build());
+            this.FinalizeCollision();
+        }
+    }
+
+    internal class Room2 : LevelSection
+    {
+        public Room2(int x, int y) : base("room0", new Vector2D(x, y), new Rectangle(0, 64, 0, 0))
+        {
+            Renderable renderable = this.Components.Get<Renderable>();
+
+            LabRoomBuilder rb = new LabRoomBuilder(22, 43, "lab_tileset");
+            this.AddSegment(rb, new Rectangle(0, 0, 22, 8)); //Floor
+            this.AddSegment(rb, new Rectangle(0, 11, 2, 9)); //Left Wall
+            this.AddSegment(rb, new Rectangle(13, 16, 2, 6)); //Right Wall Upper
+            this.AddSegment(rb, new Rectangle(13, 8, 2, 5)); //Right Wall Lower
+            this.AddSegment(rb, new Rectangle(0, 19, 22, 18)); //Ceiling
+            this.AddSegment(rb, new Rectangle(2, 11, 3, 2));
+            this.AddSegment(rb, new Rectangle(10, 11, 3, 2));
+
+            rb.Set(7, 7, false);
+            PulseEmitter emitter = new PulseEmitter(new Vector2D(7.5 * 16, 7.5 * 16), Vector2D.UnitJ, 150, 48);
+            emitter.Components.Add(new TimerComponent(1));
+            this.QueueEntity(emitter);
+
+            Door door = new Door(new Vector2D(14 * 16, 16 * 16), false);
+            this.QueueEntity(door);
+
+            this.QueueEntity(new InteractableButton(new Vector2D(3.5 * 16, 14.5 * 16), door.Id));
+
+            Rectangle cameraArea = new Rectangle(0 * 16, 9 * 16, 18 * 16, 8 * 16);
 
             this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(0, -16)));
 

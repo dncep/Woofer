@@ -58,7 +58,7 @@ namespace WooferGame.Systems.Player.Animation
                         new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Legs], 32, 32)),
                         new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Torso], 32, 32)),
                         new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Head], 32, 32)),
-                        new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Woofer], 32, 32)),
+                        new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Woofer], 0, 0)),
                         new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Arms], 32, 32))
                     };
                     player.Initialized = true;
@@ -136,7 +136,8 @@ namespace WooferGame.Systems.Player.Animation
 
                 for(int i = Legs; i <= Arms; i++)
                 {
-                    renderable.Sprites[i].Source = new Rectangle(srcOffsets[i], 32, 32);
+                    int size = 32;
+                    renderable.Sprites[i].Source = new Rectangle(srcOffsets[i], size, size);
                     renderable.Sprites[i].Destination = Destination + destOffsets[i];
                 }
             }

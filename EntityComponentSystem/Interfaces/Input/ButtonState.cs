@@ -22,5 +22,9 @@ namespace GameInterfaces.Input
         {
             return trigger > 0 ? ButtonState.Pressed : ButtonState.Released;
         }
+        public static ButtonState ButtonOr(ButtonState a, ButtonState b)
+        {
+            return (a.IsPressed() || b.IsPressed()) ? ButtonState.Pressed : ButtonState.Released;
+        }
     }
 }
