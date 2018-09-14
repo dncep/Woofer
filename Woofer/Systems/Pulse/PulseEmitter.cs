@@ -20,14 +20,9 @@ namespace WooferGame.Systems.Pulse
             this.Components.Add(new Spatial(pos));
             this.Components.Add(new Physical() { GravityMultiplier = 0 });
             this.Components.Add(new RigidBody(new CollisionBox(-8, -8, 16, 16)));
-            this.Components.Add(new Renderable(new Sprite("brick", new Rectangle(-8, -8, 16, 16)),
-                new Sprite("gui", new Rectangle(8, 8, 9, 9), new Rectangle(9, 0, 9, 9))));
+            this.Components.Add(new Renderable(new Sprite("brick", new Rectangle(-8, -8, 16, 16))));
             this.Components.Add(new LevelRenderable());
-            
             this.Components.Add(new PulseEmitterComponent(direction, strength, reach));
-            //this.Components.Add(new TimerComponent(1));
-
-            this.Components.Add(new Interactable());
         }
     }
 }

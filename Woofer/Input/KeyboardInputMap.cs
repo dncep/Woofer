@@ -51,6 +51,8 @@ namespace WooferGame.Input
 
         public bool IsBeingUsed => keyboard.IsBeingUsed || mouse.IsBeingUsed;
 
+        public int ButtonIconOffset => 9;
+
         public void SetVibration(float amount) { }
 
         public void SetOrientationOrigin(Vector2D origin) => Origin = origin;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EntityComponentSystem.Components;
+using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Interaction
 {
@@ -18,5 +19,7 @@ namespace WooferGame.Systems.Interaction
         }
 
         public Interactable(long? entityToActivate) => EntityToActivate = entityToActivate;
+
+        public Vector2D IconOffset { get; internal set; }
     }
 }

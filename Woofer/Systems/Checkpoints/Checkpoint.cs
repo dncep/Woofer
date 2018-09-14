@@ -19,6 +19,8 @@ namespace WooferGame.Systems.Checkpoints
             this.Components.Add(new Physical() { GravityMultiplier = 0 });
             this.Components.Add(new SoftBody(new CollisionBox(bounds.X, bounds.Y, bounds.Width, bounds.Height), 0f) { Movable = false });
             this.Components.Add(new CheckpointComponent() { Selected = selected });
+            //this.Components.Add(new Renderable("grass", bounds));
+            //this.Components.Add(new LevelRenderable());
         }
     }
 }

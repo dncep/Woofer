@@ -59,6 +59,7 @@
     <Compile Include="Scenes\IntroScene.cs" />
     <Compile Include="Scenes\LabRoomBuilder.cs" />
     <Compile Include="Scenes\LabRoomTileset.cs" />
+    <Compile Include="Scenes\LevelObjects\InteractableButton.cs" />
     <Compile Include="Scenes\LevelObjects\MovableBox.cs" />
     <Compile Include="Scenes\LevelObjects\Ramp.cs" />
     <Compile Include="Scenes\LevelObjects\Shelf.cs" />
@@ -89,6 +90,9 @@
     <Compile Include="Systems\Interaction\ActivationSystem.cs" />
     <Compile Include="Systems\Interaction\Interactable.cs" />
     <Compile Include="Systems\Interaction\InteractingAgent.cs" />
+    <Compile Include="Systems\Interaction\InteractionIcon.cs" />
+    <Compile Include="Systems\Interaction\InteractionIconEntity.cs" />
+    <Compile Include="Systems\Interaction\InteractionIconSystem.cs" />
     <Compile Include="Systems\Interaction\InteractionRangeEnter.cs" />
     <Compile Include="Systems\Interaction\InteractionRangeExit.cs" />
     <Compile Include="Systems\Interaction\InteractionSystem.cs" />
@@ -96,6 +100,7 @@
     <Compile Include="Systems\Linking\FollowedComponent.cs" />
     <Compile Include="Systems\Linking\FollowingComponent.cs" />
     <Compile Include="Systems\Linking\FollowingSystem.cs" />
+    <Compile Include="Systems\Meta\SwitchInputMethod.cs" />
     <Compile Include="Systems\Movement\PlayerJumpEvent.cs" />
     <Compile Include="Systems\Movement\PlayerMovement.cs" />
     <Compile Include="Systems\Physics\CollisionBox.cs" />

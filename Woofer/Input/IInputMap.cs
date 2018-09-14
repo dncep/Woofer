@@ -15,6 +15,7 @@ namespace WooferGame.Input
         ButtonState Interact { get; }
 
         bool IsBeingUsed { get; }
+        int ButtonIconOffset { get; }
 
         void SetVibration(float amount);
     }

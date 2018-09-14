@@ -11,8 +11,11 @@ namespace WooferGame.Systems.Interaction
     [Event("interaction_range_enter")]
     class InteractionRangeEnter : Event
     {
-        public InteractionRangeEnter(Component sender) : base(sender)
+        public Interactable Interactable;
+
+        public InteractionRangeEnter(Component sender, Interactable interactable) : base(sender)
         {
+            this.Interactable = interactable;
         }
     }
 }

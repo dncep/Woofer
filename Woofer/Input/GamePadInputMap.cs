@@ -25,6 +25,8 @@ namespace WooferGame.Input
         
         public bool IsBeingUsed => gamePad.IsBeingUsed;
 
+        public int ButtonIconOffset => 0;
+
         public void SetVibration(float amount) => gamePad.SetVibration(amount, amount);
     }
 
@@ -48,6 +50,10 @@ namespace WooferGame.Input
 
         public bool IsBeingUsed => gamePad.IsBeingUsed;
 
+        public int ButtonIconOffset => 0;
+
         public void SetVibration(float amount) => gamePad.SetVibration(amount, amount);
+
+
     }
 }

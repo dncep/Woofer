@@ -86,6 +86,8 @@ namespace WooferGame.Scenes
             Systems.Add(new AnimationSystem());
             Systems.Add(new LevelRenderer());
             Systems.Add(new ParticleSystem());
+            Systems.Add(new InteractionIconSystem());
+            Entities.Add(new InteractionIconEntity());
 
         }
     }
@@ -160,8 +162,11 @@ namespace WooferGame.Scenes
             this.AddSegment(rb, new Rectangle(4, 11, 18, 6)); //Ceiling
             //this.AddSegment(rb, new Rectangle(24, 4, 1, 8));
             rb.Set(13, 3, false);
-            this.QueueEntity(new MovableBox(new Vector2D(13 * 16, 5 * 16)));
-            this.QueueEntity(new PulseEmitter(new Vector2D(13.5 * 16, 3.5 * 16), Vector2D.UnitJ, 128, 48));
+            this.QueueEntity(new MovableBox(new Vector2D(17 * 16, 5 * 16)));
+            PulseEmitter emitter = new PulseEmitter(new Vector2D(13.5 * 16, 3.5 * 16), Vector2D.UnitJ, 128, 48);
+            this.QueueEntity(emitter);
+
+            this.QueueEntity(new InteractableButton(new Vector2D(7.5 * 16, 5.5 * 16), emitter.Id));
 
             Door door = new Door(new Vector2D(21 * 16, 7 * 16), true);
             this.QueueEntity(door);
@@ -173,6 +178,8 @@ namespace WooferGame.Scenes
             Rectangle cameraArea = new Rectangle(4 * 16, 4 * 16, 18 * 16, 8 * 16);
 
             this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(0, -16)));
+
+            this.QueueEntity(new Checkpoint(5.5 * 16, 4 * 16, new Rectangle(-24, 0, 32, 48)));
 
             rb.ResolveNeighbors();
             renderable.Sprites.AddRange(rb.Build());

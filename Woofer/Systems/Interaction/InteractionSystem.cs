@@ -38,7 +38,7 @@ namespace WooferGame.Systems.Interaction
                     if(inRange != interactable.InRange)
                     {
                         Owner.Events.InvokeEvent(inRange ?
-                            (Event) new InteractionRangeEnter(currentAgent) :
+                            (Event) new InteractionRangeEnter(currentAgent, interactable) :
                             (Event) new InteractionRangeExit(null));
                         interactable.InRange = inRange;
                     }
