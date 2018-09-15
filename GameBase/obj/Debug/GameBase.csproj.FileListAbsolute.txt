@@ -42,7 +42,6 @@ C:\Users\User\source\repos\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\EntityComp
 C:\Users\User\source\repos\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll
 C:\Users\User\source\repos\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\EntityComponentSystem.pdb
 C:\Users\User\source\repos\Woofer\GameBase\obj\Debug\GameBase.pdb
-C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\ascii.png
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\notes.png
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\sprites0.png
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\ascii.xnb
@@ -103,3 +102,5 @@ C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Con
 C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\gui.xnb
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\gui.png
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\gui.xnb
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\parallax_bg.png
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\parallax_bg.xnb

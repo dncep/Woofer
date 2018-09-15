@@ -12,6 +12,7 @@ using WooferGame.Systems.Environment;
 using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Linking;
 using WooferGame.Systems.Movement;
+using WooferGame.Systems.Parallax;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player;
 using WooferGame.Systems.Player.Animation;
@@ -32,6 +33,12 @@ namespace WooferGame.Scenes
 
         public IntroScene()
         {
+            Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 0, 320, 180), new Vector2D(0.0, 0)));
+            Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 180, 320, 180), new Vector2D(0.01, 0)));
+            Entities.Add(new ParallaxObject(new Vector2D(32000, 0), new Rectangle(0, 180, 320, 180), new Vector2D(0.01, 0)));
+            Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 360, 320, 180), new Vector2D(0.05, 0)));
+            //Entities.Add(new ParallaxObject(new Vector2D(0, 464), new Rectangle(0, 180, 320, 180), new Vector2D(3, 3), scale:3));
+
             Entities.Add(new Room3(78 * 16, 128));
             Entities.Add(new Room2(62 * 16, 128));
             Entities.Add(new Room1(640, 128));
@@ -78,8 +85,9 @@ namespace WooferGame.Scenes
             Systems.Add(new CameraRegionSystem());
 
             //Systems.Add(new DebugSystem());
-            
+
             //Rendering
+            Systems.Add(new ParallaxSystem());
             Systems.Add(new PlayerAnimationSystem());
             Systems.Add(new AnimationSystem());
             Systems.Add(new LevelRenderer());

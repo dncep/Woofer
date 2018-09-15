@@ -15,8 +15,10 @@ namespace WooferGame.Controller
         public WooferRenderingUnit(WooferController controller)
         {
             this.controller = controller;
+            Layers["parallax_back"] = new BackParallaxRenderingLayer(controller);
             Layers["background"] = new BackgroundRenderingLayer(controller);
             Layers["level"] = new LevelRenderingLayer(controller);
+            Layers["parallax_front"] = new FrontParallaxRenderingLayer(controller);
         }
 
         public void LoadContent<TSurface, TSource>(ScreenRenderer<TSurface, TSource> screenRenderer)
@@ -28,6 +30,7 @@ namespace WooferGame.Controller
             SpriteManager.LoadSprite("particles");
             SpriteManager.LoadSprite("lab_tileset");
             SpriteManager.LoadSprite("lab_objects");
+            SpriteManager.LoadSprite("parallax_bg");
 
             SpriteManager.LoadSprite("gui");
 
