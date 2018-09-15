@@ -15,11 +15,14 @@ namespace WooferGame.Systems.Pulse
 {
     class PulseEmitter : Entity
     {
-        public PulseEmitter(Vector2D pos, Vector2D direction, double strength, double reach)
+        public PulseEmitter(Vector2D pos, Vector2D direction, double strength, double reach, bool solid = true)
         {
             this.Components.Add(new Spatial(pos));
-            this.Components.Add(new Physical() { GravityMultiplier = 0 });
-            this.Components.Add(new RigidBody(new CollisionBox(-8, -8, 16, 16)));
+            if (solid)
+            {
+                this.Components.Add(new Physical() { GravityMultiplier = 0 });
+                this.Components.Add(new RigidBody(new CollisionBox(-8, -8, 16, 16)));
+            }
             this.Components.Add(new Renderable(new Sprite("brick", new Rectangle(-8, -8, 16, 16))));
             this.Components.Add(new LevelRenderable());
             this.Components.Add(new PulseEmitterComponent(direction, strength, reach));
