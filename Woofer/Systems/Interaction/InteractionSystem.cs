@@ -50,7 +50,7 @@ namespace WooferGame.Systems.Interaction
                         if (interact.IsPressed()) currentAgent.Input.RegisterPressed();
                         if(interact.IsPressed() && currentAgent.Input.Execute())
                         {
-                            Entity sendTo = interactable.EntityToActivate.HasValue ? Owner.Entities[interactable.EntityToActivate.Value] : interactable.Owner;
+                            Entity sendTo = interactable.EntityToActivate != 0 ? Owner.Entities[interactable.EntityToActivate] : interactable.Owner;
                             Owner.Events.InvokeEvent(new ActivationEvent(currentAgent, sendTo, null));
                         }
                         if (!interact.IsPressed()) currentAgent.Input.RegisterUnpressed();

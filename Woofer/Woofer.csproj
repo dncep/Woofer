@@ -86,6 +86,7 @@
     <Compile Include="Systems\Debug.cs" />
     <Compile Include="Systems\Debug\DebugClippable.cs" />
     <Compile Include="Systems\Debug\DebugClipping.cs" />
+    <Compile Include="Systems\Debug\Quicksave.cs" />
     <Compile Include="Systems\Environment\BreakableGlassComponent.cs" />
     <Compile Include="Systems\Environment\BreakableGlassEntity.cs" />
     <Compile Include="Systems\Environment\GlassBreakingSystem.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Systems\Parallax\ParallaxObject.cs" />
     <Compile Include="Systems\Parallax\ParallaxSystem.cs" />
     <Compile Include="Systems\Physics\CollisionBox.cs" />
+    <Compile Include="Systems\Physics\CollisionBoxConverter.cs" />
     <Compile Include="Systems\Physics\CollisionEvent.cs" />
     <Compile Include="Systems\Physics\CollisionFaceProperties.cs" />
     <Compile Include="Systems\Physics\Physical.cs" />
@@ -146,6 +148,9 @@
     <Compile Include="Systems\Sailboat\Sailboat.cs" />
     <Compile Include="Systems\Sailboat\SailboatComponent.cs" />
     <Compile Include="Systems\Sailboat\SailboatSystem.cs" />
+    <Compile Include="Systems\Sound\Sound.cs" />
+    <Compile Include="Systems\Sound\SoundEmitter.cs" />
+    <Compile Include="Systems\Sound\SoundSystem.cs" />
     <Compile Include="Systems\Timer\TimerComponent.cs" />
     <Compile Include="Systems\Timer\TimerSystem.cs" />
     <Compile Include="Systems\Visual\Animation\AnimationComponent.cs" />

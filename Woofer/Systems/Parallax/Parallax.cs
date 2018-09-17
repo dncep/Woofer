@@ -7,17 +7,26 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Parallax
 {
-    [Component("Parallax")]
+    [Component("parallax")]
     class Parallax : Component
     {
-        public string Texture;
-        public Rectangle SourceBounds;
-        public Vector2D Speed;
-        public double Scale;
+        [PersistentProperty]
+        public string Texture { get; set; }
+        [PersistentProperty]
+        public Rectangle SourceBounds { get; set; }
+        [PersistentProperty]
+        public Vector2D Speed { get; set; }
+        [PersistentProperty]
+        public double Scale { get; set; }
+
+        public Parallax()
+        {
+        }
 
         public Parallax(string texture, Rectangle sourceBounds, Vector2D speed, double scale)
         {

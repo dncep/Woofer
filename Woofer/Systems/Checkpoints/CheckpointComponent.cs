@@ -1,10 +1,12 @@
 ﻿using EntityComponentSystem.Components;
+using EntityComponentSystem.Saves;
 
 namespace WooferGame.Systems.Checkpoints
 {
     [Component("checkpoint")]
     class CheckpointComponent : Component
     {
-        public bool Selected = false;
+        [PersistentProperty]
+        public bool Selected { get; set; } = false;
     }
 }

@@ -10,18 +10,20 @@ namespace EntityComponentSystem.Entities
 {
     public class Entity
     {
-        private static long NEW_ID = 0;
+        public string Name { get; set; }
 
         public Scene Owner { get; set; }
 
-        public long Id { get; }
+        internal long _id;
+        internal bool _is_id_set = false;
+        public long Id => (_is_id_set ? _id : throw new InvalidOperationException("Id is still not assigned"));
         public ComponentMap Components { get; }
         public bool Active { get; set; } = true;
 
         public Entity()
         {
-            this.Id = NEW_ID++;
             this.Components = new ComponentMap(this);
+            this.Name = this.GetType().Name;
         }
 
         public void Remove()

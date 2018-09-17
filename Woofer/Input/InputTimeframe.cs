@@ -1,4 +1,6 @@
-﻿namespace WooferGame.Input
+﻿using GameInterfaces.Input;
+
+namespace WooferGame.Input
 {
     class InputTimeframe
     {
@@ -27,6 +29,12 @@
         public void RegisterUnpressed()
         {
             Consumed = false;
+        }
+
+        public void RegisterState(ButtonState state)
+        {
+            if (state.IsPressed()) RegisterPressed();
+            else RegisterUnpressed();
         }
 
         public void Tick()

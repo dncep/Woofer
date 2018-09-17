@@ -20,6 +20,8 @@ namespace WooferGame.Input
         
         ButtonState Debug { get; }
         Vector2D DebugMovement { get; }
+        ButtonState Quicksave { get; }
+        ButtonState Quickload { get; }
 
         void SetVibration(float amount);
     }

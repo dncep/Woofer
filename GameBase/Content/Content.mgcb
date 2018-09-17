@@ -109,3 +109,27 @@
 /processorParam:TextureFormat=Color
 /build:parallax_bg.png
 
+#begin pulse_high.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:pulse_high.wav
+
+#begin pulse_low.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:pulse_low.wav
+
+#begin pulse_mid.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:pulse_mid.wav
+
+#begin pulse_low_alt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:pulse_low_alt.wav
+

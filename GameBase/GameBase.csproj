@@ -44,6 +44,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
+    <Compile Include="MonoGameAudio\MonoGameAudioUnit.cs" />
+    <Compile Include="MonoGameAudio\MonoGameSoundEffect.cs" />
     <Compile Include="MonoGameGraphicsImplementation\MonoGameGraphicsContext.cs" />
     <Compile Include="MonoGameGraphicsImplementation\MonoGameScreenRenderer.cs" />
     <Compile Include="GameStart.cs" />

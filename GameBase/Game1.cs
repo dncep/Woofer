@@ -1,5 +1,5 @@
 ﻿using System;
-
+using GameBase.MonoGameAudio;
 using GameBase.MonoGameGraphics;
 using GameBase.MonoGameGraphicsImplementation;
 using GameBase.MonoGameInput;
@@ -48,6 +48,7 @@ namespace GameBase
             this.IsMouseVisible = true;
 
             gameController.InputUnit = new MonoGameInputUnit();
+            gameController.AudioUnit = new MonoGameAudioUnit(Content);
 
             gameController.Initialize();
             base.Initialize();

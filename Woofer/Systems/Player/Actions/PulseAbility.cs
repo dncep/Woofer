@@ -1,6 +1,7 @@
 ﻿using System;
 
 using EntityComponentSystem.Components;
+using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
 using WooferGame.Input;
 
@@ -9,15 +10,25 @@ namespace WooferGame.Systems.Player.Actions
     [Component("pulse_ability")]
     class PulseAbility : Component
     {
+        [PersistentProperty]
         public double MaxEnergy = 100;
+
+        [PersistentProperty]
         public double EnergyMeter = 100;
 
+
+        [PersistentProperty]
         public double PulseCost = 20;
+
+        [PersistentProperty]
         public double PulseStrength = 256;
 
-        public double MaxArc = Math.PI / 6;
+
+        [PersistentProperty]
         public double MaxRange = 48;
 
+
+        [PersistentProperty]
         public Vector2D Offset { get; set; }
 
         public InputTimeframe Pulse = new InputTimeframe(5);

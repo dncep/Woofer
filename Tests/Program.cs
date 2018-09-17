@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using EntityComponentSystem.Saves.Json;
+using EntityComponentSystem.Saves.Json.Objects;
 using EntityComponentSystem.Util;
 using WooferGame.Scenes;
 using WooferGame.Systems.Physics;
@@ -95,6 +97,15 @@ namespace Tests
             tile.Enabled = true;
             tile.Neighbors = 0b1011_1111;
             Assert(Convert.ToString(tile.GetSignificantSecondaryNeighbors(), 2), Convert.ToString(0b0010, 2));
+        }
+
+        [Test]
+        public static void JsonStringParse()
+        {
+            Assert(GeneralUtil.ParseQuotedString(@"'ab\nc'", 0).Item1, "ab\nc");
+
+            Console.WriteLine(new JsonMaster().FromJson("{\"a\":1}"));
+
         }
 
         public static void Assert(object real, object expected)

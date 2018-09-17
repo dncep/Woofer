@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EntityComponentSystem.Components;
+using EntityComponentSystem.Saves;
 
 namespace WooferGame.Systems.Visual.Animation
 {
     [Component("animatable")]
     class AnimationComponent : Component
     {
+        [PersistentProperty]
         public List<AnimatedSprite> Animations { get; set; }
 
         public AnimationComponent()

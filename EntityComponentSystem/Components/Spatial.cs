@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
 
 namespace EntityComponentSystem.Components
@@ -10,38 +11,29 @@ namespace EntityComponentSystem.Components
     [Component("spatial")]
     public class Spatial : Component
     {
-        private Vector2D position = new Vector2D();
-        public Vector2D Position
-        {
-            get
-            {
-                return position;
-            }
-            set
-            {
-                position = value;
-            }
-        }
+        [PersistentProperty("pos")]
+        public Vector2D Position { get; set; } = new Vector2D();
+
         public double X
         {
             get
             {
-                return position.X;
+                return Position.X;
             }
             set
             {
-                position.X = value;
+                Position = new Vector2D(value, Position.Y);
             }
         }
         public double Y
         {
             get
             {
-                return position.Y;
+                return Position.Y;
             }
             set
             {
-                position.Y = value;
+                Position = new Vector2D(Position.X, value);
             }
         }
 

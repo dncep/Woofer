@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EntityComponentSystem.Components;
+using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Interaction
@@ -11,15 +12,16 @@ namespace WooferGame.Systems.Interaction
     [Component("interactable")]
     class Interactable : Component
     {
-        public long? EntityToActivate;
+        [PersistentProperty]
+        public long EntityToActivate { get; set; }
         public bool InRange = false;
 
-        public Interactable() : this(null)
-        {
-        }
+        [PersistentProperty]
+        public Vector2D IconOffset { get; set; }
 
-        public Interactable(long? entityToActivate) => EntityToActivate = entityToActivate;
+        public Interactable() : this(0) { }
 
-        public Vector2D IconOffset { get; internal set; }
+        public Interactable(long entityToActivate) => EntityToActivate = entityToActivate;
+
     }
 }

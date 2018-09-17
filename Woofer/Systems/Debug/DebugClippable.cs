@@ -7,6 +7,7 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
 using WooferGame.Input;
 
@@ -15,8 +16,10 @@ namespace WooferGame.Systems.Debug
     [Component("debug_clippable")]
     class DebugClippable : Component
     {
-        public bool Enabled = false;
-        public Vector2D CameraLocation;
+        [PersistentProperty]
+        public bool Enabled { get; set; } = false;
+        [PersistentProperty]
+        public Vector2D CameraLocation { get; set; }
         public InputTimeframe Toggle = new InputTimeframe(8);
     }
 }

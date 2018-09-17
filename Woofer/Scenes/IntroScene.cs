@@ -21,6 +21,7 @@ using WooferGame.Systems.Pulse;
 using WooferGame.Systems.Puzzles;
 using WooferGame.Systems.Refill;
 using WooferGame.Systems.Sailboat;
+using WooferGame.Systems.Sounds;
 using WooferGame.Systems.Timer;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Animation;
@@ -83,6 +84,7 @@ namespace WooferGame.Scenes
             Systems.Add(new SailboatSystem());
             Systems.Add(new CornerAvoidanceSystem());
             Systems.Add(new CameraRegionSystem());
+            Systems.Add(new SoundSystem());
 
             //Systems.Add(new DebugSystem());
 
@@ -97,6 +99,7 @@ namespace WooferGame.Scenes
 
             //DEBUG
             Systems.Add(new DebugClipping());
+            Systems.Add(new Quicksave());
 
         }
     }
@@ -170,14 +173,26 @@ namespace WooferGame.Scenes
             this.AddSegment(rb, new Rectangle(4, 15, 18, 22)); //Ceiling
             this.AddSegment(rb, new Rectangle(0, 27, 4, 10)); //Previous room extended ceiling
             rb.Set(13, 7, false);
+
+            rb.ResolveNeighbors();
+            renderable.Sprites.AddRange(rb.Build());
+            this.FinalizeCollision();
+        }
+
+        public override void Initialize()
+        {
             this.QueueEntity(new MovableBox(new Vector2D(17 * 16, 9 * 16)));
             PulseEmitter emitter = new PulseEmitter(new Vector2D(13.5 * 16, 7.5 * 16), Vector2D.UnitJ, 128, 48);
             this.QueueEntity(emitter);
+
+            Owner.Entities.EagerAssignId(emitter);
 
             this.QueueEntity(new InteractableButton(new Vector2D(7.5 * 16, 9.5 * 16), emitter.Id));
 
             Door door = new Door(new Vector2D(21 * 16, 11 * 16), true);
             this.QueueEntity(door);
+
+            Owner.Entities.EagerAssignId(door);
 
             Switch @switch = new Switch(new Vector2D(13.5 * 16, 15 * 16), new Rectangle(-16, -4, 32, 4));
             @switch.Components.Add(new LinkedActivationComponent(door.Id));
@@ -189,9 +204,7 @@ namespace WooferGame.Scenes
 
             this.QueueEntity(new Checkpoint(5.5 * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
 
-            rb.ResolveNeighbors();
-            renderable.Sprites.AddRange(rb.Build());
-            this.FinalizeCollision();
+            base.Initialize();
         }
     }
 
@@ -211,20 +224,6 @@ namespace WooferGame.Scenes
             this.AddSegment(rb, new Rectangle(10, 11, 3, 2));
 
             rb.Set(7, 7, false);
-            PulseEmitter emitter = new PulseEmitter(new Vector2D(7.5 * 16, 7.5 * 16), Vector2D.UnitJ, 128, 48);
-            emitter.Components.Add(new TimerComponent(1));
-            this.QueueEntity(emitter);
-
-            Door door = new Door(new Vector2D(14 * 16, 16 * 16), false);
-            this.QueueEntity(door);
-
-            this.QueueEntity(new InteractableButton(new Vector2D(3.5 * 16, 14.5 * 16), door.Id));
-
-            Rectangle cameraArea = new Rectangle(0 * 16, 9 * 16, 15 * 16, 10 * 16);
-
-            this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(8, -32)));
-
-            this.QueueEntity(new Checkpoint(5.5 * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
 
             rb.ResolveNeighbors();
 
@@ -234,6 +233,28 @@ namespace WooferGame.Scenes
 
             renderable.Sprites.AddRange(rb.Build());
             this.FinalizeCollision();
+        }
+
+        public override void Initialize()
+        {
+            PulseEmitter emitter = new PulseEmitter(new Vector2D(7.5 * 16, 7.5 * 16), Vector2D.UnitJ, 128, 48);
+            emitter.Components.Add(new TimerComponent(1));
+            this.QueueEntity(emitter);
+
+            Door door = new Door(new Vector2D(14 * 16, 16 * 16), false);
+            this.QueueEntity(door);
+
+            Owner.Entities.EagerAssignId(door);
+
+            this.QueueEntity(new InteractableButton(new Vector2D(3.5 * 16, 14.5 * 16), door.Id));
+
+            Rectangle cameraArea = new Rectangle(0 * 16, 9 * 16, 15 * 16, 10 * 16);
+
+            this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(8, -32)));
+
+            this.QueueEntity(new Checkpoint(5.5 * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
+
+            base.Initialize();
         }
     }
 
@@ -251,6 +272,14 @@ namespace WooferGame.Scenes
             this.AddSegment(rb, new Rectangle(0, 19, 16, 18)); //Ceiling
 
             rb.Set(1, 4, false);
+
+            rb.ResolveNeighbors();
+            renderable.Sprites.AddRange(rb.Build());
+            this.FinalizeCollision();
+        }
+
+        public override void Initialize()
+        {
             PulseEmitter emitter = new PulseEmitter(new Vector2D(1.5 * 16, 4.5 * 16), Vector2D.UnitJ, 152, 48);
             emitter.Components.Add(new TimerComponent(1));
             this.QueueEntity(emitter);
@@ -259,9 +288,12 @@ namespace WooferGame.Scenes
 
             PulseEmitter sideEmitter = new PulseEmitter(new Vector2D(3 * 16, 14 * 16), Vector2D.UnitI, 192, 48, solid: false);
             this.QueueEntity(sideEmitter);
-            
+
             Door door = new Door(new Vector2D(15 * 16, 16 * 16), false);
             this.QueueEntity(door);
+
+            Owner.Entities.EagerAssignId(door);
+            Owner.Entities.EagerAssignId(sideEmitter);
 
             this.QueueEntity(new InteractableButton(new Vector2D(13.5 * 16, 13.5 * 16), door.Id));
 
@@ -273,9 +305,7 @@ namespace WooferGame.Scenes
 
             this.QueueEntity(new Checkpoint(5.5 * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
 
-            rb.ResolveNeighbors();
-            renderable.Sprites.AddRange(rb.Build());
-            this.FinalizeCollision();
+            base.Initialize();
         }
     }
 }

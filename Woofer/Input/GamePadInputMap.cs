@@ -30,6 +30,9 @@ namespace WooferGame.Input
         public ButtonState Debug => gamePad.Buttons.RightStick;
         public Vector2D DebugMovement => Orientation;
 
+        public ButtonState Quicksave => gamePad.Buttons.LeftBumper;
+        public ButtonState Quickload => gamePad.Buttons.RightBumper;
+
         public void SetVibration(float amount) => gamePad.SetVibration(amount, amount);
     }
 
@@ -57,6 +60,9 @@ namespace WooferGame.Input
 
         public ButtonState Debug => gamePad.Buttons.RightStick;
         public Vector2D DebugMovement => Orientation;
+
+        public ButtonState Quicksave => gamePad.Buttons.LeftBumper;
+        public ButtonState Quickload => gamePad.Buttons.RightBumper;
 
         public void SetVibration(float amount) => gamePad.SetVibration(amount, amount);
     }

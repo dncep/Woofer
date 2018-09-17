@@ -8,8 +8,8 @@ namespace GameInterfaces.Controller
     {
         Scene ActiveScene { get; }
         IRenderingUnit RenderingUnit { get; }
-
         IInputUnit InputUnit { get; set; }
+        IAudioUnit AudioUnit { get; set; }
 
         void Initialize();
         void Tick(TimeSpan timeSpan, TimeSpan elapsedGameTime);

@@ -7,12 +7,14 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Saves;
 
 namespace WooferGame.Systems.Puzzles
 {
     [Component("switch")]
     class SwitchComponent : Component
     {
+        [PersistentProperty]
         public int PressedState = 0;
         public bool Pressed => PressedState > 0;
     }

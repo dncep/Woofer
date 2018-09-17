@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Physics
@@ -48,6 +48,8 @@ namespace WooferGame.Systems.Physics
             set => faceProperties[LeftFace] = value;
         }
         public Vector2D Center => new Vector2D(X + (Width / 2), Y + (Height / 2));
+
+        public CollisionBox() : this(new Rectangle()) { }
 
         public CollisionBox(Rectangle rectangle) : this(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height)
         {
@@ -140,6 +142,11 @@ namespace WooferGame.Systems.Physics
             if(faceProperties[LeftFace].Enabled) sides.Add(new FreeVector2D(vertices[3], vertices[0]));
 
             return sides;
+        }
+
+        public List<CollisionFaceProperties> GetFaceProperties()
+        {
+            return faceProperties.ToList();
         }
 
         public CollisionFaceProperties GetFaceProperties(Vector2D normal)

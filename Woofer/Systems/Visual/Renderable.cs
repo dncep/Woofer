@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EntityComponentSystem.Components;
+using EntityComponentSystem.Saves;
 using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 
@@ -13,6 +14,7 @@ namespace WooferGame.Systems.Visual
     [Component("renderable")]
     class Renderable : Component
     {
+        [PersistentProperty]
         public List<Sprite> Sprites { get; set; }
 
         public Renderable()

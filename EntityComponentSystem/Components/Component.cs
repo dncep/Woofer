@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
 
 namespace EntityComponentSystem.Components
 {
+    [PersistentObject]
     public abstract class Component
     {
         public Entity Owner { get; set; }
         public string ComponentName { get; private set; }
 
         private static readonly Dictionary<Type, string> identifierCache = new Dictionary<Type, string>();
+        private static Dictionary<string, Type> identifierToTypeMap = null;
 
         protected Component()
         {
@@ -41,6 +45,33 @@ namespace EntityComponentSystem.Components
         {
             if (!identifierCache.ContainsKey(type)) identifierCache[type] = (type.GetCustomAttributes(typeof(ComponentAttribute), false).First() as ComponentAttribute).ComponentName;
             return identifierCache[type];
+        }
+
+        public static void PopulateDictionaryWithAssembly(Assembly assembly)
+        {
+            if (identifierToTypeMap == null) identifierToTypeMap = new Dictionary<string, Type>();
+            foreach (Type type in assembly.GetTypes())
+            {
+                if (typeof(Component).IsAssignableFrom(type))
+                {
+                    object[] attributes;
+                    if ((attributes = type.GetCustomAttributes(typeof(ComponentAttribute), false)).Length > 0)
+                    {
+                        string thisIdentifier = (attributes[0] as ComponentAttribute).ComponentName;
+                        identifierToTypeMap[thisIdentifier] = type;
+                    }
+                }
+            }
+        }
+
+        public static Type TypeForIdentifier(string identifier)
+        {
+            if (identifierToTypeMap == null)
+            {
+                PopulateDictionaryWithAssembly(Assembly.GetExecutingAssembly());
+                PopulateDictionaryWithAssembly(Assembly.GetEntryAssembly());
+            }
+            return identifierToTypeMap[identifier];
         }
     }
 

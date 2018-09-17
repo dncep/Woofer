@@ -7,7 +7,7 @@ using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
-
+using GameInterfaces.Audio;
 using GameInterfaces.Input;
 
 using WooferGame.Input;
@@ -47,6 +47,16 @@ namespace WooferGame.Systems.Pulse
                         if (pa.Owner.Components.Has<Physical>() && pa.Owner.Components.Has<PlayerOrientation>())
                         {
                             pa.Owner.Components.Get<Physical>().Velocity = pa.Owner.Components.Get<PlayerOrientation>().Unit * -strength;
+                            
+                            ISoundEffect sound_low = Woofer.Controller.AudioUnit["pulse_low"];
+                            sound_low.Pitch = (float)(strength / 256) - 1;
+                            ISoundEffect sound_mid = Woofer.Controller.AudioUnit["pulse_mid"];
+                            sound_mid.Pitch = sound_low.Pitch;
+                            ISoundEffect sound_high = Woofer.Controller.AudioUnit["pulse_high"];
+                            sound_high.Pitch = sound_low.Pitch;
+                            sound_low.Play();
+                            sound_mid.Play();
+                            sound_high.Play();
                         }
 
                         pa.EnergyMeter -= pa.PulseCost;

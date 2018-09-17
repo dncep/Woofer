@@ -17,10 +17,9 @@ namespace EntityComponentSystem.Scenes
     {
         public readonly EntityMap Entities;
         public readonly SystemMap Systems;
-        public readonly SpriteSet Sprites;
         public readonly EventManager Events;
 
-        public CameraView CurrentViewport { get; }
+        public CameraView CurrentViewport { get; set; }
 
         public float DeltaTime { get; private set; } = 0;
         public Random Random { get; set; } = new Random();
@@ -31,7 +30,6 @@ namespace EntityComponentSystem.Scenes
         {
             Entities = new EntityMap(this);
             Systems = new SystemMap(this);
-            Sprites = new SpriteSet();
             Events = new EventManager();
 
             Entities.Changed += NotifyEntityChange;

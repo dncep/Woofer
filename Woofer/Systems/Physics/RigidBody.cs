@@ -1,10 +1,12 @@
 ﻿using EntityComponentSystem.Components;
+using EntityComponentSystem.Saves;
 
 namespace WooferGame.Systems.Physics
 {
     [Component("rigidbody")]
     class RigidBody : Component
     {
+        [PersistentProperty]
         public CollisionBox[] Bounds { get; set; }
         public CollisionBox UnionBounds {
             get
@@ -22,6 +24,11 @@ namespace WooferGame.Systems.Physics
                 }
             }
         }
+
+        public RigidBody() : this(new CollisionBox[0])
+        {
+        }
+
         public RigidBody(params CollisionBox[] bounds) => Bounds = bounds;
     }
 }

@@ -104,3 +104,7 @@ C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\g
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\gui.xnb
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\parallax_bg.png
 C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\parallax_bg.xnb
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\pulse_high.xnb
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\pulse_low.xnb
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\pulse_mid.xnb
+C:\Users\Usuario\source\repos\Game\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\pulse_low_alt.xnb

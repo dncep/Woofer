@@ -18,7 +18,7 @@ namespace WooferGame.Systems.Linking
         {
             foreach(FollowingComponent following in WatchedComponents)
             {
-                if(Owner.Entities[following.FollowedID] is Entity followed)
+                if(following.FollowedID != 0 && Owner.Entities[following.FollowedID] is Entity followed)
                 {
                     Spatial sp = followed.Components.Get<Spatial>();
                     if (sp == null) continue;

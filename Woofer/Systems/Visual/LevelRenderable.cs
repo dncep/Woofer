@@ -1,10 +1,12 @@
 ﻿using EntityComponentSystem.Components;
+using EntityComponentSystem.Saves;
 
 namespace WooferGame.Systems.Visual
 {
     [Component("level_renderable")]
     class LevelRenderable : Component
     {
+        [PersistentProperty]
         public float ZOrder;
 
         public LevelRenderable() : this(0)

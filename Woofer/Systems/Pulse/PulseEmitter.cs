@@ -8,6 +8,7 @@ using EntityComponentSystem.Entities;
 using EntityComponentSystem.Util;
 using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Physics;
+using WooferGame.Systems.Sounds;
 using WooferGame.Systems.Timer;
 using WooferGame.Systems.Visual;
 
@@ -26,6 +27,8 @@ namespace WooferGame.Systems.Pulse
             this.Components.Add(new Renderable(new Sprite("brick", new Rectangle(-8, -8, 16, 16))));
             this.Components.Add(new LevelRenderable());
             this.Components.Add(new PulseEmitterComponent(direction, strength, reach));
+            this.Components.Add(new SoundEmitter(new Sounds.Sound("pulse_low")));
+
         }
     }
 }

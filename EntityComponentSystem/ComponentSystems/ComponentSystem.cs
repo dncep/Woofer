@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using EntityComponentSystem.Components;
@@ -14,6 +15,7 @@ namespace EntityComponentSystem.ComponentSystems
     public abstract class ComponentSystem
     {
         private static readonly Dictionary<Type, ComponentSystemAttribute> attributeCache = new Dictionary<Type, ComponentSystemAttribute>();
+        private static Dictionary<string, Type> identifierToTypeMap = null;
 
         public string SystemName { get; private set; }
 
@@ -94,6 +96,32 @@ namespace EntityComponentSystem.ComponentSystems
                 attributeCache[type].Listening = (type.GetCustomAttributes(typeof(ListeningAttribute), false).FirstOrDefault() as ListeningAttribute)?.Listening ?? new string[0];
             }
             return attributeCache[type];
+        }
+
+        public static void PopulateDictionaryWithAssembly(Assembly assembly)
+        {
+            if (identifierToTypeMap == null) identifierToTypeMap = new Dictionary<string, Type>();
+            foreach (Type type in assembly.GetTypes())
+            {
+                if (typeof(ComponentSystem).IsAssignableFrom(type)) {
+                    object[] attributes;
+                    if ((attributes = type.GetCustomAttributes(typeof(ComponentSystemAttribute), false)).Length > 0)
+                    {
+                        string thisIdentifier = (attributes[0] as ComponentSystemAttribute).SystemName;
+                        identifierToTypeMap[thisIdentifier] = type;
+                    }
+                }
+            }
+        }
+
+        public static Type TypeForIdentifier(string identifier)
+        {
+            if (identifierToTypeMap == null)
+            {
+                PopulateDictionaryWithAssembly(Assembly.GetExecutingAssembly());
+                PopulateDictionaryWithAssembly(Assembly.GetEntryAssembly());
+            }
+            return identifierToTypeMap[identifier];
         }
     }
 

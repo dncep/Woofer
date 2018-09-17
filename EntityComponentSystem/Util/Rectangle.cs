@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EntityComponentSystem.Saves;
 
 namespace EntityComponentSystem.Util
 {
+    [PersistentObject]
     public class Rectangle
     {
+        [PersistentProperty]
         public double X;
+        [PersistentProperty]
         public double Y;
+        [PersistentProperty]
         public double Width;
+        [PersistentProperty]
         public double Height;
 
         public Vector2D Position => new Vector2D(X, Y);
@@ -45,6 +51,10 @@ namespace EntityComponentSystem.Util
             Y = pos.Y;
             Width = size.Width;
             Height = size.Height;
+        }
+
+        public Rectangle() : this(0, 0, 0, 0)
+        {
         }
 
         public static Rectangle operator +(Rectangle rect, Vector2D vect) => new Rectangle(rect.X + vect.X, rect.Y + vect.Y, rect.Width, rect.Height);

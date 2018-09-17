@@ -7,6 +7,7 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Camera
@@ -14,12 +15,21 @@ namespace WooferGame.Systems.Camera
     [Component("camera_region")]
     class CameraRegionComponent : Component
     {
-        public Rectangle Area;
-        public Vector2D Focus;
+        [PersistentProperty]
+        public Rectangle Area { get; set; }
+        [PersistentProperty]
+        public Vector2D Focus { get; set; }
 
-        public double Easing = 0;
-        public double EasingStep = 0.01;
-        internal double MaxEasing = 1;
+        [PersistentProperty]
+        public double Easing { get; set; } = 0;
+        [PersistentProperty]
+        public double EasingStep { get; set; } = 0.01;
+        [PersistentProperty]
+        public double MaxEasing { get; set; } = 1;
+
+        public CameraRegionComponent()
+        {
+        }
 
         public CameraRegionComponent(Rectangle area) : this(area, area.Center)
         {

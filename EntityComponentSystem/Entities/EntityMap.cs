@@ -37,14 +37,34 @@ namespace EntityComponentSystem.Entities
             _scheduledRemove.Clear();
         }
 
+        public long GetNewId()
+        {
+            long id;
+            do
+            {
+                id = ((long)Owner.Random.Next() << 32) + Owner.Random.Next();
+            } while (_dict.ContainsKey(id) || _scheduledAdd.ContainsKey(id));
+            return id;
+        }
+
         public event EntityChangedEventHandler Changed = Dummy;
 
         public Entity this[long key] { get => _dict.ContainsKey(key) ? _dict[key] : null; }
 
         public int Count => _dict.Count;
 
+        public void EagerAssignId(Entity entity)
+        {
+            if(!entity._is_id_set)
+            {
+                entity._id = GetNewId();
+                entity._is_id_set = true;
+            }
+        }
+
         public void Add(Entity entity)
         {
+            EagerAssignId(entity);
             _scheduledAdd[entity.Id] = entity;
             entity.Owner = Owner;
             entity.Initialize();

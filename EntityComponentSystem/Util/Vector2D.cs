@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EntityComponentSystem.Saves;
 
 namespace EntityComponentSystem.Util
 {
+    [PersistentObject]
     public struct Vector2D : IEquatable<Vector2D>
     {
         public const int Rounding = 7;
@@ -14,8 +16,10 @@ namespace EntityComponentSystem.Util
         public static readonly Vector2D UnitI = new Vector2D(1, 0);
         public static readonly Vector2D UnitJ = new Vector2D(0, 1);
 
-        public double X;
-        public double Y;
+        [PersistentProperty]
+        public double X { get; set; }
+        [PersistentProperty]
+        public double Y { get; set; }
 
         public double Angle => Math.Atan2(Y, X);
         public double Magnitude => Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2));
