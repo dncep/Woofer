@@ -38,7 +38,7 @@ namespace WooferGame.Systems.Player
             //Movement
             Components.Add(new PlayerMovementComponent());
             Components.Add(new PlayerOrientation());
-            Components.Add(new PulseAbility() { Offset = new Vector2D(0, 16) });
+            //Components.Add(new PulseAbility() { Offset = new Vector2D(0, 16) });
 
             Components.Add(new FollowedComponent());
             
@@ -51,6 +51,8 @@ namespace WooferGame.Systems.Player
 
             //Interacting
             Components.Add(new InteractingAgent(48));
+
+            Components.Add(new PlayerComponent());
 
             //DEBUG
             Components.Add(new DebugClippable());

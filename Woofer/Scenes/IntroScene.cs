@@ -40,6 +40,7 @@ namespace WooferGame.Scenes
             Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 360, 320, 180), new Vector2D(0.05, 0)));
             //Entities.Add(new ParallaxObject(new Vector2D(0, 464), new Rectangle(0, 180, 320, 180), new Vector2D(3, 3), scale:3));
 
+            Entities.Add(new Room4(94 * 16, 128));
             Entities.Add(new Room3(78 * 16, 128));
             Entities.Add(new Room2(62 * 16, 128));
             Entities.Add(new Room1(640, 128));
@@ -76,6 +77,8 @@ namespace WooferGame.Scenes
             Systems.Add(new GlassBreakingSystem());
             Systems.Add(new TimerSystem());
             Systems.Add(new DoorSystem());
+
+            Systems.Add(new GeneralPlayerSystem());
 
             //Other
             Systems.Add(new PlayerFeedbackSystem());
@@ -304,8 +307,66 @@ namespace WooferGame.Scenes
             this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(8, -16)));
 
             this.QueueEntity(new Checkpoint(5.5 * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
+            this.QueueEntity(new Padding(new Rectangle(0, -3 * 16, 16 * 16, 3 * 16)));
 
             base.Initialize();
+        }
+    }
+
+    internal class Room4 : LevelSection
+    {
+        public Room4(int x, int y) : base("room0", new Vector2D(x, y), new Rectangle(0, 64, 0, 0))
+        {
+            Renderable renderable = this.Components.Get<Renderable>();
+
+            LabRoomBuilder rb = new LabRoomBuilder(64, 64, "lab_tileset");
+            this.AddSegment(rb, new Rectangle(0, 0, 33, 3)); //Floor
+            this.AddSegment(rb, new Rectangle(0, 3, 2, 10)); //Left Wall Lower
+            this.AddSegment(rb, new Rectangle(7, 6, 14, 7)); //Middle
+            this.AddSegment(rb, new Rectangle(33, 0, 12, 37)); //Right Wall Lower
+            this.AddSegment(rb, new Rectangle(28, 3, 3, 1)); //Woofer Stand
+            this.AddSegment(rb, new Rectangle(0, 16, 37, 21)); //Ceiling
+
+            rb.ResolveNeighbors();
+            rb.Set(29, 2, new RoomTileRaw() { Enabled = true, Initialized = true, Neighbors = 0b11111111 });
+            rb.Set(29, 1, new RoomTileRaw() { Enabled = true, Initialized = true, Neighbors = 0b11110111, TileMapOffset = new Vector2D(0, 256) });
+            renderable.Sprites.AddRange(rb.Build());
+            this.FinalizeCollision();
+        }
+
+        public override void Initialize()
+        {
+            this.QueueEntity(new Shelf(new Vector2D(2 * 16, 12.5 * 16), HorizontalDirection.Right));
+
+            Door door = new Door(new Vector2D(20 * 16, 16 * 16), true);
+            this.QueueEntity(door);
+
+            Owner.Entities.EagerAssignId(door);
+
+            this.QueueEntity(new InteractableButton(new Vector2D(16.5 * 16, 14.5 * 16), door.Id));
+
+            this.QueueEntity(new TriggerArea(new Rectangle(21 * 16, 6 * 16, 8 * 16, 6 * 16), door.Id, true));
+
+            this.QueueEntity(new WooferGiver(new Vector2D(29.5 * 16, 5 * 16)));
+
+            this.QueueEntity(new BreakableGlassEntity(new Rectangle(16.375 * 16, 3 * 16, 0.5 * 16, 3 * 16), new Rectangle(0, 160, 40, 48), new Vector2D(-2 * 16, 0)));
+            this.QueueEntity(new Padding(new Rectangle(0, -3*16, 64*16, 3*16)));
+
+            base.Initialize();
+        }
+    }
+
+    internal class Padding : LevelSection
+    {
+        public Padding(Rectangle bounds) : base("room0", new Vector2D(bounds.X, bounds.Y), new Rectangle(0, 0, 0, 0))
+        {
+            Renderable renderable = this.Components.Get<Renderable>();
+
+            LabRoomBuilder rb = new LabRoomBuilder((int)bounds.Width / 16, (int)bounds.Height / 16, "lab_tileset");
+            this.AddSegment(rb, new Rectangle(0, 0, bounds.Width / 16, bounds.Height / 16));
+            rb.ResolveNeighbors();
+            renderable.Sprites.AddRange(rb.Build());
+            this.FinalizeCollision();
         }
     }
 }

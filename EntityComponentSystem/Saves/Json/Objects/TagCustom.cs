@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EntityComponentSystem.Saves.Json.Objects
 {
-    public class JsonUnresolvedValue : IJsonValue
+    public class TagCustom : ITag
     {
         public readonly object Value;
 
-        public JsonUnresolvedValue(object value) => Value = value;
+        public TagCustom(object value) => Value = value;
 
-        public string[] Resolve(JsonMaster json)
+        public int Resolve(TagMaster json, BinaryWriter writer)
         {
-            return json.ConvertToValue(Value).Resolve(json);
+            return json.ConvertToValue(Value).Resolve(json, writer);
         }
     }
 }

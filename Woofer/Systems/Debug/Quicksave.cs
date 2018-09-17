@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using EntityComponentSystem.Interfaces.Visuals;
 using EntityComponentSystem.Saves;
 using EntityComponentSystem.Saves.Json.Converter.DefaultConverters;
 using GameInterfaces.Input;
+using WooferGame.Controller.Commands;
 using WooferGame.Input;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Sounds;
@@ -24,6 +26,15 @@ namespace WooferGame.Systems.Debug
     {
         private static InputTimeframe quicksave = new InputTimeframe(5);
         private static InputTimeframe quickload = new InputTimeframe(5);
+
+        private static readonly string TargetDirectory = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), @"Woofer/scenes");
+        private static readonly string TargetFile = Path.Combine(TargetDirectory, "scene");
+
+        static Quicksave()
+        {
+            Directory.CreateDirectory(TargetDirectory);
+        }
+
         public override void Input()
         {
             ButtonState saveButton = Woofer.Controller.InputManager.ActiveInputMap.Quicksave;
@@ -40,7 +51,7 @@ namespace WooferGame.Systems.Debug
                 save.AddConverter(new ListConverter<Sprite>());
                 save.AddConverter(new ListConverter<AnimatedSprite>());
                 save.AddConverter(new EnumConverter<DrawMode>());
-                save.Save(@"C:\Users\Usuario\Desktop\scene.json");
+                save.Save(TargetFile);
                 Console.WriteLine("Scene saved");
             }
 
@@ -48,7 +59,7 @@ namespace WooferGame.Systems.Debug
 
             if (loadButton.IsPressed() && quickload.Execute())
             {
-                LoadOperation load = new LoadOperation(@"C:\Users\Usuario\Desktop\scene.json");
+                LoadOperation load = new LoadOperation(TargetFile);
                 load.AddConverter(new CollisionBoxConverter());
                 load.AddConverter(new ListConverter<CollisionBox>());
                 load.AddConverter(new ListConverter<Sound>());
@@ -56,7 +67,7 @@ namespace WooferGame.Systems.Debug
                 load.AddConverter(new ListConverter<AnimatedSprite>());
                 load.AddConverter(new EnumConverter<DrawMode>());
 
-                Woofer.Controller.ActiveScene = load.Load();
+                Woofer.Controller.CommandFired(new SceneChangeCommand(load.Load()));
                 Console.WriteLine("Scene loaded");
             }
         }

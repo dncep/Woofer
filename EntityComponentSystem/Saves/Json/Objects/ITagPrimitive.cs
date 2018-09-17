@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EntityComponentSystem.Saves.Json.Objects
 {
-    public interface IJsonPrimitive : IJsonValue
+    public interface ITagPrimitive : ITag
     {
     }
 }

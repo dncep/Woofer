@@ -7,21 +7,21 @@ using EntityComponentSystem.Saves.Json.Objects;
 
 namespace EntityComponentSystem.Saves.Json.Converter.DefaultConverters
 {
-    public class EnumConverter<T> : IJsonConverter
+    public class EnumConverter<T> : ITagConverter
     {
         public Type GetWorkingType() => typeof(T);
-        public K FromJson<K>(JsonMaster json, IJsonValue value)
+        public K FromJson<K>(TagMaster json, ITag value)
         {
-            JsonString str = value as JsonString;
+            TagString str = value as TagString;
             foreach(T o in typeof(T).GetEnumValues())
             {
                 if (typeof(T).GetEnumName(o) == str.Value) return (K)Convert.ChangeType(o, typeof(K));
             }
             return default(K);
         }
-        public IJsonValue ToJson(JsonMaster json, object obj)
+        public ITag ToJson(TagMaster json, object obj)
         {
-            return new JsonString(typeof(T).GetEnumName(obj));
+            return new TagString(typeof(T).GetEnumName(obj));
         }
     }
 }

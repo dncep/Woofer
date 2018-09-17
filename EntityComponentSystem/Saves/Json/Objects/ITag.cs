@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EntityComponentSystem.Saves.Json.Objects
 {
-    public interface IJsonValue
+    public interface ITag
     {
-        string[] Resolve(JsonMaster json);
+        int Resolve(TagMaster json, BinaryWriter writer);
     }
 }

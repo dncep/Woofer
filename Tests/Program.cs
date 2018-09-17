@@ -104,7 +104,7 @@ namespace Tests
         {
             Assert(GeneralUtil.ParseQuotedString(@"'ab\nc'", 0).Item1, "ab\nc");
 
-            Console.WriteLine(new JsonMaster().FromJson("{\"a\":1}"));
+            Console.WriteLine(new TagMaster().FromJson("{\"a\":1}"));
 
         }
 

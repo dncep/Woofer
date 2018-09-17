@@ -7,10 +7,10 @@ using EntityComponentSystem.Saves.Json.Objects;
 
 namespace EntityComponentSystem.Saves.Json.Converter
 {
-    public interface IJsonConverter
+    public interface ITagConverter
     {
         Type GetWorkingType();
-        IJsonValue ToJson(JsonMaster json, object obj);
-        T FromJson<T>(JsonMaster json, IJsonValue value);
+        ITag ToJson(TagMaster json, object obj);
+        T FromJson<T>(TagMaster json, ITag value);
     }
 }

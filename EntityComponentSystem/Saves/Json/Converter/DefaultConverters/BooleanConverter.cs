@@ -11,17 +11,17 @@ using EntityComponentSystem.Saves.Json.Objects;
 
 namespace EntityComponentSystem.Saves.Json.Converter.DefaultConverters
 {
-    class BooleanConverter : IJsonConverter
+    class BooleanConverter : ITagConverter
     {
         public Type GetWorkingType() => typeof(bool);
-        public K FromJson<K>(JsonMaster json, IJsonValue value)
+        public K FromJson<K>(TagMaster json, ITag value)
         {
-            if (value is JsonBoolean str)
+            if (value is TagBoolean str)
             {
                 return (K)Convert.ChangeType(str.Value, typeof(K));
             }
             else return default(K);
         }
-        public IJsonValue ToJson(JsonMaster json, object obj) => throw new NotImplementedException();
+        public ITag ToJson(TagMaster json, object obj) => throw new NotImplementedException();
     }
 }

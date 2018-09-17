@@ -49,13 +49,22 @@ namespace WooferGame.Controller
 
         public void CommandFired(Command command)
         {
-            if(command is ChangeOrientationOriginCommand)
+            switch(command)
             {
-                ChangeOrientationOriginCommand changeOrigin = command as ChangeOrientationOriginCommand;
-                if(InputManager.ActiveInputMap is IScreenAwareInput screenAware)
-                {
-                    screenAware.SetOrientationOrigin(changeOrigin.newOrigin);
-                }
+                case OrientationOriginChangeCommand changeOrigin:
+                    {
+                        if (InputManager.ActiveInputMap is IScreenAwareInput screenAware)
+                        {
+                            screenAware.SetOrientationOrigin(changeOrigin.NewOrigin);
+                        }
+                        break;
+                    }
+                case SceneChangeCommand changeScene:
+                    {
+                        ActiveScene.Dispose();
+                        ActiveScene = changeScene.NewScene;
+                        break;
+                    }
             }
         }
     }

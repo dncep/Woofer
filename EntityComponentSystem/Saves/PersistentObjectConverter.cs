@@ -12,12 +12,12 @@ using EntityComponentSystem.Util;
 
 namespace EntityComponentSystem.Saves
 {
-    class PersistentObjectConverter : IJsonConverter
+    class PersistentObjectConverter : ITagConverter
     {
         public Type GetWorkingType() => typeof(object);
-        public T FromJson<T>(JsonMaster json, IJsonValue value)
+        public T FromJson<T>(TagMaster json, ITag value)
         {
-            JsonObject obj = (JsonObject)value;
+            TagCompound obj = (TagCompound)value;
             T instance;
             if(typeof(T).IsValueType)
             {
@@ -39,7 +39,7 @@ namespace EntityComponentSystem.Saves
 
                 if (!property.CanWrite) throw new MissingMethodException("Property " + property.Name + " of type '" + typeof(T).Name + "' can't be written to.");
 
-                object newValue = typeof(JsonObject).GetMethod("Get", new Type[] { typeof(JsonMaster), typeof(string) }).MakeGenericMethod(property.PropertyType).Invoke(obj, new object[] { json, key });
+                object newValue = typeof(TagCompound).GetMethod("Get", new Type[] { typeof(TagMaster), typeof(string) }).MakeGenericMethod(property.PropertyType).Invoke(obj, new object[] { json, key });
 
                 if(newValue != null) property.SetValue(boxed, newValue);
             }
@@ -52,16 +52,16 @@ namespace EntityComponentSystem.Saves
 
                 //if (!field.) throw new MissingMethodException("Field" + field.Name + " can't be written to.");
 
-                object newValue = typeof(JsonObject).GetMethod("Get", new Type[] { typeof(JsonMaster), typeof(string) }).MakeGenericMethod(field.FieldType).Invoke(obj, new object[] { json, key });
+                object newValue = typeof(TagCompound).GetMethod("Get", new Type[] { typeof(TagMaster), typeof(string) }).MakeGenericMethod(field.FieldType).Invoke(obj, new object[] { json, key });
 
                 if(newValue != null) field.SetValue(boxed, newValue);
             }
 
             return (T)boxed;
         }
-        public IJsonValue ToJson(JsonMaster json, object raw)
+        public ITag ToJson(TagMaster json, object raw)
         {
-            JsonObject obj = new JsonObject();
+            TagCompound obj = new TagCompound();
 
             foreach (PropertyInfo property in raw.GetType().GetProperties())
             {

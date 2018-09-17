@@ -9,6 +9,7 @@ using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
 using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Physics;
+using WooferGame.Systems.Player;
 
 namespace WooferGame.Systems.Puzzles
 {
@@ -22,7 +23,7 @@ namespace WooferGame.Systems.Puzzles
         {
             foreach(SwitchComponent switchComponent in WatchedComponents)
             {
-                if(switchComponent.PressedState > 0) switchComponent.PressedState--;
+                if(!switchComponent.OneTimeUse && switchComponent.PressedState > 0) switchComponent.PressedState--;
 
             }
         }
@@ -31,6 +32,7 @@ namespace WooferGame.Systems.Puzzles
             if(evt is SoftCollisionEvent ce && ce.Victim.Components.Has<SwitchComponent>())
             {
                 SwitchComponent switchComponent = ce.Victim.Components.Get<SwitchComponent>();
+                if (switchComponent.PlayerOnly && !ce.Sender.Owner.Components.Has<PlayerComponent>()) return;
                 if(!switchComponent.Pressed)
                 {
                     Owner.Events.InvokeEvent(new ActivationEvent(ce.Sender, switchComponent.Owner, ce));

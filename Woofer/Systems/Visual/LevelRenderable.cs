@@ -7,7 +7,7 @@ namespace WooferGame.Systems.Visual
     class LevelRenderable : Component
     {
         [PersistentProperty]
-        public float ZOrder;
+        public float ZOrder { get; set; }
 
         public LevelRenderable() : this(0)
         {

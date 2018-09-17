@@ -19,63 +19,70 @@ namespace EntityComponentSystem.Saves
     public class LoadOperation
     {
         private readonly string Path;
-        private List<IJsonConverter> Converters = new List<IJsonConverter>();
+        private List<ITagConverter> Converters = new List<ITagConverter>();
 
         public LoadOperation(string path) => Path = path;
 
-        public void AddConverter(IJsonConverter converter)
+        public void AddConverter(ITagConverter converter)
         {
             Converters.Add(converter);
         }
 
         public Scene Load()
         {
-            JsonMaster json = new JsonMaster();
+            TagMaster tagMaster = new TagMaster();
             
-            json.RegisterConverter(new ListConverter<long>());
-            json.RegisterConverter(new ListConverter<int>());
+            tagMaster.RegisterConverter(new ListConverter<long>());
+            tagMaster.RegisterConverter(new ListConverter<int>());
 
-            json.RegisterConverter(new NumberConverter<int>());
-            json.RegisterConverter(new NumberConverter<float>());
-            json.RegisterConverter(new NumberConverter<double>());
-            json.RegisterConverter(new NumberConverter<long>());
+            tagMaster.RegisterConverter(new NumberConverter<byte>());
+            tagMaster.RegisterConverter(new NumberConverter<short>());
+            tagMaster.RegisterConverter(new NumberConverter<int>());
+            tagMaster.RegisterConverter(new NumberConverter<float>());
+            tagMaster.RegisterConverter(new NumberConverter<long>());
+            tagMaster.RegisterConverter(new NumberConverter<double>());
 
-            json.RegisterConverter(new StringConverter());
-            json.RegisterConverter(new BooleanConverter());
-            foreach (IJsonConverter converter in Converters)
+            tagMaster.RegisterConverter(new StringConverter());
+            tagMaster.RegisterConverter(new BooleanConverter());
+            foreach (ITagConverter converter in Converters)
             {
-                json.RegisterConverter(converter);
+                tagMaster.RegisterConverter(converter);
             }
 
-            JsonObject root = json.FromJson(File.ReadAllText(Path));
+            BinaryReader reader = new BinaryReader(new FileStream(Path, FileMode.Open));
+
+            TagCompound root = tagMaster.Read(reader);
+
+            reader.Close();
+            reader.Dispose();
 
             Scene scene = new Scene();
 
-            JsonObject sceneRoot = root.Get<JsonObject>("scene");
+            TagCompound sceneRoot = root.Get<TagCompound>("scene");
 
-            scene.CurrentViewport = sceneRoot.Get<CameraView>(json, "viewport");
+            scene.CurrentViewport = sceneRoot.Get<CameraView>(tagMaster, "viewport");
 
-            foreach(IJsonValue rawEntity in sceneRoot.Get<JsonArray>("entities"))
+            foreach(ITag rawEntity in sceneRoot.Get<TagList>("entities"))
             {
-                JsonObject obj = rawEntity as JsonObject;
+                TagCompound obj = rawEntity as TagCompound;
                 Entity entity = new Entity();
-                entity._id = obj.Get<long>(json, "id");
+                entity._id = obj.Get<long>(tagMaster, "id");
                 entity._is_id_set = true;
-                entity.Name = obj.Get<JsonString>("name").Value;
-                entity.Active = obj.Get<JsonBoolean>("active").Value;
+                entity.Name = obj.Get<TagString>("name").Value;
+                entity.Active = obj.Get<TagBoolean>("active").Value;
 
-                foreach(KeyValuePair<string, IJsonValue> rawComponent in obj.Get<JsonObject>("components"))
+                foreach(KeyValuePair<string, ITag> rawComponent in obj.Get<TagCompound>("components"))
                 {
                     Type componentType = Component.TypeForIdentifier(rawComponent.Key);
-                    Component component = json.ConvertFromValue(rawComponent.Value, componentType) as Component;
+                    Component component = tagMaster.ConvertFromValue(rawComponent.Value, componentType) as Component;
                     entity.Components.Add(component);
                 }
                 scene.Entities.Add(entity);
             }
 
-            foreach(IJsonValue rawName in sceneRoot.Get<JsonArray>("systems"))
+            foreach(ITag rawName in sceneRoot.Get<TagList>("systems"))
             {
-                JsonString name = rawName as JsonString;
+                TagString name = rawName as TagString;
                 ComponentSystem system = ComponentSystem.TypeForIdentifier(name.Value).GetConstructor(new Type[0]).Invoke(new object[0]) as ComponentSystem;
                 scene.Systems.Add(system);
             }

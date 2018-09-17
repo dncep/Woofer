@@ -31,6 +31,7 @@ namespace EntityComponentSystem.Entities
             _scheduledAdd.Clear();
             foreach (long id in _scheduledRemove)
             {
+                if (!_dict.ContainsKey(id)) continue;
                 Changed.Invoke(new EntityChangedEventArgs(_dict[id], true));
                 _dict.Remove(id);
             }

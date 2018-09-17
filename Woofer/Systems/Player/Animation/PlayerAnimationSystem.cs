@@ -29,7 +29,7 @@ namespace WooferGame.Systems.Player.Animation
         private const int Woofer = 3;
         private const int Arms = 4;
 
-        private static readonly int[] Origins = { 0, 96, 128, 160, 352 };
+        private static readonly int[] Origins = { 0, 96, 128, 0, 160 };
 
         private static readonly Vector2D OrientationOffset = new Vector2D(256, 0);
 
@@ -58,12 +58,12 @@ namespace WooferGame.Systems.Player.Animation
                         new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Legs], 32, 32)),
                         new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Torso], 32, 32)),
                         new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Head], 32, 32)),
-                        new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Woofer], 0, 0)),
+                        new Sprite("woofer", Destination, new Rectangle(srcOffsets[Woofer], 0, 0)),
                         new Sprite(player.SpritesheetName, Destination, new Rectangle(srcOffsets[Arms], 32, 32))
                     };
                     player.Initialized = true;
                 }
-
+                
 
                 Physical physical = player.Owner.Components.Get<Physical>();
                 PlayerMovementComponent movement = player.Owner.Components.Get<PlayerMovementComponent>();
@@ -103,7 +103,7 @@ namespace WooferGame.Systems.Player.Animation
 
                 if(pulse != null)
                 {
-                    srcOffsets[Woofer].Y += 32 * 5*(1-(pulse.EnergyMeter / pulse.MaxEnergy));
+                    srcOffsets[Woofer].Y += 32 * Math.Round(5*(1-(pulse.EnergyMeter / pulse.MaxEnergy)));
                 }
 
                 if (!movement.OnGround || Math.Abs(physical.Velocity.X) <= 1e-2) player.WalkAnimationProgress = 0;
@@ -129,14 +129,16 @@ namespace WooferGame.Systems.Player.Animation
                         }
                     }
                 }
+
                 if(!movement.OnGround)
                 {
                     srcOffsets[Legs] += new Vector2D(32, 32);
                 }
 
-                for(int i = Legs; i <= Arms; i++)
+                for (int i = Legs; i <= Arms; i++)
                 {
                     int size = 32;
+                    if (i == Woofer && pulse == null) size = 0;
                     renderable.Sprites[i].Source = new Rectangle(srcOffsets[i], size, size);
                     renderable.Sprites[i].Destination = Destination + destOffsets[i];
                 }

@@ -13,11 +13,11 @@ using GameInterfaces.Controller;
 
 namespace EntityComponentSystem.Scenes
 {
-    public class Scene
+    public class Scene : IDisposable
     {
-        public readonly EntityMap Entities;
-        public readonly SystemMap Systems;
-        public readonly EventManager Events;
+        public EntityMap Entities;
+        public SystemMap Systems;
+        public EventManager Events;
 
         public CameraView CurrentViewport { get; set; }
 
@@ -34,7 +34,6 @@ namespace EntityComponentSystem.Scenes
 
             Entities.Changed += NotifyEntityChange;
             CurrentViewport = new CameraView();
-
         }
 
         public void Draw<TSurface, TSource>(ScreenRenderer<TSurface, TSource> screenRenderer)
@@ -93,5 +92,58 @@ namespace EntityComponentSystem.Scenes
             //Console.WriteLine("input");
             Systems.InvokeInput();
         }
+
+        public void Destroy()
+        {
+            List<string> systemNames = Systems.Select(s => s.SystemName).ToList();
+            foreach(string systemName in systemNames)
+            {
+                Systems.Remove(systemName);
+            }
+            foreach(Entity entity in Entities)
+            {
+                entity.Remove();
+            }
+            Entities.Flush();
+            Entities.Changed -= NotifyEntityChange;
+        }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    Destroy();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+                Entities = null;
+                Systems = null;
+                Events = null;
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~Scene() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

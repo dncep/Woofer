@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Events;
 using WooferGame.Systems.Pulse;
@@ -10,6 +11,7 @@ using WooferGame.Systems.Pulse;
 namespace WooferGame.Systems.Player.Feedback
 {
     [ComponentSystem("player_feedback", ProcessingCycles.Tick),
+        Watching(typeof(PlayerComponent)),
         Listening(typeof(PulseEvent))]
     class PlayerFeedbackSystem : ComponentSystem
     {
@@ -19,7 +21,13 @@ namespace WooferGame.Systems.Player.Feedback
         {
             if(evt is PulseEvent pe)
             {
-                VibrationAmount += Math.Pow(pe.Strength/256, 2)*256;
+                PlayerComponent player = WatchedComponents.First() as PlayerComponent;
+                double distance = (pe.Source - player.Owner.Components.Get<Spatial>().Position).Magnitude;
+                if (distance < 0.1) distance = 0.1;
+                if (distance > 64 && pe.Sender.Owner != player.Owner) return;
+
+                VibrationAmount += Math.Pow(pe.Strength/256, 2)*256 / distance;
+                if (VibrationAmount < 0.1) VibrationAmount = 0;
             }
         }
         public override void Tick()

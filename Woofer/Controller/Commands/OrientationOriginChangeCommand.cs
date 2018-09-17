@@ -8,10 +8,10 @@ using EntityComponentSystem.Util;
 
 namespace WooferGame.Controller.Commands
 {
-    class ChangeOrientationOriginCommand : Command
+    class OrientationOriginChangeCommand : Command
     {
-        public Vector2D newOrigin;
+        public Vector2D NewOrigin;
 
-        public ChangeOrientationOriginCommand(Vector2D newOrigin) => this.newOrigin = newOrigin;
+        public OrientationOriginChangeCommand(Vector2D newOrigin) => this.NewOrigin = newOrigin;
     }
 }

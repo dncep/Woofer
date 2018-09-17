@@ -17,5 +17,9 @@ namespace WooferGame.Systems.Puzzles
         [PersistentProperty]
         public int PressedState = 0;
         public bool Pressed => PressedState > 0;
+        [PersistentProperty]
+        public bool PlayerOnly = false;
+        [PersistentProperty]
+        public bool OneTimeUse = false;
     }
 }

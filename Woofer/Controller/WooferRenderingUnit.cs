@@ -27,6 +27,7 @@ namespace WooferGame.Controller
             SpriteManager.LoadSprite("sprites0");
             SpriteManager.LoadSprite("intro_bg");
             SpriteManager.LoadSprite("char");
+            SpriteManager.LoadSprite("woofer");
             SpriteManager.LoadSprite("particles");
             SpriteManager.LoadSprite("lab_tileset");
             SpriteManager.LoadSprite("lab_objects");

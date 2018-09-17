@@ -13,53 +13,53 @@ using EntityComponentSystem.Saves.Json.Objects;
 
 namespace WooferGame.Systems.Physics
 {
-    class CollisionBoxConverter : IJsonConverter
+    class CollisionBoxConverter : ITagConverter
     {
         public Type GetWorkingType() => typeof(CollisionBox);
-        public T FromJson<T>(JsonMaster json, IJsonValue value)
+        public T FromJson<T>(TagMaster json, ITag value)
         {
-            JsonObject obj = value as JsonObject;
+            TagCompound obj = value as TagCompound;
             CollisionBox box = new CollisionBox();
-            JsonArray bounds = obj.Get<JsonArray>("bounds");
-            box.X = (bounds[0] as JsonNumber).Value;
-            box.Y = (bounds[1] as JsonNumber).Value;
-            box.Width = (bounds[2] as JsonNumber).Value;
-            box.Height = (bounds[3] as JsonNumber).Value;
+            TagList bounds = obj.Get<TagList>("bounds");
+            box.X = (bounds[0] as TagDouble).Value;
+            box.Y = (bounds[1] as TagDouble).Value;
+            box.Width = (bounds[2] as TagDouble).Value;
+            box.Height = (bounds[3] as TagDouble).Value;
 
-            JsonArray faces = obj.Get<JsonArray>("faces");
-            box.TopFaceProperties = FaceFromJson(faces[0] as JsonObject);
-            box.RightFaceProperties = FaceFromJson(faces[1] as JsonObject);
-            box.BottomFaceProperties= FaceFromJson(faces[2] as JsonObject);
-            box.LeftFaceProperties = FaceFromJson(faces[3] as JsonObject);
+            TagList faces = obj.Get<TagList>("faces");
+            box.TopFaceProperties = FaceFromJson(faces[0] as TagCompound);
+            box.RightFaceProperties = FaceFromJson(faces[1] as TagCompound);
+            box.BottomFaceProperties= FaceFromJson(faces[2] as TagCompound);
+            box.LeftFaceProperties = FaceFromJson(faces[3] as TagCompound);
             return (T)Convert.ChangeType(box, typeof(T));
         }
 
-        private CollisionFaceProperties FaceFromJson(JsonObject obj)
+        private CollisionFaceProperties FaceFromJson(TagCompound obj)
         {
             return new CollisionFaceProperties()
             {
-                Enabled = obj.Get<JsonBoolean>("enabled").Value,
-                Friction = obj.Get<JsonNumber>("friction").Value,
-                Snap = obj.Get<JsonBoolean>("snap").Value
+                Enabled = obj.Get<TagBoolean>("enabled").Value,
+                Friction = obj.Get<TagDouble>("friction").Value,
+                Snap = obj.Get<TagBoolean>("snap").Value
             };
         }
 
-        public IJsonValue ToJson(JsonMaster json, object rawBox)
+        public ITag ToJson(TagMaster json, object rawBox)
         {
             CollisionBox box = (CollisionBox)rawBox;
-            JsonObject obj = new JsonObject();
+            TagCompound obj = new TagCompound();
 
-            JsonArray rect = new JsonArray();
+            TagList rect = new TagList();
             obj.AddProperty("bounds", rect);
             rect.Add(box.X);
             rect.Add(box.Y);
             rect.Add(box.Width);
             rect.Add(box.Height);
-            JsonArray faces = new JsonArray();
+            TagList faces = new TagList();
             obj.AddProperty("faces", faces);
             foreach(CollisionFaceProperties face in box.GetFaceProperties())
             {
-                JsonObject faceObj = new JsonObject();
+                TagCompound faceObj = new TagCompound();
                 faces.Add(faceObj);
                 faceObj.AddProperty("enabled", face.Enabled);
                 faceObj.AddProperty("friction", face.Friction);

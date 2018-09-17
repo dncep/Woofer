@@ -7,16 +7,21 @@ using EntityComponentSystem.Saves.Json.Objects;
 
 namespace EntityComponentSystem.Saves.Json.Converter.DefaultConverters
 {
-    public class NumberConverter<T> : IJsonConverter
+    public class NumberConverter<T> : ITagConverter
     {
         public Type GetWorkingType() => typeof(T);
-        public K FromJson<K>(JsonMaster json, IJsonValue value) {
-            if (value is JsonNumber num)
+        public K FromJson<K>(TagMaster json, ITag value) {
+            switch(value)
             {
-                return (K)Convert.ChangeType(num.Value, typeof(K));
+                case TagByte num: return (K)Convert.ChangeType(num.Value, typeof(K));
+                case TagShort num: return (K)Convert.ChangeType(num.Value, typeof(K));
+                case TagInt num: return (K)Convert.ChangeType(num.Value, typeof(K));
+                case TagFloat num: return (K)Convert.ChangeType(num.Value, typeof(K));
+                case TagLong num: return (K)Convert.ChangeType(num.Value, typeof(K));
+                case TagDouble num: return (K)Convert.ChangeType(num.Value, typeof(K));
+                default: return default(K);
             }
-            else return default(K);
         }
-        public IJsonValue ToJson(JsonMaster json, object obj) => throw new NotImplementedException();
+        public ITag ToJson(TagMaster json, object obj) => throw new NotImplementedException();
     }
 }

@@ -19,43 +19,50 @@ namespace EntityComponentSystem.Saves
     public class SaveOperation
     {
         private readonly Scene Scene;
-        private List<IJsonConverter> Converters = new List<IJsonConverter>();
+        private List<ITagConverter> Converters = new List<ITagConverter>();
 
         public SaveOperation(Scene scene) => Scene = scene;
 
-        public void AddConverter(IJsonConverter converter)
+        public void AddConverter(ITagConverter converter)
         {
             Converters.Add(converter);
         }
 
         public void Save(string path)
         {
-            JsonMaster json = new JsonMaster();
-            
-            json.RegisterConverter(new ListConverter<long>());
-            json.RegisterConverter(new ListConverter<int>());
-            foreach (IJsonConverter converter in Converters)
+            TagMaster tagMaster = new TagMaster();
+
+            tagMaster.RegisterConverter(new NumberConverter<byte>());
+            tagMaster.RegisterConverter(new NumberConverter<short>());
+            tagMaster.RegisterConverter(new NumberConverter<int>());
+            tagMaster.RegisterConverter(new NumberConverter<float>());
+            tagMaster.RegisterConverter(new NumberConverter<long>());
+            tagMaster.RegisterConverter(new NumberConverter<double>());
+
+            tagMaster.RegisterConverter(new ListConverter<long>());
+            tagMaster.RegisterConverter(new ListConverter<int>());
+            foreach (ITagConverter converter in Converters)
             {
-                json.RegisterConverter(converter);
+                tagMaster.RegisterConverter(converter);
             }
 
-            JsonObject root = new JsonObject();
+            TagCompound root = new TagCompound();
 
-            JsonObject sceneRoot = new JsonObject();
+            TagCompound sceneRoot = new TagCompound();
             root.AddProperty("scene", sceneRoot);
 
             sceneRoot.AddProperty("viewport", Scene.CurrentViewport);
             
             {
-                JsonArray entities = new JsonArray();
+                TagList entities = new TagList();
                 sceneRoot.AddProperty("entities", entities);
                 foreach(Entity entity in Scene.Entities)
                 {
-                    JsonObject entityObj = new JsonObject();
+                    TagCompound entityObj = new TagCompound();
                     entities.Add(entityObj);
                     entityObj.AddProperty("name", entity.Name);
                     entityObj.AddProperty("id", entity.Id);
-                    JsonObject components = new JsonObject();
+                    TagCompound components = new TagCompound();
                     entityObj.AddProperty("active", entity.Active);
                     entityObj.AddProperty("components", components);
                     foreach (Component component in entity.Components)
@@ -66,7 +73,7 @@ namespace EntityComponentSystem.Saves
             }
             
             {
-                JsonArray systems = new JsonArray();
+                TagList systems = new TagList();
                 sceneRoot.AddProperty("systems", systems);
                 foreach(ComponentSystem system in Scene.Systems)
                 {
@@ -74,8 +81,10 @@ namespace EntityComponentSystem.Saves
                 }
             }
 
-            File.WriteAllText(path, json.ToJson(root));
-            //Console.WriteLine(json.ToJson(root));
+            BinaryWriter writer = new BinaryWriter(new FileStream(path, FileMode.Create));
+            tagMaster.Write(root, writer);
+            writer.Close();
+            writer.Dispose();
         }
     }
 }

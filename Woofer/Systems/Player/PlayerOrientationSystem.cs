@@ -52,7 +52,7 @@ namespace WooferGame.Systems.Player
 
                 origin.Y = (screenSize.Height) - origin.Y;
 
-                Woofer.Controller.CommandFired(new ChangeOrientationOriginCommand(origin));
+                Woofer.Controller.CommandFired(new OrientationOriginChangeCommand(origin));
                 break;
             }
         }

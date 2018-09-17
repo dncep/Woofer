@@ -43,7 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\BackgroundRenderingLayer.cs" />
-    <Compile Include="Controller\Commands\ChangeOrientationOriginCommand.cs" />
+    <Compile Include="Controller\Commands\OrientationOriginChangeCommand.cs" />
+    <Compile Include="Controller\Commands\SceneChangeCommand.cs" />
     <Compile Include="Controller\ParallaxRenderingLayer.cs" />
     <Compile Include="Input\GamePadInputMap.cs" />
     <Compile Include="Input\IInputMap.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Scenes\LevelObjects\MovableBox.cs" />
     <Compile Include="Scenes\LevelObjects\Ramp.cs" />
     <Compile Include="Scenes\LevelObjects\Shelf.cs" />
+    <Compile Include="Scenes\LevelObjects\WooferGiver.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
     <Compile Include="Systems\Camera\CameraLocationQueryEvent.cs" />
     <Compile Include="Systems\Camera\CameraRegion.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="Systems\Interaction\InteractionRangeExit.cs" />
     <Compile Include="Systems\Interaction\InteractionSystem.cs" />
     <Compile Include="Systems\Interaction\LinkedActivationComponent.cs" />
+    <Compile Include="Systems\Interaction\TriggerArea.cs" />
     <Compile Include="Systems\Linking\FollowedComponent.cs" />
     <Compile Include="Systems\Linking\FollowingComponent.cs" />
     <Compile Include="Systems\Linking\FollowingSystem.cs" />
@@ -125,6 +128,9 @@
     <Compile Include="Systems\Player\Animation\PlayerAnimation.cs" />
     <Compile Include="Systems\Player\Animation\PlayerAnimationSystem.cs" />
     <Compile Include="Systems\Player\Feedback\PlayerFeedbackSystem.cs" />
+    <Compile Include="Systems\Player\GeneralPlayerSystem.cs" />
+    <Compile Include="Systems\Player\PlayerComponent.cs" />
+    <Compile Include="Systems\Player\WooferGiverComponent.cs" />
     <Compile Include="Systems\Pulse\PulseEmitter.cs" />
     <Compile Include="Systems\Pulse\PulseEmitterComponent.cs" />
     <Compile Include="Systems\Pulse\PulseSystem.cs" />
