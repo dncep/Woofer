@@ -9,6 +9,7 @@ using WooferGame.Systems.Checkpoints;
 using WooferGame.Systems.DeathBarrier;
 using WooferGame.Systems.Debug;
 using WooferGame.Systems.Environment;
+using WooferGame.Systems.HUD;
 using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Linking;
 using WooferGame.Systems.Movement;
@@ -99,6 +100,8 @@ namespace WooferGame.Scenes
             Systems.Add(new ParticleSystem());
             Systems.Add(new InteractionIconSystem());
             Entities.Add(new InteractionIconEntity());
+
+            Systems.Add(new HintSystem());
 
             //DEBUG
             Systems.Add(new DebugClipping());
@@ -350,7 +353,7 @@ namespace WooferGame.Scenes
             this.QueueEntity(new WooferGiver(new Vector2D(29.5 * 16, 5 * 16)));
 
             this.QueueEntity(new BreakableGlassEntity(new Rectangle(16.375 * 16, 3 * 16, 0.5 * 16, 3 * 16), new Rectangle(0, 160, 40, 48), new Vector2D(-2 * 16, 0)));
-            this.QueueEntity(new Padding(new Rectangle(0, -3*16, 64*16, 3*16)));
+            this.QueueEntity(new Padding(new Rectangle(0, -3 * 16, 64 * 16, 3 * 16)));
 
             base.Initialize();
         }
@@ -364,6 +367,41 @@ namespace WooferGame.Scenes
 
             LabRoomBuilder rb = new LabRoomBuilder((int)bounds.Width / 16, (int)bounds.Height / 16, "lab_tileset");
             this.AddSegment(rb, new Rectangle(0, 0, bounds.Width / 16, bounds.Height / 16));
+            rb.ResolveNeighbors();
+            renderable.Sprites.AddRange(rb.Build());
+            this.FinalizeCollision();
+        }
+    }
+
+    internal class Room5 : LevelSection
+    {
+        public Room5(int x, int y) : base("room0", new Vector2D(x, y), new Rectangle(0, 64, 0, 0))
+        {
+            Renderable renderable = this.Components.Get<Renderable>();
+
+            LabRoomBuilder rb = new LabRoomBuilder(30, 43, "lab_tileset");
+            this.AddSegment(rb, new Rectangle(0, 0, 30, 8)); //Floor
+            this.AddSegment(rb, new Rectangle(3, 11, 2, 30)); //Left Wall
+            this.AddSegment(rb, new Rectangle(20, 29, 2, 2)); //Right Wall Upper
+            this.AddSegment(rb, new Rectangle(20, 8, 2, 19)); //Right Wall Lower
+            this.AddSegment(rb, new Rectangle(3, 30, 22, 4)); //Ceiling
+            this.AddSegment(rb, new Rectangle(3, 10, 7, 1));//Left Overhang
+            this.AddSegment(rb, new Rectangle(15, 12, 7, 1));//Right Overhang
+            this.AddSegment(rb, new Rectangle(3, 14, 7, 1));//2nd left Overhang
+            this.AddSegment(rb, new Rectangle(15, 16, 7, 1));//2nd Right Overhang
+            this.AddSegment(rb, new Rectangle(3, 18, 7, 1));//3st left Overhang
+            this.AddSegment(rb, new Rectangle(12, 21, 3, 1));//Woofer stan
+
+            Door door = new Door(new Vector2D(21 * 16, 30 * 16), true);
+            door.Components.Add(new TimerComponent(3));
+            this.QueueEntity(door);
+
+            Rectangle cameraArea = new Rectangle(1 * 16, 9 * 16, 15 * 16, 8 * 16);
+
+            this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(0, -16)));
+
+            this.QueueEntity(new Checkpoint(4.5 * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
+
             rb.ResolveNeighbors();
             renderable.Sprites.AddRange(rb.Build());
             this.FinalizeCollision();

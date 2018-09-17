@@ -29,6 +29,10 @@ namespace EntityComponentSystem.Util
 
         public Vector2D Center => new Vector2D(X + Width / 2, Y + Height / 2);
 
+        public Rectangle(Rectangle other) : this(other.X, other.Y, other.Width, other.Height)
+        {
+        }
+
         public Rectangle(double x, double y, double width, double height)
         {
             X = x;

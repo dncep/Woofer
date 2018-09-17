@@ -18,6 +18,7 @@ namespace WooferGame.Controller
             Layers["parallax_back"] = new BackParallaxRenderingLayer(controller);
             Layers["background"] = new BackgroundRenderingLayer(controller);
             Layers["level"] = new LevelRenderingLayer(controller);
+            Layers["hud"] = new HudRenderingLayer(controller);
             Layers["parallax_front"] = new FrontParallaxRenderingLayer(controller);
         }
 
@@ -32,6 +33,8 @@ namespace WooferGame.Controller
             SpriteManager.LoadSprite("lab_tileset");
             SpriteManager.LoadSprite("lab_objects");
             SpriteManager.LoadSprite("parallax_bg");
+
+            SpriteManager.LoadSprite("font");
 
             SpriteManager.LoadSprite("gui");
 

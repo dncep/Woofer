@@ -45,6 +45,7 @@
     <Compile Include="Controller\BackgroundRenderingLayer.cs" />
     <Compile Include="Controller\Commands\OrientationOriginChangeCommand.cs" />
     <Compile Include="Controller\Commands\SceneChangeCommand.cs" />
+    <Compile Include="Controller\HudRenderingLayer.cs" />
     <Compile Include="Controller\ParallaxRenderingLayer.cs" />
     <Compile Include="Input\GamePadInputMap.cs" />
     <Compile Include="Input\IInputMap.cs" />
@@ -92,6 +93,8 @@
     <Compile Include="Systems\Environment\BreakableGlassComponent.cs" />
     <Compile Include="Systems\Environment\BreakableGlassEntity.cs" />
     <Compile Include="Systems\Environment\GlassBreakingSystem.cs" />
+    <Compile Include="Systems\HUD\HintSystem.cs" />
+    <Compile Include="Systems\HUD\ShowTextEvent.cs" />
     <Compile Include="Systems\Interaction\ActivationEvent.cs" />
     <Compile Include="Systems\Interaction\ActivationSystem.cs" />
     <Compile Include="Systems\Interaction\Interactable.cs" />
