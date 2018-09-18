@@ -127,3 +127,4 @@ C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\bin\Debug\Content\pulse_low.xnb
 C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\bin\Debug\Content\pulse_low_alt.xnb
 C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\bin\Debug\Content\pulse_mid.xnb
 C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\bin\Debug\Content\woofer.xnb
+C:\Users\Usuario\Documents\GitHub\Woofer\Woofer\bin\Debug\Content\switch.xnb

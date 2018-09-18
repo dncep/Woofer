@@ -118,3 +118,4 @@ C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Con
 C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\pulse_low_alt.xnb
 C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\pulse_mid.xnb
 C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\woofer.xnb
+C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\switch.xnb

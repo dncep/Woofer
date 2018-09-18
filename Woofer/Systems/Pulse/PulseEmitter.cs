@@ -24,7 +24,8 @@ namespace WooferGame.Systems.Pulse
                 this.Components.Add(new Physical() { GravityMultiplier = 0 });
                 this.Components.Add(new RigidBody(new CollisionBox(-8, -8, 16, 16)));
             }
-            this.Components.Add(new Renderable(new Sprite("brick", new Rectangle(-8, -8, 16, 16))));
+
+            this.Components.Add(new Renderable(new Sprite("lab_objects", new Rectangle(-8, -8, 16, 16), new Rectangle(0, 352, 16, 16))));
             this.Components.Add(new LevelRenderable());
             this.Components.Add(new PulseEmitterComponent(direction, strength, reach));
             this.Components.Add(new SoundEmitter(new Sounds.Sound("pulse_low")));

@@ -293,6 +293,7 @@ namespace WooferGame.Scenes
             this.QueueEntity(new Shelf(new Vector2D(1 * 16, 12 * 16), HorizontalDirection.Right));
 
             PulseEmitter sideEmitter = new PulseEmitter(new Vector2D(3 * 16, 14 * 16), Vector2D.UnitI, 192, 48, solid: false);
+            sideEmitter.Components.Get<Renderable>().Sprites[0].Source.X += 16;
             this.QueueEntity(sideEmitter);
 
             Door door = new Door(new Vector2D(15 * 16, 16 * 16), false);
