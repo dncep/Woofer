@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Usuario/source/repos/Game/GameBase/Content/pulse_low.wav</SourceFile>
-  <SourceTime>2018-09-15T16:27:43.8710953-04:00</SourceTime>
-  <DestFile>C:/Users/Usuario/source/repos/Game/GameBase/Content/bin/DesktopGL/pulse_low.xnb</DestFile>
-  <DestTime>2018-09-15T16:27:56.7573074-04:00</DestTime>
+  <SourceFile>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/pulse_low.wav</SourceFile>
+  <SourceTime>2018-09-18T11:08:25.9568011-04:00</SourceTime>
+  <DestFile>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/bin/DesktopGL/pulse_low.xnb</DestFile>
+  <DestTime>2018-09-18T11:35:06.1088628-04:00</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2017-03-01T11:05:36-04:00</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>
