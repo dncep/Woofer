@@ -17,8 +17,8 @@ namespace WooferGame.Systems.Puzzles
         {
             this.Components.Add(new Spatial(pos));
             this.Components.Add(new Physical() { GravityMultiplier = 0 });
-            this.Components.Add(new SoftBody(new CollisionBox(bounds), 0) { Movable = false });
-            this.Components.Add(new Renderable(new Sprite("grass", bounds)));
+            this.Components.Add(new SoftBody(new CollisionBox(bounds), 0) { Movable = false  });
+            this.Components.Add(new Renderable(new Sprite("switch", bounds)));
             this.Components.Add(new LevelRenderable());
 
             this.Components.Add(new SwitchComponent());

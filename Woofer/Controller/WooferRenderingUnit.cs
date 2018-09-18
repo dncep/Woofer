@@ -33,6 +33,7 @@ namespace WooferGame.Controller
             SpriteManager.LoadSprite("lab_tileset");
             SpriteManager.LoadSprite("lab_objects");
             SpriteManager.LoadSprite("parallax_bg");
+            SpriteManager.LoadSprite("switch");
 
             SpriteManager.LoadSprite("font");
 
