@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\TextUnit.cs" />
     <Compile Include="Controller\BackgroundRenderingLayer.cs" />
     <Compile Include="Controller\Commands\OrientationOriginChangeCommand.cs" />
     <Compile Include="Controller\Commands\SceneChangeCommand.cs" />

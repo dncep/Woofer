@@ -18,7 +18,7 @@ using WooferGame.Systems.Visual.Particles;
 
 namespace WooferGame.Systems.Player.Animation
 {
-    [ComponentSystem("player_animation_system", ProcessingCycles.Render),
+    [ComponentSystem("player_animation_system", ProcessingCycles.Tick | ProcessingCycles.Render),
         Watching(typeof(PlayerAnimation)),
         Listening(typeof(PlayerJumpEvent), typeof(PulseEvent), typeof(AnimationStartEvent))]
     class PlayerAnimationSystem : ComponentSystem
@@ -34,6 +34,28 @@ namespace WooferGame.Systems.Player.Animation
         private static readonly Vector2D OrientationOffset = new Vector2D(256, 0);
 
         private static Rectangle Destination => new Rectangle(-16, 0, 32, 32);
+
+        public override void Tick()
+        {
+            foreach (PlayerAnimation player in WatchedComponents)
+            {
+                Physical physical = player.Owner.Components.Get<Physical>();
+                PlayerMovementComponent movement = player.Owner.Components.Get<PlayerMovementComponent>();
+                PlayerOrientation orientation = player.Owner.Components.Get<PlayerOrientation>();
+                PulseAbility pulse = player.Owner.Components.Get<PulseAbility>();
+
+                if (!movement.OnGround || Math.Abs(physical.Velocity.X) <= 1e-2) player.WalkAnimationProgress = 0;
+                else if (Math.Abs(physical.Velocity.X) > 1e-2)
+                {
+                    if (orientation.Unit.X == 0 || orientation.Unit.X / Math.Abs(orientation.Unit.X) == physical.Velocity.X / Math.Abs(physical.Velocity.X)) player.WalkAnimationProgress++;
+                    else player.WalkAnimationProgress--;
+                    int frameDuration = 8;
+                    int animationFrames = 6;
+                    if (player.WalkAnimationProgress >= animationFrames * frameDuration) player.WalkAnimationProgress = 0;
+                    else if (player.WalkAnimationProgress <= 0) player.WalkAnimationProgress = animationFrames * frameDuration - 1;
+                }
+            }
+        }
 
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
@@ -106,24 +128,20 @@ namespace WooferGame.Systems.Player.Animation
                     srcOffsets[Woofer].Y += 32 * Math.Round(5*(1-(pulse.EnergyMeter / pulse.MaxEnergy)));
                 }
 
-                if (!movement.OnGround || Math.Abs(physical.Velocity.X) <= 1e-2) player.WalkAnimationProgress = 0;
-                else if(Math.Abs(physical.Velocity.X) > 1e-2)
+                if (!movement.OnGround || Math.Abs(physical.Velocity.X) <= 1e-2) {/*player.WalkAnimationProgress = 0;*/}
+                else if (Math.Abs(physical.Velocity.X) > 1e-2)
                 {
-                    if (orientation.Unit.X == 0 || orientation.Unit.X / Math.Abs(orientation.Unit.X) == physical.Velocity.X / Math.Abs(physical.Velocity.X)) player.WalkAnimationProgress++;
-                    else player.WalkAnimationProgress--;
                     int frameDuration = 8;
                     int animationFrames = 6;
-                    if (player.WalkAnimationProgress >= animationFrames * frameDuration) player.WalkAnimationProgress = 0;
-                    else if (player.WalkAnimationProgress <= 0) player.WalkAnimationProgress = animationFrames * frameDuration - 1;
                     srcOffsets[Legs].X += 32 * (1 + (player.WalkAnimationProgress / frameDuration));
 
                     for (int i = Legs; i <= Arms; i++)
                     {
-                        if(i != Legs && i != Head && player.WalkAnimationProgress/(animationFrames*2) % 2 == 0)
+                        if (i != Legs && i != Head && player.WalkAnimationProgress / (animationFrames * 2) % 2 == 0)
                         {
                             destOffsets[i] += new Vector2D(0, -1);
                         }
-                        if(i == Head && (player.WalkAnimationProgress + frameDuration/2) / (animationFrames*2) % 2 != 0)
+                        if (i == Head && (player.WalkAnimationProgress + frameDuration / 2) / (animationFrames * 2) % 2 != 0)
                         {
                             destOffsets[i] += new Vector2D(0, -1);
                         }

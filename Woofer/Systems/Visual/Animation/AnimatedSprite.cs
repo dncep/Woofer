@@ -29,14 +29,13 @@ namespace WooferGame.Systems.Visual.Animation
         [PersistentProperty]
         public int CurrentFrame { get; set; }
         [PersistentProperty]
-        public int FrameProgress { get; set; }
+        public double FrameProgress { get; set; }
 
         [PersistentProperty]
         public int[] FrameDurations { get; set; }
 
         public AnimatedSprite()
         {
-
         }
 
         public AnimatedSprite(int spriteIndex, Size frameSize, Vector2D origin, Vector2D step, int frameCount, int[] frameDurations)

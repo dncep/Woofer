@@ -1,4 +1,5 @@
-﻿using EntityComponentSystem.Scenes;
+﻿using System;
+using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 
 using WooferGame.Scenes.CommonSprites;
@@ -296,7 +297,8 @@ namespace WooferGame.Scenes
 
             this.QueueEntity(new Shelf(new Vector2D(1 * 16, 12 * 16), HorizontalDirection.Right));
 
-            PulseEmitter sideEmitter = new PulseEmitter(new Vector2D(3 * 16, 14 * 16), Vector2D.UnitI, 192, 48, solid: false);
+            PulseEmitter sideEmitter = new PulseEmitter(new Vector2D(4 * 16, 13 * 16), Vector2D.UnitI.Rotate(Math.PI/12), 192, 48);
+            sideEmitter.Components.Get<Renderable>().Sprites[0].Source.X += 16;
             this.QueueEntity(sideEmitter);
 
             Door door = new Door(new Vector2D(15 * 16, 16 * 16), false);
@@ -307,7 +309,7 @@ namespace WooferGame.Scenes
 
             this.QueueEntity(new InteractableButton(new Vector2D(13.5 * 16, 13.5 * 16), door.Id));
 
-            this.QueueEntity(new InteractableButton(new Vector2D(4.5 * 16, 13.5 * 16), sideEmitter.Id));
+            this.QueueEntity(new InteractableButton(new Vector2D(5.5 * 16, 13.5 * 16), sideEmitter.Id));
 
             Rectangle cameraArea = new Rectangle(0 * 16, 9 * 16, 15 * 16, 10 * 16);
 

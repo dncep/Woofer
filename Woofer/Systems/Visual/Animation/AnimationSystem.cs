@@ -9,10 +9,36 @@ using GameInterfaces.Controller;
 
 namespace WooferGame.Systems.Visual.Animation
 {
-    [ComponentSystem("animation", ProcessingCycles.Render),
+    [ComponentSystem("animation", ProcessingCycles.Tick | ProcessingCycles.Render),
         Watching(typeof(AnimationComponent))]
     class AnimationSystem : ComponentSystem
     {
+        public override void Tick()
+        {
+            foreach(AnimationComponent c in WatchedComponents)
+            {
+                foreach(AnimatedSprite anim in c.Animations)
+                {
+                    if (anim.CurrentFrame < 0 || anim.CurrentFrame >= anim.FrameCount) continue;
+                    anim.FrameProgress++;
+                    if (anim.FrameProgress == 0) Owner.Events.InvokeEvent(new AnimationStartEvent(c, anim));
+                    if (anim.FrameProgress >= anim.FrameDurations[anim.CurrentFrame])
+                    {
+                        anim.FrameProgress = 0;
+                        anim.CurrentFrame++;
+                        if (anim.CurrentFrame >= anim.FrameCount)
+                        {
+                            if (anim.Loop)
+                            {
+                                anim.CurrentFrame = 0;
+                            }
+                            else Owner.Events.InvokeEvent(new AnimationEndEvent(c, anim));
+                        }
+                    }
+                }
+            }
+        }
+
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
             foreach(AnimationComponent c in WatchedComponents)
@@ -22,23 +48,6 @@ namespace WooferGame.Systems.Visual.Animation
 
                 foreach(AnimatedSprite anim in c.Animations)
                 {
-                    if (anim.CurrentFrame < 0 || anim.CurrentFrame >= anim.FrameCount) continue;
-                    anim.FrameProgress++;
-                    if (anim.FrameProgress == 0) Owner.Events.InvokeEvent(new AnimationStartEvent(c, anim));
-                    if(anim.FrameProgress >= anim.FrameDurations[anim.CurrentFrame])
-                    {
-                        anim.FrameProgress = 0;
-                        anim.CurrentFrame++;
-                        if (anim.CurrentFrame >= anim.FrameCount)
-                        {
-                            if(anim.Loop)
-                            {
-                                anim.CurrentFrame = 0;
-                            }
-                            else Owner.Events.InvokeEvent(new AnimationEndEvent(c, anim));
-                        }
-                    }
-
                     renderable.Sprites[anim.SpriteIndex].Source = new Rectangle(anim.Origin + (anim.Step * anim.CurrentFrame), (anim.FrameProgress >= 0) ? anim.FrameSize : new Size(0,0));
                 }
             }
