@@ -12,9 +12,9 @@ namespace WooferGame.Systems.Movement
         [PersistentProperty]
         public double MaxWalkSpeed { get; set; } = 100;
         [PersistentProperty]
-        public double AirborneSpeed { get; set; } = 20;
+        public double AirborneSpeed { get; set; } = 6;
         [PersistentProperty]
-        public double MaxAirborneSpeed { get; set; } = 20;
+        public double MaxAirborneSpeed { get; set; } = 30;
         [PersistentProperty]
         public double JumpSpeed { get; set; } = 192;
 

@@ -38,6 +38,8 @@ namespace WooferGame.Common
         public TSurface Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
             int width = 0;
+            int height = 8;
+            if (Icon != null) height = Math.Max(8, (int)Icon.Destination.Height);
             var font = r.SpriteManager["font"];
 
             byte[] asciiBytes = Encoding.ASCII.GetBytes(Text);
@@ -53,7 +55,9 @@ namespace WooferGame.Common
                 width += 4;
             }
 
-            TSurface surface = r.GraphicsContext.CreateTarget(width, 8);
+            if (width == 0) return r.GraphicsContext.CreateTarget(1, 1);
+
+            TSurface surface = r.GraphicsContext.CreateTarget(width, height);
             DirectGraphicsContext<TSurface, TSource> layer = new DirectGraphicsContext<TSurface, TSource>(surface, r.GraphicsContext);
 
             int destX = 0;
