@@ -22,7 +22,7 @@ namespace WooferGame.Scenes.LevelObjects
             this.Components.Add(new SoftBody(new CollisionBox(-4, -4, 8, 8), 0f));
             this.Components.Add(new Renderable(
                 new Sprite("woofer", new Rectangle(-10, -9, 20, 18), new Rectangle(268, 9, 20, 18)),
-                new Sprite("woofer", new Rectangle(-12, -9, 22, 18), new Rectangle(265, 201, 22, 18)) { DrawMode = DrawMode.Overlay }
+                new Sprite("woofer", new Rectangle(-12, -9, 22, 18), new Rectangle(265, 201, 22, 18)) { DrawMode = DrawMode.Additive }
                 ));
             this.Components.Add(new LevelRenderable(1));
 
