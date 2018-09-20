@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/font.png</SourceFile>
-  <SourceTime>2018-09-18T10:51:39.54618-04:00</SourceTime>
-  <DestFile>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/bin/DesktopGL/font.xnb</DestFile>
-  <DestTime>2018-09-18T10:54:24.6204627-04:00</DestTime>
+  <SourceFile>C:/Users/neidy/source/Repo/Woofer/GameBase/Content/font.png</SourceFile>
+  <SourceTime>2018-09-18T11:55:48.2916656-04:00</SourceTime>
+  <DestFile>C:/Users/neidy/source/Repo/Woofer/GameBase/Content/bin/DesktopGL/font.xnb</DestFile>
+  <DestTime>2018-09-18T11:57:16.0925915-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T11:05:36-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

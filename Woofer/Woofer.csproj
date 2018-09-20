@@ -94,6 +94,7 @@
     <Compile Include="Systems\Environment\BreakableGlassEntity.cs" />
     <Compile Include="Systems\Environment\GlassBreakingSystem.cs" />
     <Compile Include="Systems\HUD\HintSystem.cs" />
+    <Compile Include="Systems\HUD\ShowTextComponent.cs" />
     <Compile Include="Systems\HUD\ShowTextEvent.cs" />
     <Compile Include="Systems\Interaction\ActivationEvent.cs" />
     <Compile Include="Systems\Interaction\ActivationSystem.cs" />

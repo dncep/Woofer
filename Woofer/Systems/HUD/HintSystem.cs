@@ -9,11 +9,12 @@ using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
+using WooferGame.Systems.Interaction;
 
 namespace WooferGame.Systems.HUD
 {
     [ComponentSystem("HintSystem", ProcessingCycles.Tick | ProcessingCycles.Render),
-        Listening(typeof(ShowTextEvent))]
+        Listening(typeof(ShowTextEvent), typeof(ActivationEvent))]
     class HintSystem : ComponentSystem
     {
         private List<ShowTextEvent> Active = new List<ShowTextEvent>();
@@ -35,6 +36,14 @@ namespace WooferGame.Systems.HUD
             if(e is ShowTextEvent te)
             {
                 Active.Add(te);
+            }
+            else if(e is ActivationEvent ae)
+            {
+                ShowTextComponent comp = ae.Affected.Components.Get<ShowTextComponent>();
+
+                if (comp == null) return;
+
+                Owner.Events.InvokeEvent(new ShowTextEvent(comp.Text, comp) { Duration = comp.Duration });
             }
         }
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)

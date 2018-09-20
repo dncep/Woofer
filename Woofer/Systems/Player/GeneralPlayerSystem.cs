@@ -35,6 +35,7 @@ namespace WooferGame.Systems.Player
                     Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("gui", new Rectangle(0, 0, 9, 9), new Rectangle(spriteSourceX, 18, 9, 9)), "Aim", ce.Sender) { Duration = 10 });
                 }
             }
+
         }
     }
 }
