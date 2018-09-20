@@ -204,3 +204,12 @@ C:\Users\neidy\source\Repo\Woofer\GameBase\obj\Debug\GameBase.csproj.CoreCompile
 C:\Users\neidy\source\Repo\Woofer\GameBase\obj\Debug\GameBase.csproj.CopyComplete
 C:\Users\neidy\source\Repo\Woofer\GameBase\obj\Debug\GameBase.dll
 C:\Users\neidy\source\Repo\Woofer\GameBase\obj\Debug\GameBase.pdb
+C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\parallax_bg.png
+C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\font.xnb
+C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\parallax_bg.xnb
+C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\pulse_high.xnb
+C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\pulse_low.xnb
+C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\pulse_low_alt.xnb
+C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\pulse_mid.xnb
+C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\switch.xnb
+C:\Users\Usuario\Documents\GitHub\Woofer\GameBase\bin\DesktopGL\AnyCPU\Debug\Content\woofer.xnb

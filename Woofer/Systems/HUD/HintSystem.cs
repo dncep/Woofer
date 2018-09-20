@@ -9,6 +9,7 @@ using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
+using GameInterfaces.GraphicsInterface;
 using WooferGame.Systems.Interaction;
 
 namespace WooferGame.Systems.HUD
@@ -35,7 +36,7 @@ namespace WooferGame.Systems.HUD
         {
             if(e is ShowTextEvent te)
             {
-                Active.Add(te);
+                Active.Insert(0, te);
             }
             else if(e is ActivationEvent ae)
             {
@@ -51,50 +52,22 @@ namespace WooferGame.Systems.HUD
             if(Active.Count > 0)
             {
                 var layer = r.GetLayerGraphics("hud");
-                var font = r.SpriteManager["font"];
 
                 int destY = 3*layer.GetSize().Height/4;
 
                 foreach(ShowTextEvent current in Active)
                 {
-                    int width = 0;
+                    TSurface surface = current.Text.Render<TSurface, TSource>(r);
+                    var surfaceOp = new DirectGraphicsContext<TSurface, TSource>(surface, r.GraphicsContext);
 
-                    byte[] asciiBytes = Encoding.ASCII.GetBytes(current.Text);
-
-                    foreach (byte c in asciiBytes)
-                    {
-                        width += char_sizes[c] - 1;
-                    }
-
-                    width *= current.TextSize;
-
-                    if(current.Icon != null)
-                    {
-                        width += (int)current.Icon.Destination.Width;
-                        width += 4;
-                    }
+                    int width = surfaceOp.GetSize().Width;
+                    int height = surfaceOp.GetSize().Height;
 
                     int destX = layer.GetSize().Width / 2 - width / 2;
+                    
+                    layer.Draw(surface, new System.Drawing.Rectangle(destX, destY, width*current.TextSize, height*current.TextSize));
 
-                    if(current.Icon != null)
-                    {
-                        Rectangle iconDestination = new Rectangle(current.Icon.Destination);
-                        iconDestination.X += destX;
-                        iconDestination.Y += destY;
-                        layer.Draw(r.SpriteManager[current.Icon.Texture], iconDestination.ToDrawing(), current.Icon.Source.ToDrawing());
-
-                        destX += (int)iconDestination.Width + 4;
-                    }
-
-                    foreach (byte c in asciiBytes)
-                    {
-                        int srcX = (c % 16) * 8;
-                        int srcY = (c / 16) * 8;
-
-                        layer.Draw(font, new System.Drawing.Rectangle(destX, destY, 8* current.TextSize, 8* current.TextSize), new System.Drawing.Rectangle(srcX, srcY, 8, 8));
-                        destX += (char_sizes[c] - 1) * current.TextSize;
-                    }
-                    destY -= Math.Max(8 * current.TextSize, current.Icon != null ? (int)current.Icon.Destination.Height : 0) + 2;
+                    destY -= height + 2;
                 }
             }
         }

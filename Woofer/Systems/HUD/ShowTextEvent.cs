@@ -7,6 +7,7 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
+using WooferGame.Common;
 using WooferGame.Systems.Visual;
 
 namespace WooferGame.Systems.HUD
@@ -14,8 +15,7 @@ namespace WooferGame.Systems.HUD
     [Event("show_text")]
     class ShowTextEvent : Event
     {
-        public Sprite Icon;
-        public string Text;
+        public TextUnit Text;
         public int TextSize = 1;
 
         public double Duration = 5;
@@ -24,8 +24,7 @@ namespace WooferGame.Systems.HUD
 
         public ShowTextEvent(Sprite icon, string text, Component sender) : base(sender)
         {
-            this.Icon = icon;
-            this.Text = text;
+            this.Text = new TextUnit(icon, text);
         }
     }
 }
