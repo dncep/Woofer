@@ -1,4 +1,5 @@
-﻿using EntityComponentSystem.Scenes;
+﻿using System;
+using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 
 using WooferGame.Scenes.CommonSprites;
@@ -160,6 +161,10 @@ namespace WooferGame.Scenes
             this.QueueEntity(new Ramp(new Vector2D(24 * 16, 6 * 16), new Vector2D(20 * 16, 8 * 16), 0.5, new Vector2D(8, 0)));
             this.QueueEntity(new Ramp(new Vector2D(36 * 16, 6 * 16), new Vector2D(40 * 16, 8 * 16), 0.5, new Vector2D(-8, 0)));
 
+            TriggerArea hint = new TriggerArea(new Rectangle(32 * 16, 6 * 16, 5 * 16, 4 * 16), true);
+            hint.Components.Add(new ShowTextComponent("Salta con espacio", 10));
+            this.QueueEntity(hint);
+
             Rectangle cameraArea = new Rectangle(3 * 16, 15 * 16, 17 * 16, 10 * 16);
 
             this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(0, -32)));
@@ -292,7 +297,7 @@ namespace WooferGame.Scenes
 
             this.QueueEntity(new Shelf(new Vector2D(1 * 16, 12 * 16), HorizontalDirection.Right));
 
-            PulseEmitter sideEmitter = new PulseEmitter(new Vector2D(3 * 16, 14 * 16), Vector2D.UnitI, 192, 48, solid: false);
+            PulseEmitter sideEmitter = new PulseEmitter(new Vector2D(4 * 16, 13 * 16), Vector2D.UnitI.Rotate(Math.PI/12), 192, 48);
             sideEmitter.Components.Get<Renderable>().Sprites[0].Source.X += 16;
             this.QueueEntity(sideEmitter);
 
@@ -304,7 +309,7 @@ namespace WooferGame.Scenes
 
             this.QueueEntity(new InteractableButton(new Vector2D(13.5 * 16, 13.5 * 16), door.Id));
 
-            this.QueueEntity(new InteractableButton(new Vector2D(4.5 * 16, 13.5 * 16), sideEmitter.Id));
+            this.QueueEntity(new InteractableButton(new Vector2D(5.5 * 16, 13.5 * 16), sideEmitter.Id));
 
             Rectangle cameraArea = new Rectangle(0 * 16, 9 * 16, 15 * 16, 10 * 16);
 

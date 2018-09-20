@@ -17,28 +17,21 @@ namespace WooferGame.Input
             get
             {
                 Vector2D movement = new Vector2D();
-                if (keyboard[Key.W].IsPressed()) movement += Vector2D.UnitJ;
-                if (keyboard[Key.A].IsPressed()) movement -= Vector2D.UnitI;
-                if (keyboard[Key.S].IsPressed()) movement -= Vector2D.UnitJ;
-                if (keyboard[Key.D].IsPressed()) movement += Vector2D.UnitI;
+                if (keyboard[Key.Up].IsPressed()) movement += Vector2D.UnitJ;
+                if (keyboard[Key.Left].IsPressed()) movement -= Vector2D.UnitI;
+                if (keyboard[Key.Down].IsPressed()) movement -= Vector2D.UnitJ;
+                if (keyboard[Key.Right].IsPressed()) movement += Vector2D.UnitI;
                 return movement.Unit();
             }
         }
 
-        public Vector2D Orientation {
-            get
-            {
-                Vector2D orientation = mouse.Position - Origin;
-                orientation.Y *= -1;
-                return orientation;
-            }
-        }
+        public Vector2D Orientation => Movement;
 
-        public ButtonState Jump => keyboard[Key.Space];
+        public ButtonState Jump => keyboard[Key.Z];
 
-        public ButtonState Pulse => ButtonStateExtensions.ButtonOr(keyboard[Key.LeftControl], mouse.LeftButton);
+        public ButtonState Pulse => keyboard[Key.X];
 
-        public ButtonState Interact => keyboard[Key.E];
+        public ButtonState Interact => keyboard[Key.C];
 
         public ButtonState Debug => keyboard[Key.F3];
         public Vector2D DebugMovement => Movement;

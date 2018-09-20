@@ -47,13 +47,8 @@ namespace EntityComponentSystem.Components
 
         public T Get<T>() where T : Component
         {
-            try
-            {
-                return _dict[Component.IdentifierOf<T>()] as T;
-            } catch(KeyNotFoundException)
-            {
-                return null;
-            }
+            string identifier = Component.IdentifierOf<T>();
+            return _dict.ContainsKey(identifier) ? _dict[identifier] as T : null;
         }
 
         public bool Has<T>() where T : Component

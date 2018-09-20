@@ -13,6 +13,10 @@ namespace WooferGame.Systems.Interaction
 {
     class TriggerArea : Entity
     {
+        public TriggerArea(Rectangle bounds, bool oneTime) : this(bounds, 0, oneTime)
+        {
+
+        }
         public TriggerArea(Rectangle bounds, long idToActivate, bool oneTime)
         {
             this.Components.Add(new Spatial(bounds.Position));

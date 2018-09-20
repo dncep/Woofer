@@ -14,6 +14,7 @@ using EntityComponentSystem.Saves.Json.Converter.DefaultConverters;
 using GameInterfaces.Input;
 using WooferGame.Controller.Commands;
 using WooferGame.Input;
+using WooferGame.Systems.HUD;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Sounds;
 using WooferGame.Systems.Visual;
@@ -52,7 +53,7 @@ namespace WooferGame.Systems.Debug
                 save.AddConverter(new ListConverter<AnimatedSprite>());
                 save.AddConverter(new EnumConverter<DrawMode>());
                 save.Save(TargetFile);
-                Console.WriteLine("Scene saved");
+                Owner.Events.InvokeEvent(new ShowTextEvent("Saved", null));
             }
 
             quickload.RegisterState(loadButton);
@@ -68,7 +69,7 @@ namespace WooferGame.Systems.Debug
                 load.AddConverter(new EnumConverter<DrawMode>());
 
                 Woofer.Controller.CommandFired(new SceneChangeCommand(load.Load()));
-                Console.WriteLine("Scene loaded");
+                Woofer.Controller.ActiveScene.Events.InvokeEvent(new ShowTextEvent("Loaded", null));
             }
         }
     }

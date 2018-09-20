@@ -9,11 +9,13 @@ using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
+using GameInterfaces.GraphicsInterface;
+using WooferGame.Systems.Interaction;
 
 namespace WooferGame.Systems.HUD
 {
     [ComponentSystem("HintSystem", ProcessingCycles.Tick | ProcessingCycles.Render),
-        Listening(typeof(ShowTextEvent))]
+        Listening(typeof(ShowTextEvent), typeof(ActivationEvent))]
     class HintSystem : ComponentSystem
     {
         private List<ShowTextEvent> Active = new List<ShowTextEvent>();
@@ -34,7 +36,15 @@ namespace WooferGame.Systems.HUD
         {
             if(e is ShowTextEvent te)
             {
-                Active.Add(te);
+                Active.Insert(0, te);
+            }
+            else if(e is ActivationEvent ae)
+            {
+                ShowTextComponent comp = ae.Affected.Components.Get<ShowTextComponent>();
+
+                if (comp == null) return;
+
+                Owner.Events.InvokeEvent(new ShowTextEvent(comp.Text, comp) { Duration = comp.Duration });
             }
         }
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
@@ -42,50 +52,33 @@ namespace WooferGame.Systems.HUD
             if(Active.Count > 0)
             {
                 var layer = r.GetLayerGraphics("hud");
-                var font = r.SpriteManager["font"];
 
                 int destY = 3*layer.GetSize().Height/4;
 
-                foreach(ShowTextEvent current in Active)
+                TSurface[] Rendered = new TSurface[Active.Count];
+
+                for (int i = 0; i < Active.Count; i++)
                 {
-                    int width = 0;
+                    Rendered[i] = Active[i].Text.Render<TSurface, TSource>(r);
+                }
 
-                    byte[] asciiBytes = Encoding.ASCII.GetBytes(current.Text);
+                for(int i = 0; i < Active.Count; i++)
+                {
+                    ShowTextEvent current = Active[i];
+                    TSurface surface = Rendered[i];
+                    var surfaceOp = new DirectGraphicsContext<TSurface, TSource>(surface, r.GraphicsContext);
 
-                    foreach (byte c in asciiBytes)
-                    {
-                        width += char_sizes[c] - 1;
-                    }
-
-                    width *= current.TextSize;
-
-                    if(current.Icon != null)
-                    {
-                        width += (int)current.Icon.Destination.Width;
-                        width += 4;
-                    }
-
+                    int width = surfaceOp.GetSize().Width;
+                    int height = surfaceOp.GetSize().Height;
                     int destX = layer.GetSize().Width / 2 - width / 2;
 
-                    if(current.Icon != null)
-                    {
-                        Rectangle iconDestination = new Rectangle(current.Icon.Destination);
-                        iconDestination.X += destX;
-                        iconDestination.Y += destY;
-                        layer.Draw(r.SpriteManager[current.Icon.Texture], iconDestination.ToDrawing(), current.Icon.Source.ToDrawing());
+                    var rect = new System.Drawing.Rectangle(destX, destY, width * current.TextSize, height * current.TextSize);
+                    
+                    layer.Draw(surface, rect);
 
-                        destX += (int)iconDestination.Width + 4;
-                    }
+                    destY -= height + 2;
 
-                    foreach (byte c in asciiBytes)
-                    {
-                        int srcX = (c % 16) * 8;
-                        int srcY = (c / 16) * 8;
-
-                        layer.Draw(font, new System.Drawing.Rectangle(destX, destY, 8* current.TextSize, 8* current.TextSize), new System.Drawing.Rectangle(srcX, srcY, 8, 8));
-                        destX += (char_sizes[c] - 1) * current.TextSize;
-                    }
-                    destY -= Math.Max(8 * current.TextSize, current.Icon != null ? (int)current.Icon.Destination.Height : 0) + 2;
+                    surfaceOp.DisposeSurface();
                 }
             }
         }
