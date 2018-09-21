@@ -16,7 +16,7 @@ namespace WooferGame.Input
         ButtonState Interact { get; }
 
         bool IsBeingUsed { get; }
-        int ButtonIconOffset { get; }
+        string IconSpritesheet { get; }
         
         ButtonState Debug { get; }
         Vector2D DebugMovement { get; }

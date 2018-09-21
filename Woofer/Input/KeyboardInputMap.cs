@@ -50,7 +50,7 @@ namespace WooferGame.Input
 
         public bool IsBeingUsed => keyboard.IsBeingUsed || mouse.IsBeingUsed;
 
-        public int ButtonIconOffset => 9;
+        public string IconSpritesheet => "keyboard_icons";
 
         public void SetVibration(float amount) { }
 

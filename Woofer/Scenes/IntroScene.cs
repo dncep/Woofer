@@ -162,7 +162,7 @@ namespace WooferGame.Scenes
             this.QueueEntity(new Ramp(new Vector2D(36 * 16, 6 * 16), new Vector2D(40 * 16, 8 * 16), 0.5, new Vector2D(-8, 0)));
 
             TriggerArea hint = new TriggerArea(new Rectangle(32 * 16, 6 * 16, 5 * 16, 4 * 16), true);
-            hint.Components.Add(new ShowTextComponent(new TextUnit(new Sprite("gui", new Rectangle(0, 0, 9, 9), new Rectangle(0, 0, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Jump"), 10));
+            hint.Components.Add(new ShowTextComponent(new TextUnit(new Sprite("x_icons", new Rectangle(0, 0, 9, 9), new Rectangle(0, 0, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Jump"), 10));
             this.QueueEntity(hint);
 
             Rectangle cameraArea = new Rectangle(3 * 16, 15 * 16, 17 * 16, 10 * 16);

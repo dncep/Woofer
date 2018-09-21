@@ -37,7 +37,8 @@ namespace WooferGame.Controller
 
             SpriteManager.LoadSprite("font");
 
-            SpriteManager.LoadSprite("gui");
+            SpriteManager.LoadSprite("gamepad_icons");
+            SpriteManager.LoadSprite("keyboard_icons");
 
             ClipSprite("brick", "sprites0", new Rectangle(16, 0, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
             ClipSprite("grass", "sprites0", new Rectangle(0, 0, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);

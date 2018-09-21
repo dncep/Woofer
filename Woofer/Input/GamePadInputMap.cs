@@ -25,7 +25,7 @@ namespace WooferGame.Input
 
         public bool IsBeingUsed => gamePad.IsBeingUsed;
 
-        public int ButtonIconOffset => 0;
+        public string IconSpritesheet => "gamepad_icons";
 
         public ButtonState Debug => gamePad.Buttons.RightStick;
         public Vector2D DebugMovement => Orientation;
