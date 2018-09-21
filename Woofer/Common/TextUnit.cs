@@ -25,7 +25,7 @@ namespace WooferGame.Common
             4, 6, 6, 6, 6, 6, 5, 6, 6, 3, 6, 5, 5, 7, 6, 7,
             6, 6, 6, 6, 5, 6, 7, 7, 7, 6, 6, 5, 5, 5, 8, 8
         };
-        
+
         [PersistentProperty]
         public Sprite Icon;
         [PersistentProperty]
@@ -89,6 +89,47 @@ namespace WooferGame.Common
             }
 
             return surface;
+        }
+
+        public void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r, DirectGraphicsContext<TSurface, TSource> layer, System.Drawing.Rectangle rectangle)
+        {
+            int width = 0;
+            int height = 8;
+            if (Icon != null) height = Math.Max(8, (int)Icon.Destination.Height);
+            var font = r.SpriteManager["font"];
+
+            byte[] asciiBytes = Encoding.ASCII.GetBytes(Text);
+
+            foreach (byte c in asciiBytes)
+            {
+                width += char_sizes[c] - 1;
+            }
+
+            if (Icon != null)
+            {
+                width += (int)Icon.Destination.Width;
+                width += 4;
+            }
+
+            int destX = rectangle.Left;
+
+            if (Icon != null)
+            {
+                Rectangle iconDestination = new Rectangle(Icon.Destination);
+                iconDestination.X += destX;
+                layer.Draw(r.SpriteManager[Icon.Texture], iconDestination.ToDrawing(), Icon.Source.ToDrawing());
+
+                destX += (int)iconDestination.Width + 4;
+            }
+
+            foreach (byte c in asciiBytes)
+            {
+                int srcX = (c % 16) * 8;
+                int srcY = (c / 16) * 8;
+
+                layer.Draw(font, new System.Drawing.Rectangle(destX, rectangle.Top, 8, 8), new System.Drawing.Rectangle(srcX, srcY, 8, 8));
+                destX += (char_sizes[c] - 1);
+            }
         }
     }
 }

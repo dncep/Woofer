@@ -13,6 +13,7 @@ using WooferGame.Systems.Environment;
 using WooferGame.Systems.HUD;
 using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Linking;
+using WooferGame.Systems.Menu;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Parallax;
 using WooferGame.Systems.Physics;
@@ -34,7 +35,7 @@ namespace WooferGame.Scenes
     class IntroScene : Scene
     {
 
-        public IntroScene()
+        public IntroScene() : base(Woofer.Controller)
         {
             Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 0, 320, 180), new Vector2D(0.0, 0)));
             Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 180, 320, 180), new Vector2D(0.01, 0)));
@@ -61,6 +62,8 @@ namespace WooferGame.Scenes
             //Entities.Add(new Sailboat(new Vector2D(600, 180)));
 
             Entities.Add(new PlayerEntity(256, 264));
+
+            Entities.Flush();
 
             //Input
             Systems.Add(new PlayerMovement());
@@ -90,6 +93,8 @@ namespace WooferGame.Scenes
             Systems.Add(new CornerAvoidanceSystem());
             Systems.Add(new CameraRegionSystem());
             Systems.Add(new SoundSystem());
+
+            Systems.Add(new PauseSystem());
 
             //Systems.Add(new DebugSystem());
 

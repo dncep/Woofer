@@ -11,6 +11,8 @@ namespace WooferGame.Input
         Vector2D Movement { get; }
         Vector2D Orientation { get; }
 
+        ButtonState Run { get; }
+
         ButtonState Jump { get; }
         ButtonState Pulse { get; }
         ButtonState Interact { get; }
@@ -22,6 +24,8 @@ namespace WooferGame.Input
         Vector2D DebugMovement { get; }
         ButtonState Quicksave { get; }
         ButtonState Quickload { get; }
+
+        ButtonState Pause { get; }
 
         void SetVibration(float amount);
     }

@@ -18,7 +18,7 @@ namespace WooferGame.Scenes
 
         Entity player;
 
-        public TestScene() : base()
+        public TestScene() : base(Woofer.Controller)
         {
             //Entities.Add(new TestEntity(0, 0));
             //Entities.Add(new TestEntity(10, 10));

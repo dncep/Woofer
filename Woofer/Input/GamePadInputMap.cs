@@ -13,11 +13,15 @@ namespace WooferGame.Input
 
         public Vector2D Orientation => gamePad.Thumbsticks.Left;
 
+        public ButtonState Run => gamePad.Triggers.Right.TriggerToButtonState();
+
         public ButtonState Jump => gamePad.Buttons.A;
 
         public ButtonState Pulse => gamePad.Buttons.X;
 
         public ButtonState Interact => gamePad.Buttons.B;
+
+        public ButtonState Pause => gamePad.Buttons.Start;
 
         private IGamePad gamePad;
 

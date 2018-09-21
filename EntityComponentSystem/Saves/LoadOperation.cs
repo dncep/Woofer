@@ -13,15 +13,21 @@ using EntityComponentSystem.Saves.Json.Converter;
 using EntityComponentSystem.Saves.Json.Converter.DefaultConverters;
 using EntityComponentSystem.Saves.Json.Objects;
 using EntityComponentSystem.Scenes;
+using GameInterfaces.Controller;
 
 namespace EntityComponentSystem.Saves
 {
     public class LoadOperation
     {
+        private readonly IGameController Controller;
         private readonly string Path;
         private List<ITagConverter> Converters = new List<ITagConverter>();
 
-        public LoadOperation(string path) => Path = path;
+        public LoadOperation(IGameController controller, string path)
+        {
+            Controller = controller;
+            Path = path;
+        }
 
         public void AddConverter(ITagConverter converter)
         {
@@ -56,7 +62,7 @@ namespace EntityComponentSystem.Saves
             reader.Close();
             reader.Dispose();
 
-            Scene scene = new Scene();
+            Scene scene = new Scene(Controller);
 
             TagCompound sceneRoot = root.Get<TagCompound>("scene");
 

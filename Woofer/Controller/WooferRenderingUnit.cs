@@ -20,6 +20,7 @@ namespace WooferGame.Controller
             Layers["level"] = new LevelRenderingLayer(controller);
             Layers["hud"] = new HudRenderingLayer(controller);
             Layers["parallax_front"] = new FrontParallaxRenderingLayer(controller);
+            Layers["hi_res_overlay"] = new RenderingLayer() { Name = "hi_res_overlay", Destination = new Rectangle(0, 0, ScreenSize.Width, ScreenSize.Height), LayerSize = ScreenSize};
         }
 
         public void LoadContent<TSurface, TSource>(ScreenRenderer<TSurface, TSource> screenRenderer)
@@ -39,11 +40,12 @@ namespace WooferGame.Controller
 
             SpriteManager.LoadSprite("gui");
 
+            SpriteManager.LoadSprite("pixel");
+
+            SpriteManager.LoadSprite("editor");
+
             ClipSprite("brick", "sprites0", new Rectangle(16, 0, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
             ClipSprite("grass", "sprites0", new Rectangle(0, 0, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
-
-            ClipSprite("brick_slope_left", "sprites0", new Rectangle(16, 16, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
-            ClipSprite("brick_slope_right", "sprites0", new Rectangle(16, 32, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
             
             ClipSprite("room0", "intro_bg", new Rectangle(0, 0, 432, 400), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
         }

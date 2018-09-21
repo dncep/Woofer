@@ -7,7 +7,7 @@ namespace WooferGame.Scenes
 {
     class MainMenuScene : Scene
     {
-        public MainMenuScene()
+        public MainMenuScene() : base(Woofer.Controller)
         {
             Entities.Add(new PlayerEntity(0, 0));
 

@@ -27,11 +27,15 @@ namespace WooferGame.Input
 
         public Vector2D Orientation => Movement;
 
+        public ButtonState Run => keyboard[Key.LeftShift];
+
         public ButtonState Jump => keyboard[Key.Z];
 
         public ButtonState Pulse => keyboard[Key.X];
 
         public ButtonState Interact => keyboard[Key.C];
+
+        public ButtonState Pause => keyboard[Key.Escape];
 
         public ButtonState Debug => keyboard[Key.F3];
         public Vector2D DebugMovement => Movement;

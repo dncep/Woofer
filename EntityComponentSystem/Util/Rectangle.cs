@@ -75,6 +75,16 @@ namespace EntityComponentSystem.Util
         {
             return Left <= point.X && point.X <= Right && Bottom <= point.Y && point.Y <= Top;
         }
+
+        public Rectangle Union(Rectangle other)
+        {
+            double x1 = Math.Min(this.Left, other.Left);
+            double y1 = Math.Min(this.Bottom, other.Bottom);
+            double x2 = Math.Max(this.Right, other.Right);
+            double y2 = Math.Max(this.Top, other.Top);
+
+            return new Rectangle(x1, y1, x2 - x1, y2 - y1);
+        }
     }
 
     public static class RectangleConversion

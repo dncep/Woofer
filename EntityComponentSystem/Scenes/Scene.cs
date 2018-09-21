@@ -15,6 +15,8 @@ namespace EntityComponentSystem.Scenes
 {
     public class Scene : IDisposable
     {
+        public readonly IGameController Controller;
+
         public EntityMap Entities;
         public SystemMap Systems;
         public EventManager Events;
@@ -26,8 +28,10 @@ namespace EntityComponentSystem.Scenes
 
         public float FixedDeltaTime = 1 / 60f;
 
-        public Scene()
+        public Scene(IGameController controller)
         {
+            Controller = controller;
+
             Entities = new EntityMap(this);
             Systems = new SystemMap(this);
             Events = new EventManager();

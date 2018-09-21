@@ -60,7 +60,7 @@ namespace WooferGame.Systems.Debug
 
             if (loadButton.IsPressed() && quickload.Execute())
             {
-                LoadOperation load = new LoadOperation(TargetFile);
+                LoadOperation load = new LoadOperation(Woofer.Controller, TargetFile);
                 load.AddConverter(new CollisionBoxConverter());
                 load.AddConverter(new ListConverter<CollisionBox>());
                 load.AddConverter(new ListConverter<Sound>());
