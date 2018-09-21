@@ -31,8 +31,8 @@ namespace WooferGame.Systems.Player
 
                     int spriteSourceX = Woofer.Controller.InputManager.ActiveInputMap.ButtonIconOffset;
 
-                    Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("gui", new Rectangle(0, 0, 9, 9), new Rectangle(spriteSourceX, 9, 9, 9)), "Fire", ce.Sender) { Duration = 10 });
-                    Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("gui", new Rectangle(0, 0, 9, 9), new Rectangle(spriteSourceX, 18, 9, 9)), "Aim", ce.Sender) { Duration = 10 });
+                    Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("gui", new Rectangle(0, 0, 9, 9), new Rectangle(0, 9, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Activate", ce.Sender) { Duration = 10 });
+                    //Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("gui", new Rectangle(0, 0, 9, 9), new Rectangle(0, 18, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Aim", ce.Sender) { Duration = 10 });
                 }
             }
 

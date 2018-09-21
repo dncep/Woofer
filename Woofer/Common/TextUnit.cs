@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
 using GameInterfaces.GraphicsInterface;
@@ -10,6 +11,7 @@ using WooferGame.Systems.Visual;
 
 namespace WooferGame.Common
 {
+    [PersistentObject]
     class TextUnit
     {
         private static readonly byte[] char_sizes =
@@ -24,8 +26,14 @@ namespace WooferGame.Common
             6, 6, 6, 6, 5, 6, 7, 7, 7, 6, 6, 5, 5, 5, 8, 8
         };
         
+        [PersistentProperty]
         public Sprite Icon;
+        [PersistentProperty]
         public string Text;
+
+        public TextUnit() : this("")
+        {
+        }
 
         public TextUnit(string text) : this(null, text) { }
 

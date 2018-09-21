@@ -21,10 +21,14 @@ namespace WooferGame.Systems.HUD
         public double Duration = 5;
 
         public ShowTextEvent(string text, Component sender) : this(null, text, sender) { }
-
-        public ShowTextEvent(Sprite icon, string text, Component sender) : base(sender)
+        
+        public ShowTextEvent(Sprite icon, string text, Component sender) : this(new TextUnit(icon, text), sender)
         {
-            this.Text = new TextUnit(icon, text);
+        }
+
+        public ShowTextEvent(TextUnit text, Component sender) : base(sender)
+        {
+            this.Text = text;
         }
     }
 }

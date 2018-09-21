@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WooferGame.Common;
+using WooferGame.Systems.Visual;
 
 namespace WooferGame.Systems.HUD
 {
@@ -13,7 +15,7 @@ namespace WooferGame.Systems.HUD
     class ShowTextComponent : Component 
     {
         [PersistentProperty]
-        public string Text;
+        public TextUnit Text;
         [PersistentProperty]
         public double Duration;
 
@@ -21,7 +23,15 @@ namespace WooferGame.Systems.HUD
         {
         }
 
-        public ShowTextComponent(string text, double duration)
+        public ShowTextComponent(Sprite icon, string text, double duration) : this(new TextUnit(icon, text), duration)
+        {
+        }
+
+        public ShowTextComponent(string text, double duration) : this(new TextUnit(text), duration)
+        {
+        }
+
+        public ShowTextComponent(TextUnit text, double duration)
         {
             Text = text;
             Duration = duration;

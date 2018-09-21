@@ -14,7 +14,7 @@ namespace WooferGame.Systems.Interaction
 {
     [ComponentSystem("interaction_icon_system", ProcessingCycles.None),
         Watching(typeof(InteractionIcon)),
-        Listening(typeof(InteractionRangeEnter), typeof(InteractionRangeExit), typeof(SwitchInputMethod))]
+        Listening(typeof(InteractionRangeEnter), typeof(InteractionRangeExit))]
     class InteractionIconSystem : ComponentSystem
     {
         public override void EventFired(object sender, Event evt)
@@ -28,9 +28,6 @@ namespace WooferGame.Systems.Interaction
             } else if(evt is InteractionRangeExit)
             {
                 icon.Owner.Active = false;
-            } else if(evt is SwitchInputMethod)
-            {
-                icon.Owner.Components.Get<Renderable>().Sprites[0].Source.X = Woofer.Controller.InputManager.ActiveInputMap.ButtonIconOffset;
             }
         }
     }
