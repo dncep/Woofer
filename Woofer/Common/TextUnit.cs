@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
 using GameInterfaces.GraphicsInterface;
 using WooferGame.Systems.Visual;
+using Rectangle = EntityComponentSystem.Util.Rectangle;
 
 namespace WooferGame.Common
 {
@@ -22,7 +24,7 @@ namespace WooferGame.Common
             7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 5, 5, 6, 6, 6, 7,
             7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
             7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 4, 7, 4, 7, 7,
-            4, 6, 6, 6, 6, 6, 5, 6, 6, 3, 6, 5, 5, 7, 6, 7,
+            4, 6, 6, 6, 6, 6, 5, 6, 6, 3, 6, 6, 5, 7, 6, 7,
             6, 6, 6, 6, 5, 6, 7, 7, 7, 6, 6, 5, 5, 5, 8, 8
         };
         
@@ -30,6 +32,8 @@ namespace WooferGame.Common
         public Sprite Icon;
         [PersistentProperty]
         public string Text;
+        [PersistentProperty]
+        public Color Color;
 
         public TextUnit() : this("")
         {
@@ -37,10 +41,13 @@ namespace WooferGame.Common
 
         public TextUnit(string text) : this(null, text) { }
 
-        public TextUnit(Sprite icon, string text)
+        public TextUnit(Sprite icon, string text) : this(icon, text, Color.White) { }
+
+        public TextUnit(Sprite icon, string text, Color color)
         {
             Icon = icon;
             Text = text;
+            Color = color;
         }
 
         public TSurface Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
