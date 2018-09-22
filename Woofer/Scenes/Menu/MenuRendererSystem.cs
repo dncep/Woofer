@@ -64,7 +64,7 @@ namespace WooferGame.Scenes.Menu
                 TextUnit text;
                 if (index == SelectedIndex) text = new TextUnit(new Sprite("gui", new Rectangle(0, 0, 8, 8), new Rectangle(0, 0, 8, 8)), label);
                 else text = new TextUnit(label);
-                text.Render(r, layer, new Rectangle(8, destY, 100, 8));
+                text.Render(r, layer, new System.Drawing.Rectangle(8, destY, 100, 8));
                 destY += 12;
                 index++;
             }

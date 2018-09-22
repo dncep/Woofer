@@ -50,18 +50,18 @@ namespace WooferGame.Common
             Color = color;
         }
 
-        public void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r, DirectGraphicsContext<TSurface, TSource> layer, Rectangle destination, int fontScale = 1)
+        public void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r, DirectGraphicsContext<TSurface, TSource> layer, System.Drawing.Rectangle destination, int fontScale = 1)
         {
             int width = 0;
             int height = 8 * fontScale;
-            if (Icon != null) height = Math.Max(8, (int)Icon.Destination.Height);
+            if (Icon != null) height = Math.Max(height, (int)Icon.Destination.Height);
             var font = r.SpriteManager["font"];
 
             byte[] asciiBytes = Encoding.ASCII.GetBytes(Text);
 
             foreach (byte c in asciiBytes)
             {
-                width += char_sizes[c] - 1;
+                width += (char_sizes[c] - 1) * fontScale;
             }
 
             if (Icon != null)
@@ -70,20 +70,15 @@ namespace WooferGame.Common
                 width += 4;
             }
 
-            if (width == 0) return;
-            width *= fontScale;
-
-            int destX = (int)destination.X;
-            int destY = (int)destination.Y;
+            int destX = destination.Left;
 
             if (Icon != null)
             {
                 Rectangle iconDestination = new Rectangle(Icon.Destination);
-                iconDestination += destination.Position;
-                layer.Draw(r.SpriteManager[Icon.Texture], iconDestination.ToDrawing(), Icon.Source?.ToDrawing());
+                iconDestination.X += destX;
+                layer.Draw(r.SpriteManager[Icon.Texture], iconDestination.ToDrawing(), Icon.Source.ToDrawing());
 
                 destX += (int)iconDestination.Width + 4;
-                destY += (int)(iconDestination.Height / 2 - 4);
             }
 
             foreach (byte c in asciiBytes)
@@ -91,8 +86,8 @@ namespace WooferGame.Common
                 int srcX = (c % 16) * 8;
                 int srcY = (c / 16) * 8;
 
-                layer.Draw(font, new System.Drawing.Rectangle(destX, destY, 8*fontScale, 8*fontScale), new System.Drawing.Rectangle(srcX, srcY, 8, 8));
-                destX += (char_sizes[c] - 1)*fontScale;
+                layer.Draw(font, new System.Drawing.Rectangle(destX, destination.Top, 8 * fontScale, 8 * fontScale), new System.Drawing.Rectangle(srcX, srcY, 8, 8));
+                destX += (char_sizes[c] - 1) * fontScale;
             }
         }
 
@@ -144,47 +139,6 @@ namespace WooferGame.Common
             }
 
             return surface;
-        }
-
-        public void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r, DirectGraphicsContext<TSurface, TSource> layer, System.Drawing.Rectangle rectangle, int fontSize)
-        {
-            int width = 0;
-            int height = 8*fontSize;
-            if (Icon != null) height = Math.Max(height, (int)Icon.Destination.Height);
-            var font = r.SpriteManager["font"];
-
-            byte[] asciiBytes = Encoding.ASCII.GetBytes(Text);
-
-            foreach (byte c in asciiBytes)
-            {
-                width += (char_sizes[c] - 1)*fontSize;
-            }
-
-            if (Icon != null)
-            {
-                width += (int)Icon.Destination.Width;
-                width += 4;
-            }
-
-            int destX = rectangle.Left;
-
-            if (Icon != null)
-            {
-                Rectangle iconDestination = new Rectangle(Icon.Destination);
-                iconDestination.X += destX;
-                layer.Draw(r.SpriteManager[Icon.Texture], iconDestination.ToDrawing(), Icon.Source.ToDrawing());
-
-                destX += (int)iconDestination.Width + 4;
-            }
-
-            foreach (byte c in asciiBytes)
-            {
-                int srcX = (c % 16) * 8;
-                int srcY = (c / 16) * 8;
-
-                layer.Draw(font, new System.Drawing.Rectangle(destX, rectangle.Top, 8*fontSize, 8*fontSize), new System.Drawing.Rectangle(srcX, srcY, 8, 8));
-                destX += (char_sizes[c] - 1)*fontSize;
-            }
         }
     }
 }
