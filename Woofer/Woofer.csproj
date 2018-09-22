@@ -177,6 +177,7 @@
     <Compile Include="Systems\Sound\Sound.cs" />
     <Compile Include="Systems\Sound\SoundEmitter.cs" />
     <Compile Include="Systems\Sound\SoundSystem.cs" />
+    <Compile Include="Systems\Spatial.cs" />
     <Compile Include="Systems\Timer\TimerComponent.cs" />
     <Compile Include="Systems\Timer\TimerSystem.cs" />
     <Compile Include="Systems\Visual\Animation\AnimationComponent.cs" />

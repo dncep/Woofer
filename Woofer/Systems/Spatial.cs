@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EntityComponentSystem.Components;
 using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
 
-namespace EntityComponentSystem.Components
+namespace WooferGame.Systems
 {
     [Component("spatial")]
     public class Spatial : Component

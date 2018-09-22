@@ -7,6 +7,7 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Interfaces.Visuals;
 using EntityComponentSystem.Util;
+using WooferGame.Systems;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player;
 using WooferGame.Systems.Visual;
