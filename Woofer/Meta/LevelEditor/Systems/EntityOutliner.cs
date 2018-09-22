@@ -33,6 +33,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
             foreach (long entId in Highlighted)
             {
                 if (entId == 0) continue;
+                if (!Owner.Entities.ContainsId(entId)) continue;
                 Entity entity = Owner.Entities[entId];
                 Rectangle realBounds = EditorUtil.GetSelectionBounds(entity);
                 if(realBounds != null)

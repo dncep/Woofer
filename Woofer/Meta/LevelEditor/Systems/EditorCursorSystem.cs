@@ -25,10 +25,12 @@ namespace WooferGame.Meta.LevelEditor.Systems
         public override void Input()
         {
             if (!InputActive) return;
+            if (!Woofer.Controller.Paused) return;
             CursorPos += (Woofer.Controller.InputManager.ActiveInputMap.Run.IsPressed() ? 4 : 2)*Woofer.Controller.InputManager.ActiveInputMap.Movement;
         }
         public override void Tick()
         {
+            if (!Woofer.Controller.Paused) return;
             Rectangle viewRect = new Rectangle(Owner.CurrentViewport.Location - new Vector2D(320 / 2 - 16, 180 / 2 - 16), new Size(320-32, 180-32));
             viewRect.Width -= EditorRendering.SidebarWidth * 320 / 1280;
 
@@ -42,6 +44,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
         }
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
+            if (!Woofer.Controller.Paused) return;
             var layer = r.GetLayerGraphics("hi_res_overlay");
 
             CameraView view = Owner.CurrentViewport;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Scenes;
 using GameInterfaces.Controller;
+using WooferGame.Input;
 using WooferGame.Meta.LevelEditor.Systems;
 using WooferGame.Scenes;
 
@@ -13,6 +14,10 @@ namespace WooferGame.Meta.LevelEditor
 {
     class Editor : IntroScene
     {
+
+        internal static InputRepeatingTimeframe CycleTimeframe = new InputRepeatingTimeframe(15, 3);
+        internal static InputTimeframe SelectTimeframe = new InputTimeframe(1);
+
         public Editor() : base()
         {
             Controller.Paused = true;

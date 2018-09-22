@@ -27,9 +27,6 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
         private int AmountVisible = 0;
 
-        private InputRepeatingTimeframe CycleTimeframe = new InputRepeatingTimeframe(15, 3);
-        private InputTimeframe SelectTimeframe = new InputTimeframe(1);
-
         public override void Input()
         {
             if (!ModalActive) return;
@@ -37,9 +34,9 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
             Vector2D movement = inputMap.Movement;
 
-            CycleTimeframe.RegisterState((movement).Magnitude > 1e-5 ? ButtonState.Pressed : ButtonState.Released);
+            Editor.CycleTimeframe.RegisterState((movement).Magnitude > 1e-5 ? ButtonState.Pressed : ButtonState.Released);
 
-            if(movement.Magnitude > 1e-5 && CycleTimeframe.Execute())
+            if(movement.Magnitude > 1e-5 && Editor.CycleTimeframe.Execute())
             {
                 Owner.Events.InvokeEvent(new ClearEntityOutlines(null));
                 if (movement.Y > 0)
@@ -61,8 +58,8 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 }
             }
 
-            SelectTimeframe.RegisterState(inputMap.Jump);
-            if(inputMap.Jump.IsPressed() && SelectTimeframe.Execute())
+            Editor.SelectTimeframe.RegisterState(inputMap.Jump);
+            if(inputMap.Jump.IsPressed() && Editor.SelectTimeframe.Execute())
             {
                 Owner.Events.InvokeEvent(new EntitySelectEvent(Owner.Entities.ToList()[SelectedIndex], null));
                 Owner.Events.InvokeEvent(new ForceModalChangeEvent("entity_view", null));

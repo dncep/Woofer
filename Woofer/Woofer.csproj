@@ -55,6 +55,7 @@
     <Compile Include="Input\IScreenAwareInput.cs" />
     <Compile Include="Input\KeyboardInputMap.cs" />
     <Compile Include="Meta\LevelEditor\Editor.cs" />
+    <Compile Include="Meta\LevelEditor\InspectorAttribute.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorCursorSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorRendering.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorUtil.cs" />
