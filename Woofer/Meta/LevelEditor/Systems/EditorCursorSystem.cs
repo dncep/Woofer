@@ -14,12 +14,13 @@ using GameInterfaces.Input;
 
 namespace WooferGame.Meta.LevelEditor.Systems
 {
-    [ComponentSystem("EditorCursorSystem", ProcessingCycles.Input | ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause),
-        Listening(typeof(BeginModalChangeEvent))]
+    [ComponentSystem("editor_cursor", ProcessingCycles.Input | ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause)]
     class EditorCursorSystem : ComponentSystem
     {
         private Vector2D CursorPos;
         private bool InputActive = true;
+
+        private string SwitchToModal = "entity_list";
 
         public override void Input()
         {
@@ -67,10 +68,11 @@ namespace WooferGame.Meta.LevelEditor.Systems
         {
             if (e is BeginModalChangeEvent bmce)
             {
-                if (!InputActive) bmce.SystemName = this.SystemName;
+                bmce.SystemName = SwitchToModal;
                 InputActive = false;
-            } else if (e is ModalChangeEvent)
+            } else if (e is ModalChangeEvent ce)
             {
+                SwitchToModal = ce.OldSystem;
                 InputActive = true;
             }
         }

@@ -12,11 +12,12 @@ using WooferGame.Input;
 
 namespace WooferGame.Meta.LevelEditor.Systems
 {
-    [ComponentSystem("ModalFocusSystem", ProcessingCycles.Input, ProcessingFlags.Pause)]
+    [ComponentSystem("ModalFocusSystem", ProcessingCycles.Input, ProcessingFlags.Pause),
+        Listening(typeof(ForceModalChangeEvent))]
     class ModalFocusSystem : ComponentSystem
     {
         private readonly InputTimeframe modalChange = new InputTimeframe(2);
-        private string CurrentSystem = null;
+        private string CurrentSystem = "editor_cursor";
 
         public override void Input()
         {
@@ -26,12 +27,26 @@ namespace WooferGame.Meta.LevelEditor.Systems
             if(changeButton.IsPressed() && modalChange.Execute())
             {
                 BeginModalChangeEvent begin = new BeginModalChangeEvent(null);
+                Owner.Systems[CurrentSystem].EventFired(this, begin);
                 Owner.Events.InvokeEvent(begin);
                 if(begin.SystemName != null)
                 {
-                    CurrentSystem = begin.SystemName;
-                    Owner.Systems[CurrentSystem].EventFired(this, new ModalChangeEvent(null));
+                    ChangeSystem(begin.SystemName);
                 }
+            }
+        }
+
+        private void ChangeSystem(string name)
+        {
+            Owner.Systems[name].EventFired(this, new ModalChangeEvent(CurrentSystem, null));
+            CurrentSystem = name;
+        }
+
+        public override void EventFired(object sender, Event e)
+        {
+            if(e is ForceModalChangeEvent ce)
+            {
+                ChangeSystem(ce.SystemName);
             }
         }
     }

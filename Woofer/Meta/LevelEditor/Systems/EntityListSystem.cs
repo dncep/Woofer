@@ -17,22 +17,25 @@ using WooferGame.Meta.LevelEditor.Systems.EntityOutlines;
 
 namespace WooferGame.Meta.LevelEditor.Systems
 {
-    [ComponentSystem("EntityListSystem", ProcessingCycles.Input | ProcessingCycles.Render, ProcessingFlags.Pause),
-        Listening(typeof(BeginModalChangeEvent))]
+    [ComponentSystem("entity_list", ProcessingCycles.Input | ProcessingCycles.Render, ProcessingFlags.Pause)]
     class EntityListSystem : ComponentSystem
     {
-        private bool InputActive = false;
+        private bool ModalActive = false;
+        private bool ModalVisible = true;
         private int SelectedIndex = 0;
         private int StartOffset = 0;
 
         private int AmountVisible = 0;
 
         private InputRepeatingTimeframe CycleTimeframe = new InputRepeatingTimeframe(15, 3);
+        private InputTimeframe SelectTimeframe = new InputTimeframe(1);
 
         public override void Input()
         {
-            if (!InputActive) return;
-            Vector2D movement = Woofer.Controller.InputManager.ActiveInputMap.Movement;
+            if (!ModalActive) return;
+            IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
+
+            Vector2D movement = inputMap.Movement;
 
             CycleTimeframe.RegisterState((movement).Magnitude > 1e-5 ? ButtonState.Pressed : ButtonState.Released);
 
@@ -57,10 +60,20 @@ namespace WooferGame.Meta.LevelEditor.Systems
                     StartOffset = SelectedIndex - AmountVisible;
                 }
             }
+
+            SelectTimeframe.RegisterState(inputMap.Jump);
+            if(inputMap.Jump.IsPressed() && SelectTimeframe.Execute())
+            {
+                Owner.Events.InvokeEvent(new EntitySelectEvent(Owner.Entities.ToList()[SelectedIndex], null));
+                Owner.Events.InvokeEvent(new ForceModalChangeEvent("entity_view", null));
+                ModalActive = false;
+                ModalVisible = false;
+            }
         }
 
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
+            if (!ModalVisible) return;
             SelectedIndex = Math.Max(0, Math.Min(SelectedIndex, Owner.Entities.Count-1));
             StartOffset = Math.Max(0, Math.Min(StartOffset, Owner.Entities.Count-1));
             var layer = r.GetLayerGraphics("hi_res_overlay");
@@ -75,7 +88,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 Entity entity = entities[index];
                 if(index == SelectedIndex)
                 {
-                    layer.FillRect(new System.Drawing.Rectangle(x, y, EditorRendering.SidebarWidth - 2 * EditorRendering.SidebarMargin, 20), InputActive ? Color.CornflowerBlue : Color.FromArgb(63, 63, 70));
+                    layer.FillRect(new System.Drawing.Rectangle(x, y, EditorRendering.SidebarWidth - 2 * EditorRendering.SidebarMargin, 20), ModalActive ? Color.CornflowerBlue : Color.FromArgb(63, 63, 70));
                 }
                 TextUnit label = new TextUnit(entity.Name);
                 label.Render<TSurface, TSource>(r, layer, new System.Drawing.Rectangle(x, y+2, 100, 20), 2);
@@ -89,12 +102,14 @@ namespace WooferGame.Meta.LevelEditor.Systems
         {
             if (e is BeginModalChangeEvent bmce)
             {
-                if (!InputActive) bmce.SystemName = this.SystemName;
-                InputActive = false;
+                bmce.SystemName = "editor_cursor";
+                ModalActive = false;
+                ModalVisible = true;
             }
             else if (e is ModalChangeEvent)
             {
-                InputActive = true;
+                ModalActive = true;
+                ModalVisible = true;
             }
         }
     }

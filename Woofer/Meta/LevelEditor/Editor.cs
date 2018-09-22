@@ -21,6 +21,7 @@ namespace WooferGame.Meta.LevelEditor
             Systems.Add(new EditorCursorSystem());
             Systems.Add(new EditorRendering());
             Systems.Add(new EntityListSystem());
+            Systems.Add(new EntityViewSystem());
 
             Systems.Add(new ModalFocusSystem());
         }
