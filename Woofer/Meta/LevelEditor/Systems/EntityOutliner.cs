@@ -10,6 +10,7 @@ using EntityComponentSystem.Events;
 using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
+using WooferGame.Controller;
 using WooferGame.Meta.LevelEditor.Systems.EntityOutlines;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Visual;
@@ -20,7 +21,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
         Listening(typeof(BeginEntityOutline), typeof(ClearEntityOutlines))]
     class EntityOutliner : ComponentSystem
     {
-        private const int StrokeWidth = 3;
+        private const int StrokeWidth = 2;
 
         private List<long> Highlighted = new List<long>();
 
@@ -55,7 +56,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                     y *= -1;
                     y -= height;
 
-                    float scale = (screenSize.Width / 320f);
+                    float scale = (screenSize.Width / (float)LevelRenderingLayer.LevelScreenSize.Width);
 
                     x *= scale;
                     y *= scale;

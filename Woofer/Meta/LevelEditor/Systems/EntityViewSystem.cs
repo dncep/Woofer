@@ -14,6 +14,7 @@ using GameInterfaces.Controller;
 using GameInterfaces.Input;
 using WooferGame.Common;
 using WooferGame.Input;
+using WooferGame.Meta.LevelEditor.Systems.EntityView;
 using WooferGame.Systems.Visual;
 using Point = System.Drawing.Point;
 using Rectangle = EntityComponentSystem.Util.Rectangle;
@@ -25,12 +26,22 @@ namespace WooferGame.Meta.LevelEditor.Systems
     class EntityViewSystem : ComponentSystem
     {
         private bool ModalActive = false;
+        private bool ModalVisible = false;
         private long Selected;
+
+        private bool ComponentLocked = false;
 
         private int SelectedComponentIndex = 0;
         private int SelectedPropertyIndex = 0;
-        private bool ComponentLocked = false;
 
+        private ComponentSummary SelectedComponent = null;
+
+        private readonly EntityViewHelper Helper;
+
+        public EntityViewSystem()
+        {
+            Helper = new EntityViewHelper(this);
+        }
 
         public override void Input()
         {
@@ -46,13 +57,22 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
             if (movement.Magnitude > 1e-5 && Editor.CycleTimeframe.Execute())
             {
-                if(!ComponentLocked)
+                if (movement.Y > 0)
                 {
-                    if (movement.Y > 0)
+                    if(ComponentLocked)
+                    {
+                        if (SelectedPropertyIndex - 1 >= 0) SelectedPropertyIndex--;
+                    } else
                     {
                         if (SelectedComponentIndex - 1 >= -1) SelectedComponentIndex--;
                     }
-                    else if (movement.Y < 0)
+                }
+                else if (movement.Y < 0)
+                {
+                    if(ComponentLocked)
+                    {
+                        if (SelectedPropertyIndex + 1 < SelectedComponent.Members.Count) SelectedPropertyIndex++;
+                    } else
                     {
                         if (SelectedComponentIndex + 1 < entity.Components.Count) SelectedComponentIndex++;
                     }
@@ -71,19 +91,34 @@ namespace WooferGame.Meta.LevelEditor.Systems
             Editor.SelectTimeframe.RegisterState(inputMap.Jump);
             if (inputMap.Jump.IsPressed() && Editor.SelectTimeframe.Execute())
             {
-                if(SelectedComponentIndex == -1)
+                if (SelectedComponentIndex == -1)
                 {
                     entity.Active = !entity.Active;
                 }
-                else if (!ComponentLocked)
+                else if(!ComponentLocked)
                 {
+                    SelectedComponent = Helper.Components.Values.ElementAt(SelectedComponentIndex);
+                    SelectedPropertyIndex = 0;
                     ComponentLocked = true;
+                }
+                else
+                {
+                    IMemberSummary member = Helper.Components.Values.ElementAt(SelectedComponentIndex).Members.Values.ElementAt(SelectedPropertyIndex);
+                    if(member.CanSet)
+                    {
+                        bool modalNeedsChange = member.TriggerEdit();
+                        if(modalNeedsChange)
+                        {
+                            ModalActive = false;
+                        }
+
+                    }
                 }
             }
         }
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
-            if (!ModalActive) return;
+            if (!ModalVisible) return;
             if (!Owner.Entities.ContainsId(Selected)) return;
 
             var layer = r.GetLayerGraphics("hi_res_overlay");
@@ -95,7 +130,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
             new TextUnit(new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 16, 16, 16)), entity.Name).Render(r, layer, new Point(x, y), 2);
             y += 20;
-            new TextUnit("ID: " + Selected, System.Drawing.Color.DarkGray).Render(r, layer, new Point(x, y), 1);
+            new TextUnit("ID: " + Selected, Color.DarkGray).Render(r, layer, new Point(x, y), 1);
             y += 22;
 
             if(SelectedComponentIndex == -1) layer.FillRect(new System.Drawing.Rectangle(x - 4, y - 2, EditorRendering.SidebarWidth - 2 * EditorRendering.SidebarMargin, 20), Color.CornflowerBlue);
@@ -107,7 +142,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
             y += 8;
 
             int index = 0;
-            foreach(Component component in entity.Components)
+            foreach(ComponentSummary component in Helper.Components.Values)
             {
                 if(index == SelectedComponentIndex)
                 {
@@ -119,22 +154,12 @@ namespace WooferGame.Meta.LevelEditor.Systems
                     .Render(r, layer, new Point(x, y), 2);
                 y += 24;
 
-                PropertyInfo[] props = component.GetType().GetProperties();
-                
-                foreach(PropertyInfo property in props)
+                int memberIndex = 0;
+                foreach(IMemberSummary member in component.Members.Values)
                 {
-                    if (property.DeclaringType == typeof(Component)) continue;
-                    if (property.GetCustomAttribute(typeof(HideInInspector)) != null) continue;
-                    new TextUnit(property.Name + ": " + property.GetValue(component).ToString(), ComponentLocked && SelectedComponentIndex == index ? Color.White : Color.Gray).Render(r, layer, new Point(x+8, y), 1);
+                    new TextUnit(member.Name + ": " + member.GetValue().ToString(), ComponentLocked && SelectedComponentIndex == index ? (memberIndex == SelectedPropertyIndex ? Color.CornflowerBlue : Color.White) : Color.Gray).Render(r, layer, new Point(x + 8, y), 1);
                     y += 16;
-                }
-
-                foreach(FieldInfo field in component.GetType().GetFields())
-                {
-                    if (field.DeclaringType == typeof(Component)) continue;
-                    if (field.GetCustomAttribute(typeof(HideInInspector)) != null) continue;
-                    new TextUnit(field.Name + ": " + field.GetValue(component).ToString(), ComponentLocked && SelectedComponentIndex == index ? Color.White : Color.Gray).Render(r, layer, new Point(x + 8, y), 1);
-                    y += 16;
+                    memberIndex++;
                 }
 
                 y += 16;
@@ -149,10 +174,15 @@ namespace WooferGame.Meta.LevelEditor.Systems
             {
                 Selected = s.Entity.Id;
                 SelectedComponentIndex = -1;
+                SelectedPropertyIndex = 0;
+
+                Helper.Update(Selected);
+
                 ComponentLocked = false;
             } else if(e is ModalChangeEvent)
             {
                 ModalActive = true;
+                ModalVisible = true;
             } else if(e is BeginModalChangeEvent bmce)
             {
                 if (ComponentLocked) ComponentLocked = false;
@@ -160,6 +190,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 {
                     bmce.SystemName = "entity_list";
                     ModalActive = false;
+                    ModalVisible = false;
                 }
             }
         }

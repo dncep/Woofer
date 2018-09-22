@@ -65,6 +65,7 @@
     <Compile Include="Meta\LevelEditor\Systems\EntityOutlines\EntityOutlineEvents.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntitySelectEvent.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntityViewSystem.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\EntityView\EntityViewHelper.cs" />
     <Compile Include="Meta\LevelEditor\Systems\ModalChangeEvent.cs" />
     <Compile Include="Meta\LevelEditor\Systems\ModalFocusSystem.cs" />
     <Compile Include="Program.cs" />
