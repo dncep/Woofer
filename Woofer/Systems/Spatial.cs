@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
+using WooferGame.Meta.LevelEditor;
 
 namespace WooferGame.Systems
 {
     [Component("spatial")]
     public class Spatial : Component
     {
-        [PersistentProperty("pos")]
+        [PersistentProperty("pos")] [Inspector(InspectorEditType.Position)]
         public Vector2D Position { get; set; } = new Vector2D();
 
         public Spatial() { }

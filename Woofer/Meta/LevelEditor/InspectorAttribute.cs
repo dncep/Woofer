@@ -14,6 +14,11 @@ namespace WooferGame.Meta.LevelEditor
         public InspectorAttribute(InspectorEditType flags) => Flags = flags;
     }
 
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+    class HideInInspector : Attribute
+    {
+    }
+
     enum InspectorEditType
     {
         Default,

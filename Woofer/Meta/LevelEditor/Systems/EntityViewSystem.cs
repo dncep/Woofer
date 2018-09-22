@@ -28,6 +28,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
         private long Selected;
 
         private int SelectedComponentIndex = 0;
+        private int SelectedPropertyIndex = 0;
         private bool ComponentLocked = false;
 
 
@@ -113,17 +114,26 @@ namespace WooferGame.Meta.LevelEditor.Systems
                     layer.FillRect(new System.Drawing.Rectangle(x - 4, y - 2, EditorRendering.SidebarWidth - 2 * EditorRendering.SidebarMargin, 20), ComponentLocked ? Color.FromArgb(63, 63, 70) : Color.CornflowerBlue);
                 }
                 new TextUnit(
-                    new Sprite("editor", new Rectangle(0, 0, 8, 8), new Rectangle(0, 32, 16, 16)), 
+                    //new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 32, 16, 16)), 
                     component.ComponentName)
-                    .Render(r, layer, new Point(x, y), 1);
-                y += 12;
+                    .Render(r, layer, new Point(x, y), 2);
+                y += 24;
 
                 PropertyInfo[] props = component.GetType().GetProperties();
                 
                 foreach(PropertyInfo property in props)
                 {
                     if (property.DeclaringType == typeof(Component)) continue;
+                    if (property.GetCustomAttribute(typeof(HideInInspector)) != null) continue;
                     new TextUnit(property.Name + ": " + property.GetValue(component).ToString(), ComponentLocked && SelectedComponentIndex == index ? Color.White : Color.Gray).Render(r, layer, new Point(x+8, y), 1);
+                    y += 16;
+                }
+
+                foreach(FieldInfo field in component.GetType().GetFields())
+                {
+                    if (field.DeclaringType == typeof(Component)) continue;
+                    if (field.GetCustomAttribute(typeof(HideInInspector)) != null) continue;
+                    new TextUnit(field.Name + ": " + field.GetValue(component).ToString(), ComponentLocked && SelectedComponentIndex == index ? Color.White : Color.Gray).Render(r, layer, new Point(x + 8, y), 1);
                     y += 16;
                 }
 
