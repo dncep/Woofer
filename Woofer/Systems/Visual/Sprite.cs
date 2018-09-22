@@ -15,24 +15,23 @@ namespace WooferGame.Systems.Visual
         public const byte Mod_None = 0;
         public const byte Mod_InputType = 1;
 
-        [PersistentProperty]
-        public string Texture;
-        [PersistentProperty]
-        public Rectangle Destination;
-        [PersistentProperty("source")]
-        public Rectangle _source;
-        [PersistentProperty]
-        public byte Modifiers = Mod_None;
-
-        public Rectangle Source {
+        [PersistentProperty("texture")]
+        public string _texture;
+        public string Texture
+        {
             get
             {
-                if (_source == null) return null;
-                if ((Modifiers & Mod_InputType) != 0) _source.X = Woofer.Controller.InputManager.ActiveInputMap.ButtonIconOffset;
-                return _source;
+                if ((Modifiers & Mod_InputType) != 0) return Woofer.Controller.InputManager.ActiveInputMap.IconSpritesheet;
+                return _texture;
             }
-            set => _source = value;
+            set => _texture = value;
         }
+        [PersistentProperty]
+        public Rectangle Destination;
+        [PersistentProperty]
+        public byte Modifiers = Mod_None;
+        [PersistentProperty]
+        public Rectangle Source;
 
         [PersistentProperty]
         public DrawMode DrawMode = DrawMode.Normal;

@@ -147,6 +147,10 @@ namespace WooferGame.Scenes
 
             this.FinalizeCollision();
             rb.ResolveNeighbors();
+            
+            TriggerArea hintMove = new TriggerArea(new Rectangle(16 * 16, 6 * 16, 5 * 16, 4 * 16), true);
+            hintMove.Components.Add(new ShowTextComponent(new TextUnit(new Sprite("x_icons", new Rectangle(0, 0, 18, 18), new Rectangle(90, 0, 18, 18)) { Modifiers = Sprite.Mod_InputType }, "Walk"), 10));
+            this.QueueEntity(hintMove);
 
             rb.Fill(new Rectangle(18, 4, 7, 2), new RoomTileRaw() { Enabled = true, Initialized = true, Neighbors = 0b11111111, TileMapOffset = new Vector2D(0, 256) });
             rb.Fill(new Rectangle(20, 6, 2, 1), new RoomTileRaw() { Enabled = true, Initialized = true, Neighbors = 0b11111111, TileMapOffset = new Vector2D(0, 256) });
@@ -167,7 +171,7 @@ namespace WooferGame.Scenes
             this.QueueEntity(new Ramp(new Vector2D(36 * 16, 6 * 16), new Vector2D(40 * 16, 8 * 16), 0.5, new Vector2D(-8, 0)));
 
             TriggerArea hint = new TriggerArea(new Rectangle(32 * 16, 6 * 16, 5 * 16, 4 * 16), true);
-            hint.Components.Add(new ShowTextComponent(new TextUnit(new Sprite("gui", new Rectangle(0, 0, 9, 9), new Rectangle(0, 0, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Jump"), 10));
+            hint.Components.Add(new ShowTextComponent(new TextUnit(new Sprite("x_icons", new Rectangle(0, 0, 9, 9), new Rectangle(0, 0, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Jump"), 10));
             this.QueueEntity(hint);
 
             Rectangle cameraArea = new Rectangle(3 * 16, 15 * 16, 17 * 16, 10 * 16);

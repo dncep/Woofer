@@ -28,10 +28,8 @@ namespace WooferGame.Systems.Player
                 if(!ce.Victim.Components.Has<PulseAbility>())
                 {
                     ce.Victim.Components.Add(new PulseAbility() { Offset = new Vector2D(0, 16) });
-
-                    int spriteSourceX = Woofer.Controller.InputManager.ActiveInputMap.ButtonIconOffset;
-
-                    Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("gui", new Rectangle(0, 0, 9, 9), new Rectangle(0, 9, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Activate", ce.Sender) { Duration = 10 });
+                    
+                    Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("x_icons", new Rectangle(0, 0, 9, 9), new Rectangle(0, 9, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Activate", ce.Sender) { Duration = 10 });
                     //Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("gui", new Rectangle(0, 0, 9, 9), new Rectangle(0, 18, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Aim", ce.Sender) { Duration = 10 });
                 }
             }

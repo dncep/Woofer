@@ -1,5 +1,5 @@
 ﻿using EntityComponentSystem.Scenes;
-
+using WooferGame.Scenes.Menu;
 using WooferGame.Systems.Player;
 using WooferGame.Systems.Visual;
 
@@ -9,9 +9,8 @@ namespace WooferGame.Scenes
     {
         public MainMenuScene() : base(Woofer.Controller)
         {
-            Entities.Add(new PlayerEntity(0, 0));
+            Systems.Add(new MenuSystem());
 
-            Systems.Add(new LevelRenderer());
         }
     }
 }

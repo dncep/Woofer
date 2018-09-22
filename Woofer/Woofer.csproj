@@ -80,6 +80,7 @@
     <Compile Include="Scenes\LevelObjects\Shelf.cs" />
     <Compile Include="Scenes\LevelObjects\WooferGiver.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
+    <Compile Include="Scenes\Menu\MenuRendererSystem.cs" />
     <Compile Include="Systems\Camera\CameraLocationQueryEvent.cs" />
     <Compile Include="Systems\Camera\CameraRegion.cs" />
     <Compile Include="Systems\Camera\CameraRegionComponent.cs" />

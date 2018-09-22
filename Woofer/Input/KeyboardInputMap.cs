@@ -39,6 +39,9 @@ namespace WooferGame.Input
         public ButtonState Back => keyboard[Key.Tab];
 
         public ButtonState Debug => keyboard[Key.F3];
+
+        public ButtonState Start => keyboard[Key.Enter];
+
         public Vector2D DebugMovement => Movement;
 
         public ButtonState Quicksave => keyboard[Key.F5];
@@ -55,7 +58,7 @@ namespace WooferGame.Input
 
         public bool IsBeingUsed => keyboard.IsBeingUsed || mouse.IsBeingUsed;
 
-        public int ButtonIconOffset => 9;
+        public string IconSpritesheet => "keyboard_icons";
 
         public void SetVibration(float amount) { }
 

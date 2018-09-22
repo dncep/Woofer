@@ -72,7 +72,7 @@ namespace WooferGame.Systems.HUD
                     int height = surfaceOp.GetSize().Height;
                     int destX = layer.GetSize().Width / 2 - width / 2;
 
-                    var rect = new System.Drawing.Rectangle(destX, destY, width * current.TextSize, height * current.TextSize);
+                    var rect = new System.Drawing.Rectangle(destX, destY - height, width, height);
                     
                     layer.Draw(surface, rect);
 
