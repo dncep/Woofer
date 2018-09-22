@@ -10,16 +10,19 @@ using EntityComponentSystem.Events;
 using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
+using WooferGame.Meta.LevelEditor.Systems.EntityOutlines;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Visual;
 
 namespace WooferGame.Meta.LevelEditor.Systems
 {
     [ComponentSystem("entity_outliner", ProcessingCycles.Render),
-        Watching(typeof(EntityDelegate))]
+        Listening(typeof(BeginEntityOutline), typeof(ClearEntityOutlines))]
     class EntityOutliner : ComponentSystem
     {
         private const int StrokeWidth = 3;
+
+        private List<long> Highlighted = new List<long>();
 
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
@@ -27,10 +30,10 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
             CameraView view = Owner.CurrentViewport;
 
-            foreach (EntityDelegate entDelegate in WatchedComponents)
+            foreach (long entId in Highlighted)
             {
-                if (entDelegate.Id == 0) continue;
-                Entity entity = Owner.Entities[entDelegate.Id];
+                if (entId == 0) continue;
+                Entity entity = Owner.Entities[entId];
                 Rectangle realBounds = EditorUtil.GetSelectionBounds(entity);
                 if(realBounds != null)
                 {
@@ -77,6 +80,17 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
                     //layer.Draw(r.SpriteManager["grass"], drawingRect);
                 }
+            }
+        }
+
+        public override void EventFired(object sender, Event e)
+        {
+            if(e is BeginEntityOutline begin)
+            {
+                Highlighted.Add(begin.Entity.Id);
+            } else if(e is ClearEntityOutlines)
+            {
+                Highlighted.Clear();
             }
         }
     }

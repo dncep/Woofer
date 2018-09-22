@@ -26,6 +26,7 @@ namespace WooferGame.Input
         ButtonState Quickload { get; }
 
         ButtonState Pause { get; }
+        ButtonState Back { get; }
 
         void SetVibration(float amount);
     }

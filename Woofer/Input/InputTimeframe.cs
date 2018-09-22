@@ -4,13 +4,13 @@ namespace WooferGame.Input
 {
     class InputTimeframe
     {
-        private bool Consumed = false;
-        private int Effectiveness = 0;
-        private int Timeframe = 5; //ticks
+        protected bool Consumed = false;
+        protected int Effectiveness = 0;
+        protected int Timeframe = 5; //ticks
 
         public InputTimeframe(int timeframe) => Timeframe = timeframe;
 
-        public void RegisterPressed()
+        public virtual void RegisterPressed()
         {
             if(!Consumed)
             {
@@ -19,14 +19,14 @@ namespace WooferGame.Input
             }
         }
 
-        public bool Execute()
+        public virtual bool Execute()
         {
             bool returnValue = Effectiveness > 0;
             Effectiveness = 0;
             return returnValue;
         }
 
-        public void RegisterUnpressed()
+        public virtual void RegisterUnpressed()
         {
             Consumed = false;
         }
@@ -37,9 +37,55 @@ namespace WooferGame.Input
             else RegisterUnpressed();
         }
 
-        public void Tick()
+        public virtual void Tick()
         {
             if (Effectiveness > 0) Effectiveness--;
+        }
+    }
+
+    class InputRepeatingTimeframe
+    {
+        protected int Repetitions = 0;
+        protected int Delay;
+        protected int Period;
+
+        protected int Pressed = 0;
+
+        public InputRepeatingTimeframe(int delay, int period)
+        {
+            this.Delay = delay;
+            this.Period = period;
+        }
+
+        public bool Execute()
+        {
+            bool returnValue = (Repetitions == 0 && Pressed == 1) || (Repetitions > 0 && Pressed == Period);
+            if(returnValue && Repetitions != 0)
+            {
+                Repetitions++;
+                Pressed = 0;
+            }
+            return returnValue;
+        }
+        public void RegisterPressed()
+        {
+            Pressed++;
+            if((Repetitions == 0 && Pressed > Delay) || (Repetitions > 0 && Pressed > Period))
+            {
+                Repetitions++;
+                Pressed = 0;
+            }
+        }
+        public void RegisterUnpressed()
+        {
+            Pressed = 0;
+            Repetitions = 0;
+        }
+
+        public void RegisterState(ButtonState state)
+        {
+            if (state.IsPressed()) RegisterPressed();
+            else RegisterUnpressed();
         }
     }
 }

@@ -91,18 +91,18 @@ namespace WooferGame.Common
             return surface;
         }
 
-        public void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r, DirectGraphicsContext<TSurface, TSource> layer, System.Drawing.Rectangle rectangle)
+        public void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r, DirectGraphicsContext<TSurface, TSource> layer, System.Drawing.Rectangle rectangle, int fontSize)
         {
             int width = 0;
-            int height = 8;
-            if (Icon != null) height = Math.Max(8, (int)Icon.Destination.Height);
+            int height = 8*fontSize;
+            if (Icon != null) height = Math.Max(height, (int)Icon.Destination.Height);
             var font = r.SpriteManager["font"];
 
             byte[] asciiBytes = Encoding.ASCII.GetBytes(Text);
 
             foreach (byte c in asciiBytes)
             {
-                width += char_sizes[c] - 1;
+                width += (char_sizes[c] - 1)*fontSize;
             }
 
             if (Icon != null)
@@ -127,8 +127,8 @@ namespace WooferGame.Common
                 int srcX = (c % 16) * 8;
                 int srcY = (c / 16) * 8;
 
-                layer.Draw(font, new System.Drawing.Rectangle(destX, rectangle.Top, 8, 8), new System.Drawing.Rectangle(srcX, srcY, 8, 8));
-                destX += (char_sizes[c] - 1);
+                layer.Draw(font, new System.Drawing.Rectangle(destX, rectangle.Top, 8*fontSize, 8*fontSize), new System.Drawing.Rectangle(srcX, srcY, 8, 8));
+                destX += (char_sizes[c] - 1)*fontSize;
             }
         }
     }

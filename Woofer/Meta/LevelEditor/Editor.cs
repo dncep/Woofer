@@ -17,23 +17,12 @@ namespace WooferGame.Meta.LevelEditor
         {
             Controller.Paused = true;
 
-            Systems.Add(new EntityListSystem());
             Systems.Add(new EntityOutliner());
-            Systems.Add(new EditorRendering());
             Systems.Add(new EditorCursorSystem());
+            Systems.Add(new EditorRendering());
+            Systems.Add(new EntityListSystem());
 
-            List<Entity> delegates = new List<Entity>();
-            
-            foreach(Entity entity in Entities)
-            {
-                Entity delegateEntity = new EditorEntity();
-                delegateEntity.Components.Add(new EntityDelegate(entity.Id));
-                delegates.Add(delegateEntity);
-            }
-
-            Entities.Add(new EditorCursorEntity());
-
-            Entities.AddRange(delegates);
+            Systems.Add(new ModalFocusSystem());
         }
     }
 }

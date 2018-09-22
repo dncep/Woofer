@@ -10,8 +10,8 @@ using EntityComponentSystem.Events;
 
 namespace WooferGame.Meta.LevelEditor.Systems
 {
-    [Component("editor_marker")]
-    class EditorMarker : Component
+    [ComponentSystem("EntityViewSystem", ProcessingCycles.None)]
+    class EntityViewSystem : ComponentSystem
     {
     }
 }
