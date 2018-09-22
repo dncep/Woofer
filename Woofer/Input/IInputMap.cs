@@ -15,6 +15,8 @@ namespace WooferGame.Input
         ButtonState Pulse { get; }
         ButtonState Interact { get; }
 
+        ButtonState Start { get; }
+
         bool IsBeingUsed { get; }
         string IconSpritesheet { get; }
         

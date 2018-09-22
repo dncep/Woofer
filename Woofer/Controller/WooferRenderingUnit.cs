@@ -37,6 +37,8 @@ namespace WooferGame.Controller
 
             SpriteManager.LoadSprite("font");
 
+            SpriteManager.LoadSprite("gui");
+            
             SpriteManager.LoadSprite("gamepad_icons");
             SpriteManager.LoadSprite("keyboard_icons");
 

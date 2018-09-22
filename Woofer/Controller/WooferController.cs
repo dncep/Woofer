@@ -21,8 +21,8 @@ namespace WooferGame.Controller
 
         public void Initialize() {
             InputManager = new InputMapManager(this);
-            InputManager.Add(new KeyboardInputMap(InputUnit.Keyboard, InputUnit.Mouse));
             InputManager.Add(new GamePadInputMap(InputUnit.GamePads[0]));
+            InputManager.Add(new KeyboardInputMap(InputUnit.Keyboard, InputUnit.Mouse));
 
             AudioUnit.Load("pulse_low_alt");
             AudioUnit.Load("pulse_low");
@@ -33,7 +33,7 @@ namespace WooferGame.Controller
         public WooferController()
         {
             RenderingUnit = new WooferRenderingUnit(this);
-            ActiveScene = new IntroScene();
+            ActiveScene = new MainMenuScene();
         }
 
 

@@ -19,6 +19,8 @@ namespace WooferGame.Input
 
         public ButtonState Interact => gamePad.Buttons.B;
 
+        public ButtonState Start => gamePad.Buttons.Start;
+
         private IGamePad gamePad;
 
         public GamePadInputMap(IGamePad gamePad) => this.gamePad = gamePad;
