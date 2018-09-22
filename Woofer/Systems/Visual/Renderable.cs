@@ -50,8 +50,8 @@ namespace WooferGame.Systems.Visual
                 float y = (float)sprite.Destination.Y;
                 if (spatial != null)
                 {
-                    x += ((float)(spatial.X));
-                    y += ((float)(spatial.Y));
+                    x += ((float)(spatial.Position.X));
+                    y += ((float)(spatial.Position.Y));
                 }
                 float width = (float)sprite.Destination.Width;
                 float height = (float)sprite.Destination.Height;

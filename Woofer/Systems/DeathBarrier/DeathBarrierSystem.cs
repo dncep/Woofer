@@ -34,7 +34,7 @@ namespace WooferGame.Systems.DeathBarrier
                 {
                     if(component.Owner.Components.Get<Spatial>() is Spatial sp)
                     {
-                        if (sp.Y < (barrier?.Y ?? 0))
+                        if (sp.Position.Y < (barrier?.Y ?? 0))
                         {
                             component.Owner.Remove();
                         }
@@ -43,7 +43,7 @@ namespace WooferGame.Systems.DeathBarrier
                 {
                     if(component.Owner.Components.Get<Spatial>() is Spatial sp)
                     {
-                        if(sp.Y < (barrier?.Y ?? 0))
+                        if(sp.Position.Y < (barrier?.Y ?? 0))
                         {
                             Owner.Events.InvokeEvent(new CheckpointRequestEvent(barrier, component.Owner));
                         }

@@ -18,11 +18,12 @@ namespace WooferGame.Systems.Interaction
     {
         public override void Input()
         {
-            IEnumerable<InteractingAgent> agents = WatchedComponents.Where(c => c is InteractingAgent).Select(c => c as InteractingAgent);
+            IEnumerable<InteractingAgent> agents = WatchedComponents.Where(c => c is InteractingAgent && c.Owner.Active).Select(c => c as InteractingAgent);
 
             foreach(Component rawC in WatchedComponents)
             {
-                if(rawC is Interactable interactable)
+                if (!rawC.Owner.Active) continue;
+                if (rawC is Interactable interactable)
                 {
                     InteractingAgent currentAgent = null;
                     bool inRange = false;

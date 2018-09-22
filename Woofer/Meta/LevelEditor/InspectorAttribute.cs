@@ -17,6 +17,7 @@ namespace WooferGame.Meta.LevelEditor
     enum InspectorEditType
     {
         Default,
+        Position,
         Id
     }
 }

@@ -22,6 +22,7 @@ namespace WooferGame.Systems.Movement
 
             foreach(PlayerMovementComponent pmc in WatchedComponents)
             {
+                if (!pmc.Owner.Active) continue;
                 Physical rb = pmc.Owner.Components.Get<Physical>();
 
                 ButtonState jumpButton = inputMap.Jump;
@@ -93,6 +94,7 @@ namespace WooferGame.Systems.Movement
         {
             foreach(PlayerMovementComponent pmc in WatchedComponents)
             {
+                if (!pmc.Owner.Active) continue;
                 pmc.OnGround = false;
                 pmc.Jump.Tick();
             }

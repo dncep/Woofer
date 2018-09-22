@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using EntityComponentSystem.Components;
@@ -109,13 +110,25 @@ namespace WooferGame.Meta.LevelEditor.Systems
             {
                 if(index == SelectedComponentIndex)
                 {
-                    layer.FillRect(new System.Drawing.Rectangle(x - 4, y - 2, EditorRendering.SidebarWidth - 2 * EditorRendering.SidebarMargin, 20), Color.CornflowerBlue);
+                    layer.FillRect(new System.Drawing.Rectangle(x - 4, y - 2, EditorRendering.SidebarWidth - 2 * EditorRendering.SidebarMargin, 20), ComponentLocked ? Color.FromArgb(63, 63, 70) : Color.CornflowerBlue);
                 }
                 new TextUnit(
-                    new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 32, 16, 16)), 
+                    new Sprite("editor", new Rectangle(0, 0, 8, 8), new Rectangle(0, 32, 16, 16)), 
                     component.ComponentName)
-                    .Render(r, layer, new Point(x, y), 2);
-                y += 20;
+                    .Render(r, layer, new Point(x, y), 1);
+                y += 12;
+
+                PropertyInfo[] props = component.GetType().GetProperties();
+                
+                foreach(PropertyInfo property in props)
+                {
+                    if (property.DeclaringType == typeof(Component)) continue;
+                    new TextUnit(property.Name + ": " + property.GetValue(component).ToString(), ComponentLocked && SelectedComponentIndex == index ? Color.White : Color.Gray).Render(r, layer, new Point(x+8, y), 1);
+                    y += 16;
+                }
+
+                y += 16;
+
                 index++;
             }
         }

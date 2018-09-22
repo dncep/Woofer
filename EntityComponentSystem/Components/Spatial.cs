@@ -14,35 +14,11 @@ namespace EntityComponentSystem.Components
         [PersistentProperty("pos")]
         public Vector2D Position { get; set; } = new Vector2D();
 
-        public double X
-        {
-            get
-            {
-                return Position.X;
-            }
-            set
-            {
-                Position = new Vector2D(value, Position.Y);
-            }
-        }
-        public double Y
-        {
-            get
-            {
-                return Position.Y;
-            }
-            set
-            {
-                Position = new Vector2D(Position.X, value);
-            }
-        }
-
         public Spatial() { }
 
-        public Spatial(double X, double Y) : this()
+        public Spatial(double x, double y) : this()
         {
-            this.X = X;
-            this.Y = Y;
+            this.Position = new Vector2D(x, y);
         }
 
         public Spatial(Vector2D position)
