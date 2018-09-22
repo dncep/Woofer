@@ -36,6 +36,7 @@ namespace WooferGame.Input
         public ButtonState Interact => keyboard[Key.C];
 
         public ButtonState Pause => keyboard[Key.Escape];
+
         public ButtonState Back => keyboard[Key.Tab];
 
         public ButtonState Debug => keyboard[Key.F3];
@@ -45,6 +46,7 @@ namespace WooferGame.Input
         public Vector2D DebugMovement => Movement;
 
         public ButtonState Quicksave => keyboard[Key.F5];
+
         public ButtonState Quickload => keyboard[Key.F7];
 
         IKeyboard keyboard;

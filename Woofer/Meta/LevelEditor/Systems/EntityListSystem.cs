@@ -42,14 +42,11 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 if (movement.Y > 0)
                 {
                     if (SelectedIndex - 1 >= 0) SelectedIndex--;
-                    else return;
                 }
                 else if (movement.Y < 0)
                 {
                     if (SelectedIndex + 1 < Owner.Entities.Count) SelectedIndex++;
-                    else return;
                 }
-                else return;
                 Owner.Events.InvokeEvent(new BeginEntityOutline(Owner.Entities.ToList()[SelectedIndex], null));
                 if(SelectedIndex < StartOffset)
                 {
