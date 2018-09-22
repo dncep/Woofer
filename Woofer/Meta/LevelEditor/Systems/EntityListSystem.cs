@@ -91,7 +91,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                     layer.FillRect(new System.Drawing.Rectangle(x, y, EditorRendering.SidebarWidth - 2 * EditorRendering.SidebarMargin, 20), ModalActive ? Color.CornflowerBlue : Color.FromArgb(63, 63, 70));
                 }
                 TextUnit label = new TextUnit(entity.Name);
-                label.Render<TSurface, TSource>(r, layer, new System.Drawing.Rectangle(x, y+2, 100, 20), 2);
+                label.Render<TSurface, TSource>(r, layer, new Point(x, y+2), 2);
                 y += 20;
                 if (y > 720 - 16) break;
             }

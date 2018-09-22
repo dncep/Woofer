@@ -7,8 +7,11 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
 using WooferGame.Common;
+using WooferGame.Systems.Visual;
+using Point = System.Drawing.Point;
 
 namespace WooferGame.Meta.LevelEditor.Systems
 {
@@ -32,8 +35,20 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
             Entity entity = Owner.Entities[Selected];
 
-            new TextUnit(entity.Name).Render(r, layer, new System.Drawing.Rectangle(EditorRendering.SidebarX + EditorRendering.SidebarMargin + 4, EditorRendering.SidebarMargin + 4, EditorRendering.SidebarWidth - 4, 20), 2);
-            new TextUnit("ID: " + Selected).Render(r, layer, new System.Drawing.Rectangle(EditorRendering.SidebarX + EditorRendering.SidebarMargin + 4, EditorRendering.SidebarMargin + 4 + 20, EditorRendering.SidebarWidth - 4, 10), 1);
+            int x = EditorRendering.SidebarX + EditorRendering.SidebarMargin + 4;
+            int y = EditorRendering.SidebarMargin + 4;
+
+            new TextUnit(new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 16, 16, 16)), entity.Name).Render(r, layer, new Point(x, y), 2);
+            y += 20;
+            new TextUnit("ID: " + Selected, System.Drawing.Color.DarkGray).Render(r, layer, new Point(x, y), 1);
+            y += 20;
+
+
+            foreach(Component component in entity.Components)
+            {
+                new TextUnit(new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 32, 16, 16)), component.ComponentName).Render(r, layer, new Point(x, y), 2);
+                y += 20;
+            }
         }
 
         public override void EventFired(object sender, Event e)

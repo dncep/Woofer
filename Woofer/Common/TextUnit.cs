@@ -41,6 +41,8 @@ namespace WooferGame.Common
 
         public TextUnit(string text) : this(null, text) { }
 
+        public TextUnit(string text, Color color) : this(null, text, color) { }
+
         public TextUnit(Sprite icon, string text) : this(icon, text, Color.White) { }
 
         public TextUnit(Sprite icon, string text, Color color)
@@ -50,7 +52,7 @@ namespace WooferGame.Common
             Color = color;
         }
 
-        public void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r, DirectGraphicsContext<TSurface, TSource> layer, System.Drawing.Rectangle destination, int fontScale = 1)
+        public void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r, DirectGraphicsContext<TSurface, TSource> layer, Point destination, int fontScale = 1)
         {
             int width = 0;
             int height = 8 * fontScale;
@@ -70,13 +72,14 @@ namespace WooferGame.Common
                 width += 4;
             }
 
-            int destX = destination.Left;
+            int destX = destination.X;
 
             if (Icon != null)
             {
                 Rectangle iconDestination = new Rectangle(Icon.Destination);
-                iconDestination.X += destX;
-                layer.Draw(r.SpriteManager[Icon.Texture], iconDestination.ToDrawing(), Icon.Source.ToDrawing());
+                iconDestination.X += destination.X;
+                iconDestination.Y += destination.Y;
+                layer.Draw(r.SpriteManager[Icon.Texture], iconDestination.ToDrawing(), Icon.Source?.ToDrawing());
 
                 destX += (int)iconDestination.Width + 4;
             }
@@ -86,7 +89,7 @@ namespace WooferGame.Common
                 int srcX = (c % 16) * 8;
                 int srcY = (c / 16) * 8;
 
-                layer.Draw(font, new System.Drawing.Rectangle(destX, destination.Top, 8 * fontScale, 8 * fontScale), new System.Drawing.Rectangle(srcX, srcY, 8, 8));
+                layer.Draw(font, new System.Drawing.Rectangle(destX, destination.Y, 8 * fontScale, 8 * fontScale), new System.Drawing.Rectangle(srcX, srcY, 8, 8), new DrawInfo() { Color = Color });
                 destX += (char_sizes[c] - 1) * fontScale;
             }
         }
@@ -134,7 +137,7 @@ namespace WooferGame.Common
                 int srcX = (c % 16) * 8;
                 int srcY = (c / 16) * 8;
 
-                layer.Draw(font, new System.Drawing.Rectangle(destX, destY, 8, 8), new System.Drawing.Rectangle(srcX, srcY, 8, 8));
+                layer.Draw(font, new System.Drawing.Rectangle(destX, destY, 8, 8), new System.Drawing.Rectangle(srcX, srcY, 8, 8), new DrawInfo() { Color = Color });
                 destX += (char_sizes[c] - 1);
             }
 
