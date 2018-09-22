@@ -142,6 +142,10 @@ namespace WooferGame.Scenes
 
             this.FinalizeCollision();
             rb.ResolveNeighbors();
+            
+            TriggerArea hintMove = new TriggerArea(new Rectangle(16 * 16, 6 * 16, 5 * 16, 4 * 16), true);
+            hintMove.Components.Add(new ShowTextComponent(new TextUnit(new Sprite("x_icons", new Rectangle(0, 0, 18, 18), new Rectangle(90, 0, 18, 18)) { Modifiers = Sprite.Mod_InputType }, "Walk"), 10));
+            this.QueueEntity(hintMove);
 
             rb.Fill(new Rectangle(18, 4, 7, 2), new RoomTileRaw() { Enabled = true, Initialized = true, Neighbors = 0b11111111, TileMapOffset = new Vector2D(0, 256) });
             rb.Fill(new Rectangle(20, 6, 2, 1), new RoomTileRaw() { Enabled = true, Initialized = true, Neighbors = 0b11111111, TileMapOffset = new Vector2D(0, 256) });

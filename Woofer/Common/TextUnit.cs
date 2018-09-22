@@ -76,6 +76,7 @@ namespace WooferGame.Common
             DirectGraphicsContext<TSurface, TSource> layer = new DirectGraphicsContext<TSurface, TSource>(surface, r.GraphicsContext);
 
             int destX = 0;
+            int destY = 0;
 
             if (Icon != null)
             {
@@ -84,6 +85,7 @@ namespace WooferGame.Common
                 layer.Draw(r.SpriteManager[Icon.Texture], iconDestination.ToDrawing(), Icon.Source.ToDrawing());
 
                 destX += (int)iconDestination.Width + 4;
+                destY += (int)(iconDestination.Height / 2 - 4);
             }
 
             foreach (byte c in asciiBytes)
@@ -91,7 +93,7 @@ namespace WooferGame.Common
                 int srcX = (c % 16) * 8;
                 int srcY = (c / 16) * 8;
 
-                layer.Draw(font, new System.Drawing.Rectangle(destX, 0, 8, 8), new System.Drawing.Rectangle(srcX, srcY, 8, 8));
+                layer.Draw(font, new System.Drawing.Rectangle(destX, destY, 8, 8), new System.Drawing.Rectangle(srcX, srcY, 8, 8));
                 destX += (char_sizes[c] - 1);
             }
 
