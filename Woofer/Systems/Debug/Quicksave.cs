@@ -12,6 +12,7 @@ using EntityComponentSystem.Interfaces.Visuals;
 using EntityComponentSystem.Saves;
 using EntityComponentSystem.Saves.Json.Converter.DefaultConverters;
 using GameInterfaces.Input;
+using WooferGame.Common;
 using WooferGame.Controller.Commands;
 using WooferGame.Input;
 using WooferGame.Systems.HUD;
@@ -22,7 +23,7 @@ using WooferGame.Systems.Visual.Animation;
 
 namespace WooferGame.Systems.Debug
 {
-    [ComponentSystem("quicksave", ProcessingCycles.Input)]
+    [ComponentSystem("quicksave", ProcessingCycles.Input, ProcessingFlags.Pause)]
     class Quicksave : ComponentSystem
     {
         private static InputTimeframe quicksave = new InputTimeframe(5);
@@ -47,6 +48,7 @@ namespace WooferGame.Systems.Debug
             {
                 SaveOperation save = new SaveOperation(Owner);
                 save.AddConverter(new CollisionBoxConverter());
+                save.AddConverter(new ColorConverter());
                 save.AddConverter(new ListConverter<CollisionBox>());
                 save.AddConverter(new ListConverter<Sound>());
                 save.AddConverter(new ListConverter<Sprite>());
@@ -62,6 +64,7 @@ namespace WooferGame.Systems.Debug
             {
                 LoadOperation load = new LoadOperation(Woofer.Controller, TargetFile);
                 load.AddConverter(new CollisionBoxConverter());
+                load.AddConverter(new ColorConverter());
                 load.AddConverter(new ListConverter<CollisionBox>());
                 load.AddConverter(new ListConverter<Sound>());
                 load.AddConverter(new ListConverter<Sprite>());
@@ -70,6 +73,7 @@ namespace WooferGame.Systems.Debug
 
                 Woofer.Controller.CommandFired(new SceneChangeCommand(load.Load()));
                 Woofer.Controller.ActiveScene.Events.InvokeEvent(new ShowTextEvent("Loaded", null));
+                Woofer.Controller.Paused = false;
             }
         }
     }

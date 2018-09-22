@@ -11,22 +11,40 @@ using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
 using GameInterfaces.Input;
+using WooferGame.Input;
 
 namespace WooferGame.Meta.LevelEditor.Systems
 {
-    [ComponentSystem("editor_cursor", ProcessingCycles.Input | ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause)]
+    [ComponentSystem("editor_cursor", ProcessingCycles.Input | ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause),
+        Listening(typeof(MoveCursorEvent))]
     class EditorCursorSystem : ComponentSystem
     {
-        private Vector2D CursorPos;
+        private Vector2D _cursorPos;
+        internal Vector2D CursorPos
+        {
+            get => BoundToGrid ? new Vector2D(8 * (int)Math.Round(_cursorPos.X / 8), 8 * (int)Math.Round(_cursorPos.Y / 8)) : _cursorPos;
+            set => _cursorPos = value;
+        }
+        internal bool BoundToGrid = true;
         private bool InputActive = true;
 
-        private string SwitchToModal = "entity_list";
+        public string SwitchToModal = "entity_list";
+
+        public override bool ShouldSave => false;
 
         public override void Input()
         {
             if (!InputActive) return;
             if (!Woofer.Controller.Paused) return;
-            CursorPos += (Woofer.Controller.InputManager.ActiveInputMap.Run.IsPressed() ? 4 : 2)*Woofer.Controller.InputManager.ActiveInputMap.Movement;
+
+            IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
+
+            _cursorPos += (inputMap.Run.IsPressed() ? 4 : 2)*Woofer.Controller.InputManager.ActiveInputMap.Movement;
+            if(BoundToGrid && !inputMap.Interact.IsPressed())
+            {
+                _cursorPos = CursorPos;
+            }
+            BoundToGrid = inputMap.Interact.IsPressed();
         }
         public override void Tick()
         {
@@ -36,10 +54,10 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
             if (!viewRect.Contains(CursorPos))
             {
-                if (CursorPos.X < viewRect.Left) Owner.CurrentViewport.X += (CursorPos.X - viewRect.Left) / 2;
-                if (CursorPos.X > viewRect.Right) Owner.CurrentViewport.X += (CursorPos.X - viewRect.Right) / 2;
-                if (CursorPos.Y < viewRect.Bottom) Owner.CurrentViewport.Y += (CursorPos.Y - viewRect.Bottom) / 2;
-                if (CursorPos.Y > viewRect.Top) Owner.CurrentViewport.Y += (CursorPos.Y - viewRect.Top) / 2;
+                if (_cursorPos.X < viewRect.Left) Owner.CurrentViewport.X += (_cursorPos.X - viewRect.Left) / 2;
+                if (_cursorPos.X > viewRect.Right) Owner.CurrentViewport.X += (_cursorPos.X - viewRect.Right) / 2;
+                if (_cursorPos.Y < viewRect.Bottom) Owner.CurrentViewport.Y += (_cursorPos.Y - viewRect.Bottom) / 2;
+                if (_cursorPos.Y > viewRect.Top) Owner.CurrentViewport.Y += (_cursorPos.Y - viewRect.Top) / 2;
             }
         }
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
@@ -77,7 +95,19 @@ namespace WooferGame.Meta.LevelEditor.Systems
             {
                 SwitchToModal = ce.OldSystem;
                 InputActive = true;
+            } else if(e is MoveCursorEvent move)
+            {
+                CursorPos = move.Position;
+                Owner.CurrentViewport.Location = CursorPos;
             }
         }
+    }
+
+    [Event("force_move_cursor")]
+    public class MoveCursorEvent : Event
+    {
+        public Vector2D Position;
+
+        public MoveCursorEvent(Vector2D position) : base(null) => Position = position;
     }
 }

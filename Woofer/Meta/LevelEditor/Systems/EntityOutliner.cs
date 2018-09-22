@@ -22,8 +22,9 @@ namespace WooferGame.Meta.LevelEditor.Systems
     class EntityOutliner : ComponentSystem
     {
         private const int StrokeWidth = 2;
-
         private List<long> Highlighted = new List<long>();
+
+        public override bool ShouldSave => false;
 
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {

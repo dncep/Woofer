@@ -77,7 +77,7 @@ namespace EntityComponentSystem.Saves
                 sceneRoot.AddProperty("systems", systems);
                 foreach(ComponentSystem system in Scene.Systems)
                 {
-                    systems.Add(system.SystemName);
+                    if(system.ShouldSave) systems.Add(system.SystemName);
                 }
             }
 

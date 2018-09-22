@@ -24,6 +24,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
     class ModalChangeEvent : Event
     {
         public string OldSystem;
+        public bool Valid = true;
 
         public ModalChangeEvent(string old, Component sender) : base(sender)
         {
@@ -39,6 +40,14 @@ namespace WooferGame.Meta.LevelEditor.Systems
         public ForceModalChangeEvent(string systemName, Component sender) : base(sender)
         {
             this.SystemName = systemName;
+        }
+    }
+
+    [Event("request_editor_modal_change")]
+    class RequestModalChangeEvent : Event
+    {
+        public RequestModalChangeEvent(Component sender) : base(sender)
+        {
         }
     }
 }

@@ -6,12 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.Entities;
+using EntityComponentSystem.Util;
+using WooferGame.Common;
+using WooferGame.Meta.LevelEditor.Systems.CursorModes;
+using WooferGame.Systems.Visual;
 
 namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 {
     class EntityViewHelper
     {
-        private readonly EntityViewSystem Owner;
+        internal readonly EntityViewSystem Owner;
         private long Id;
 
         internal Dictionary<string, ComponentSummary> Components = new Dictionary<string, ComponentSummary>();
@@ -26,55 +30,68 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
             if (entity == null) return;
             foreach(Component component in entity.Components)
             {
-                Components[component.ComponentName] = new ComponentSummary(component);
+                Components[component.ComponentName] = new ComponentSummary(this, component);
             }
         }
     }
 
     internal class ComponentSummary
     {
+        public readonly EntityViewHelper Owner;
         public string ComponentName;
         public Dictionary<string, IMemberSummary> Members = new Dictionary<string, IMemberSummary>();
 
-        public ComponentSummary(Component component)
+        public ComponentSummary(EntityViewHelper owner, Component component)
         {
+            this.Owner = owner;
             ComponentName = component.ComponentName;
             
             foreach(PropertyInfo property in component.GetType().GetProperties())
             {
                 if (property.DeclaringType == typeof(Component)) continue;
                 if (property.GetCustomAttribute(typeof(HideInInspector)) != null) continue;
-                Members[property.Name] = new PropertySummary(property, component);
+                Members[property.Name] = new PropertySummary(this, property, component);
             }
 
             foreach (FieldInfo field in component.GetType().GetFields())
             {
                 if (field.DeclaringType == typeof(Component)) continue;
                 if (field.GetCustomAttribute(typeof(HideInInspector)) != null) continue;
-                Members[field.Name] = new FieldSummary(field, component);
+                Members[field.Name] = new FieldSummary(this, field, component);
             }
         }
     }
 
     internal interface IMemberSummary
     {
+        ComponentSummary Owner { get; }
         string Name { get; }
+        TextUnit Label { get; }
         bool CanSet { get; }
 
+        Type DataType { get; }
+
         object GetValue();
-        bool TriggerEdit();
+        bool SetValue(object obj);
     }
 
     internal class PropertySummary : IMemberSummary
     {
+        public ComponentSummary Owner { get; private set; }
         private readonly PropertyInfo property;
         private readonly Component component;
 
         public string Name { get; private set; }
         public bool CanSet { get; private set; }
 
-        public PropertySummary(PropertyInfo property, Component component)
+        public Type DataType => property.PropertyType;
+
+        public TextUnit Label => (property.PropertyType == typeof(bool)) ? new TextUnit(new Sprite("editor", new Rectangle(0, 0, 8, 8), new Rectangle((bool)GetValue() ? 8 : 0, 48, 8, 8)), Name) :
+            new TextUnit(Name + ": " + GetValue());
+
+        public PropertySummary(ComponentSummary owner, PropertyInfo property, Component component)
         {
+            this.Owner = owner;
             this.property = property;
             this.component = component;
 
@@ -84,26 +101,36 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
         public object GetValue() => property.GetValue(component);
 
-        public bool TriggerEdit()
+        public bool SetValue(object obj)
         {
-            if(property.PropertyType == typeof(bool))
+            if(CanSet && property.PropertyType.IsAssignableFrom(obj.GetType()))
             {
-                property.SetValue(component, !(bool)GetValue());
+                property.SetValue(component, obj);
+                return true;
             }
             return false;
         }
+
+        
     }
 
     internal class FieldSummary : IMemberSummary
     {
+        public ComponentSummary Owner { get; private set; }
         private readonly FieldInfo field;
         private readonly Component component;
 
         public string Name { get; private set; }
         public bool CanSet { get; private set; }
 
-        public FieldSummary(FieldInfo field, Component component)
+        public Type DataType => field.FieldType;
+
+        public TextUnit Label => (field.FieldType == typeof(bool)) ? new TextUnit(new Sprite("editor", new Rectangle(0, 0, 8, 8), new Rectangle((bool)GetValue() ? 8 : 0, 48, 8, 8)), Name) :
+            new TextUnit(Name + ": " + GetValue());
+
+        public FieldSummary(ComponentSummary owner, FieldInfo field, Component component)
         {
+            this.Owner = owner;
             this.field = field;
             this.component = component;
 
@@ -113,11 +140,33 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
         public object GetValue() => field.GetValue(component);
 
-        public bool TriggerEdit()
+        public bool SetValue(object obj)
         {
-            if (field.FieldType == typeof(bool))
+            if (CanSet && field.FieldType.IsAssignableFrom(obj.GetType()))
             {
-                field.SetValue(component, !(bool)GetValue());
+                field.SetValue(component, obj);
+                return true;
+            }
+            return false;
+        }
+    }
+
+    internal static class MemberEdits
+    {
+        public static bool TriggerEdit(this IMemberSummary member)
+        {
+            Type type = member.DataType;
+            if (type == typeof(bool))
+            {
+                member.SetValue(!(bool)member.GetValue());
+                return false;
+            }
+            else if (type == typeof(Vector2D))
+            {
+                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new MoveCursorEvent((Vector2D)member.GetValue()));
+                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("move_cursor_mode", null));
+                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartMoveModeEvent(member));
+                return true;
             }
             return false;
         }

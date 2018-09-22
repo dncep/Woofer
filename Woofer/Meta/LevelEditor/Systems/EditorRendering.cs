@@ -24,6 +24,8 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
         public static int SidebarMargin = 8;
 
+        public override bool ShouldSave => false;
+
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
             var layer = r.GetLayerGraphics("hi_res_overlay");

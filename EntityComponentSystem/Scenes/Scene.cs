@@ -91,7 +91,7 @@ namespace EntityComponentSystem.Scenes
             }
         }
 
-        public void InvokeInput()
+        public virtual void InvokeInput()
         {
             //Console.WriteLine("input");
             Systems.InvokeInput();

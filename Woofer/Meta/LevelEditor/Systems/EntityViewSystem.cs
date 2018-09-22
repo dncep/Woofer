@@ -38,6 +38,8 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
         private readonly EntityViewHelper Helper;
 
+        public override bool ShouldSave => false;
+
         public EntityViewSystem()
         {
             Helper = new EntityViewHelper(this);
@@ -53,9 +55,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
             Vector2D movement = inputMap.Movement;
 
-            Editor.CycleTimeframe.RegisterState((movement).Magnitude > 1e-5 ? ButtonState.Pressed : ButtonState.Released);
-
-            if (movement.Magnitude > 1e-5 && Editor.CycleTimeframe.Execute())
+            if (movement.Magnitude > 1e-5 && Editor.MoveTimeframe.Execute())
             {
                 if (movement.Y > 0)
                 {
@@ -87,9 +87,8 @@ namespace WooferGame.Meta.LevelEditor.Systems
                     StartOffset = SelectedComponentIndex - AmountVisible;
                 }*/
             }
-
-            Editor.SelectTimeframe.RegisterState(inputMap.Jump);
-            if (inputMap.Jump.IsPressed() && Editor.SelectTimeframe.Execute())
+            
+            if (Editor.SelectTimeframe.Execute())
             {
                 if (SelectedComponentIndex == -1)
                 {
@@ -157,7 +156,9 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 int memberIndex = 0;
                 foreach(IMemberSummary member in component.Members.Values)
                 {
-                    new TextUnit(member.Name + ": " + member.GetValue().ToString(), ComponentLocked && SelectedComponentIndex == index ? (memberIndex == SelectedPropertyIndex ? Color.CornflowerBlue : Color.White) : Color.Gray).Render(r, layer, new Point(x + 8, y), 1);
+                    TextUnit label = member.Label;
+                    label.Color = ComponentLocked && SelectedComponentIndex == index ? (memberIndex == SelectedPropertyIndex ? Color.CornflowerBlue : Color.White) : Color.Gray;
+                    label.Render(r, layer, new Point(x + 8, y), 1);
                     y += 16;
                     memberIndex++;
                 }

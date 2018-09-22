@@ -35,6 +35,8 @@ namespace EntityComponentSystem.ComponentSystems
 
         public bool PauseProcessing => (ProcessingFlags & ProcessingFlags.Pause) != ProcessingFlags.None;
 
+        public virtual bool ShouldSave => true;
+
         protected List<Component> WatchedComponents = new List<Component>();
         
         public ComponentSystem()

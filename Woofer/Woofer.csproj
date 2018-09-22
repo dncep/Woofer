@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ColorConverter.cs" />
     <Compile Include="Common\TextUnit.cs" />
     <Compile Include="Controller\BackgroundRenderingLayer.cs" />
     <Compile Include="Controller\Commands\OrientationOriginChangeCommand.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Input\KeyboardInputMap.cs" />
     <Compile Include="Meta\LevelEditor\Editor.cs" />
     <Compile Include="Meta\LevelEditor\InspectorAttribute.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\CursorModes\MoveCursorModeSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorCursorSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorRendering.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorUtil.cs" />
