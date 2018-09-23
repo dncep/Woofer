@@ -11,6 +11,7 @@ using GameInterfaces.Input;
 using WooferGame.Common;
 using WooferGame.Controller.Commands;
 using WooferGame.Input;
+using WooferGame.Meta.LevelEditor;
 using WooferGame.Systems.Visual;
 
 namespace WooferGame.Scenes.Menu
@@ -30,10 +31,6 @@ namespace WooferGame.Scenes.Menu
 
             StartInput.RegisterState(inputMap.Start);
             
-            if(inputMap.Start.IsPressed() && StartInput.Execute())
-            {
-                Woofer.Controller.CommandFired(new SceneChangeCommand(new IntroScene()));
-            }
 
             SelectInput.RegisterState(inputMap.Movement.Magnitude > 0 ? ButtonState.Pressed : ButtonState.Released);
             if(inputMap.Movement.Magnitude > 0)
@@ -48,6 +45,26 @@ namespace WooferGame.Scenes.Menu
 
                 if (SelectedIndex > 3 ) SelectedIndex = 0;
                 if (SelectedIndex < 0 ) SelectedIndex = 3;
+            }
+
+
+            if (inputMap.Start.IsPressed() && StartInput.Execute())
+            {
+                switch (SelectedIndex)
+                {
+                    case 0:
+                        Woofer.Controller.CommandFired(new SceneChangeCommand(new IntroScene()));
+                        break;
+                    case 1:
+                        Woofer.Controller.CommandFired(new SceneChangeCommand(new Editor()));
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        Environment.Exit(0);
+                        break;
+
+                }
             }
         }
 
