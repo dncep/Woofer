@@ -38,6 +38,9 @@ namespace WooferGame.Systems.Physics
                     ph.Velocity += Gravity * ph.GravityMultiplier * Owner.FixedDeltaTime;
                     ph.Position += ph.Velocity * Owner.FixedDeltaTime;
 
+                    ph.Position = ph.Position.GetRounded();
+                    ph.Velocity = ph.Velocity.GetRounded();
+
                     ph.PreviousVelocity = ph.Velocity;
                 }
                 

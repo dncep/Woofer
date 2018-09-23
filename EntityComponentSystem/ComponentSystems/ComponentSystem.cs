@@ -27,10 +27,15 @@ namespace EntityComponentSystem.ComponentSystems
         public string[] Watching { get; private set; } = new string[0];
         public string[] Listening { get; private set; } = new string[0];
         private readonly ProcessingCycles ProcessingCycles = ProcessingCycles.None;
+        private readonly ProcessingFlags ProcessingFlags = ProcessingFlags.None;
 
         public bool InputProcessing => (ProcessingCycles & ProcessingCycles.Input) != ProcessingCycles.None;
         public bool TickProcessing => (ProcessingCycles & ProcessingCycles.Tick) != ProcessingCycles.None;
         public bool RenderProcessing => (ProcessingCycles & ProcessingCycles.Render) != ProcessingCycles.None;
+
+        public bool PauseProcessing => (ProcessingFlags & ProcessingFlags.Pause) != ProcessingFlags.None;
+
+        public virtual bool ShouldSave => true;
 
         protected List<Component> WatchedComponents = new List<Component>();
         
@@ -41,6 +46,7 @@ namespace EntityComponentSystem.ComponentSystems
                 ComponentSystemAttribute attr = AttributeOf(this.GetType());
                 this.SystemName = attr.SystemName;
                 this.ProcessingCycles = attr.ProcessingCycles;
+                this.ProcessingFlags = attr.ProcessingFlags;
                 this.Watching = attr.Watching;
                 this.Listening = attr.Listening;
             }
@@ -129,6 +135,7 @@ namespace EntityComponentSystem.ComponentSystems
     {
         public readonly string SystemName;
         public readonly ProcessingCycles ProcessingCycles;
+        public readonly ProcessingFlags ProcessingFlags;
         public string[] Watching;
         public string[] Listening;
 
@@ -137,10 +144,15 @@ namespace EntityComponentSystem.ComponentSystems
 
         }
 
-        public ComponentSystemAttribute(string systemName, ProcessingCycles cycles)
+        public ComponentSystemAttribute(string systemName, ProcessingCycles cycles) : this(systemName, cycles, ProcessingFlags.None)
+        {
+        }
+
+        public ComponentSystemAttribute(string systemName, ProcessingCycles cycles, ProcessingFlags flags)
         {
             SystemName = systemName;
             ProcessingCycles = cycles;
+            ProcessingFlags = flags;
         }
     }
 
@@ -170,6 +182,13 @@ namespace EntityComponentSystem.ComponentSystems
         None = 0,
         Input = 1,
         Tick = 2,
-        Render = 4
+        Render = 4,
+    }
+
+    [Flags]
+    public enum ProcessingFlags
+    {
+        None = 0,
+        Pause = 1
     }
 }

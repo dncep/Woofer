@@ -11,9 +11,11 @@ namespace WooferGame.Controller
 
         public string Name => "level";
         public Size LayerSize => new Size(EffectiveLayerSize.Width + 1, EffectiveLayerSize.Height + 1);
-        public Size EffectiveLayerSize => new Size(320, 180);
+        public Size EffectiveLayerSize => LevelScreenSize;
 
         private readonly int LockedResolutionWidth = 320;
+
+        public static readonly Size LevelScreenSize = new Size(320, 180);
 
         public Rectangle Destination
         {

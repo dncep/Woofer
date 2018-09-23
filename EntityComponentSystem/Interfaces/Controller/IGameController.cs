@@ -10,6 +10,7 @@ namespace GameInterfaces.Controller
         IRenderingUnit RenderingUnit { get; }
         IInputUnit InputUnit { get; set; }
         IAudioUnit AudioUnit { get; set; }
+        bool Paused { get; set; }
 
         void Initialize();
         void Tick(TimeSpan timeSpan, TimeSpan elapsedGameTime);

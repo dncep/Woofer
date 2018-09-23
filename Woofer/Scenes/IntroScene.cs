@@ -1,6 +1,7 @@
-﻿using EntityComponentSystem.Scenes;
+﻿using System;
+using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
-
+using WooferGame.Common;
 using WooferGame.Scenes.CommonSprites;
 using WooferGame.Scenes.LevelObjects;
 using WooferGame.Systems.Camera;
@@ -12,6 +13,7 @@ using WooferGame.Systems.Environment;
 using WooferGame.Systems.HUD;
 using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Linking;
+using WooferGame.Systems.Menu;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Parallax;
 using WooferGame.Systems.Physics;
@@ -33,7 +35,7 @@ namespace WooferGame.Scenes
     class IntroScene : Scene
     {
 
-        public IntroScene()
+        public IntroScene() : base(Woofer.Controller)
         {
             Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 0, 320, 180), new Vector2D(0.0, 0)));
             Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 180, 320, 180), new Vector2D(0.01, 0)));
@@ -60,6 +62,8 @@ namespace WooferGame.Scenes
             //Entities.Add(new Sailboat(new Vector2D(600, 180)));
 
             Entities.Add(new PlayerEntity(256, 264));
+
+            Entities.Flush();
 
             //Input
             Systems.Add(new PlayerMovement());
@@ -89,6 +93,8 @@ namespace WooferGame.Scenes
             Systems.Add(new CornerAvoidanceSystem());
             Systems.Add(new CameraRegionSystem());
             Systems.Add(new SoundSystem());
+
+            Systems.Add(new PauseSystem());
 
             //Systems.Add(new DebugSystem());
 
@@ -141,6 +147,10 @@ namespace WooferGame.Scenes
 
             this.FinalizeCollision();
             rb.ResolveNeighbors();
+            
+            TriggerArea hintMove = new TriggerArea(new Rectangle(16 * 16, 6 * 16, 5 * 16, 4 * 16), true);
+            hintMove.Components.Add(new ShowTextComponent(new TextUnit(new Sprite("x_icons", new Rectangle(0, 0, 18, 18), new Rectangle(90, 0, 18, 18)) { Modifiers = Sprite.Mod_InputType }, "Walk"), 10));
+            this.QueueEntity(hintMove);
 
             rb.Fill(new Rectangle(18, 4, 7, 2), new RoomTileRaw() { Enabled = true, Initialized = true, Neighbors = 0b11111111, TileMapOffset = new Vector2D(0, 256) });
             rb.Fill(new Rectangle(20, 6, 2, 1), new RoomTileRaw() { Enabled = true, Initialized = true, Neighbors = 0b11111111, TileMapOffset = new Vector2D(0, 256) });
@@ -159,6 +169,10 @@ namespace WooferGame.Scenes
 
             this.QueueEntity(new Ramp(new Vector2D(24 * 16, 6 * 16), new Vector2D(20 * 16, 8 * 16), 0.5, new Vector2D(8, 0)));
             this.QueueEntity(new Ramp(new Vector2D(36 * 16, 6 * 16), new Vector2D(40 * 16, 8 * 16), 0.5, new Vector2D(-8, 0)));
+
+            TriggerArea hint = new TriggerArea(new Rectangle(32 * 16, 6 * 16, 5 * 16, 4 * 16), true);
+            hint.Components.Add(new ShowTextComponent(new TextUnit(new Sprite("x_icons", new Rectangle(0, 0, 9, 9), new Rectangle(0, 0, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Jump"), 10));
+            this.QueueEntity(hint);
 
             Rectangle cameraArea = new Rectangle(3 * 16, 15 * 16, 17 * 16, 10 * 16);
 
@@ -292,7 +306,7 @@ namespace WooferGame.Scenes
 
             this.QueueEntity(new Shelf(new Vector2D(1 * 16, 12 * 16), HorizontalDirection.Right));
 
-            PulseEmitter sideEmitter = new PulseEmitter(new Vector2D(3 * 16, 14 * 16), Vector2D.UnitI, 192, 48, solid: false);
+            PulseEmitter sideEmitter = new PulseEmitter(new Vector2D(4 * 16, 13 * 16), Vector2D.UnitI.Rotate(Math.PI/12), 192, 48);
             sideEmitter.Components.Get<Renderable>().Sprites[0].Source.X += 16;
             this.QueueEntity(sideEmitter);
 
@@ -304,7 +318,7 @@ namespace WooferGame.Scenes
 
             this.QueueEntity(new InteractableButton(new Vector2D(13.5 * 16, 13.5 * 16), door.Id));
 
-            this.QueueEntity(new InteractableButton(new Vector2D(4.5 * 16, 13.5 * 16), sideEmitter.Id));
+            this.QueueEntity(new InteractableButton(new Vector2D(5.5 * 16, 13.5 * 16), sideEmitter.Id));
 
             Rectangle cameraArea = new Rectangle(0 * 16, 9 * 16, 15 * 16, 10 * 16);
 

@@ -12,8 +12,10 @@ using EntityComponentSystem.Interfaces.Visuals;
 using EntityComponentSystem.Saves;
 using EntityComponentSystem.Saves.Json.Converter.DefaultConverters;
 using GameInterfaces.Input;
+using WooferGame.Common;
 using WooferGame.Controller.Commands;
 using WooferGame.Input;
+using WooferGame.Systems.HUD;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Sounds;
 using WooferGame.Systems.Visual;
@@ -21,7 +23,7 @@ using WooferGame.Systems.Visual.Animation;
 
 namespace WooferGame.Systems.Debug
 {
-    [ComponentSystem("quicksave", ProcessingCycles.Input)]
+    [ComponentSystem("quicksave", ProcessingCycles.Input, ProcessingFlags.Pause)]
     class Quicksave : ComponentSystem
     {
         private static InputTimeframe quicksave = new InputTimeframe(5);
@@ -46,21 +48,23 @@ namespace WooferGame.Systems.Debug
             {
                 SaveOperation save = new SaveOperation(Owner);
                 save.AddConverter(new CollisionBoxConverter());
+                save.AddConverter(new ColorConverter());
                 save.AddConverter(new ListConverter<CollisionBox>());
                 save.AddConverter(new ListConverter<Sound>());
                 save.AddConverter(new ListConverter<Sprite>());
                 save.AddConverter(new ListConverter<AnimatedSprite>());
                 save.AddConverter(new EnumConverter<DrawMode>());
                 save.Save(TargetFile);
-                Console.WriteLine("Scene saved");
+                Owner.Events.InvokeEvent(new ShowTextEvent("Saved", null));
             }
 
             quickload.RegisterState(loadButton);
 
             if (loadButton.IsPressed() && quickload.Execute())
             {
-                LoadOperation load = new LoadOperation(TargetFile);
+                LoadOperation load = new LoadOperation(Woofer.Controller, TargetFile);
                 load.AddConverter(new CollisionBoxConverter());
+                load.AddConverter(new ColorConverter());
                 load.AddConverter(new ListConverter<CollisionBox>());
                 load.AddConverter(new ListConverter<Sound>());
                 load.AddConverter(new ListConverter<Sprite>());
@@ -68,7 +72,8 @@ namespace WooferGame.Systems.Debug
                 load.AddConverter(new EnumConverter<DrawMode>());
 
                 Woofer.Controller.CommandFired(new SceneChangeCommand(load.Load()));
-                Console.WriteLine("Scene loaded");
+                Woofer.Controller.ActiveScene.Events.InvokeEvent(new ShowTextEvent("Loaded", null));
+                Woofer.Controller.Paused = false;
             }
         }
     }

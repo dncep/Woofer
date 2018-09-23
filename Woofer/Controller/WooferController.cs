@@ -6,6 +6,7 @@ using GameInterfaces.Audio;
 using GameInterfaces.Controller;
 using WooferGame.Controller.Commands;
 using WooferGame.Input;
+using WooferGame.Meta.LevelEditor;
 using WooferGame.Scenes;
 
 namespace WooferGame.Controller
@@ -18,24 +19,25 @@ namespace WooferGame.Controller
         public IAudioUnit AudioUnit { get; set; }
 
         public InputMapManager InputManager { get; private set; }
+        public bool Paused { get; set; }
+
+        public WooferController()
+        {
+            RenderingUnit = new WooferRenderingUnit(this);
+        }
 
         public void Initialize() {
             InputManager = new InputMapManager(this);
+            InputManager.Add(new GamePadInputMap(InputUnit.GamePads[0]));
             InputManager.Add(new KeyboardInputMap(InputUnit.Keyboard, InputUnit.Mouse));
-            InputManager.Add(new GamePadDualInputMap(InputUnit.GamePads[0]));
 
             AudioUnit.Load("pulse_low_alt");
             AudioUnit.Load("pulse_low");
             AudioUnit.Load("pulse_mid");
             AudioUnit.Load("pulse_high");
-        }
 
-        public WooferController()
-        {
-            RenderingUnit = new WooferRenderingUnit(this);
-            ActiveScene = new MainMenuScene();
+            ActiveScene = new Editor();
         }
-
 
         public void Tick(TimeSpan timeSpan, TimeSpan elapsedGameTime)
         {

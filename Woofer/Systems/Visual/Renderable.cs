@@ -50,8 +50,8 @@ namespace WooferGame.Systems.Visual
                 float y = (float)sprite.Destination.Y;
                 if (spatial != null)
                 {
-                    x += ((float)(spatial.X));
-                    y += ((float)(spatial.Y));
+                    x += ((float)(spatial.Position.X));
+                    y += ((float)(spatial.Position.Y));
                 }
                 float width = (float)sprite.Destination.Width;
                 float height = (float)sprite.Destination.Height;
@@ -74,10 +74,10 @@ namespace WooferGame.Systems.Visual
 
                 if(sprite.Source is Rectangle source)
                 {
-                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, sprite.Source.ToDrawing(), sprite.DrawMode);
+                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, sprite.Source.ToDrawing(), new DrawInfo() { Mode = sprite.DrawMode });
                 } else
                 {
-                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, sprite.DrawMode);
+                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, info: new DrawInfo() { Mode = sprite.DrawMode });
                 }
             }
 

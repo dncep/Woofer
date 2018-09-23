@@ -12,14 +12,11 @@ namespace GameInterfaces.GraphicsInterface
 
         Size GetScreenSize();
 
-        void Draw(TSurface subject, TSurface target, Rectangle destination);
-        void Draw(TSurface subject, TSurface target, Rectangle destination, Rectangle? source);
-        void Draw(TSurface subject, TSurface target, Rectangle destination, DrawMode mode);
-        void Draw(TSurface subject, TSurface target, Rectangle destination, Rectangle? source, DrawMode mode);
-        void Draw(TSource subject, TSurface target, Rectangle destination);
-        void Draw(TSource subject, TSurface target, Rectangle destination, Rectangle? source);
-        void Draw(TSource subject, TSurface target, Rectangle destination, DrawMode mode);
-        void Draw(TSource subject, TSurface target, Rectangle destination, Rectangle? source, DrawMode mode);
+        void Draw(TSurface subject, TSurface target, Rectangle destination, Rectangle? source = null, DrawInfo info = default(DrawInfo));
+        void Draw(TSource subject, TSurface target, Rectangle destination, Rectangle? source = null, DrawInfo info = default(DrawInfo));
+
+        void FillRect(TSurface target, Rectangle rectangle, Color color);
+
         TSurface CreateTarget(int width, int height);
         TSurface Scale(TSurface surface, double scaleX, double scaleY, bool antialias);
         TSurface Scale(TSurface surface, double scale, bool antialias);
@@ -30,5 +27,11 @@ namespace GameInterfaces.GraphicsInterface
         void DisposeSource(TSource source);
         TSource TargetToSource(TSurface target);
         void Reset();
+    }
+
+    public struct DrawInfo
+    {
+        public DrawMode Mode;
+        public Color? Color;
     }
 }

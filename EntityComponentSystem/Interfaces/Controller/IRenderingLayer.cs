@@ -13,4 +13,11 @@ namespace GameInterfaces.Controller
         Size LayerSize { get; }
         Rectangle Destination { get; }
     }
+
+    public class RenderingLayer : IRenderingLayer
+    {
+        public string Name { get; set; }
+        public Size LayerSize { get; set; }
+        public Rectangle Destination { get; set; }
+    }
 }

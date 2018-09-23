@@ -63,7 +63,6 @@
     <Compile Include="Saves\PersistentObjectAttribute.cs" />
     <Compile Include="Saves\PersistentObjectConverter.cs" />
     <Compile Include="Saves\PersistentPropertyAttribute.cs" />
-    <Compile Include="Components\Spatial.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityMap.cs" />
     <Compile Include="Events\Event.cs" />

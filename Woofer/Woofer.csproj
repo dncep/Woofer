@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ColorConverter.cs" />
+    <Compile Include="Common\TextUnit.cs" />
     <Compile Include="Controller\BackgroundRenderingLayer.cs" />
     <Compile Include="Controller\Commands\OrientationOriginChangeCommand.cs" />
     <Compile Include="Controller\Commands\SceneChangeCommand.cs" />
@@ -53,6 +55,21 @@
     <Compile Include="Input\InputTimeframe.cs" />
     <Compile Include="Input\IScreenAwareInput.cs" />
     <Compile Include="Input\KeyboardInputMap.cs" />
+    <Compile Include="Meta\LevelEditor\Editor.cs" />
+    <Compile Include="Meta\LevelEditor\InspectorAttribute.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\CursorModes\MoveCursorModeSystem.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\EditorCursorSystem.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\EditorRendering.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\EditorUtil.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\EntityDelegate.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\EntityListSystem.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\EntityOutliner.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\EntityOutlines\EntityOutlineEvents.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\EntitySelectEvent.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\EntityViewSystem.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\EntityView\EntityViewHelper.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\ModalChangeEvent.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\ModalFocusSystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controller\LevelRenderingLayer.cs" />
@@ -68,6 +85,7 @@
     <Compile Include="Scenes\LevelObjects\Shelf.cs" />
     <Compile Include="Scenes\LevelObjects\WooferGiver.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
+    <Compile Include="Scenes\Menu\MenuRendererSystem.cs" />
     <Compile Include="Systems\Camera\CameraLocationQueryEvent.cs" />
     <Compile Include="Systems\Camera\CameraRegion.cs" />
     <Compile Include="Systems\Camera\CameraRegionComponent.cs" />
@@ -94,6 +112,7 @@
     <Compile Include="Systems\Environment\BreakableGlassEntity.cs" />
     <Compile Include="Systems\Environment\GlassBreakingSystem.cs" />
     <Compile Include="Systems\HUD\HintSystem.cs" />
+    <Compile Include="Systems\HUD\ShowTextComponent.cs" />
     <Compile Include="Systems\HUD\ShowTextEvent.cs" />
     <Compile Include="Systems\Interaction\ActivationEvent.cs" />
     <Compile Include="Systems\Interaction\ActivationSystem.cs" />
@@ -110,6 +129,7 @@
     <Compile Include="Systems\Linking\FollowedComponent.cs" />
     <Compile Include="Systems\Linking\FollowingComponent.cs" />
     <Compile Include="Systems\Linking\FollowingSystem.cs" />
+    <Compile Include="Systems\Menu\PauseSystem.cs" />
     <Compile Include="Systems\Meta\SwitchInputMethod.cs" />
     <Compile Include="Systems\Movement\PlayerJumpEvent.cs" />
     <Compile Include="Systems\Movement\PlayerMovement.cs" />
@@ -160,6 +180,7 @@
     <Compile Include="Systems\Sound\Sound.cs" />
     <Compile Include="Systems\Sound\SoundEmitter.cs" />
     <Compile Include="Systems\Sound\SoundSystem.cs" />
+    <Compile Include="Systems\Spatial.cs" />
     <Compile Include="Systems\Timer\TimerComponent.cs" />
     <Compile Include="Systems\Timer\TimerSystem.cs" />
     <Compile Include="Systems\Visual\Animation\AnimationComponent.cs" />

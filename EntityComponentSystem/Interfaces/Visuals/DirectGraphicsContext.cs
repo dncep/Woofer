@@ -32,15 +32,10 @@ namespace GameInterfaces.GraphicsInterface
         public Size GetSize() => GraphicsContext.GetSize(Surface);
         public Size GetSize(TSource source) => GraphicsContext.GetSize(source);
 
-        public void Draw(TSurface subject, Rectangle destination) => GraphicsContext.Draw(subject, Surface, destination);
-        public void Draw(TSurface subject, Rectangle destination, Rectangle? source) => GraphicsContext.Draw(subject, Surface, destination, source);
-        public void Draw(TSurface subject, Rectangle destination, DrawMode mode) => GraphicsContext.Draw(subject, Surface, destination, mode);
-        public void Draw(TSurface subject, Rectangle destination, Rectangle? source, DrawMode mode) => GraphicsContext.Draw(subject, Surface, destination, source, mode);
+        public void Draw(TSurface subject, Rectangle destination, Rectangle? source = null, DrawInfo info = default(DrawInfo)) => GraphicsContext.Draw(subject, Surface, destination, source, info);
+        public void Draw(TSource subject, Rectangle destination, Rectangle? source = null, DrawInfo info = default(DrawInfo)) => GraphicsContext.Draw(subject, Surface, destination, source, info);
 
-        public void Draw(TSource subject, Rectangle destination) => GraphicsContext.Draw(subject, Surface, destination);
-        public void Draw(TSource subject, Rectangle destination, Rectangle? source) => GraphicsContext.Draw(subject, Surface, destination, source);
-        public void Draw(TSource subject, Rectangle destination, DrawMode mode) => GraphicsContext.Draw(subject, Surface, destination, mode);
-        public void Draw(TSource subject, Rectangle destination, Rectangle? source, DrawMode mode) => GraphicsContext.Draw(subject, Surface, destination, source, mode);
+        public void FillRect(Rectangle rectangle, Color color) => GraphicsContext.FillRect(Surface, rectangle, color);
 
         public TSurface CreateTarget(int width, int height) => GraphicsContext.CreateTarget(width, height);
 

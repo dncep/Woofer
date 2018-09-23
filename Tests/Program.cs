@@ -99,15 +99,6 @@ namespace Tests
             Assert(Convert.ToString(tile.GetSignificantSecondaryNeighbors(), 2), Convert.ToString(0b0010, 2));
         }
 
-        [Test]
-        public static void JsonStringParse()
-        {
-            Assert(GeneralUtil.ParseQuotedString(@"'ab\nc'", 0).Item1, "ab\nc");
-
-            Console.WriteLine(new TagMaster().FromJson("{\"a\":1}"));
-
-        }
-
         public static void Assert(object real, object expected)
         {
             if (!Equals(real, expected))

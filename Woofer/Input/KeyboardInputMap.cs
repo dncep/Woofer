@@ -17,33 +17,36 @@ namespace WooferGame.Input
             get
             {
                 Vector2D movement = new Vector2D();
-                if (keyboard[Key.W].IsPressed()) movement += Vector2D.UnitJ;
-                if (keyboard[Key.A].IsPressed()) movement -= Vector2D.UnitI;
-                if (keyboard[Key.S].IsPressed()) movement -= Vector2D.UnitJ;
-                if (keyboard[Key.D].IsPressed()) movement += Vector2D.UnitI;
+                if (keyboard[Key.Up].IsPressed()) movement += Vector2D.UnitJ;
+                if (keyboard[Key.Left].IsPressed()) movement -= Vector2D.UnitI;
+                if (keyboard[Key.Down].IsPressed()) movement -= Vector2D.UnitJ;
+                if (keyboard[Key.Right].IsPressed()) movement += Vector2D.UnitI;
                 return movement.Unit();
             }
         }
 
-        public Vector2D Orientation {
-            get
-            {
-                Vector2D orientation = mouse.Position - Origin;
-                orientation.Y *= -1;
-                return orientation;
-            }
-        }
+        public Vector2D Orientation => Movement;
 
-        public ButtonState Jump => keyboard[Key.Space];
+        public ButtonState Run => keyboard[Key.LeftShift];
 
-        public ButtonState Pulse => ButtonStateExtensions.ButtonOr(keyboard[Key.LeftControl], mouse.LeftButton);
+        public ButtonState Jump => keyboard[Key.Z];
 
-        public ButtonState Interact => keyboard[Key.E];
+        public ButtonState Pulse => keyboard[Key.X];
+
+        public ButtonState Interact => keyboard[Key.C];
+
+        public ButtonState Pause => keyboard[Key.Escape];
+
+        public ButtonState Back => keyboard[Key.Tab];
 
         public ButtonState Debug => keyboard[Key.F3];
+
+        public ButtonState Start => keyboard[Key.Enter];
+
         public Vector2D DebugMovement => Movement;
 
         public ButtonState Quicksave => keyboard[Key.F5];
+
         public ButtonState Quickload => keyboard[Key.F7];
 
         IKeyboard keyboard;
@@ -57,7 +60,7 @@ namespace WooferGame.Input
 
         public bool IsBeingUsed => keyboard.IsBeingUsed || mouse.IsBeingUsed;
 
-        public int ButtonIconOffset => 9;
+        public string IconSpritesheet => "keyboard_icons";
 
         public void SetVibration(float amount) { }
 

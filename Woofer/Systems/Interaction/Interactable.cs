@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
+using WooferGame.Meta.LevelEditor;
 
 namespace WooferGame.Systems.Interaction
 {
@@ -14,6 +15,7 @@ namespace WooferGame.Systems.Interaction
     {
         [PersistentProperty]
         public long EntityToActivate { get; set; }
+        [HideInInspector]
         public bool InRange = false;
 
         [PersistentProperty]

@@ -1,4 +1,5 @@
-﻿using EntityComponentSystem.Interfaces.Visuals;
+﻿using System.IO;
+using EntityComponentSystem.Interfaces.Visuals;
 using GameInterfaces.GraphicsInterface;
 
 using Microsoft.Xna.Framework;
@@ -13,6 +14,8 @@ namespace GameBase.MonoGameGraphics
         private readonly SpriteBatch spriteBatch;
 
         private RenderTarget2D lastRenderTarget = null;
+
+        private Texture2D pixel = null;
 
         //Constructors
         public MonoGameGraphicsContext(GraphicsDeviceManager manager, GraphicsDevice device, SpriteBatch spriteBatch)
@@ -51,14 +54,24 @@ namespace GameBase.MonoGameGraphics
         public Texture2D TargetToSource(RenderTarget2D target) => target;
 
         //Draw texture
-        public void Draw(Texture2D subject, RenderTarget2D target, System.Drawing.Rectangle destination) => Draw(subject, target, destination, null);
-        public void Draw(Texture2D subject, RenderTarget2D target, System.Drawing.Rectangle destination, DrawMode mode) => Draw(subject, target, destination, null, mode);
-        public void Draw(Texture2D subject, RenderTarget2D target, System.Drawing.Rectangle destination, System.Drawing.Rectangle? source) => Draw(subject, target, destination, source, DrawMode.Normal);
-        public void Draw(Texture2D subject, RenderTarget2D target, System.Drawing.Rectangle destination, System.Drawing.Rectangle? source, DrawMode mode)
+        public void Draw(Texture2D subject, RenderTarget2D target, System.Drawing.Rectangle destination, System.Drawing.Rectangle? source = null, DrawInfo info = default(DrawInfo))
         {
             ChangeRenderTarget(target);
-            spriteBatch.Begin(SpriteSortMode.Immediate, mode == DrawMode.Additive ? BlendState.Additive : mode == DrawMode.Overlay ? BlendState.AlphaBlend : BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
-            spriteBatch.Draw(subject, DrawingToXna(destination), source.HasValue ? DrawingToXna(source.Value) : (Rectangle?)null, Color.White);
+            spriteBatch.Begin(SpriteSortMode.Immediate, info.Mode == DrawMode.Additive ? BlendState.Additive : info.Mode == DrawMode.Overlay ? BlendState.AlphaBlend : BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
+            spriteBatch.Draw(subject, DrawingToXna(destination), source.HasValue ? DrawingToXna(source.Value) : (Rectangle?)null, info.Color.HasValue ? DrawingToXna(info.Color.Value) : Color.White);
+            spriteBatch.End();
+        }
+
+        public void FillRect(RenderTarget2D target, System.Drawing.Rectangle rectangle, System.Drawing.Color color)
+        {
+            ChangeRenderTarget(target);
+            spriteBatch.Begin(SpriteSortMode.Immediate, blendState: null);
+            if(pixel == null)
+            {
+                pixel = new Texture2D(device, 1, 1);
+            }
+            pixel.SetData(new[] { DrawingToXna(color) });
+            spriteBatch.Draw(pixel, DrawingToXna(rectangle), Color.White);
             spriteBatch.End();
         }
 
@@ -93,14 +106,16 @@ namespace GameBase.MonoGameGraphics
         {
             return new Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
         }
+        private static Color DrawingToXna(System.Drawing.Color color)
+        {
+            return new Color(color.R, color.G, color.B, color.A);
+        }
 
         public void Reset() => ChangeRenderTarget(null);
 
         //Redirection of subclasses of Texture2D (as type parameter 1 extends type parameter 2)
         System.Drawing.Size IGraphicsContext<RenderTarget2D, Texture2D>.GetSize(RenderTarget2D surface) => GetSize(surface);
-        void IGraphicsContext<RenderTarget2D, Texture2D>.Draw(RenderTarget2D subject, RenderTarget2D target, System.Drawing.Rectangle destination) => Draw(subject, target, destination);
-        void IGraphicsContext<RenderTarget2D, Texture2D>.Draw(RenderTarget2D subject, RenderTarget2D target, System.Drawing.Rectangle destination, System.Drawing.Rectangle? source) => Draw(subject, target, destination, source);
-        void IGraphicsContext<RenderTarget2D, Texture2D>.Draw(RenderTarget2D subject, RenderTarget2D target, System.Drawing.Rectangle destination, DrawMode mode) => Draw(subject, target, destination, mode);
-        void IGraphicsContext<RenderTarget2D, Texture2D>.Draw(RenderTarget2D subject, RenderTarget2D target, System.Drawing.Rectangle destination, System.Drawing.Rectangle? source, DrawMode mode) => Draw(subject, target, destination, source, mode);
+        void IGraphicsContext<RenderTarget2D, Texture2D>.Draw(RenderTarget2D subject, RenderTarget2D target, System.Drawing.Rectangle destination, System.Drawing.Rectangle? source, DrawInfo info) => Draw(subject, target, destination, source, info);
+        void IGraphicsContext<RenderTarget2D, Texture2D>.Draw(Texture2D subject, RenderTarget2D target, System.Drawing.Rectangle destination, System.Drawing.Rectangle? source, DrawInfo info) => Draw(subject, target, destination, source, info);
     }
 }

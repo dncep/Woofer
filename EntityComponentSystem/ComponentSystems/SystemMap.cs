@@ -49,20 +49,20 @@ namespace EntityComponentSystem.ComponentSystems
                 }
             }
 
-            foreach(string eventName in system.Listening)
+            foreach (string eventName in system.Listening)
             {
                 Owner.Events.RegisterEventType(eventName);
                 Owner.Events.EventDictionary[eventName] += system.EventFired;
             }
         }
-        
+
         public void Clear() => _dict.Clear();
         public bool Contains(string name) => _dict.ContainsKey(name);
         public bool Remove(string name)
         {
             if (!_dict.ContainsKey(name)) return false;
             ComponentSystem system = _dict[name];
-            foreach(string eventName in system.Listening)
+            foreach (string eventName in system.Listening)
             {
                 Owner.Events.RegisterEventType(eventName);
                 Owner.Events.EventDictionary[eventName] -= system.EventFired;
@@ -71,8 +71,14 @@ namespace EntityComponentSystem.ComponentSystems
             return true;
         }
 
-        internal void InvokeInput() => _inputSystems.ForEach((s) => s.Input());
-        internal void InvokeTick() => _tickSystems.ForEach((s) => s.Tick());
+        internal void InvokeInput() => _inputSystems.ForEach((s) =>
+        {
+            if (!Owner.Controller.Paused || s.PauseProcessing) s.Input();
+        });
+        internal void InvokeTick() => _tickSystems.ForEach((s) =>
+        {
+            if(!Owner.Controller.Paused || s.PauseProcessing) s.Tick();
+        });
         internal void InvokeRender<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r) => _renderSystems.ForEach((s) => s.Render(r));
 
         public IEnumerator<ComponentSystem> GetEnumerator() => _dict.Values.GetEnumerator();
