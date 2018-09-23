@@ -54,23 +54,9 @@ namespace WooferGame.Common
 
         public void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r, DirectGraphicsContext<TSurface, TSource> layer, Point destination, int fontScale = 1)
         {
-            int width = 0;
-            int height = 8 * fontScale;
-            if (Icon != null) height = Math.Max(height, (int)Icon.Destination.Height);
             var font = r.SpriteManager["font"];
 
             byte[] asciiBytes = Encoding.ASCII.GetBytes(Text);
-
-            foreach (byte c in asciiBytes)
-            {
-                width += (char_sizes[c] - 1) * fontScale;
-            }
-
-            if (Icon != null)
-            {
-                width += (int)Icon.Destination.Width;
-                width += 4;
-            }
 
             int destX = destination.X;
 
@@ -92,6 +78,28 @@ namespace WooferGame.Common
                 layer.Draw(font, new System.Drawing.Rectangle(destX, destination.Y, 8 * fontScale, 8 * fontScale), new System.Drawing.Rectangle(srcX, srcY, 8, 8), new DrawInfo() { Color = Color });
                 destX += (char_sizes[c] - 1) * fontScale;
             }
+        }
+
+        public System.Drawing.Size GetSize(int fontScale = 1)
+        {
+            int width = 0;
+            int height = 8 * fontScale;
+            if (Icon != null) height = Math.Max(height, (int)Icon.Destination.Height);
+
+            byte[] asciiBytes = Encoding.ASCII.GetBytes(Text);
+
+            foreach (byte c in asciiBytes)
+            {
+                width += (char_sizes[c] - 1) * fontScale;
+            }
+
+            if (Icon != null)
+            {
+                width += (int)Icon.Destination.Width;
+                width += 4;
+            }
+
+            return new System.Drawing.Size(width, height);
         }
 
         public TSurface Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
