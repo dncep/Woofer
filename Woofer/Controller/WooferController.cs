@@ -36,7 +36,7 @@ namespace WooferGame.Controller
             AudioUnit.Load("pulse_mid");
             AudioUnit.Load("pulse_high");
 
-            ActiveScene = new Editor();
+            ActiveScene = new MainMenuScene();
         }
 
         public void Tick(TimeSpan timeSpan, TimeSpan elapsedGameTime)
