@@ -10,7 +10,7 @@ namespace WooferGame.Input
 
         public InputTimeframe(int timeframe) => Timeframe = timeframe;
 
-        public virtual void RegisterPressed()
+        protected void RegisterPressed()
         {
             if(!Consumed)
             {
@@ -19,25 +19,26 @@ namespace WooferGame.Input
             }
         }
 
-        public virtual bool Execute()
+        public bool Execute()
         {
             bool returnValue = Effectiveness > 0;
             Effectiveness = 0;
             return returnValue;
         }
 
-        public virtual void RegisterUnpressed()
+        protected void RegisterUnpressed()
         {
             Consumed = false;
         }
 
         public void RegisterState(ButtonState state)
         {
+            Tick();
             if (state.IsPressed()) RegisterPressed();
             else RegisterUnpressed();
         }
 
-        public virtual void Tick()
+        protected virtual void Tick()
         {
             if (Effectiveness > 0) Effectiveness--;
         }

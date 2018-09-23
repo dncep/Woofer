@@ -4,6 +4,7 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
 using WooferGame.Input;
+using WooferGame.Meta.LevelEditor;
 
 namespace WooferGame.Systems.Player.Actions
 {
@@ -29,8 +30,9 @@ namespace WooferGame.Systems.Player.Actions
 
 
         [PersistentProperty]
-        public Vector2D Offset { get; set; }
+        public Vector2D Offset { get; set; } = new Vector2D(0, 16);
 
+        [HideInInspector]
         public InputTimeframe Pulse = new InputTimeframe(5);
     }
 }

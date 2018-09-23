@@ -20,18 +20,6 @@ namespace WooferGame.Systems.HUD
     {
         private List<ShowTextEvent> Active = new List<ShowTextEvent>();
 
-        private static readonly byte[] char_sizes =
-        {
-            8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-            8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-            5, 4, 5, 7, 7, 8, 7, 5, 5, 5, 5, 7, 4, 7, 5, 7,
-            7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 5, 5, 6, 6, 6, 7,
-            7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-            7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 4, 7, 4, 7, 7,
-            4, 6, 6, 6, 6, 6, 5, 6, 6, 3, 6, 5, 5, 7, 6, 7,
-            6, 6, 6, 6, 5, 6, 7, 7, 7, 6, 6, 5, 5, 5, 8, 8
-        };
-
         public override void EventFired(object sender, Event e)
         {
             if(e is ShowTextEvent te)

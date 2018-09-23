@@ -10,7 +10,9 @@ using GameInterfaces.Controller;
 using GameInterfaces.Input;
 using WooferGame.Input;
 using WooferGame.Meta.LevelEditor.Systems;
+using WooferGame.Meta.LevelEditor.Systems.ComponentView;
 using WooferGame.Meta.LevelEditor.Systems.CursorModes;
+using WooferGame.Meta.LevelEditor.Systems.InputModes;
 using WooferGame.Scenes;
 
 namespace WooferGame.Meta.LevelEditor
@@ -19,6 +21,7 @@ namespace WooferGame.Meta.LevelEditor
     {
         internal static InputRepeatingTimeframe MoveTimeframe = new InputRepeatingTimeframe(15, 3);
         internal static InputTimeframe SelectTimeframe = new InputTimeframe(1);
+        internal static InputRepeatingTimeframe SelectRepeatingTimeframe = new InputRepeatingTimeframe(15, 3);
 
         public Editor() : base()
         {
@@ -32,6 +35,9 @@ namespace WooferGame.Meta.LevelEditor
 
             Systems.Add(new MoveCursorModeSystem());
 
+            Systems.Add(new NumberInputSystem());
+            Systems.Add(new ComponentSelectViewSystem());
+
             Systems.Add(new ModalFocusSystem());
         }
 
@@ -41,6 +47,7 @@ namespace WooferGame.Meta.LevelEditor
             
             Editor.MoveTimeframe.RegisterState(inputMap.Movement.Magnitude > 1e-5 ? ButtonState.Pressed : ButtonState.Released);
             Editor.SelectTimeframe.RegisterState(inputMap.Jump);
+            Editor.SelectRepeatingTimeframe.RegisterState(inputMap.Jump);
 
             base.InvokeInput();
         }

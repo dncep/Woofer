@@ -18,14 +18,14 @@ namespace WooferGame.Common
     {
         private static readonly byte[] char_sizes =
         {
+            8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 8,
             8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-            8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-            5, 4, 5, 7, 7, 8, 7, 5, 5, 5, 5, 7, 4, 7, 5, 7,
-            7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 5, 5, 6, 6, 6, 7,
-            7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-            7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 4, 7, 4, 7, 6,
-            4, 6, 6, 6, 6, 6, 5, 6, 6, 3, 6, 6, 4, 7, 6, 7,
-            6, 6, 6, 6, 5, 6, 7, 7, 7, 6, 6, 5, 5, 5, 8, 8
+            4, 3, 4, 6, 6, 7, 6, 4, 4, 4, 4, 6, 3, 6, 4, 6,
+            6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 5, 5, 5, 6,
+            6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+            6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 3, 6, 3, 6, 5,
+            3, 5, 5, 5, 5, 5, 4, 5, 5, 2, 5, 5, 3, 6, 5, 6,
+            5, 5, 5, 5, 4, 5, 6, 6, 6, 5, 5, 4, 4, 4, 7, 8
         };
 
         [PersistentProperty]
@@ -76,7 +76,7 @@ namespace WooferGame.Common
                 int srcY = (c / 16) * 8;
 
                 layer.Draw(font, new System.Drawing.Rectangle(destX, destination.Y, 8 * fontScale, 8 * fontScale), new System.Drawing.Rectangle(srcX, srcY, 8, 8), new DrawInfo() { Color = Color });
-                destX += (char_sizes[c] - 1) * fontScale;
+                destX += char_sizes[c] * fontScale;
             }
         }
 
@@ -90,7 +90,7 @@ namespace WooferGame.Common
 
             foreach (byte c in asciiBytes)
             {
-                width += (char_sizes[c] - 1) * fontScale;
+                width += char_sizes[c] * fontScale;
             }
 
             if (Icon != null)
@@ -113,7 +113,7 @@ namespace WooferGame.Common
 
             foreach (byte c in asciiBytes)
             {
-                width += char_sizes[c] - 1;
+                width += char_sizes[c];
             }
 
             if (Icon != null)
@@ -146,7 +146,7 @@ namespace WooferGame.Common
                 int srcY = (c / 16) * 8;
 
                 layer.Draw(font, new System.Drawing.Rectangle(destX, destY, 8, 8), new System.Drawing.Rectangle(srcX, srcY, 8, 8), new DrawInfo() { Color = Color });
-                destX += (char_sizes[c] - 1);
+                destX += (char_sizes[c]);
             }
 
             return surface;

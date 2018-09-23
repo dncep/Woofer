@@ -93,7 +93,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 InputActive = false;
             } else if (e is ModalChangeEvent ce)
             {
-                SwitchToModal = ce.OldSystem;
+                SwitchToModal = ce.From;
                 InputActive = true;
             } else if(e is MoveCursorEvent move)
             {

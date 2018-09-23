@@ -1,6 +1,7 @@
 ﻿using EntityComponentSystem.Components;
 using EntityComponentSystem.Saves;
 using WooferGame.Input;
+using WooferGame.Meta.LevelEditor;
 
 namespace WooferGame.Systems.Movement
 {
@@ -18,6 +19,7 @@ namespace WooferGame.Systems.Movement
         [PersistentProperty]
         public double JumpSpeed { get; set; } = 192;
 
+        [HideInInspector]
         public InputTimeframe Jump = new InputTimeframe(5);
 
         public double CurrentSpeed => OnGround ? WalkSpeed : AirborneSpeed;

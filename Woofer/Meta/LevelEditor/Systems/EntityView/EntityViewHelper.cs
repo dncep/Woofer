@@ -9,6 +9,7 @@ using EntityComponentSystem.Entities;
 using EntityComponentSystem.Util;
 using WooferGame.Common;
 using WooferGame.Meta.LevelEditor.Systems.CursorModes;
+using WooferGame.Meta.LevelEditor.Systems.InputModes;
 using WooferGame.Systems.Visual;
 
 namespace WooferGame.Meta.LevelEditor.Systems.EntityView
@@ -187,6 +188,24 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                     return true;
                 }
                 else return false;
+            }
+            else if (type == typeof(double))
+            {
+                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartNumberInputEvent((double)member.GetValue(), v => member.SetValue(v), null));
+                return true;
+            }
+            else if (type == typeof(float))
+            {
+                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartNumberInputEvent((float)member.GetValue(), v => member.SetValue((float)v), null));
+                return true;
+            }
+            else if (type == typeof(int))
+            {
+                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartNumberInputEvent((int)member.GetValue(), v => member.SetValue((int)v), false, null));
+                return true;
             }
             return false;
         }

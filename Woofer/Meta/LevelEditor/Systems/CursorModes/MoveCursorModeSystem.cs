@@ -72,7 +72,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             {
                 changed.Valid = false;
                 Owner.Events.InvokeEvent(new ForceModalChangeEvent("editor_cursor", null));
-                CursorSystem.SwitchToModal = changed.OldSystem;
+                CursorSystem.SwitchToModal = changed.From;
             }
         }
     }

@@ -28,8 +28,7 @@ namespace WooferGame.Systems.Movement
                 ButtonState jumpButton = inputMap.Jump;
 
                 //Jump logic
-                if (jumpButton.IsPressed()) pmc.Jump.RegisterPressed();
-                else pmc.Jump.RegisterUnpressed();
+                pmc.Jump.RegisterState(jumpButton);
                 if (pmc.OnGround)
                 {
                     if(jumpButton.IsPressed() && pmc.Jump.Execute())
@@ -96,7 +95,6 @@ namespace WooferGame.Systems.Movement
             {
                 if (!pmc.Owner.Active) continue;
                 pmc.OnGround = false;
-                pmc.Jump.Tick();
             }
         }
     }

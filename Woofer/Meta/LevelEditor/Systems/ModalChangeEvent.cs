@@ -23,12 +23,12 @@ namespace WooferGame.Meta.LevelEditor.Systems
     [Event("editor_modal_change")]
     class ModalChangeEvent : Event
     {
-        public string OldSystem;
+        public string From;
         public bool Valid = true;
 
         public ModalChangeEvent(string old, Component sender) : base(sender)
         {
-            this.OldSystem = old;
+            this.From = old;
         }
     }
 

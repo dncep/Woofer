@@ -48,13 +48,13 @@ namespace WooferGame.Systems.Interaction
                     {
                         ButtonState interact = Woofer.Controller.InputManager.ActiveInputMap.Interact;
 
-                        if (interact.IsPressed()) currentAgent.Input.RegisterPressed();
-                        if(interact.IsPressed() && currentAgent.Input.Execute())
+                        currentAgent.Input.RegisterState(interact);
+                        
+                        if(currentAgent.Input.Execute())
                         {
                             Entity sendTo = interactable.EntityToActivate != 0 ? Owner.Entities[interactable.EntityToActivate] : interactable.Owner;
                             Owner.Events.InvokeEvent(new ActivationEvent(currentAgent, sendTo, null));
                         }
-                        if (!interact.IsPressed()) currentAgent.Input.RegisterUnpressed();
                     }
                 }
             }

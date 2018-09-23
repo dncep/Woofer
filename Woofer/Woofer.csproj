@@ -57,11 +57,11 @@
     <Compile Include="Input\KeyboardInputMap.cs" />
     <Compile Include="Meta\LevelEditor\Editor.cs" />
     <Compile Include="Meta\LevelEditor\InspectorAttribute.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\ComponentView\ComponentSelectView.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\MoveCursorModeSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorCursorSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorRendering.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorUtil.cs" />
-    <Compile Include="Meta\LevelEditor\Systems\EntityDelegate.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntityListSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntityOutliner.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntityOutlines\EntityOutlineEvents.cs" />

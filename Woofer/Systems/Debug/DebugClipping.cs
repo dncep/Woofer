@@ -24,8 +24,7 @@ namespace WooferGame.Systems.Debug
 
             foreach (DebugClippable clippable in WatchedComponents)
             {
-                if (inputMap.Debug.IsPressed()) clippable.Toggle.RegisterPressed();
-                else clippable.Toggle.RegisterUnpressed();
+                clippable.Toggle.RegisterState(inputMap.Debug);
 
                 if (clippable.Enabled)
                 {
