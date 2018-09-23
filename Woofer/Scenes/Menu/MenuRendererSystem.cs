@@ -56,9 +56,9 @@ namespace WooferGame.Scenes.Menu
                         Woofer.Controller.CommandFired(new SceneChangeCommand(new IntroScene()));
                         break;
                     case 1:
-                        Woofer.Controller.CommandFired(new SceneChangeCommand(new Editor()));
                         break;
                     case 2:
+                        Woofer.Controller.CommandFired(new SceneChangeCommand(new Editor()));
                         break;
                     case 3:
                         Environment.Exit(0);
