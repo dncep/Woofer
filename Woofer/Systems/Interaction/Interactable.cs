@@ -19,6 +19,7 @@ namespace WooferGame.Systems.Interaction
         public bool InRange = false;
 
         [PersistentProperty]
+        [Inspector(InspectorEditType.Offset)]
         public Vector2D IconOffset { get; set; }
 
         public Interactable() : this(0) { }

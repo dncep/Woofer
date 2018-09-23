@@ -10,6 +10,7 @@ using EntityComponentSystem.Util;
 using WooferGame.Common;
 using WooferGame.Meta.LevelEditor.Systems.CursorModes;
 using WooferGame.Meta.LevelEditor.Systems.InputModes;
+using WooferGame.Systems;
 using WooferGame.Systems.Visual;
 
 namespace WooferGame.Meta.LevelEditor.Systems.EntityView
@@ -17,7 +18,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
     class EntityViewHelper
     {
         internal readonly EntityViewSystem Owner;
-        private long Id;
+        internal long Id;
 
         internal Dictionary<string, ComponentSummary> Components = new Dictionary<string, ComponentSummary>();
         
@@ -184,9 +185,18 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 {
                     member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new MoveCursorEvent((Vector2D)member.GetValue()));
                     member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("move_cursor_mode", null));
-                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartMoveModeEvent(member));
+                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartMoveModeEvent((vec, def) => member.SetValue(vec)));
                     return true;
-                } else
+                }
+                else if (member.EditType == InspectorEditType.Offset)
+                {
+                    Entity entity = member.Owner.Owner.Owner.Owner.Entities[member.Owner.Owner.Id];
+                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new MoveCursorEvent(((Vector2D)member.GetValue()) + entity.Components.Get<Spatial>().Position));
+                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("move_cursor_mode", null));
+                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartMoveModeEvent((vec, def) => member.SetValue(vec - entity.Components.Get<Spatial>().Position)));
+                    return true;
+                }
+                else
                 {
                     Vector2D vec = (Vector2D)member.GetValue();
 
@@ -196,12 +206,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                         member.SetValue(vec);
                     };
 
-                    StartNumberInputEvent.OnSubmit onReceiveX = (v => {
+                    StartNumberInputEvent.OnSubmit onReceiveX = (v =>
+                    {
                         vec.X = v;
                         member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
                         member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartNumberInputEvent(vec.Y, onReceiveY, null) { Label = "Vector2D.Y" });
                     });
-                    
+
                     member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
                     member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartNumberInputEvent(vec.X, onReceiveX, null) { Label = "Vector2D.X" });
                     return true;

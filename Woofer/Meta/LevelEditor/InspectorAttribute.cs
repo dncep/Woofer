@@ -23,6 +23,7 @@ namespace WooferGame.Meta.LevelEditor
     {
         Default,
         Position,
+        Offset,
         Id
     }
 }

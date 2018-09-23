@@ -9,6 +9,7 @@ using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
+using WooferGame.Meta.LevelEditor;
 
 namespace WooferGame.Systems.Camera
 {
@@ -18,6 +19,7 @@ namespace WooferGame.Systems.Camera
         [PersistentProperty]
         public Rectangle Area { get; set; }
         [PersistentProperty]
+        [Inspector(InspectorEditType.Offset)]
         public Vector2D Focus { get; set; }
 
         [PersistentProperty]

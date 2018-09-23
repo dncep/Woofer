@@ -7,6 +7,7 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
 using WooferGame.Common;
 using WooferGame.Input;
@@ -20,7 +21,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
     {
         private EditorCursorSystem CursorSystem = null;
         private bool ModalActive = false;
-        private List<IMemberSummary> Members = new List<IMemberSummary>();
+        private StartMoveModeEvent.OnSelect Callback = null;
 
         public override bool ShouldSave => false;
 
@@ -31,11 +32,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 
             if(Editor.SelectTimeframe.Execute())
             {
-                foreach(IMemberSummary member in Members)
-                {
-                    member.SetValue(CursorSystem.CursorPos);
-                }
-                Members.Clear();
+                Callback(CursorSystem.CursorPos, true);
                 ModalActive = false;
                 Owner.Events.InvokeEvent(new RequestModalChangeEvent(null));
             }
@@ -47,10 +44,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 
             if(ModalActive)
             {
-                foreach (IMemberSummary member in Members)
-                {
-                    member.SetValue(CursorSystem.CursorPos);
-                }
+                Callback(CursorSystem.CursorPos, false);
             }
         }
 
@@ -67,7 +61,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             if(e is StartMoveModeEvent start)
             {
                 ModalActive = true;
-                Members.Add(start.Member);
+                Callback = start.Callback;
             } if(e is ModalChangeEvent changed)
             {
                 changed.Valid = false;
@@ -80,8 +74,10 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
     [Event("start_move_mode")]
     class StartMoveModeEvent : Event
     {
-        public IMemberSummary Member;
+        public OnSelect Callback;
 
-        public StartMoveModeEvent(IMemberSummary member) : base(null) => Member = member;
+        public StartMoveModeEvent(OnSelect callback) : base(null) => Callback = callback;
+
+        public delegate void OnSelect(Vector2D pos, bool definitive);
     }
 }

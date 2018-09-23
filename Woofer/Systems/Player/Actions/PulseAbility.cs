@@ -30,6 +30,7 @@ namespace WooferGame.Systems.Player.Actions
 
 
         [PersistentProperty]
+        [Inspector(InspectorEditType.Offset)]
         public Vector2D Offset { get; set; } = new Vector2D(0, 16);
 
         [HideInInspector]

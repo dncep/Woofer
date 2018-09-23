@@ -10,6 +10,7 @@ using EntityComponentSystem.Events;
 using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
 using WooferGame.Input;
+using WooferGame.Meta.LevelEditor;
 
 namespace WooferGame.Systems.Debug
 {
@@ -20,6 +21,7 @@ namespace WooferGame.Systems.Debug
         public bool Enabled { get; set; } = false;
         [PersistentProperty]
         public Vector2D CameraLocation { get; set; }
+        [HideInInspector]
         public InputTimeframe Toggle = new InputTimeframe(8);
     }
 }
