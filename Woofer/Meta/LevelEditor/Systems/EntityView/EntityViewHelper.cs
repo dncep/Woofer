@@ -186,8 +186,26 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                     member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("move_cursor_mode", null));
                     member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartMoveModeEvent(member));
                     return true;
+                } else
+                {
+                    Vector2D vec = (Vector2D)member.GetValue();
+
+                    StartNumberInputEvent.OnSubmit onReceiveY = v =>
+                    {
+                        vec.Y = v;
+                        member.SetValue(vec);
+                    };
+
+                    StartNumberInputEvent.OnSubmit onReceiveX = (v => {
+                        vec.X = v;
+                        member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                        member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartNumberInputEvent(vec.Y, onReceiveY, null) { Label = "Vector2D.Y" });
+                    });
+                    
+                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartNumberInputEvent(vec.X, onReceiveX, null) { Label = "Vector2D.X" });
+                    return true;
                 }
-                else return false;
             }
             else if (type == typeof(double))
             {
@@ -205,6 +223,11 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
             {
                 member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
                 member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartNumberInputEvent((int)member.GetValue(), v => member.SetValue((int)v), false, null));
+                return true;
+            } if(type == typeof(string))
+            {
+                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("text_input", null));
+                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartTextInputEvent((string)member.GetValue(), v => member.SetValue(v), null));
                 return true;
             }
             return false;

@@ -69,6 +69,7 @@
     <Compile Include="Meta\LevelEditor\Systems\EntityViewSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntityView\EntityViewHelper.cs" />
     <Compile Include="Meta\LevelEditor\Systems\InputModes\NumberInputSystem.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\InputModes\TextInputSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\ModalChangeEvent.cs" />
     <Compile Include="Meta\LevelEditor\Systems\ModalFocusSystem.cs" />
     <Compile Include="Program.cs" />

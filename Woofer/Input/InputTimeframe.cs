@@ -58,17 +58,24 @@ namespace WooferGame.Input
             this.Period = period;
         }
 
-        public bool Execute()
+        public virtual bool Execute()
         {
             bool returnValue = (Repetitions == 0 && Pressed == 1) || (Repetitions > 0 && Pressed == Period);
-            if(returnValue && Repetitions != 0)
+            if (returnValue)
             {
-                Repetitions++;
-                Pressed = 0;
+                if (Repetitions != 0)
+                {
+                    Repetitions++;
+                    Pressed = 0;
+                }
+                else
+                {
+                    Pressed++;
+                }
             }
             return returnValue;
         }
-        public void RegisterPressed()
+        protected void RegisterPressed()
         {
             Pressed++;
             if((Repetitions == 0 && Pressed > Delay) || (Repetitions > 0 && Pressed > Period))
@@ -77,7 +84,7 @@ namespace WooferGame.Input
                 Pressed = 0;
             }
         }
-        public void RegisterUnpressed()
+        protected void RegisterUnpressed()
         {
             Pressed = 0;
             Repetitions = 0;
@@ -88,5 +95,36 @@ namespace WooferGame.Input
             if (state.IsPressed()) RegisterPressed();
             else RegisterUnpressed();
         }
+    }
+
+    class InputHybridTimeframe : InputRepeatingTimeframe
+    {
+        public InputHybridTimeframe(int delay, int period) : base(delay, period)
+        {
+            this.Delay = delay;
+            this.Period = period;
+        }
+
+        public override bool Execute() => this.ExecuteSingle();
+
+        public bool ExecuteSingle()
+        {
+            bool returnValue = (Repetitions == 0 && Pressed == 1);
+            if (returnValue)
+            {
+                if (Repetitions != 0)
+                {
+                    Repetitions++;
+                    Pressed = 0;
+                }
+                else
+                {
+                    Pressed++;
+                }
+            }
+            return returnValue;
+        }
+
+        public bool ExecuteRepeating() => base.Execute();
     }
 }

@@ -26,10 +26,11 @@ namespace WooferGame.Meta.LevelEditor.Systems.InputModes
 
         private bool ModalActive = false;
 
+        private string Label = null;
         private string Display = "0";
         private bool Dirty = false;
 
-        private List<OnSubmit> Callbacks = new List<OnSubmit>();
+        private OnSubmit Callback = null;
 
         private string SwitchTo = null;
 
@@ -86,7 +87,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.InputModes
                 }
             }
 
-            if(CurrentButton != null && ((CurrentButton.Repeating && Editor.SelectRepeatingTimeframe.Execute()) || (!CurrentButton.Repeating && Editor.SelectTimeframe.Execute())))
+            if(CurrentButton != null && ((CurrentButton.Repeating && Editor.SelectTimeframe.ExecuteRepeating()) || (!CurrentButton.Repeating && Editor.SelectTimeframe.Execute())))
             {
                 GUIButton button = CurrentButton;
                 if(button != null && button.Enabled)
@@ -139,17 +140,14 @@ namespace WooferGame.Meta.LevelEditor.Systems.InputModes
             CurrentPos = button.Position;
         }
 
-        private void Dismiss()
-        {
-            Callbacks.Clear();
-        }
+        bool ShouldClose = false;
 
         private void Submit()
         {
             double value = double.Parse(Display);
-            Callbacks.ForEach(c => c(value));
-            Callbacks.Clear();
-            Owner.Events.InvokeEvent(new RequestModalChangeEvent(null));
+            ShouldClose = true;
+            Callback(value);
+            if(ShouldClose) Owner.Events.InvokeEvent(new RequestModalChangeEvent(null));
         }
 
         private void Normalize()
@@ -206,10 +204,16 @@ namespace WooferGame.Meta.LevelEditor.Systems.InputModes
 
             var layer = r.GetLayerGraphics("hi_res_overlay");
 
-            TextUnit label = new TextUnit(Display);
-            label.Render(r, layer, new Point(80 - 18, 80 - 18 - 30), 3);
+            if (Label != null)
+            {
+                TextUnit label = new TextUnit(Label);
+                label.Render(r, layer, new Point(80 - 18, 80 - 18 - 30 - 30), 3);
+            }
 
-            foreach(GUIButton button in Pad)
+            TextUnit numberDisplay = new TextUnit(Display);
+            numberDisplay.Render(r, layer, new Point(80 - 18, 80 - 18 - 30), 3);
+
+            foreach (GUIButton button in Pad)
             {
                 button.Render(r, layer, new Vector2D(80, 80));
             }
@@ -220,11 +224,17 @@ namespace WooferGame.Meta.LevelEditor.Systems.InputModes
             if(e is StartNumberInputEvent start)
             {
                 Display = start.InitialValue.ToString();
-                Callbacks.Add(start.Callback);
+                Callback = start.Callback;
                 DotButton.Enabled = start.AllowDecimals;
+                Label = start.Label;
             } else if(e is ModalChangeEvent change)
             {
-                SwitchTo = change.From;
+                //Console.WriteLine("changed from " + change.From);
+                ShouldClose = false;
+                if(change.From != "number_input")
+                {
+                    SwitchTo = change.From;
+                }
                 SwitchButton(Pad[0]);
                 ModalActive = true;
             } else if(e is BeginModalChangeEvent bmce)
@@ -252,7 +262,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.InputModes
             Bounds = bounds;
         }
 
-        public void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r, DirectGraphicsContext<TSurface, TSource> layer, Vector2D offset)
+        public virtual void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r, DirectGraphicsContext<TSurface, TSource> layer, Vector2D offset)
         {
             if (!Enabled) return;
             layer.FillRect((Bounds + (Position + offset)).ToDrawing(), Highlighted ? Color.CornflowerBlue : Color.FromArgb(37, 37, 38));
@@ -266,6 +276,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.InputModes
     [Event("start_number_input")]
     public class StartNumberInputEvent : Event
     {
+        public string Label = null;
         public double InitialValue;
         public OnSubmit Callback;
         public bool AllowDecimals;

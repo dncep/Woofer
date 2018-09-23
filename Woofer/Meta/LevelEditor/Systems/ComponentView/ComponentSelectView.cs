@@ -73,10 +73,9 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
 
         private void Submit()
         {
-            Callback(ComponentNames[SelectedIndex]);
-            Callback = null;
             ModalActive = false;
             Owner.Events.InvokeEvent(new ForceModalChangeEvent(SwitchTo, null));
+            Callback(ComponentNames[SelectedIndex]);
         }
 
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
