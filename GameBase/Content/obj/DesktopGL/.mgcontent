@@ -4,20 +4,21 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/intro_bg.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/sprites0.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/char.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/particles.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/lab_tileset.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/lab_objects.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/gui.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/parallax_bg.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/pulse_high.wav</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/pulse_low.wav</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/pulse_mid.wav</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/pulse_low_alt.wav</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/woofer.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/font.png</File>
-    <File>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/switch.png</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/intro_bg.png</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/sprites0.png</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/char.png</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/particles.png</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/lab_tileset.png</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/lab_objects.png</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/gui.png</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/parallax_bg.png</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/pulse_high.wav</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/pulse_low.wav</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/pulse_mid.wav</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/pulse_low_alt.wav</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/woofer.png</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/font.png</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/switch.png</File>
+    <File>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/Main_menu.png</File>
   </SourceFiles>
 </SourceFileCollection>

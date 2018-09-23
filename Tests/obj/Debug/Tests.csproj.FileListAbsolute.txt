@@ -48,3 +48,6 @@ C:\Users\Usuario\source\repos\Game\Tests\bin\Debug\x86\libopenal.so.1
 C:\Users\Usuario\source\repos\Game\Tests\bin\Debug\x64\libopenal.so.1
 C:\Users\Usuario\source\repos\Game\Tests\bin\Debug\libSDL2-2.0.0.dylib
 C:\Users\Usuario\source\repos\Game\Tests\bin\Debug\libopenal.1.dylib
+C:\Users\Silvio Arzeno\Documents\GitHub\Woofer\Tests\obj\Debug\Tests.csprojAssemblyReference.cache
+C:\Users\Silvio Arzeno\Documents\GitHub\Woofer\Tests\obj\Debug\Tests.csproj.CoreCompileInputs.cache
+C:\Users\Silvio Arzeno\Documents\GitHub\Woofer\Tests\obj\Debug\Tests.exe

@@ -10,7 +10,7 @@ namespace WooferGame.Scenes
         public MainMenuScene()
         {
             Entities.Add(new PlayerEntity(0, 0));
-
+            Entities.Add(new Sprite());
             Systems.Add(new LevelRenderer());
         }
     }

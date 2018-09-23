@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/parallax_bg.png</SourceFile>
-  <SourceTime>2018-09-18T11:08:25.9448004-04:00</SourceTime>
-  <DestFile>C:/Users/Usuario/Documents/GitHub/Woofer/GameBase/Content/bin/DesktopGL/parallax_bg.xnb</DestFile>
-  <DestTime>2018-09-18T11:35:05.6708378-04:00</DestTime>
+  <SourceFile>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/parallax_bg.png</SourceFile>
+  <SourceTime>2018-09-18T10:51:39.5602184-04:00</SourceTime>
+  <DestFile>C:/Users/Silvio Arzeno/Documents/GitHub/Woofer/GameBase/Content/bin/DesktopGL/parallax_bg.xnb</DestFile>
+  <DestTime>2018-09-20T07:05:22.8647793-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T11:05:36-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

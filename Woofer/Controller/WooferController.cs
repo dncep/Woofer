@@ -33,7 +33,7 @@ namespace WooferGame.Controller
         public WooferController()
         {
             RenderingUnit = new WooferRenderingUnit(this);
-            ActiveScene = new IntroScene();
+            ActiveScene = new MainMenuScene();
         }
 
 
