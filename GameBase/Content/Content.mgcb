@@ -229,3 +229,9 @@
 /processorParam:Quality=Best
 /build:bgm.wav
 
+#begin bgm1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:bgm1.wav
+
