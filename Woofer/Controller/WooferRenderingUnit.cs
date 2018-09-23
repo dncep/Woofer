@@ -35,6 +35,7 @@ namespace WooferGame.Controller
             SpriteManager.LoadSprite("lab_objects");
             SpriteManager.LoadSprite("parallax_bg");
             SpriteManager.LoadSprite("switch");
+            SpriteManager.LoadSprite("MainSceneBG");
 
             SpriteManager.LoadSprite("font");
 
@@ -49,7 +50,7 @@ namespace WooferGame.Controller
 
             ClipSprite("brick", "sprites0", new Rectangle(16, 0, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
             ClipSprite("grass", "sprites0", new Rectangle(0, 0, 16, 16), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
-            
+         
             ClipSprite("room0", "intro_bg", new Rectangle(0, 0, 432, 400), screenRenderer.GraphicsContext, screenRenderer.SpriteManager);
         }
 

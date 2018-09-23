@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -72,15 +73,15 @@ namespace WooferGame.Scenes.Menu
         {
             var layer = r.GetLayerGraphics("hud");
 
-            layer.Draw(r.SpriteManager["brick"], new System.Drawing.Rectangle(50, 50, 80, 80));
+            layer.Draw(r.SpriteManager["MainSceneBG"], new System.Drawing.Rectangle(0, 0, 330, 180));
 
             int destY = 100;
             int index = 0;
             foreach(string label in OptionLabels)
             {
                 TextUnit text;
-                if (index == SelectedIndex) text = new TextUnit(new Sprite("gui", new Rectangle(0, 0, 8, 8), new Rectangle(0, 0, 8, 8)), label);
-                else text = new TextUnit(label);
+                if (index == SelectedIndex) text = new TextUnit(new Sprite("gui", new EntityComponentSystem.Util.Rectangle(0, 0, 8, 8), new EntityComponentSystem.Util.Rectangle(0, 0, 8, 8)), label ,Color.Coral);
+                else text = new TextUnit(label , Color.White);
                 text.Render(r, layer, new System.Drawing.Point(8, destY));
                 destY += 12;
                 index++;
