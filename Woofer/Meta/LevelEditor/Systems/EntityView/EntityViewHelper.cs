@@ -69,6 +69,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
         TextUnit Label { get; }
         bool CanSet { get; }
 
+        InspectorEditType EditType { get; }
+
         Type DataType { get; }
 
         object GetValue();
@@ -84,6 +86,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
         public string Name { get; private set; }
         public bool CanSet { get; private set; }
 
+        public InspectorEditType EditType { get; private set; }
+
         public Type DataType => property.PropertyType;
 
         public TextUnit Label => (property.PropertyType == typeof(bool)) ? new TextUnit(new Sprite("editor", new Rectangle(0, 0, 8, 8), new Rectangle((bool)GetValue() ? 8 : 0, 48, 8, 8)), Name) :
@@ -97,6 +101,12 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
             Name = property.Name;
             CanSet = property.CanWrite;
+
+            if (property.GetCustomAttribute(typeof(InspectorAttribute)) is InspectorAttribute attribute)
+            {
+                EditType = attribute.Flags;
+            }
+            else EditType = InspectorEditType.Default;
         }
 
         public object GetValue() => property.GetValue(component);
@@ -110,8 +120,6 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
             }
             return false;
         }
-
-        
     }
 
     internal class FieldSummary : IMemberSummary
@@ -122,6 +130,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
         public string Name { get; private set; }
         public bool CanSet { get; private set; }
+
+        public InspectorEditType EditType { get; private set; }
 
         public Type DataType => field.FieldType;
 
@@ -136,6 +146,12 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
             Name = field.Name;
             CanSet = !field.IsInitOnly;
+            
+            if (field.GetCustomAttribute(typeof(InspectorAttribute)) is InspectorAttribute attribute)
+            {
+                EditType = attribute.Flags;
+            }
+            else EditType = InspectorEditType.Default;
         }
 
         public object GetValue() => field.GetValue(component);
@@ -163,10 +179,14 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
             }
             else if (type == typeof(Vector2D))
             {
-                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new MoveCursorEvent((Vector2D)member.GetValue()));
-                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("move_cursor_mode", null));
-                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartMoveModeEvent(member));
-                return true;
+                if (member.EditType == InspectorEditType.Position)
+                {
+                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new MoveCursorEvent((Vector2D)member.GetValue()));
+                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("move_cursor_mode", null));
+                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartMoveModeEvent(member));
+                    return true;
+                }
+                else return false;
             }
             return false;
         }
