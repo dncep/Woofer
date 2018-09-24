@@ -8,7 +8,7 @@ using EntityComponentSystem.Scenes;
 
 namespace EntityComponentSystem.Entities
 {
-    public class Entity
+    public class Entity : IEquatable<Entity>
     {
         public string Name { get; set; }
 
@@ -36,5 +36,9 @@ namespace EntityComponentSystem.Entities
         {
 
         }
+
+        public override bool Equals(object obj) => Equals(obj as Entity);
+        public bool Equals(Entity other) => other != null && _id == other._id;
+        public override int GetHashCode() => 1969571243 + _id.GetHashCode();
     }
 }

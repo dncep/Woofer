@@ -69,7 +69,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                         if (SelectedPropertyIndex - 1 >= 0) SelectedPropertyIndex--;
                     } else
                     {
-                        if (SelectedComponentIndex - 1 >= -1) SelectedComponentIndex--;
+                        if (SelectedComponentIndex - 1 >= -2) SelectedComponentIndex--;
                     }
                 }
                 else if (movement.Y < 0)
@@ -106,7 +106,12 @@ namespace WooferGame.Meta.LevelEditor.Systems
             
             if (Editor.SelectTimeframe.Execute())
             {
-                if (SelectedComponentIndex == -1)
+                if(SelectedComponentIndex == -2)
+                {
+                    new PropertySummary(Owner, typeof(Entity).GetProperty("Name"), entity).TriggerEdit();
+                    ModalActive = false;
+                }
+                else if (SelectedComponentIndex == -1)
                 {
                     entity.Active = !entity.Active;
                 }
@@ -163,7 +168,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
             int x = EditorRendering.SidebarX + 2*EditorRendering.SidebarMargin;
             int y = EditorRendering.SidebarMargin + 4;
 
-            new TextUnit(new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 16, 16, 16)), entity.Name).Render(r, layer, new Point(x, y), 2);
+            new TextUnit(new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 16, 16, 16)), entity.Name, SelectedComponentIndex == -2 ? Color.CornflowerBlue : Color.White).Render(r, layer, new Point(x, y), 2);
             y += 20;
             new TextUnit("ID: " + Selected, Color.DarkGray).Render(r, layer, new Point(x, y), 1);
             y += 22;

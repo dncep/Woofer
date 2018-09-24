@@ -40,6 +40,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
         private int DraggingSide = -1;
         private Rectangle PreResizeBounds = null;
 
+        private bool Creating = false;
+
         private byte Mode = Edit;
 
         private const byte Edit = 0;
@@ -196,6 +198,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             {
                 Mode++;
                 if ((MultipleAllowed && Mode > 3) || (!MultipleAllowed && Mode > 1)) Mode = 0;
+                SelectionLocked = false;
             }
 
             if(Mode == Edit)
@@ -303,8 +306,9 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                     Outlines.Add(newOutline);
                     Owner.Events.InvokeEvent(new BeginOutline(newOutline));
                     Console.WriteLine("Added");
+                    Creating = true;
                 }
-                if(CursorSystem.Dragging)
+                if(CursorSystem.Dragging && Creating)
                 {
                     CollisionBox newBox = Boxes.Last();
                     newBox.X = CursorSystem.SelectionRectangle.X - Pivot.X;
@@ -312,6 +316,12 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                     newBox.Width = CursorSystem.SelectionRectangle.Width;
                     newBox.Height = CursorSystem.SelectionRectangle.Height;
                     Console.WriteLine("Updated");
+                }
+                if(CursorSystem.StoppedDragging && Creating)
+                {
+                    CollisionBox newBox = Boxes.Last();
+                    if(newBox.Area == 0) RemoveBox(newBox);
+                    Creating = false;
                 }
             } else if(Mode == Delete)
             {
@@ -333,12 +343,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                     }
                     if(Editor.SelectTimeframe.Execute())
                     {
-                        Boxes.Remove(SelectedBox);
-                        if(associatedOutline != null)
-                        {
-                            Outlines.Remove(associatedOutline);
-                            Owner.Events.InvokeEvent(new RemoveOutline(associatedOutline));
-                        }
+                        RemoveBox(SelectedBox);
                     }
                 }
             } else if(Mode == TweakFaces)
@@ -367,6 +372,18 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 }
             }
         }
+
+        private void RemoveBox(CollisionBox box)
+        {
+            IOutline associatedOutline = Outlines.Find(o => o is CollisionBoxOutline boxOutline && boxOutline.Box == box);
+            Boxes.Remove(box);
+            if (associatedOutline != null)
+            {
+                Outlines.Remove(associatedOutline);
+                Owner.Events.InvokeEvent(new RemoveOutline(associatedOutline));
+            }
+        }
+
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
             if (!ModalVisible) return;

@@ -14,6 +14,7 @@ using GameInterfaces.Input;
 using WooferGame.Common;
 using WooferGame.Input;
 using WooferGame.Meta.LevelEditor.Systems.EntityOutlines;
+using WooferGame.Meta.LevelEditor.Systems.InputModes;
 
 namespace WooferGame.Meta.LevelEditor.Systems
 {
@@ -23,13 +24,16 @@ namespace WooferGame.Meta.LevelEditor.Systems
         private bool ModalActive = false;
         private bool ModalVisible = true;
         private int SelectedIndex = 0;
-        private int StartOffset = 0;
+        private int StartOffset = -1;
 
         private int AmountVisible = 0;
 
         public override bool ShouldSave => false;
         
         private EntityOutline Outline;
+
+        private int RemoveTimer = 0;
+        private int RemovingIndex = 0;
 
         public override void Input()
         {
@@ -48,57 +52,106 @@ namespace WooferGame.Meta.LevelEditor.Systems
             {
                 if (movement.Y > 0)
                 {
-                    if (SelectedIndex - 1 >= 0) SelectedIndex--;
+                    if (SelectedIndex - 1 >= -1) SelectedIndex--;
                 }
                 else if (movement.Y < 0)
                 {
                     if (SelectedIndex + 1 < Owner.Entities.Count) SelectedIndex++;
                 }
-                Outline.Id = Owner.Entities.ToList()[SelectedIndex].Id;
-                if(SelectedIndex < StartOffset)
+                if(movement.Y != 0)
                 {
-                    StartOffset = SelectedIndex;
-                }
-                if(SelectedIndex > StartOffset + AmountVisible)
-                {
-                    StartOffset = SelectedIndex - AmountVisible;
+                    RemoveTimer = 0;
                 }
             }
-            
-            if(Editor.SelectTimeframe.Execute())
+
+            if (Editor.SelectTimeframe.Execute())
             {
-                Owner.Events.InvokeEvent(new EntitySelectEvent(Owner.Entities.ToList()[SelectedIndex], null));
-                Owner.Events.InvokeEvent(new ForceModalChangeEvent("entity_view", null));
-                ModalActive = false;
-                ModalVisible = false;
+                if (SelectedIndex == -1)
+                {
+                    Owner.Entities.Add(new Entity());
+                    Owner.Entities.Flush();
+                    SelectedIndex = Owner.Entities.Count - 1;
+                }
+                else
+                {
+                    Owner.Events.InvokeEvent(new EntitySelectEvent(Owner.Entities.ToList()[SelectedIndex], null));
+                    Owner.Events.InvokeEvent(new ForceModalChangeEvent("entity_view", null));
+                    ModalActive = false;
+                    ModalVisible = false;
+                }
+            }
+
+            if(RemoveTimer > 0) RemoveTimer--;
+            if (inputMap.Pulse.IsPressed() && SelectedIndex >= 0)
+            {
+                RemoveTimer += 2;
+                if(RemoveTimer / 25 > 3)
+                {
+                    Owner.Entities.Remove(Owner.Entities.ElementAt(SelectedIndex).Id);
+                    RemoveTimer = 0;
+                }
+            }
+            else RemoveTimer = 0;
+
+            if (SelectedIndex == -1)
+            {
+                Outline.Id = 0;
+            }
+            else
+            {
+                Outline.Id = Owner.Entities.ToList()[SelectedIndex].Id;
+            }
+            if (SelectedIndex < StartOffset)
+            {
+                StartOffset = SelectedIndex;
+            }
+            if (SelectedIndex > StartOffset + AmountVisible)
+            {
+                StartOffset = SelectedIndex - AmountVisible;
             }
         }
 
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
             if (!ModalVisible) return;
-            SelectedIndex = Math.Max(0, Math.Min(SelectedIndex, Owner.Entities.Count-1));
-            StartOffset = Math.Max(0, Math.Min(StartOffset, Owner.Entities.Count-1));
+            SelectedIndex = Math.Max(-1, Math.Min(SelectedIndex, Owner.Entities.Count-1));
+            StartOffset = Math.Max(-1, Math.Min(StartOffset, Owner.Entities.Count-1));
             var layer = r.GetLayerGraphics("hi_res_overlay");
 
-            int y = 10;
-            int x = EditorRendering.SidebarX + EditorRendering.SidebarMargin;
+            int y = 14;
+            int x = EditorRendering.SidebarX + EditorRendering.SidebarMargin + 4;
 
             List<Entity> entities = Owner.Entities.ToList();
             int index = StartOffset;
             for(; index < entities.Count; index++)
             {
-                Entity entity = entities[index];
-                if(index == SelectedIndex)
+                if (index == -1) {
+                    GUIButton button = new GUIButton(new Vector2D(x-4+EditorRendering.SidebarMargin, y), "Add Entity", new EntityComponentSystem.Util.Rectangle(0, 0, EditorRendering.SidebarWidth - 4 * EditorRendering.SidebarMargin, 24)) { TextSize = 2 };
+                    button.Highlighted = SelectedIndex == -1;
+                    button.Render(r, layer, Vector2D.Empty);
+
+                    y += 24+8;
+                } else
                 {
-                    layer.FillRect(new System.Drawing.Rectangle(x, y, EditorRendering.SidebarWidth - 2 * EditorRendering.SidebarMargin, 20), ModalActive ? Color.CornflowerBlue : Color.FromArgb(63, 63, 70));
+                    Entity entity = entities[index];
+                    if(index == SelectedIndex)
+                    {
+                        layer.FillRect(new System.Drawing.Rectangle(x-4, y, EditorRendering.SidebarWidth - 2 * EditorRendering.SidebarMargin, 20), ModalActive ? Color.CornflowerBlue : Color.FromArgb(63, 63, 70));
+                    }
+                    TextUnit label = new TextUnit(entity.Name);
+                    label.Render<TSurface, TSource>(r, layer, new Point(x, y+2), 2);
+                    y += 20;
+                    if (y > 720 - 16) break;
                 }
-                TextUnit label = new TextUnit(entity.Name);
-                label.Render<TSurface, TSource>(r, layer, new Point(x, y+2), 2);
-                y += 20;
-                if (y > 720 - 16) break;
             }
             AmountVisible = index - StartOffset - 1;
+
+            if(RemoveTimer > 0 && SelectedIndex >= 0)
+            {
+                TextUnit removingLabel = new TextUnit("Removing " + entities[SelectedIndex].Name + new string('.', RemoveTimer / 25));
+                System.Drawing.Size labelSize = removingLabel.GetSize(3);
+                removingLabel.Render(r, layer, new Point(EditorRendering.SidebarX - labelSize.Width, layer.GetSize().Height - labelSize.Height), 3);
+            }
         }
 
         public override void EventFired(object sender, Event e)

@@ -79,6 +79,12 @@ namespace EntityComponentSystem.Entities
             }
         }
 
+        public void SwapIndices(int index0, int index1)
+        {
+            Entity old0 = _dict.ElementAt(index0).Value;
+            _dict.Remove(old0.Id);
+        }
+
         public void Clear()
         {
             _dict.Clear();

@@ -58,6 +58,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
         }
 
         public bool StartedDragging { get; private set; } = false;
+        public bool StoppedDragging { get; private set; } = false;
         public bool MayDrag { get; set; } = false;
         public bool Dragging { get; set; } = false;
 
@@ -85,6 +86,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 {
                     SelectionStart = CursorPos;
                     MayDrag = true;
+                    StoppedDragging = Dragging;
                     Dragging = false;
                     StartedDragging = false;
                 }
@@ -92,6 +94,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 {
                     if (MayDrag)
                     {
+                        StoppedDragging = false;
                         StartedDragging = !Dragging;
                         Dragging = true;
                         SelectionRectangle.X = Math.Min(SelectionStart.X, CursorPos.X);

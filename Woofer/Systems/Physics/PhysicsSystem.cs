@@ -112,6 +112,7 @@ namespace WooferGame.Systems.Physics
 
                             FreeVector2D normalSide = sides[0];
                             Vector2D normal = sides[0].Normal;
+                            if (normal == Vector2D.Empty) continue;
 
                             if (sides.Count > 1)
                             {

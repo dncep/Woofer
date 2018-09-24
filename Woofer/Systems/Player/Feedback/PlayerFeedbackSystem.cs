@@ -21,7 +21,8 @@ namespace WooferGame.Systems.Player.Feedback
         {
             if(evt is PulseEvent pe)
             {
-                PlayerComponent player = WatchedComponents.First() as PlayerComponent;
+                PlayerComponent player = WatchedComponents.FirstOrDefault() as PlayerComponent;
+                if (player == null) return;
                 double distance = (pe.Source - player.Owner.Components.Get<Spatial>().Position).Magnitude;
                 if (distance < 0.1) distance = 0.1;
                 if (distance > 64 && pe.Sender.Owner != player.Owner) return;
