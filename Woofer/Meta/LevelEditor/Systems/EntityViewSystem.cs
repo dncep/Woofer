@@ -112,7 +112,6 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 }
                 else if (SelectedComponentIndex == Helper.Components.Count)
                 {
-                    Console.WriteLine("add component dummy");
                     Owner.Events.InvokeEvent(new StartComponentSelectEvent(AddComponent, null));
                     Owner.Events.InvokeEvent(new ForceModalChangeEvent("component_select", null));
                     ModalActive = false;

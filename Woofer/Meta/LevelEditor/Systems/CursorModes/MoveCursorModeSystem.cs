@@ -53,7 +53,9 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             if (!ModalActive) return;
             var layer = r.GetLayerGraphics("hi_res_overlay");
 
-            new TextUnit("Moving").Render(r, layer, new System.Drawing.Point(0, 0), 2);
+            new TextUnit("Coordinate Edit Mode").Render(r, layer, new System.Drawing.Point(8, 8), 3);
+            new TextUnit($"X: {CursorSystem.CursorPos.X}, Y: {CursorSystem.CursorPos.Y}").Render(r, layer, new System.Drawing.Point(8, 36), 2);
+
         }
 
         public override void EventFired(object sender, Event e)
@@ -62,11 +64,21 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             {
                 ModalActive = true;
                 Callback = start.Callback;
-            } if(e is ModalChangeEvent changed)
+            }
+            else if(e is ModalChangeEvent changed)
             {
-                changed.Valid = false;
-                Owner.Events.InvokeEvent(new ForceModalChangeEvent("editor_cursor", null));
+                //changed.Valid = false;
+                //Owner.Events.InvokeEvent(new ForceModalChangeEvent("editor_cursor", null));
+                ModalActive = true;
+                CursorSystem.ModalActive = true;
                 CursorSystem.SwitchToModal = changed.From;
+            }
+            else if(e is BeginModalChangeEvent bmce)
+            {
+                bmce.SystemName = CursorSystem.SwitchToModal;
+                ModalActive = false;
+                CursorSystem.ModalActive = false;
+                Callback = null;
             }
         }
     }

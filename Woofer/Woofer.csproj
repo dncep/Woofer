@@ -58,6 +58,8 @@
     <Compile Include="Meta\LevelEditor\Editor.cs" />
     <Compile Include="Meta\LevelEditor\InspectorAttribute.cs" />
     <Compile Include="Meta\LevelEditor\Systems\ComponentView\ComponentSelectView.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\CursorModes\CollisionCursorModeSystem.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\CursorModes\CollisionFaceView.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\MoveCursorModeSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorCursorSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorRendering.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="Meta\LevelEditor\Systems\EntityListSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntityOutliner.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntityOutlines\EntityOutlineEvents.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\EntityOutlines\Outline.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntitySelectEvent.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntityViewSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntityView\EntityViewHelper.cs" />

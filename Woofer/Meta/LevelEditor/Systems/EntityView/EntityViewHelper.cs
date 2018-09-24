@@ -6,11 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.Entities;
+using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 using WooferGame.Common;
 using WooferGame.Meta.LevelEditor.Systems.CursorModes;
 using WooferGame.Meta.LevelEditor.Systems.InputModes;
 using WooferGame.Systems;
+using WooferGame.Systems.Physics;
 using WooferGame.Systems.Visual;
 
 namespace WooferGame.Meta.LevelEditor.Systems.EntityView
@@ -66,6 +68,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
     internal interface IMemberSummary
     {
+        Scene Scene { get; }
         ComponentSummary Owner { get; }
         string Name { get; }
         TextUnit Label { get; }
@@ -82,8 +85,9 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
     internal class PropertySummary : IMemberSummary
     {
         public ComponentSummary Owner { get; private set; }
+        public Scene Scene { get; private set; }
         private readonly PropertyInfo property;
-        private readonly Component component;
+        private readonly object Object;
 
         public string Name { get; private set; }
         public bool CanSet { get; private set; }
@@ -94,12 +98,18 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
         public TextUnit Label => (property.PropertyType == typeof(bool)) ? new TextUnit(new Sprite("editor", new Rectangle(0, 0, 8, 8), new Rectangle((bool)GetValue() ? 8 : 0, 48, 8, 8)), Name) :
             new TextUnit(Name + ": " + GetValue());
+        
 
-        public PropertySummary(ComponentSummary owner, PropertyInfo property, Component component)
+        public PropertySummary(Scene scene, PropertyInfo property, object obj) : this(null, scene, property, obj) { }
+
+        public PropertySummary(ComponentSummary owner, PropertyInfo property, object obj) : this(owner, owner.Owner.Owner.Owner, property, obj) { }
+
+        public PropertySummary(ComponentSummary owner, Scene scene, PropertyInfo property, object obj)
         {
             this.Owner = owner;
+            this.Scene = scene;
             this.property = property;
-            this.component = component;
+            this.Object = obj;
 
             Name = property.Name;
             CanSet = property.CanWrite;
@@ -111,13 +121,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
             else EditType = InspectorEditType.Default;
         }
 
-        public object GetValue() => property.GetValue(component);
+        public object GetValue() => property.GetValue(Object);
 
-        public bool SetValue(object obj)
+        public bool SetValue(object val)
         {
-            if(CanSet && property.PropertyType.IsAssignableFrom(obj.GetType()))
+            if(CanSet && property.PropertyType.IsAssignableFrom(val.GetType()))
             {
-                property.SetValue(component, obj);
+                property.SetValue(Object, val);
                 return true;
             }
             return false;
@@ -127,24 +137,30 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
     internal class FieldSummary : IMemberSummary
     {
         public ComponentSummary Owner { get; private set; }
-        private readonly FieldInfo field;
-        private readonly Component component;
+        public Scene Scene { get; private set; }
+        private readonly FieldInfo Field;
+        private readonly object Object;
 
         public string Name { get; private set; }
         public bool CanSet { get; private set; }
 
         public InspectorEditType EditType { get; private set; }
 
-        public Type DataType => field.FieldType;
+        public Type DataType => Field.FieldType;
 
-        public TextUnit Label => (field.FieldType == typeof(bool)) ? new TextUnit(new Sprite("editor", new Rectangle(0, 0, 8, 8), new Rectangle((bool)GetValue() ? 8 : 0, 48, 8, 8)), Name) :
+        public TextUnit Label => (Field.FieldType == typeof(bool)) ? new TextUnit(new Sprite("editor", new Rectangle(0, 0, 8, 8), new Rectangle((bool)GetValue() ? 8 : 0, 48, 8, 8)), Name) :
             new TextUnit(Name + ": " + GetValue());
 
-        public FieldSummary(ComponentSummary owner, FieldInfo field, Component component)
+        public FieldSummary(Scene scene, FieldInfo field, object obj) : this(null, scene, field, obj) { }
+
+        public FieldSummary(ComponentSummary owner, FieldInfo field, object obj) : this(owner, owner.Owner.Owner.Owner, field, obj) { }
+
+        public FieldSummary(ComponentSummary owner, Scene scene, FieldInfo field, object obj)
         {
             this.Owner = owner;
-            this.field = field;
-            this.component = component;
+            this.Scene = scene;
+            this.Field = field;
+            this.Object = obj;
 
             Name = field.Name;
             CanSet = !field.IsInitOnly;
@@ -156,13 +172,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
             else EditType = InspectorEditType.Default;
         }
 
-        public object GetValue() => field.GetValue(component);
+        public object GetValue() => Field.GetValue(Object);
 
-        public bool SetValue(object obj)
+        public bool SetValue(object val)
         {
-            if (CanSet && field.FieldType.IsAssignableFrom(obj.GetType()))
+            if (CanSet && Field.FieldType.IsAssignableFrom(val.GetType()))
             {
-                field.SetValue(component, obj);
+                Field.SetValue(Object, val);
                 return true;
             }
             return false;
@@ -183,17 +199,22 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
             {
                 if (member.EditType == InspectorEditType.Position)
                 {
-                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new MoveCursorEvent((Vector2D)member.GetValue()));
-                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("move_cursor_mode", null));
-                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartMoveModeEvent((vec, def) => member.SetValue(vec)));
+                    member.Scene.Events.InvokeEvent(new ForceMoveCursorEvent((Vector2D)member.GetValue()));
+                    member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("move_cursor_mode", null));
+                    member.Scene.Events.InvokeEvent(new StartMoveModeEvent((vec, def) => member.SetValue(vec)));
                     return true;
                 }
                 else if (member.EditType == InspectorEditType.Offset)
                 {
-                    Entity entity = member.Owner.Owner.Owner.Owner.Entities[member.Owner.Owner.Id];
-                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new MoveCursorEvent(((Vector2D)member.GetValue()) + entity.Components.Get<Spatial>().Position));
-                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("move_cursor_mode", null));
-                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartMoveModeEvent((vec, def) => member.SetValue(vec - entity.Components.Get<Spatial>().Position)));
+                    Vector2D pivot = Vector2D.Empty;
+                    if(member.Owner != null)
+                    {
+                        Entity entity = member.Scene.Entities[member.Owner.Owner.Id];
+                        pivot = entity.Components.Get<Spatial>().Position;
+                    }
+                    member.Scene.Events.InvokeEvent(new ForceMoveCursorEvent(((Vector2D)member.GetValue()) + pivot));
+                    member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("move_cursor_mode", null));
+                    member.Scene.Events.InvokeEvent(new StartMoveModeEvent((vec, def) => member.SetValue(vec - pivot)));
                     return true;
                 }
                 else
@@ -209,36 +230,60 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                     StartNumberInputEvent.OnSubmit onReceiveX = (v =>
                     {
                         vec.X = v;
-                        member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
-                        member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartNumberInputEvent(vec.Y, onReceiveY, null) { Label = "Vector2D.Y" });
+                        member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                        member.Scene.Events.InvokeEvent(new StartNumberInputEvent(vec.Y, onReceiveY, null) { Label = "Vector2D.Y" });
                     });
 
-                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
-                    member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartNumberInputEvent(vec.X, onReceiveX, null) { Label = "Vector2D.X" });
+                    member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                    member.Scene.Events.InvokeEvent(new StartNumberInputEvent(vec.X, onReceiveX, null) { Label = "Vector2D.X" });
                     return true;
                 }
             }
             else if (type == typeof(double))
             {
-                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
-                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartNumberInputEvent((double)member.GetValue(), v => member.SetValue(v), null));
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                member.Scene.Events.InvokeEvent(new StartNumberInputEvent((double)member.GetValue(), v => member.SetValue(v), null));
                 return true;
             }
             else if (type == typeof(float))
             {
-                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
-                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartNumberInputEvent((float)member.GetValue(), v => member.SetValue((float)v), null));
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                member.Scene.Events.InvokeEvent(new StartNumberInputEvent((float)member.GetValue(), v => member.SetValue((float)v), null));
                 return true;
             }
             else if (type == typeof(int))
             {
-                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
-                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartNumberInputEvent((int)member.GetValue(), v => member.SetValue((int)v), false, null));
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                member.Scene.Events.InvokeEvent(new StartNumberInputEvent((int)member.GetValue(), v => member.SetValue((int)v), false, null));
                 return true;
-            } if(type == typeof(string))
+            }
+            else if(type == typeof(string))
             {
-                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("text_input", null));
-                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartTextInputEvent((string)member.GetValue(), v => member.SetValue(v), null));
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("text_input", null));
+                member.Scene.Events.InvokeEvent(new StartTextInputEvent((string)member.GetValue(), v => member.SetValue(v), null));
+                return true;
+            }
+            else if(type == typeof(CollisionBox))
+            {
+                Vector2D pivot = Vector2D.Empty;
+                if (member.Owner != null)
+                {
+                    Entity entity = member.Scene.Entities[member.Owner.Owner.Id];
+                    pivot = entity.Components.Get<Spatial>().Position;
+                }
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("collision_cursor_mode", null));
+                member.Scene.Events.InvokeEvent(new StartCollisionModeEvent(pivot, new[] { (CollisionBox)member.GetValue() }, v => member.SetValue(v[0]), false));
+                return true;
+            } else if(type == typeof(CollisionBox[]))
+            {
+                Vector2D pivot = Vector2D.Empty;
+                if (member.Owner != null)
+                {
+                    Entity entity = member.Scene.Entities[member.Owner.Owner.Id];
+                    pivot = entity.Components.Get<Spatial>().Position;
+                }
+                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("collision_cursor_mode", null));
+                member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartCollisionModeEvent(pivot, (CollisionBox[])member.GetValue(), v => member.SetValue(v.ToArray()), true));
                 return true;
             }
             return false;

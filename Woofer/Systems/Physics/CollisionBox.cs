@@ -37,6 +37,9 @@ namespace WooferGame.Systems.Physics
             get => faceProperties[RightFace];
             set => faceProperties[RightFace] = value;
         }
+
+        public Rectangle ToRectangle() => new Rectangle(X, Y, Width, Height);
+
         public CollisionFaceProperties BottomFaceProperties
         {
             get => faceProperties[BottomFace];

@@ -21,18 +21,22 @@ namespace WooferGame.Meta.LevelEditor
     {
         internal static InputRepeatingTimeframe MoveTimeframe = new InputRepeatingTimeframe(15, 3);
         internal static InputHybridTimeframe SelectTimeframe = new InputHybridTimeframe(15, 3);
+        internal static InputHybridTimeframe SelectSecondaryTimeframe = new InputHybridTimeframe(15, 3);
 
         public Editor() : base()
         {
             Controller.Paused = true;
 
-            Systems.Add(new EntityOutliner());
+            Systems.Add(new OutlineSystem());
             Systems.Add(new EditorCursorSystem());
             Systems.Add(new EditorRendering());
             Systems.Add(new EntityListSystem());
             Systems.Add(new EntityViewSystem());
 
+            Systems.Add(new CollisionFaceViewSystem());
+
             Systems.Add(new MoveCursorModeSystem());
+            Systems.Add(new CollisionCursorModeSystem());
 
             Systems.Add(new NumberInputSystem());
             Systems.Add(new TextInputSystem());
@@ -47,6 +51,7 @@ namespace WooferGame.Meta.LevelEditor
             
             Editor.MoveTimeframe.RegisterState(inputMap.Movement.Magnitude > 1e-5 ? ButtonState.Pressed : ButtonState.Released);
             Editor.SelectTimeframe.RegisterState(inputMap.Jump);
+            Editor.SelectSecondaryTimeframe.RegisterState(inputMap.Pulse);
 
             base.InvokeInput();
         }

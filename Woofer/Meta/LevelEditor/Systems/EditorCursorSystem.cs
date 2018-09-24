@@ -12,11 +12,12 @@ using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
 using GameInterfaces.Input;
 using WooferGame.Input;
+using WooferGame.Meta.LevelEditor.Systems.EntityOutlines;
 
 namespace WooferGame.Meta.LevelEditor.Systems
 {
     [ComponentSystem("editor_cursor", ProcessingCycles.Input | ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause),
-        Listening(typeof(MoveCursorEvent))]
+        Listening(typeof(ForceMoveCursorEvent))]
     class EditorCursorSystem : ComponentSystem
     {
         private Vector2D _cursorPos;
@@ -25,8 +26,40 @@ namespace WooferGame.Meta.LevelEditor.Systems
             get => BoundToGrid ? new Vector2D(8 * (int)Math.Round(_cursorPos.X / 8), 8 * (int)Math.Round(_cursorPos.Y / 8)) : _cursorPos;
             set => _cursorPos = value;
         }
+
+        internal Vector2D SelectionStart;
+        internal readonly Rectangle SelectionRectangle = new Rectangle();
+        internal RectangleOutline Outline = null;
+
         internal bool BoundToGrid = true;
-        private bool InputActive = true;
+        internal bool ModalActive = true;
+
+        private bool _outlinesEnabled = true;
+        internal bool DraggingEnabled {
+            get
+            {
+                return _outlinesEnabled;
+            }
+            set
+            {
+                /*if(Outline == null)
+                {
+                    Outline = new RectangleOutline(SelectionRectangle, Color.Orange);
+                }
+                if(value)
+                {
+                    Owner.Events.InvokeEvent(new BeginOutline(Outline));
+                } else
+                {
+                    Owner.Events.InvokeEvent(new RemoveOutline(Outline));
+                }*/
+                _outlinesEnabled = value;
+            }
+        }
+
+        public bool StartedDragging { get; private set; } = false;
+        public bool MayDrag { get; set; } = false;
+        public bool Dragging { get; set; } = false;
 
         public string SwitchToModal = "entity_list";
 
@@ -34,7 +67,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
         public override void Input()
         {
-            if (!InputActive) return;
+            if (!ModalActive) return;
             if (!Woofer.Controller.Paused) return;
 
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
@@ -45,6 +78,30 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 _cursorPos = CursorPos;
             }
             BoundToGrid = inputMap.Interact.IsPressed();
+
+            if(DraggingEnabled)
+            {
+                if (!inputMap.Jump.IsPressed())
+                {
+                    SelectionStart = CursorPos;
+                    MayDrag = true;
+                    Dragging = false;
+                    StartedDragging = false;
+                }
+                else
+                {
+                    if (MayDrag)
+                    {
+                        StartedDragging = !Dragging;
+                        Dragging = true;
+                        SelectionRectangle.X = Math.Min(SelectionStart.X, CursorPos.X);
+                        SelectionRectangle.Y = Math.Min(SelectionStart.Y, CursorPos.Y);
+                        SelectionRectangle.Width = Math.Max(SelectionStart.X, CursorPos.X) - SelectionRectangle.X;
+                        SelectionRectangle.Height = Math.Max(SelectionStart.Y, CursorPos.Y) - SelectionRectangle.Y;
+                    }
+                }
+            }
+
         }
         public override void Tick()
         {
@@ -90,24 +147,26 @@ namespace WooferGame.Meta.LevelEditor.Systems
             if (e is BeginModalChangeEvent bmce)
             {
                 bmce.SystemName = SwitchToModal;
-                InputActive = false;
+                ModalActive = false;
             } else if (e is ModalChangeEvent ce)
             {
                 SwitchToModal = ce.From;
-                InputActive = true;
-            } else if(e is MoveCursorEvent move)
+                ModalActive = true;
+            } else if(e is ForceMoveCursorEvent move)
             {
                 CursorPos = move.Position;
+                SelectionStart = move.Position;
+                MayDrag = false;
                 Owner.CurrentViewport.Location = CursorPos;
             }
         }
     }
 
     [Event("force_move_cursor")]
-    public class MoveCursorEvent : Event
+    public class ForceMoveCursorEvent : Event
     {
         public Vector2D Position;
 
-        public MoveCursorEvent(Vector2D position) : base(null) => Position = position;
+        public ForceMoveCursorEvent(Vector2D position) : base(null) => Position = position;
     }
 }

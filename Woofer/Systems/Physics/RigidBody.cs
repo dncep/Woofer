@@ -1,5 +1,6 @@
 ﻿using EntityComponentSystem.Components;
 using EntityComponentSystem.Saves;
+using WooferGame.Meta.LevelEditor;
 
 namespace WooferGame.Systems.Physics
 {
@@ -8,6 +9,7 @@ namespace WooferGame.Systems.Physics
     {
         [PersistentProperty]
         public CollisionBox[] Bounds { get; set; }
+        [HideInInspector]
         public CollisionBox UnionBounds {
             get
             {

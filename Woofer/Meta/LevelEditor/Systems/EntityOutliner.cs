@@ -18,11 +18,10 @@ using WooferGame.Systems.Visual;
 namespace WooferGame.Meta.LevelEditor.Systems
 {
     [ComponentSystem("entity_outliner", ProcessingCycles.Render),
-        Listening(typeof(BeginEntityOutline), typeof(ClearEntityOutlines))]
-    class EntityOutliner : ComponentSystem
+        Listening(typeof(BeginOutline), typeof(RemoveOutline), typeof(ClearEntityOutlines))]
+    class OutlineSystem : ComponentSystem
     {
-        private const int StrokeWidth = 2;
-        private List<long> Highlighted = new List<long>();
+        private List<IOutline> Highlighted = new List<IOutline>();
 
         public override bool ShouldSave => false;
 
@@ -32,12 +31,9 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
             CameraView view = Owner.CurrentViewport;
 
-            foreach (long entId in Highlighted)
+            foreach (IOutline outline in Highlighted)
             {
-                if (entId == 0) continue;
-                if (!Owner.Entities.ContainsId(entId)) continue;
-                Entity entity = Owner.Entities[entId];
-                Rectangle realBounds = EditorUtil.GetSelectionBounds(entity);
+                Rectangle realBounds = outline.Bounds;
                 if(realBounds != null)
                 {
                     System.Drawing.Size screenSize = Woofer.Controller.RenderingUnit.ScreenSize;
@@ -74,12 +70,11 @@ namespace WooferGame.Meta.LevelEditor.Systems
                     y += (int)(scale * (GeneralUtil.EuclideanMod(view.Y, 1) - 1));
 
                     System.Drawing.Rectangle drawingRect = new System.Drawing.Rectangle((int)Math.Floor(x), (int)Math.Floor(y), (int)width, (int)height);
-
-                    var pixel = r.SpriteManager["pixel"];
-                    layer.Draw(pixel, new System.Drawing.Rectangle(drawingRect.X, drawingRect.Y, drawingRect.Width, StrokeWidth));
-                    layer.Draw(pixel, new System.Drawing.Rectangle(drawingRect.X, drawingRect.Y + drawingRect.Height - StrokeWidth, drawingRect.Width, StrokeWidth));
-                    layer.Draw(pixel, new System.Drawing.Rectangle(drawingRect.X, drawingRect.Y, StrokeWidth, drawingRect.Height));
-                    layer.Draw(pixel, new System.Drawing.Rectangle(drawingRect.X + drawingRect.Width - StrokeWidth, drawingRect.Y, StrokeWidth, drawingRect.Height));
+                    
+                    layer.FillRect(new System.Drawing.Rectangle(drawingRect.X, drawingRect.Y, drawingRect.Width, outline.Thickness), outline.Color);
+                    layer.FillRect(new System.Drawing.Rectangle(drawingRect.X, drawingRect.Y + drawingRect.Height - outline.Thickness, drawingRect.Width, outline.Thickness), outline.Color);
+                    layer.FillRect(new System.Drawing.Rectangle(drawingRect.X, drawingRect.Y, outline.Thickness, drawingRect.Height), outline.Color);
+                    layer.FillRect(new System.Drawing.Rectangle(drawingRect.X + drawingRect.Width - outline.Thickness, drawingRect.Y, outline.Thickness, drawingRect.Height), outline.Color);
 
                     //layer.Draw(r.SpriteManager["grass"], drawingRect);
                 }
@@ -88,12 +83,15 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
         public override void EventFired(object sender, Event e)
         {
-            if(e is BeginEntityOutline begin)
+            if(e is BeginOutline begin)
             {
-                Highlighted.Add(begin.Entity.Id);
+                Highlighted.Add(begin.Outline);
             } else if(e is ClearEntityOutlines)
             {
                 Highlighted.Clear();
+            } else if(e is RemoveOutline remove)
+            {
+                Highlighted.Remove(remove.Outline);
             }
         }
     }

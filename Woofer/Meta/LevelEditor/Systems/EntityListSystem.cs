@@ -28,17 +28,24 @@ namespace WooferGame.Meta.LevelEditor.Systems
         private int AmountVisible = 0;
 
         public override bool ShouldSave => false;
+        
+        private EntityOutline Outline;
 
         public override void Input()
         {
             if (!ModalActive) return;
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
 
+            if (Outline == null)
+            {
+                Outline = new EntityOutline(Owner, 0);
+                Owner.Events.InvokeEvent(new BeginOutline(Outline));
+            }
+
             Vector2D movement = inputMap.Movement;
 
             if(movement.Magnitude > 1e-5 && Editor.MoveTimeframe.Execute())
             {
-                Owner.Events.InvokeEvent(new ClearEntityOutlines(null));
                 if (movement.Y > 0)
                 {
                     if (SelectedIndex - 1 >= 0) SelectedIndex--;
@@ -47,7 +54,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 {
                     if (SelectedIndex + 1 < Owner.Entities.Count) SelectedIndex++;
                 }
-                Owner.Events.InvokeEvent(new BeginEntityOutline(Owner.Entities.ToList()[SelectedIndex], null));
+                Outline.Id = Owner.Entities.ToList()[SelectedIndex].Id;
                 if(SelectedIndex < StartOffset)
                 {
                     StartOffset = SelectedIndex;

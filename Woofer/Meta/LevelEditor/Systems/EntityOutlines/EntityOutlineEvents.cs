@@ -11,19 +11,29 @@ using EntityComponentSystem.Events;
 namespace WooferGame.Meta.LevelEditor.Systems.EntityOutlines
 {
     [Event("begin_outline")]
-    class BeginEntityOutline : Event
+    class BeginOutline : Event
     {
-        public Entity Entity;
+        public IOutline Outline;
 
-        public BeginEntityOutline(Entity entity, Component sender) : base(sender)
+        public BeginOutline(IOutline outline) : base(null)
         {
-            this.Entity = entity;
+            this.Outline = outline;
+        }
+    }
+    [Event("remove_outline")]
+    class RemoveOutline : Event
+    {
+        public IOutline Outline;
+
+        public RemoveOutline(IOutline outline) : base(null)
+        {
+            this.Outline = outline;
         }
     }
     [Event("clear_outline")]
     class ClearEntityOutlines : Event
     {
-        public ClearEntityOutlines(Component sender) : base(sender)
+        public ClearEntityOutlines() : base(null)
         {
         }
     }
