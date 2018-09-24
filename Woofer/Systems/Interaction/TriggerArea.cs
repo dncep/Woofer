@@ -22,7 +22,7 @@ namespace WooferGame.Systems.Interaction
             this.Components.Add(new Spatial(bounds.Position));
             this.Components.Add(new Physical() { GravityMultiplier = 0 });
             this.Components.Add(new SoftBody(new CollisionBox(0, 0, bounds.Width, bounds.Height), 0f));
-            this.Components.Add(new LinkedActivationComponent(idToActivate));
+            if(idToActivate != 0) this.Components.Add(new LinkedActivationComponent(idToActivate));
             this.Components.Add(new SwitchComponent() { PlayerOnly = true, OneTimeUse = oneTime });
         }
     }

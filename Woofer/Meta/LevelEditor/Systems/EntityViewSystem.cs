@@ -43,6 +43,8 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
         private readonly EntityViewHelper Helper;
 
+        private int RemoveTimer = 0;
+
         public override bool ShouldSave => false;
 
         public EntityViewSystem()
@@ -83,16 +85,9 @@ namespace WooferGame.Meta.LevelEditor.Systems
                     }
                 }
 
-                if(SelectedComponentIndex >= 0 && SelectedComponentIndex < ComponentRenderOffsets.Count)
+                if (movement.Y != 0)
                 {
-                    int y = ComponentRenderOffsets[SelectedComponentIndex];
-                    if (y < 0)
-                    {
-                        ListFromIndex--;
-                    } else if(y > 720)
-                    {
-                        ListFromIndex = Math.Max(0, SelectedComponentIndex-2);
-                    }
+                    RemoveTimer = 0;
                 }
                 /*if (SelectedComponentIndex < StartOffset)
                 {
@@ -140,6 +135,33 @@ namespace WooferGame.Meta.LevelEditor.Systems
                         }
 
                     }
+                }
+            }
+
+            if (RemoveTimer > 0) RemoveTimer--;
+            if (inputMap.Pulse.IsPressed() && SelectedComponentIndex >= 0 && !ComponentLocked)
+            {
+                RemoveTimer += 2;
+                if (RemoveTimer / 25 > 3)
+                {
+                    Owner.Entities[Selected].Components.Remove(Helper.Components.Values.ElementAt(SelectedComponentIndex).ComponentName);
+                    RemoveTimer = 0;
+                    Helper.Update(Selected);
+                    if (SelectedComponentIndex >= Helper.Components.Count) SelectedComponentIndex = Helper.Components.Count - 1;
+                }
+            }
+            else RemoveTimer = 0;
+
+            if (SelectedComponentIndex >= 0 && SelectedComponentIndex < ComponentRenderOffsets.Count)
+            {
+                int y = ComponentRenderOffsets[SelectedComponentIndex];
+                if (y < 0)
+                {
+                    ListFromIndex--;
+                }
+                else if (y > 720)
+                {
+                    ListFromIndex = Math.Max(0, SelectedComponentIndex - 2);
                 }
             }
         }
@@ -233,6 +255,13 @@ namespace WooferGame.Meta.LevelEditor.Systems
             for(int i = 0; i < ListFromIndex; i++)
             {
                 ComponentRenderOffsets[i] -= startY;
+            }
+
+            if (RemoveTimer > 0 && SelectedComponentIndex >= 0)
+            {
+                TextUnit removingLabel = new TextUnit("Removing " + Helper.Components.ElementAt(SelectedComponentIndex).Key + new string('.', RemoveTimer / 25));
+                System.Drawing.Size labelSize = removingLabel.GetSize(3);
+                removingLabel.Render(r, layer, new Point(EditorRendering.SidebarX - labelSize.Width, layer.GetSize().Height - labelSize.Height), 3);
             }
         }
 

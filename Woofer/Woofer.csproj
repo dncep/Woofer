@@ -60,6 +60,7 @@
     <Compile Include="Meta\LevelEditor\Systems\ComponentView\ComponentSelectView.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\CollisionCursorModeSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\CollisionFaceView.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\CursorModes\EntitySelectionCursorModeSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\MoveCursorModeSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorCursorSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorRendering.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Meta\LevelEditor\Systems\EntitySelectEvent.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntityViewSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntityView\EntityViewHelper.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\HelperComponents\NoEditorHoverSelect.cs" />
     <Compile Include="Meta\LevelEditor\Systems\InputModes\NumberInputSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\InputModes\TextInputSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\ModalChangeEvent.cs" />

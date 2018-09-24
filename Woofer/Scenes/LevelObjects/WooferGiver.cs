@@ -10,6 +10,7 @@ using EntityComponentSystem.Util;
 using WooferGame.Systems;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player;
+using WooferGame.Systems.Puzzles;
 using WooferGame.Systems.Visual;
 
 namespace WooferGame.Scenes.LevelObjects
@@ -26,6 +27,7 @@ namespace WooferGame.Scenes.LevelObjects
                 new Sprite("woofer", new Rectangle(-12, -9, 22, 18), new Rectangle(265, 201, 22, 18)) { DrawMode = DrawMode.Additive }
                 ));
             this.Components.Add(new LevelRenderable(1));
+            this.Components.Add(new SwitchComponent() { PlayerOnly = true, OneTimeUse = true });
 
             this.Components.Add(new WooferGiverComponent());
         }

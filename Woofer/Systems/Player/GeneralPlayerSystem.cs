@@ -10,6 +10,7 @@ using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
 using WooferGame.Scenes.LevelObjects;
 using WooferGame.Systems.HUD;
+using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player.Actions;
 using WooferGame.Systems.Visual;
@@ -17,20 +18,22 @@ using WooferGame.Systems.Visual;
 namespace WooferGame.Systems.Player
 {
     [ComponentSystem("general_player_system", ProcessingCycles.None),
-        Listening(typeof(SoftCollisionEvent))]
+        Watching(typeof(PlayerComponent)),
+        Listening(typeof(ActivationEvent))]
     class GeneralPlayerSystem : ComponentSystem
     {
         public override void EventFired(object sender, Event evt)
         {
-            if(evt is SoftCollisionEvent ce && ce.Victim.Components.Has<PlayerComponent>() && ce.Sender.Owner.Components.Has<WooferGiverComponent>())
+            if(evt is ActivationEvent ae && ae.Affected.Components.Has<WooferGiverComponent>())
             {
-                ce.Sender.Owner.Active = false;
-                if(!ce.Victim.Components.Has<PulseAbility>())
+                Entity player = WatchedComponents.FirstOrDefault()?.Owner;
+                if (player == null) return;
+                ae.Affected.Active = false;
+                if(!player.Components.Has<PulseAbility>())
                 {
-                    ce.Victim.Components.Add(new PulseAbility());
+                    player.Components.Add(new PulseAbility());
                     
-                    Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("x_icons", new Rectangle(0, 0, 9, 9), new Rectangle(0, 9, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Activate", ce.Sender) { Duration = 10 });
-                    //Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("gui", new Rectangle(0, 0, 9, 9), new Rectangle(0, 18, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Aim", ce.Sender) { Duration = 10 });
+                    Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("x_icons", new Rectangle(0, 0, 9, 9), new Rectangle(0, 9, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Activate", ae.Sender) { Duration = 10 });
                 }
             }
 

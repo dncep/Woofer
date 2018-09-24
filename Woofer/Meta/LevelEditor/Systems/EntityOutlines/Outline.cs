@@ -11,7 +11,36 @@ using Color = System.Drawing.Color;
 
 namespace WooferGame.Meta.LevelEditor.Systems.EntityOutlines
 {
-    interface IOutline
+    interface IOverlay
+    {
+
+    }
+
+    interface ILine : IOverlay
+    {
+        Vector2D Start { get; }
+        Vector2D End { get; }
+        Color Color { get; }
+        int Thickness { get; }
+    }
+
+    class SimpleLine : ILine
+    {
+        public Vector2D Start { get; set; }
+        public Vector2D End { get; set; }
+        public Color Color { get; set; }
+        public int Thickness { get; set; }
+
+        public SimpleLine(Vector2D start, Vector2D end, Color color, int thickness)
+        {
+            Start = start;
+            End = end;
+            Color = color;
+            Thickness = thickness;
+        }
+    }
+
+    interface IOutline : IOverlay
     {
         Rectangle Bounds { get; }
         Color Color { get; }
@@ -66,8 +95,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityOutlines
         public Scene Scene;
 
         public Rectangle Bounds => Id == 0 ? null : EditorUtil.GetSelectionBounds(Scene.Entities[Id]);
-        public Color Color => Color.White;
-        public int Thickness => 2;
+        public Color Color { get; set; } = Color.White;
+        public int Thickness { get; set; } = 2;
 
         public EntityOutline(Scene scene, long id)
         {

@@ -33,8 +33,12 @@ namespace EntityComponentSystem.Components
         }
         public void Remove<T>() where T : Component
         {
-            string identifier = Component.IdentifierOf<T>();
-            if(_dict.ContainsKey(identifier))
+            Remove(Component.IdentifierOf<T>());
+        }
+
+        public void Remove(string identifier)
+        {
+            if (_dict.ContainsKey(identifier))
             {
                 Changed.Invoke(new ComponentChangedEventArgs(this[identifier], true));
                 _dict.Remove(identifier);

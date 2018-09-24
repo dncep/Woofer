@@ -52,11 +52,6 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
         public override void Tick()
         {
             if (CursorSystem == null) CursorSystem = Owner.Systems["editor_cursor"] as EditorCursorSystem;
-
-            /*if (ModalActive)
-            {
-                Callback(CursorSystem.CursorPos, false);
-            }*/
         }
 
         private void UpdateSelected()
@@ -143,16 +138,16 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 {
                     IOutline outline = new CollisionBoxOutline(Pivot, box, Color.Purple);
                     Outlines.Add(outline);
-                    Owner.Events.InvokeEvent(new BeginOutline(outline));
+                    Owner.Events.InvokeEvent(new BeginOverlay(outline));
                 }
 
                 IOutline pivotOutline = new RectangleOutline(new Rectangle(Pivot - new Vector2D(1, 1), new Size(2, 2)), Color.White, 4);
                 Outlines.Add(pivotOutline);
-                Owner.Events.InvokeEvent(new BeginOutline(pivotOutline));
+                Owner.Events.InvokeEvent(new BeginOverlay(pivotOutline));
 
                 faceOutline = new RectangleOutline(new Rectangle(0, 0, 0, 0), Color.White, 4);
                 Outlines.Add(faceOutline);
-                Owner.Events.InvokeEvent(new BeginOutline(faceOutline));
+                Owner.Events.InvokeEvent(new BeginOverlay(faceOutline));
             }
             else if (e is ModalChangeEvent changed)
             {
@@ -183,7 +178,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 
                 foreach (IOutline outline in Outlines)
                 {
-                    Owner.Events.InvokeEvent(new RemoveOutline(outline));
+                    Owner.Events.InvokeEvent(new RemoveOverlay(outline));
                 }
                 Outlines.Clear();
                 Boxes.Clear();
@@ -304,8 +299,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                     Boxes.Add(newBox);
                     IOutline newOutline = new CollisionBoxOutline(Pivot, newBox, Color.Orange);
                     Outlines.Add(newOutline);
-                    Owner.Events.InvokeEvent(new BeginOutline(newOutline));
-                    Console.WriteLine("Added");
+                    Owner.Events.InvokeEvent(new BeginOverlay(newOutline));
                     Creating = true;
                 }
                 if(CursorSystem.Dragging && Creating)
@@ -315,7 +309,6 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                     newBox.Y = CursorSystem.SelectionRectangle.Y - Pivot.Y;
                     newBox.Width = CursorSystem.SelectionRectangle.Width;
                     newBox.Height = CursorSystem.SelectionRectangle.Height;
-                    Console.WriteLine("Updated");
                 }
                 if(CursorSystem.StoppedDragging && Creating)
                 {
@@ -380,7 +373,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             if (associatedOutline != null)
             {
                 Outlines.Remove(associatedOutline);
-                Owner.Events.InvokeEvent(new RemoveOutline(associatedOutline));
+                Owner.Events.InvokeEvent(new RemoveOverlay(associatedOutline));
             }
         }
 

@@ -16,6 +16,7 @@ namespace GameInterfaces.GraphicsInterface
         void Draw(TSource subject, TSurface target, Rectangle destination, Rectangle? source = null, DrawInfo info = default(DrawInfo));
 
         void FillRect(TSurface target, Rectangle rectangle, Color color);
+        void DrawLine(TSurface target, Point point1, Point point2, Color color, int thickness);
 
         TSurface CreateTarget(int width, int height);
         TSurface Scale(TSurface surface, double scaleX, double scaleY, bool antialias);

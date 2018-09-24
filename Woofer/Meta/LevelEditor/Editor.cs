@@ -37,6 +37,7 @@ namespace WooferGame.Meta.LevelEditor
 
             Systems.Add(new MoveCursorModeSystem());
             Systems.Add(new CollisionCursorModeSystem());
+            Systems.Add(new EntitySelectionCursorModeSystem());
 
             Systems.Add(new NumberInputSystem());
             Systems.Add(new TextInputSystem());

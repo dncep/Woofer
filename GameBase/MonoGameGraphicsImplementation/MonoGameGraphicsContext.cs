@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using EntityComponentSystem.Interfaces.Visuals;
 using GameInterfaces.GraphicsInterface;
 
@@ -66,12 +67,28 @@ namespace GameBase.MonoGameGraphics
         {
             ChangeRenderTarget(target);
             spriteBatch.Begin(SpriteSortMode.Immediate, blendState: null);
-            if(pixel == null)
+            if (pixel == null)
             {
                 pixel = new Texture2D(device, 1, 1);
             }
             pixel.SetData(new[] { DrawingToXna(color) });
             spriteBatch.Draw(pixel, DrawingToXna(rectangle), Color.White);
+            spriteBatch.End();
+        }
+
+        public void DrawLine(RenderTarget2D target, System.Drawing.Point point1, System.Drawing.Point point2, System.Drawing.Color color, int thickness)
+        {
+            float angle = (float)Math.Atan2(point2.Y - point1.Y, point2.X - point1.X);
+            int length = (int)Math.Sqrt(Math.Pow(point2.X - point1.X, 2) + Math.Pow(point2.Y - point1.Y, 2));
+
+            ChangeRenderTarget(target);
+            spriteBatch.Begin(SpriteSortMode.Immediate, blendState: null);
+            if (pixel == null)
+            {
+                pixel = new Texture2D(device, 1, 1);
+            }
+            pixel.SetData(new[] { DrawingToXna(color) });
+            spriteBatch.Draw(pixel, DrawingToXna(new System.Drawing.Rectangle(point1.X, point1.Y-thickness/2, length, thickness)), null, Color.White, angle, new Vector2(0, 0), SpriteEffects.None, 0);
             spriteBatch.End();
         }
 

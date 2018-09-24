@@ -270,6 +270,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 {
                     Entity entity = member.Scene.Entities[member.Owner.Owner.Id];
                     pivot = entity.Components.Get<Spatial>().Position;
+                    member.Scene.Events.InvokeEvent(new ForceMoveCursorEvent(pivot));
                 }
                 member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("collision_cursor_mode", null));
                 member.Scene.Events.InvokeEvent(new StartCollisionModeEvent(pivot, new[] { (CollisionBox)member.GetValue() }, v => member.SetValue(v[0]), false));
@@ -281,9 +282,40 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 {
                     Entity entity = member.Scene.Entities[member.Owner.Owner.Id];
                     pivot = entity.Components.Get<Spatial>().Position;
+                    member.Scene.Events.InvokeEvent(new ForceMoveCursorEvent(pivot));
                 }
                 member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new ForceModalChangeEvent("collision_cursor_mode", null));
                 member.Owner.Owner.Owner.Owner.Events.InvokeEvent(new StartCollisionModeEvent(pivot, (CollisionBox[])member.GetValue(), v => member.SetValue(v.ToArray()), true));
+                return true;
+            }
+            else if (type == typeof(List<long>))
+            {
+                Vector2D pivot = Vector2D.Empty;
+                long forbidden = 0;
+                if (member.Owner != null)
+                {
+                    Entity entity = member.Scene.Entities[member.Owner.Owner.Id];
+                    forbidden = entity.Id;
+                    pivot = entity.Components.Get<Spatial>().Position;
+                    member.Scene.Events.InvokeEvent(new ForceMoveCursorEvent(pivot));
+                }
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("entity_selection_cursor_mode", null));
+                member.Scene.Events.InvokeEvent(new StartEntitySelectionModeEvent(pivot, (List<long>)member.GetValue(), v => member.SetValue(v), true) { ForbiddenLink = forbidden });
+                return true;
+            }
+            else if (type == typeof(long))
+            {
+                Vector2D pivot = Vector2D.Empty;
+                long forbidden = 0;
+                if (member.Owner != null)
+                {
+                    Entity entity = member.Scene.Entities[member.Owner.Owner.Id];
+                    forbidden = entity.Id;
+                    pivot = entity.Components.Get<Spatial>().Position;
+                    member.Scene.Events.InvokeEvent(new ForceMoveCursorEvent(pivot));
+                }
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("entity_selection_cursor_mode", null));
+                member.Scene.Events.InvokeEvent(new StartEntitySelectionModeEvent(pivot, new List<long> { (long)member.GetValue() }, v => member.SetValue(v.First()), false) { ForbiddenLink = forbidden });
                 return true;
             }
             return false;

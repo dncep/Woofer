@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Util;
+using WooferGame.Meta.LevelEditor.Systems.HelperComponents;
 using WooferGame.Scenes;
 using WooferGame.Systems.Physics;
 
@@ -19,6 +20,7 @@ namespace WooferGame.Systems.Visual
             Components.Add(new Spatial(pos));
             Components.Add(new Renderable(texture, bounds));
             Components.Add(new LevelRenderable());
+            Components.Add(new NoEditorHoverSelect());
         }
 
         protected void AddCollision(CollisionBox box)

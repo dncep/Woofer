@@ -36,6 +36,7 @@ namespace GameInterfaces.GraphicsInterface
         public void Draw(TSource subject, Rectangle destination, Rectangle? source = null, DrawInfo info = default(DrawInfo)) => GraphicsContext.Draw(subject, Surface, destination, source, info);
 
         public void FillRect(Rectangle rectangle, Color color) => GraphicsContext.FillRect(Surface, rectangle, color);
+        public void DrawLine(Point point1, Point point2, Color color, int thickness) => GraphicsContext.DrawLine(Surface, point1, point2, color, thickness);
 
         public TSurface CreateTarget(int width, int height) => GraphicsContext.CreateTarget(width, height);
 
@@ -58,5 +59,6 @@ namespace GameInterfaces.GraphicsInterface
         }
 
         public void Dispose() { }
+
     }
 }

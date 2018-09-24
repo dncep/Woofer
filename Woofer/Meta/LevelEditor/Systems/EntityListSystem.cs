@@ -33,7 +33,6 @@ namespace WooferGame.Meta.LevelEditor.Systems
         private EntityOutline Outline;
 
         private int RemoveTimer = 0;
-        private int RemovingIndex = 0;
 
         public override void Input()
         {
@@ -43,7 +42,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
             if (Outline == null)
             {
                 Outline = new EntityOutline(Owner, 0);
-                Owner.Events.InvokeEvent(new BeginOutline(Outline));
+                Owner.Events.InvokeEvent(new BeginOverlay(Outline));
             }
 
             Vector2D movement = inputMap.Movement;
