@@ -64,7 +64,7 @@ namespace GameBase
             spriteBatch = new SpriteBatch(GraphicsDevice);
             this.screenRenderer = new MonoGameScreenRenderer(
                 new MonoGameGraphicsContext(graphics, GraphicsDevice, spriteBatch),
-                new MonoGameSpriteManager(Content),
+                new MonoGameSpriteManager(graphics, GraphicsDevice, spriteBatch, Content),
                 gameController.RenderingUnit);
 
             gameController.RenderingUnit.LoadContent(this.screenRenderer);
