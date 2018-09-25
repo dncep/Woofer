@@ -34,10 +34,12 @@ namespace WooferGame.Meta.LevelEditor
             Systems.Add(new EntityViewSystem());
 
             Systems.Add(new CollisionFaceViewSystem());
+            Systems.Add(new SpriteSourceViewSystem());
 
             Systems.Add(new MoveCursorModeSystem());
             Systems.Add(new CollisionCursorModeSystem());
             Systems.Add(new EntitySelectionCursorModeSystem());
+            Systems.Add(new SpriteCursorModeSystem());
 
             Systems.Add(new NumberInputSystem());
             Systems.Add(new TextInputSystem());

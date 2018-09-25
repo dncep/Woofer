@@ -17,6 +17,7 @@ namespace GameBase.MonoGameGraphics
         private RenderTarget2D lastRenderTarget = null;
 
         private Texture2D pixel = null;
+        private Color currentPixelColor = Color.Transparent;
 
         //Constructors
         public MonoGameGraphicsContext(GraphicsDeviceManager manager, GraphicsDevice device, SpriteBatch spriteBatch)
@@ -33,6 +34,16 @@ namespace GameBase.MonoGameGraphics
                 device.SetRenderTarget(surface);
                 if (surface != null) device.Clear(new Color(255, 255, 255, 0));
                 lastRenderTarget = surface;
+            }
+        }
+
+        private void ChangePixelColor(System.Drawing.Color color)
+        {
+            Color toXna = DrawingToXna(color);
+            if(currentPixelColor != toXna)
+            {
+                pixel.SetData(new[] { toXna });
+                currentPixelColor = toXna;
             }
         }
 
@@ -71,7 +82,7 @@ namespace GameBase.MonoGameGraphics
             {
                 pixel = new Texture2D(device, 1, 1);
             }
-            pixel.SetData(new[] { DrawingToXna(color) });
+            ChangePixelColor(color);
             spriteBatch.Draw(pixel, DrawingToXna(rectangle), Color.White);
             spriteBatch.End();
         }
@@ -87,7 +98,7 @@ namespace GameBase.MonoGameGraphics
             {
                 pixel = new Texture2D(device, 1, 1);
             }
-            pixel.SetData(new[] { DrawingToXna(color) });
+            ChangePixelColor(color);
             spriteBatch.Draw(pixel, DrawingToXna(new System.Drawing.Rectangle(point1.X, point1.Y-thickness/2, length, thickness)), null, Color.White, angle, new Vector2(0, 0), SpriteEffects.None, 0);
             spriteBatch.End();
         }

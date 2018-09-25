@@ -40,6 +40,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                     if (realBounds != null)
                     {
                         System.Drawing.Size screenSize = Woofer.Controller.RenderingUnit.ScreenSize;
+                        System.Drawing.Size layerSize = layer.GetSize();
 
                         float x = (float)realBounds.X;
                         float y = (float)realBounds.Y;
@@ -48,7 +49,8 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
                         if (!new Rectangle(x, y, width, height)
                             .IntersectsWith(
-                            new Rectangle(view.X - layer.GetSize().Width / 2, view.Y - layer.GetSize().Height / 2, layer.GetSize().Width, layer.GetSize().Height))) continue;
+                            new Rectangle(view.X - layerSize.Width / 2, view.Y - layerSize.Height / 2, layerSize.Width, layerSize.Height))) continue;
+
 
                         x -= (int)Math.Floor(view.X);
                         y -= (int)Math.Floor(view.Y);
@@ -63,15 +65,15 @@ namespace WooferGame.Meta.LevelEditor.Systems
                         width *= scale;
                         height *= scale;
 
-                        x += layer.GetSize().Width / 2;
-                        y += layer.GetSize().Height / 2;
+                        x += layerSize.Width / 2;
+                        y += layerSize.Height / 2;
 
                         x = (float)Math.Floor(x);
                         y = (float)Math.Floor(y);
 
                         x -= (int)(scale * GeneralUtil.EuclideanMod(view.X, 1));
                         y += (int)(scale * (GeneralUtil.EuclideanMod(view.Y, 1) - 1));
-
+                        
                         System.Drawing.Rectangle drawingRect = new System.Drawing.Rectangle((int)Math.Floor(x), (int)Math.Floor(y), (int)width, (int)height);
 
                         layer.FillRect(new System.Drawing.Rectangle(drawingRect.X, drawingRect.Y, drawingRect.Width, outline.Thickness), outline.Color);

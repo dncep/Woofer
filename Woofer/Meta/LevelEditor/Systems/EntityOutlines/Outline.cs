@@ -7,6 +7,7 @@ using EntityComponentSystem.Entities;
 using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 using WooferGame.Systems.Physics;
+using WooferGame.Systems.Visual;
 using Color = System.Drawing.Color;
 
 namespace WooferGame.Meta.LevelEditor.Systems.EntityOutlines
@@ -61,6 +62,28 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityOutlines
         public RectangleOutline(Rectangle bounds, Color color, int thickness)
         {
             Bounds = bounds;
+            Color = color;
+            Thickness = thickness;
+        }
+    }
+
+    class SpriteOutline : IOutline
+    {
+        public Vector2D Origin;
+        public Sprite Sprite;
+        public Rectangle Bounds => Sprite.Destination + Origin;
+        public Color Color { get; set; }
+        public int Thickness { get; set; } = 2;
+
+        public SpriteOutline(Vector2D origin, Sprite sprite, Color color) : this(origin, sprite, color, 4)
+        {
+
+        }
+
+        public SpriteOutline(Vector2D origin, Sprite sprite, Color color, int thickness)
+        {
+            Origin = origin;
+            Sprite = sprite;
             Color = color;
             Thickness = thickness;
         }

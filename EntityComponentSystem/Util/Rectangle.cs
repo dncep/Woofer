@@ -29,6 +29,8 @@ namespace EntityComponentSystem.Util
 
         public Vector2D Center => new Vector2D(X + Width / 2, Y + Height / 2);
 
+        public double Area => Width * Height;
+
         public Rectangle(Rectangle other) : this(other.X, other.Y, other.Width, other.Height)
         {
         }
@@ -64,7 +66,7 @@ namespace EntityComponentSystem.Util
         public static Rectangle operator +(Rectangle rect, Vector2D vect) => new Rectangle(rect.X + vect.X, rect.Y + vect.Y, rect.Width, rect.Height);
         public static Rectangle operator -(Rectangle rect, Vector2D vect) => new Rectangle(rect.X - vect.X, rect.Y - vect.Y, rect.Width, rect.Height);
 
-        public override string ToString() => $"Rectangle[X={X},Y={Y},Width={Width},Height={Height}]";
+        public override string ToString() => $"[x:{X}, y:{Y}, w:{Width}, h:{Height}]";
         public bool IntersectsWith(Rectangle other) => 
             this.Left < other.Right &&
             this.Right > other.Left &&

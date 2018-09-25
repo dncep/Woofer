@@ -81,7 +81,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 
             if (selectedBounds.Bottom <= CursorSystem.CursorPos.Y && CursorSystem.CursorPos.Y <= selectedBounds.Top)
             {
-                if (Math.Abs(selectedBounds.Left - CursorSystem.CursorPos.X) <= 8)
+                if (Math.Abs(selectedBounds.Left - CursorSystem.CursorPos.X) <= 4)
                 {
                     faceOutline.Bounds.X = selectedBounds.Left;
                     faceOutline.Bounds.Width = 1;
@@ -90,7 +90,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 
                     return 3;
                 }
-                else if (Math.Abs(selectedBounds.Right - CursorSystem.CursorPos.X) <= 8)
+                else if (Math.Abs(selectedBounds.Right - CursorSystem.CursorPos.X) <= 4)
                 {
                     faceOutline.Bounds.X = selectedBounds.Right;
                     faceOutline.Bounds.Width = 1;
@@ -102,7 +102,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             }
             if (selectedBounds.Left <= CursorSystem.CursorPos.X && CursorSystem.CursorPos.X <= selectedBounds.Right)
             {
-                if (Math.Abs(selectedBounds.Bottom - CursorSystem.CursorPos.Y) <= 8)
+                if (Math.Abs(selectedBounds.Bottom - CursorSystem.CursorPos.Y) <= 4)
                 {
                     faceOutline.Bounds.X = selectedBounds.Left;
                     faceOutline.Bounds.Width = selectedBounds.Width;
@@ -111,7 +111,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 
                     return 2;
                 }
-                else if (Math.Abs(selectedBounds.Top - CursorSystem.CursorPos.Y) <= 8)
+                else if (Math.Abs(selectedBounds.Top - CursorSystem.CursorPos.Y) <= 4)
                 {
                     faceOutline.Bounds.X = selectedBounds.Left;
                     faceOutline.Bounds.Width = selectedBounds.Width;

@@ -189,21 +189,22 @@ namespace WooferGame.Meta.LevelEditor.Systems.InputModes
             if (Label != null)
             {
                 TextUnit label = new TextUnit(Label);
-                label.Render(r, layer, new Point(80 - 18, 80 - 18 - 30 - 30), 3);
+                label.Render(r, layer, new Point(80 - 18, 500 - 18 - 30 - 30), 3);
             }
 
             TextUnit textDisplay = new TextUnit(Display);
-            textDisplay.Render(r, layer, new Point(80 - 18, 80 - 18 - 30), 3);
+            layer.FillRect(new System.Drawing.Rectangle(80 - 18, 500 - 18 - 30 - 7, 40 * 13 - 4, 36 - 3), Color.FromArgb(27, 27, 28));
+            textDisplay.Render(r, layer, new Point(80 - 18 + 4, 500 - 18 - 30), 3);
 
             if(CaretBlinkingProgress <= CaretBlinkingPeriod/2)
             {
-                int caretX = 80 - 18 + new TextUnit(Display.Substring(0, CaretIndex)).GetSize(3).Width + 2;
-                layer.FillRect(new System.Drawing.Rectangle(caretX, 80 - 18 - 30, 2, 24), Color.White);
+                int caretX = 80 - 18 + new TextUnit(Display.Substring(0, CaretIndex)).GetSize(3).Width + 6;
+                layer.FillRect(new System.Drawing.Rectangle(caretX, 500 - 18 - 30, 2, 24), Color.White);
             }
 
             foreach (GUIButton button in Pad)
             {
-                button.Render(r, layer, new Vector2D(80, 80));
+                button.Render(r, layer, new Vector2D(80, 500));
             }
         }
 

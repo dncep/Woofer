@@ -318,6 +318,54 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 member.Scene.Events.InvokeEvent(new StartEntitySelectionModeEvent(pivot, new List<long> { (long)member.GetValue() }, v => member.SetValue(v.First()), false) { ForbiddenLink = forbidden });
                 return true;
             }
+            else if (type == typeof(List<Sprite>))
+            {
+                Vector2D origin = Vector2D.Empty;
+                if (member.Owner != null)
+                {
+                    Entity entity = member.Scene.Entities[member.Owner.Owner.Id];
+                    origin = entity.Components.Get<Spatial>().Position;
+                    member.Scene.Events.InvokeEvent(new ForceMoveCursorEvent(origin));
+                }
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("sprite_cursor_mode", null));
+                member.Scene.Events.InvokeEvent(new StartSpriteModeEvent(origin, (List<Sprite>)member.GetValue(), v => member.SetValue(v), true));
+                return true;
+            } else if(type == typeof(Rectangle))
+            {
+                Rectangle rect = (Rectangle)member.GetValue();
+                if (rect == null) rect = new Rectangle(0, 0, 16, 16);
+
+                StartNumberInputEvent.OnSubmit onReceiveHeight = v =>
+                {
+                    rect.Height = v;
+                    member.SetValue(rect);
+                };
+
+                StartNumberInputEvent.OnSubmit onReceiveWidth = v =>
+                {
+                    rect.Width = v;
+                    member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                    member.Scene.Events.InvokeEvent(new StartNumberInputEvent(rect.Height, onReceiveHeight, null) { Label = "Height=" });
+                };
+
+                StartNumberInputEvent.OnSubmit onReceiveY = v =>
+                {
+                    rect.Y = v;
+                    member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                    member.Scene.Events.InvokeEvent(new StartNumberInputEvent(rect.Width, onReceiveWidth, null) { Label = "Width=" });
+                };
+
+                StartNumberInputEvent.OnSubmit onReceiveX = (v =>
+                {
+                    rect.X = v;
+                    member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                    member.Scene.Events.InvokeEvent(new StartNumberInputEvent(rect.Y, onReceiveY, null) { Label = "Y=" });
+                });
+
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                member.Scene.Events.InvokeEvent(new StartNumberInputEvent(rect.X, onReceiveX, null) { Label = "X=" });
+                return true;
+            }
             return false;
         }
     }

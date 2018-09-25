@@ -62,6 +62,8 @@
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\CollisionFaceView.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\EntitySelectionCursorModeSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\MoveCursorModeSystem.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\CursorModes\SpriteCursorModeSystem.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\CursorModes\SpriteSourceViewSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorCursorSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorRendering.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorUtil.cs" />

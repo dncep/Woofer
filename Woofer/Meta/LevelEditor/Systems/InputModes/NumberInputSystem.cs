@@ -207,15 +207,16 @@ namespace WooferGame.Meta.LevelEditor.Systems.InputModes
             if (Label != null)
             {
                 TextUnit label = new TextUnit(Label);
-                label.Render(r, layer, new Point(80 - 18, 80 - 18 - 30 - 30), 3);
+                label.Render(r, layer, new Point(80 - 18, 500 - 18 - 30 - 30), 3);
             }
 
             TextUnit numberDisplay = new TextUnit(Display);
-            numberDisplay.Render(r, layer, new Point(80 - 18, 80 - 18 - 30), 3);
+            layer.FillRect(new System.Drawing.Rectangle(80 - 18, 500 - 18 - 30 -7, 40 * 3 - 4, 36-3), Color.FromArgb(27, 27, 28));
+            numberDisplay.Render(r, layer, new Point(80 - 18+4, 500 - 18 - 30), 3);
 
             foreach (GUIButton button in Pad)
             {
-                button.Render(r, layer, new Vector2D(80, 80));
+                button.Render(r, layer, new Vector2D(80, 500));
             }
         }
 
