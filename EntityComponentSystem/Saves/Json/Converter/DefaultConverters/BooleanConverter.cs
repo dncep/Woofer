@@ -11,7 +11,7 @@ using EntityComponentSystem.Saves.Json.Objects;
 
 namespace EntityComponentSystem.Saves.Json.Converter.DefaultConverters
 {
-    class BooleanConverter : ITagConverter
+    public class BooleanConverter : ITagConverter
     {
         public Type GetWorkingType() => typeof(bool);
         public K FromJson<K>(TagMaster json, ITag value)

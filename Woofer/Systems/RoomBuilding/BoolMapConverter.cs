@@ -15,8 +15,8 @@ namespace WooferGame.Systems.RoomBuilding
         public T FromJson<T>(TagMaster json, ITag value)
         {
             TagCompound wrapper = (TagCompound)value;
-            int width = wrapper.Get<int>("width");
-            int height = wrapper.Get<int>("height");
+            int width = wrapper.Get<int>(json, "width");
+            int height = wrapper.Get<int>(json, "height");
             TagList outer = wrapper.Get<TagList>("map");
             bool[,] map = new bool[width, height];
             for(int i = 0; i < width; i++)

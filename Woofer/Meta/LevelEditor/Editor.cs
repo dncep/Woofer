@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
@@ -17,47 +18,56 @@ using WooferGame.Scenes;
 
 namespace WooferGame.Meta.LevelEditor
 {
-    class Editor : IntroScene
+    static class Editor
     {
         internal static InputRepeatingTimeframe MoveTimeframe = new InputRepeatingTimeframe(15, 3);
         internal static InputHybridTimeframe SelectTimeframe = new InputHybridTimeframe(15, 3);
         internal static InputHybridTimeframe SelectSecondaryTimeframe = new InputHybridTimeframe(15, 3);
 
-        public Editor() : base()
+        public static void AttachEditor(Scene scene, string sceneName, string saveName)
         {
-            Controller.Paused = true;
+            scene.Controller.Paused = true;
 
-            Systems.Add(new OutlineSystem());
-            Systems.Add(new EditorCursorSystem());
-            Systems.Add(new EditorRendering());
-            Systems.Add(new EntityListSystem());
-            Systems.Add(new EntityViewSystem());
+            scene.Systems.Add(new EditorInputSystem());
 
-            Systems.Add(new CollisionFaceViewSystem());
-            Systems.Add(new SpriteSourceViewSystem());
+            scene.Systems.Add(new OutlineSystem());
+            scene.Systems.Add(new EditorCursorSystem() { CursorPos = scene.CurrentViewport.Location });
+            scene.Systems.Add(new EditorRendering());
+            scene.Systems.Add(new EntityListSystem());
+            scene.Systems.Add(new SystemListSystem());
+            scene.Systems.Add(new EntityViewSystem());
 
-            Systems.Add(new MoveCursorModeSystem());
-            Systems.Add(new CollisionCursorModeSystem());
-            Systems.Add(new EntitySelectionCursorModeSystem());
-            Systems.Add(new SpriteCursorModeSystem());
-            Systems.Add(new RoomBuilderModeSystem());
-
-            Systems.Add(new NumberInputSystem());
-            Systems.Add(new TextInputSystem());
-            Systems.Add(new EnumerationSelectViewSystem());
-
-            Systems.Add(new ModalFocusSystem());
+            scene.Systems.Add(new EditorMenuSystem());
+            
+            scene.Systems.Add(new CollisionFaceViewSystem());
+            scene.Systems.Add(new SpriteSourceViewSystem());
+            
+            scene.Systems.Add(new MoveCursorModeSystem());
+            scene.Systems.Add(new CollisionCursorModeSystem());
+            scene.Systems.Add(new EntitySelectionCursorModeSystem());
+            scene.Systems.Add(new SpriteCursorModeSystem());
+            scene.Systems.Add(new RoomBuilderModeSystem());
+            
+            scene.Systems.Add(new NumberInputSystem());
+            scene.Systems.Add(new TextInputSystem());
+            scene.Systems.Add(new EnumerationSelectViewSystem());
+            
+            scene.Systems.Add(new ModalFocusSystem());
         }
+    }
 
-        public override void InvokeInput()
+    [ComponentSystem("editor_input", ProcessingCycles.Input, ProcessingFlags.Pause)]
+    class EditorInputSystem : ComponentSystem
+    {
+        public override bool ShouldSave => false;
+
+        public override void Input()
         {
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
-            
+
             Editor.MoveTimeframe.RegisterState(inputMap.Movement.Magnitude > 1e-5 ? ButtonState.Pressed : ButtonState.Released);
             Editor.SelectTimeframe.RegisterState(inputMap.Jump);
             Editor.SelectSecondaryTimeframe.RegisterState(inputMap.Pulse);
-
-            base.InvokeInput();
         }
     }
 }

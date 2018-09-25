@@ -120,14 +120,25 @@ namespace EntityComponentSystem.ComponentSystems
             }
         }
 
-        public static Type TypeForIdentifier(string identifier)
+        public static void PopulateIdentifiers()
         {
             if (identifierToTypeMap == null)
             {
                 PopulateDictionaryWithAssembly(Assembly.GetExecutingAssembly());
                 PopulateDictionaryWithAssembly(Assembly.GetEntryAssembly());
             }
+        }
+
+        public static Type TypeForIdentifier(string identifier)
+        {
+            PopulateIdentifiers();
             return identifierToTypeMap[identifier];
+        }
+
+        public static List<string> GetAllIdentifiers()
+        {
+            PopulateIdentifiers();
+            return identifierToTypeMap.Keys.ToList();
         }
     }
 

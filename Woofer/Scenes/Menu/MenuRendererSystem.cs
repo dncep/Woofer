@@ -13,6 +13,7 @@ using WooferGame.Common;
 using WooferGame.Controller.Commands;
 using WooferGame.Input;
 using WooferGame.Meta.LevelEditor;
+using WooferGame.Meta.LevelSelect;
 using WooferGame.Systems.Visual;
 
 namespace WooferGame.Scenes.Menu
@@ -59,7 +60,7 @@ namespace WooferGame.Scenes.Menu
                     case 1:
                         break;
                     case 2:
-                        Woofer.Controller.CommandFired(new SceneChangeCommand(new Editor()));
+                        Woofer.Controller.CommandFired(new SceneChangeCommand(new LevelSelect()));
                         break;
                     case 3:
                         Environment.Exit(0);

@@ -66,18 +66,22 @@ namespace EntityComponentSystem.Saves
 
             TagCompound sceneRoot = root.Get<TagCompound>("scene");
 
+            scene.Name = sceneRoot.Get<string>(tagMaster, "name") ?? "";
+
             scene.CurrentViewport = sceneRoot.Get<CameraView>(tagMaster, "viewport");
 
             foreach(ITag rawEntity in sceneRoot.Get<TagList>("entities"))
             {
                 TagCompound obj = rawEntity as TagCompound;
-                Entity entity = new Entity();
-                entity._id = obj.Get<long>(tagMaster, "id");
-                entity._is_id_set = true;
-                entity.Name = obj.Get<TagString>("name").Value;
-                entity.Active = obj.Get<TagBoolean>("active").Value;
+                Entity entity = new Entity
+                {
+                    _id = obj.Get<long>(tagMaster, "id"),
+                    _is_id_set = true,
+                    Name = obj.Get<TagString>("name").Value,
+                    Active = obj.Get<TagBoolean>("active").Value
+                };
 
-                foreach(KeyValuePair<string, ITag> rawComponent in obj.Get<TagCompound>("components"))
+                foreach (KeyValuePair<string, ITag> rawComponent in obj.Get<TagCompound>("components"))
                 {
                     Type componentType = Component.TypeForIdentifier(rawComponent.Key);
                     Component component = tagMaster.ConvertFromValue(rawComponent.Value, componentType) as Component;

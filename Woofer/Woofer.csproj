@@ -56,6 +56,7 @@
     <Compile Include="Input\IScreenAwareInput.cs" />
     <Compile Include="Input\KeyboardInputMap.cs" />
     <Compile Include="Meta\LevelEditor\Editor.cs" />
+    <Compile Include="Meta\LevelEditor\EditorMenuSystem.cs" />
     <Compile Include="Meta\LevelEditor\InspectorAttribute.cs" />
     <Compile Include="Meta\LevelEditor\Systems\ComponentView\EnumSelectViewSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\CollisionCursorModeSystem.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\SpriteSourceViewSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorCursorSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorRendering.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\EditorSaveSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorUtil.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntityListSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EntityOutliner.cs" />
@@ -80,6 +82,12 @@
     <Compile Include="Meta\LevelEditor\Systems\InputModes\TextInputSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\ModalChangeEvent.cs" />
     <Compile Include="Meta\LevelEditor\Systems\ModalFocusSystem.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\PrefabUtils.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\SystemListSystem.cs" />
+    <Compile Include="Meta\LevelSelect\BackToMainMenuSystem.cs" />
+    <Compile Include="Meta\LevelSelect\LevelSelect.cs" />
+    <Compile Include="Meta\WooferLoadOperation.cs" />
+    <Compile Include="Meta\WooferSaveOperation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controller\LevelRenderingLayer.cs" />

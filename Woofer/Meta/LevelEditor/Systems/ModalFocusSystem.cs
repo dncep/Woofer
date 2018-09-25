@@ -17,7 +17,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
     class ModalFocusSystem : ComponentSystem
     {
         private readonly InputTimeframe modalChange = new InputTimeframe(2);
-        private string CurrentSystem = "editor_cursor";
+        public string CurrentSystem = "editor_cursor";
 
         public override bool ShouldSave => false;
 

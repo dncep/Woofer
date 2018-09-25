@@ -20,6 +20,7 @@ namespace WooferGame.Controller
 
         public InputMapManager InputManager { get; private set; }
         public bool Paused { get; set; }
+        public string CurrentSave { get; internal set; } = "scenes";
 
         public WooferController()
         {

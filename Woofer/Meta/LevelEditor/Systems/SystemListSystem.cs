@@ -14,14 +14,12 @@ using GameInterfaces.Input;
 using WooferGame.Common;
 using WooferGame.Input;
 using WooferGame.Meta.LevelEditor.Systems.ComponentView;
-using WooferGame.Meta.LevelEditor.Systems.EntityOutlines;
 using WooferGame.Meta.LevelEditor.Systems.InputModes;
-using WooferGame.Systems;
 
 namespace WooferGame.Meta.LevelEditor.Systems
 {
-    [ComponentSystem("entity_list", ProcessingCycles.Input | ProcessingCycles.Render, ProcessingFlags.Pause)]
-    class EntityListSystem : ComponentSystem
+    [ComponentSystem("system_list", ProcessingCycles.Input | ProcessingCycles.Render, ProcessingFlags.Pause)]
+    class SystemListSystem : ComponentSystem
     {
         private bool ModalActive = false;
         private bool ModalVisible = false;
@@ -31,28 +29,17 @@ namespace WooferGame.Meta.LevelEditor.Systems
         private int AmountVisible = 16;
 
         public override bool ShouldSave => false;
-        
-        private EntityOutline Outline;
 
         private int RemoveTimer = 0;
-
-        private const string BLANK_ENTITY = "Blank Entity";
-        private const string FROM_PREFABS = "From Prefabs";
 
         public override void Input()
         {
             if (!ModalActive) return;
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
 
-            if (Outline == null)
-            {
-                Outline = new EntityOutline(Owner, 0);
-                Owner.Events.InvokeEvent(new BeginOverlay(Outline));
-            }
-
             Vector2D movement = inputMap.Movement;
 
-            if(movement.Magnitude > 1e-5 && Editor.MoveTimeframe.Execute())
+            if (movement.Magnitude > 1e-5 && Editor.MoveTimeframe.Execute())
             {
                 if (movement.Y > 0)
                 {
@@ -60,9 +47,9 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 }
                 else if (movement.Y < 0)
                 {
-                    if (SelectedIndex + 1 < Owner.Entities.Count) SelectedIndex++;
+                    if (SelectedIndex + 1 < Owner.Systems.Count) SelectedIndex++;
                 }
-                if(movement.Y != 0)
+                if (movement.Y != 0)
                 {
                     RemoveTimer = 0;
                 }
@@ -72,37 +59,31 @@ namespace WooferGame.Meta.LevelEditor.Systems
             {
                 if (SelectedIndex == -1)
                 {
-                    Owner.Events.InvokeEvent(new StartEnumSelectEvent("Add Entity", new List<string>() { BLANK_ENTITY, FROM_PREFABS }, CreateEntity, null));
+                    Owner.Events.InvokeEvent(new StartEnumSelectEvent("Available systems", ComponentSystem.GetAllIdentifiers().Where(s => !Owner.Systems.Contains(s)).ToList(), AddSystem, null));
                     Owner.Events.InvokeEvent(new ForceModalChangeEvent("enum_select", null));
                     ModalActive = false;
-                    ModalVisible = false;
                 }
                 else
                 {
-                    Owner.Events.InvokeEvent(new EntitySelectEvent(Owner.Entities.ToList()[SelectedIndex], null));
-                    Owner.Events.InvokeEvent(new ForceModalChangeEvent("entity_view", null));
-                    ModalActive = false;
-                    ModalVisible = false;
+                    //Owner.Events.InvokeEvent(new EntitySelectEvent(Owner.Systems.ToList()[SelectedIndex], null));
+                    //Owner.Events.InvokeEvent(new ForceModalChangeEvent("entity_view", null));
+                    //ModalActive = false;
+                    //ModalVisible = false;
                 }
             }
 
-            if(RemoveTimer > 0) RemoveTimer--;
+            if (RemoveTimer > 0) RemoveTimer--;
             if (inputMap.Pulse.IsPressed() && SelectedIndex >= 0)
             {
                 RemoveTimer += 2;
-                if(RemoveTimer / 25 > 3)
+                if (RemoveTimer / 25 > 3)
                 {
-                    Owner.Entities.Remove(Owner.Entities.ElementAt(SelectedIndex).Id);
+                    Owner.Systems.Remove(Owner.Systems.ElementAt(SelectedIndex).SystemName);
                     RemoveTimer = 0;
                 }
             }
             else RemoveTimer = 0;
-
-            Outline.Id = 0;
-            if (SelectedIndex >= 0 && SelectedIndex < Owner.Entities.Count)
-            {
-                Outline.Id = Owner.Entities.ToList()[SelectedIndex].Id;
-            }
+            
             if (SelectedIndex < StartOffset)
             {
                 StartOffset = SelectedIndex;
@@ -113,23 +94,37 @@ namespace WooferGame.Meta.LevelEditor.Systems
             }
         }
 
+        private void AddSystem(string identifier)
+        {
+            if(!Owner.Systems.Contains(identifier))
+            {
+                Type type = ComponentSystem.TypeForIdentifier(identifier);
+                ComponentSystem system = type.GetConstructor(new Type[0]).Invoke(new object[0]) as ComponentSystem;
+                if(system != null)
+                {
+                    Owner.Systems.Add(system);
+                    SelectedIndex = Owner.Systems.Count - 1;
+                }
+            }
+        }
+
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
             if (!ModalVisible) return;
-            SelectedIndex = Math.Max(-1, Math.Min(SelectedIndex, Owner.Entities.Count - 1));
-            StartOffset = Math.Max(-1, Math.Min(StartOffset, Owner.Entities.Count - 1));
+            SelectedIndex = Math.Max(-1, Math.Min(SelectedIndex, Owner.Systems.Count - 1));
+            StartOffset = Math.Max(-1, Math.Min(StartOffset, Owner.Systems.Count - 1));
             var layer = r.GetLayerGraphics("hi_res_overlay");
 
             int y = 14;
             int x = EditorRendering.SidebarX + EditorRendering.SidebarMargin + 4;
 
-            List<Entity> entities = Owner.Entities.ToList();
+            List<ComponentSystem> systems = Owner.Systems.ToList();
             int index = StartOffset;
-            for (; index < entities.Count; index++)
+            for (; index < systems.Count; index++)
             {
                 if (index == -1)
                 {
-                    GUIButton button = new GUIButton(new Vector2D(x - 4 + EditorRendering.SidebarMargin, y), "Add Entity", new EntityComponentSystem.Util.Rectangle(0, 0, EditorRendering.SidebarWidth - 4 * EditorRendering.SidebarMargin, 24)) { TextSize = 2 };
+                    GUIButton button = new GUIButton(new Vector2D(x - 4 + EditorRendering.SidebarMargin, y), "Add System", new EntityComponentSystem.Util.Rectangle(0, 0, EditorRendering.SidebarWidth - 4 * EditorRendering.SidebarMargin, 24)) { TextSize = 2 };
                     button.Highlighted = SelectedIndex == -1;
                     button.Render(r, layer, Vector2D.Empty);
 
@@ -137,12 +132,12 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 }
                 else
                 {
-                    Entity entity = entities[index];
-                    if(index == SelectedIndex)
+                    ComponentSystem system = systems[index];
+                    if (index == SelectedIndex)
                     {
                         layer.FillRect(new System.Drawing.Rectangle(x - 4, y, EditorRendering.SidebarWidth - 2 * EditorRendering.SidebarMargin, 20), ModalActive ? Color.CornflowerBlue : Color.FromArgb(63, 63, 70));
                     }
-                    TextUnit label = new TextUnit(entity.Name);
+                    TextUnit label = new TextUnit(system.SystemName);
                     label.Render<TSurface, TSource>(r, layer, new Point(x, y + 2), 2);
                     y += 20;
                     if (y > 720 - 16) break;
@@ -150,9 +145,9 @@ namespace WooferGame.Meta.LevelEditor.Systems
             }
             AmountVisible = index - StartOffset - 1;
 
-            if(RemoveTimer > 0 && SelectedIndex >= 0)
+            if (RemoveTimer > 0 && SelectedIndex >= 0)
             {
-                TextUnit removingLabel = new TextUnit("Removing " + entities[SelectedIndex].Name + new string('.', RemoveTimer / 25));
+                TextUnit removingLabel = new TextUnit("Removing " + systems[SelectedIndex].SystemName + new string('.', RemoveTimer / 25));
                 System.Drawing.Size labelSize = removingLabel.GetSize(3);
                 removingLabel.Render(r, layer, new Point(EditorRendering.SidebarX - labelSize.Width, layer.GetSize().Height - labelSize.Height), 3);
             }
@@ -170,38 +165,6 @@ namespace WooferGame.Meta.LevelEditor.Systems
             {
                 ModalActive = true;
                 ModalVisible = true;
-            }
-        }
-
-        private void CreateEntity(string instruction)
-        {
-            if(instruction == BLANK_ENTITY)
-            {
-                Owner.Entities.Add(new Entity());
-                Owner.Entities.Flush();
-                SelectedIndex = Owner.Entities.Count - 1;
-            } else if(instruction == FROM_PREFABS)
-            {
-                PrefabUtils.Refresh();
-                Owner.Events.InvokeEvent(new StartEnumSelectEvent("Select Prefab", PrefabUtils.GetPrefabNames(), SpawnPrefab, null));
-                Owner.Events.InvokeEvent(new ForceModalChangeEvent("enum_select", null));
-                ModalActive = false;
-                ModalVisible = false;
-            }
-        }
-
-        private void SpawnPrefab(string name)
-        {
-            Entity entity = PrefabUtils.InstantiatePrefab(name);
-            if(entity != null)
-            {
-                Owner.Entities.Add(entity);
-                Owner.Entities.Flush();
-                if(entity.Components.Get<Spatial>() is Spatial sp)
-                {
-                    sp.Position = Owner.CurrentViewport.Location;
-                }
-                SelectedIndex = Owner.Entities.Count - 1;
             }
         }
     }

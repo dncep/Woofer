@@ -31,29 +31,7 @@ namespace EntityComponentSystem.ComponentSystems
         public int Count => _dict.Count;
         public void Add(ComponentSystem system)
         {
-            _dict.Add(system.SystemName, system);
-            system.Owner = Owner;
-
-            if (system.InputProcessing) _inputSystems.Add(system);
-            if (system.TickProcessing) _tickSystems.Add(system);
-            if (system.RenderProcessing) _renderSystems.Add(system);
-
-            foreach (Entity entity in Owner.Entities)
-            {
-                foreach (Component component in entity.Components)
-                {
-                    if (system.Watching.Contains(component.ComponentName))
-                    {
-                        system.AddWatchedComponent(component);
-                    }
-                }
-            }
-
-            foreach (string eventName in system.Listening)
-            {
-                Owner.Events.RegisterEventType(eventName);
-                Owner.Events.EventDictionary[eventName] += system.EventFired;
-            }
+            ToAdd.Add(system);
         }
 
         public void Clear() => _dict.Clear();
@@ -61,14 +39,57 @@ namespace EntityComponentSystem.ComponentSystems
         public bool Remove(string name)
         {
             if (!_dict.ContainsKey(name)) return false;
-            ComponentSystem system = _dict[name];
-            foreach (string eventName in system.Listening)
-            {
-                Owner.Events.RegisterEventType(eventName);
-                Owner.Events.EventDictionary[eventName] -= system.EventFired;
-            }
-            _dict.Remove(name);
+            ToRemove.Add(name);
             return true;
+        }
+
+        private List<ComponentSystem> ToAdd = new List<ComponentSystem>();
+        private List<string> ToRemove = new List<string>();
+
+        internal void Flush()
+        {
+            foreach(ComponentSystem system in ToAdd)
+            {
+                _dict.Add(system.SystemName, system);
+                system.Owner = Owner;
+
+                if (system.InputProcessing) _inputSystems.Add(system);
+                if (system.TickProcessing) _tickSystems.Add(system);
+                if (system.RenderProcessing) _renderSystems.Add(system);
+
+                foreach (Entity entity in Owner.Entities)
+                {
+                    foreach (Component component in entity.Components)
+                    {
+                        if (system.Watching.Contains(component.ComponentName))
+                        {
+                            system.AddWatchedComponent(component);
+                        }
+                    }
+                }
+
+                foreach (string eventName in system.Listening)
+                {
+                    Owner.Events.RegisterEventType(eventName);
+                    Owner.Events.EventDictionary[eventName] += system.EventFired;
+                }
+            }
+            ToAdd.Clear();
+            foreach(string remove in ToRemove)
+            {
+                if (!_dict.ContainsKey(remove)) continue;
+                ComponentSystem system = _dict[remove];
+                foreach (string eventName in system.Listening)
+                {
+                    Owner.Events.RegisterEventType(eventName);
+                    Owner.Events.EventDictionary[eventName] -= system.EventFired;
+                }
+                _inputSystems.Remove(system);
+                _tickSystems.Remove(system);
+                _renderSystems.Remove(system);
+                _dict.Remove(remove);
+            }
+            ToRemove.Clear();
         }
 
         internal void InvokeInput() => _inputSystems.ForEach((s) =>

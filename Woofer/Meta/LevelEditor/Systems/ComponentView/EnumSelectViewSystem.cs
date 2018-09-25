@@ -24,7 +24,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
         private int SelectedIndex = 0;
         private int StartOffset = 0;
 
-        private int AmountVisible = 0;
+        private int AmountVisible = 16;
 
         public override bool ShouldSave => false;
 
@@ -33,6 +33,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
 
         private OnSubmit Callback = null;
         private string SwitchTo = null;
+
+        private bool ShouldClose = false;
 
         public override void Input()
         {
@@ -51,14 +53,15 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
                 {
                     if (SelectedIndex + 1 < Options.Count) SelectedIndex++;
                 }
-                if (SelectedIndex < StartOffset)
-                {
-                    StartOffset = SelectedIndex;
-                }
-                if (SelectedIndex > StartOffset + AmountVisible)
-                {
-                    StartOffset = SelectedIndex - AmountVisible;
-                }
+            }
+
+            if (SelectedIndex < StartOffset)
+            {
+                StartOffset = SelectedIndex;
+            }
+            if (SelectedIndex > StartOffset + AmountVisible)
+            {
+                StartOffset = SelectedIndex - AmountVisible;
             }
 
             if (Editor.SelectTimeframe.Execute())
@@ -71,14 +74,17 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
         {
             ModalActive = false;
             Owner.Events.InvokeEvent(new ForceModalChangeEvent(SwitchTo, null));
+            ShouldClose = true;
+            Console.WriteLine("submitting " + Options[SelectedIndex] + " to " + SwitchTo + " using callback " + Callback);
             Callback(Options[SelectedIndex]);
+            //if (ShouldClose && !ModalActive && !Owner.Disposed) Owner.Events.InvokeEvent(new RequestModalChangeEvent(null));
         }
 
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
             if (!ModalActive) return;
-            SelectedIndex = Math.Max(0, Math.Min(SelectedIndex, Owner.Entities.Count - 1));
-            StartOffset = Math.Max(0, Math.Min(StartOffset, Owner.Entities.Count - 1));
+            SelectedIndex = Math.Max(0, Math.Min(SelectedIndex, Options.Count - 1));
+            StartOffset = Math.Max(0, Math.Min(StartOffset, Options.Count - 1));
             var layer = r.GetLayerGraphics("hi_res_overlay");
 
             System.Drawing.Rectangle sidebar = new System.Drawing.Rectangle(EditorRendering.SidebarX, 0, EditorRendering.SidebarWidth, 720);
@@ -119,13 +125,16 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
             }
             else if (e is ModalChangeEvent change)
             {
-                SwitchTo = change.From;
+                Console.WriteLine("changing from: " + change.From);
+                if(change.From != "enum_select") SwitchTo = change.From;
+                ShouldClose = false;
                 ModalActive = true;
             } else if(e is StartEnumSelectEvent start)
             {
                 Title = start.Title;
                 Options = start.Options;
                 Callback = start.Callback;
+                Console.WriteLine("received start event: " + Title);
             }
         }
     }

@@ -17,6 +17,8 @@ namespace EntityComponentSystem.Scenes
     {
         public readonly IGameController Controller;
 
+        public string Name { get; set; } = "Scene";
+
         public EntityMap Entities;
         public SystemMap Systems;
         public EventManager Events;
@@ -43,6 +45,7 @@ namespace EntityComponentSystem.Scenes
         public void Draw<TSurface, TSource>(ScreenRenderer<TSurface, TSource> screenRenderer)
         {
             //Console.WriteLine("render");
+            Systems.Flush();
             Systems.InvokeRender(screenRenderer);
         }
 
@@ -58,6 +61,7 @@ namespace EntityComponentSystem.Scenes
             //Console.WriteLine($"DeltaTime: {DeltaTime}");
             //FixedDeltaTime = (float)(fixedTime.TotalMilliseconds / 1000d);
             Entities.Flush();
+            Systems.Flush();
 
             Systems.InvokeTick();
 
@@ -94,6 +98,7 @@ namespace EntityComponentSystem.Scenes
         public virtual void InvokeInput()
         {
             //Console.WriteLine("input");
+            Systems.Flush();
             Systems.InvokeInput();
         }
 

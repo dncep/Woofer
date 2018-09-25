@@ -57,6 +57,11 @@ namespace WooferGame.Meta.LevelEditor.Systems
             if (!ModalActive) return;
             if (!Owner.Entities.ContainsId(Selected)) return;
             Entity entity = Owner.Entities[Selected];
+            if(entity == null)
+            {
+                Owner.Events.InvokeEvent(new RequestModalChangeEvent(null));
+                return;
+            }
 
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
 
@@ -81,7 +86,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                         if (SelectedPropertyIndex + 1 < SelectedComponent.Members.Count) SelectedPropertyIndex++;
                     } else
                     {
-                        if (SelectedComponentIndex + 1 <= entity.Components.Count) SelectedComponentIndex++;
+                        if (SelectedComponentIndex + 1 <= entity.Components.Count+1) SelectedComponentIndex++;
                     }
                 }
 
@@ -112,10 +117,16 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 }
                 else if (SelectedComponentIndex == Helper.Components.Count)
                 {
-                    Owner.Events.InvokeEvent(new StartEnumSelectEvent("Available components", Component.GetAllIdentifiers(), AddComponent, null));
+                    Owner.Events.InvokeEvent(new StartEnumSelectEvent("Available components", Component.GetAllIdentifiers().Where(s => !Helper.Components.ContainsKey(s)).ToList(), AddComponent, null));
                     Owner.Events.InvokeEvent(new ForceModalChangeEvent("enum_select", null));
                     ModalActive = false;
                     ModalVisible = false;
+                }
+                else if(SelectedComponentIndex == Helper.Components.Count + 1)
+                {
+                    Owner.Events.InvokeEvent(new StartTextInputEvent(entity.Name, n => PrefabUtils.SavePrefab(entity, n), null) { Label = "Prefab Name" });
+                    Owner.Events.InvokeEvent(new ForceModalChangeEvent("text_input", null));
+                    ModalActive = false;
                 }
                 else if (!ComponentLocked)
                 {
@@ -248,14 +259,31 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 index++;
             }
 
-            ComponentRenderOffsets.Add(y);
-            GUIButton button = new GUIButton(new Vector2D(x, y), "Add Component", new Rectangle(0, 0, EditorRendering.SidebarWidth - 4 * EditorRendering.SidebarMargin, 24)) { TextSize = 2 };
-            button.Highlighted = SelectedComponentIndex == Helper.Components.Count;
-            button.Render(r, layer, Vector2D.Empty);
-
-            for(int i = 0; i < ListFromIndex; i++)
             {
-                ComponentRenderOffsets[i] -= startY;
+                ComponentRenderOffsets.Add(y);
+                GUIButton button = new GUIButton(new Vector2D(x, y), "Add Component", new Rectangle(0, 0, EditorRendering.SidebarWidth - 4 * EditorRendering.SidebarMargin, 24)) { TextSize = 2 };
+                button.Highlighted = SelectedComponentIndex == Helper.Components.Count;
+                button.Render(r, layer, Vector2D.Empty);
+
+                for (int i = 0; i < ListFromIndex; i++)
+                {
+                    ComponentRenderOffsets[i] -= startY;
+                }
+                index++;
+                y += 32;
+            }
+            {
+                ComponentRenderOffsets.Add(y);
+                GUIButton button = new GUIButton(new Vector2D(x, y), "Save Prefab", new Rectangle(0, 0, EditorRendering.SidebarWidth - 4 * EditorRendering.SidebarMargin, 24)) { TextSize = 2 };
+                button.Highlighted = SelectedComponentIndex == Helper.Components.Count+1;
+                button.Render(r, layer, Vector2D.Empty);
+
+                for (int i = 0; i < ListFromIndex; i++)
+                {
+                    ComponentRenderOffsets[i] -= startY;
+                }
+                index++;
+                y += 32;
             }
 
             if (RemoveTimer > 0 && SelectedComponentIndex >= 0)

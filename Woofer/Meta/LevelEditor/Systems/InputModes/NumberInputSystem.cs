@@ -253,6 +253,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.InputModes
         public Rectangle Bounds;
         public bool Enabled = true;
         public bool Highlighted = false;
+        public bool Focused = true;
         public bool Repeating = false;
         public int TextSize = 3;
 
@@ -262,11 +263,11 @@ namespace WooferGame.Meta.LevelEditor.Systems.InputModes
             Display = display;
             Bounds = bounds;
         }
-
+        
         public virtual void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r, DirectGraphicsContext<TSurface, TSource> layer, Vector2D offset)
         {
             if (!Enabled) return;
-            layer.FillRect((Bounds + (Position + offset)).ToDrawing(), Highlighted ? Color.CornflowerBlue : Color.FromArgb(37, 37, 38));
+            layer.FillRect((Bounds + (Position + offset)).ToDrawing(), Highlighted ? Focused ? Color.CornflowerBlue : Color.FromArgb(63, 63, 70) : Color.FromArgb(37, 37, 38));
             TextUnit label = new TextUnit(Display);
             Rectangle displayBounds = (Bounds + (Position + offset));
             System.Drawing.Size labelSize = label.GetSize(TextSize);

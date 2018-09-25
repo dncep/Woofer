@@ -63,6 +63,7 @@ namespace WooferGame.Systems.RoomBuilding
                     {
                         List<Sprite> sprites = BuildSprites();
                         Renderable renderable = rb.Owner.Components.Get<Renderable>();
+                        if (renderable == null) return;
                         if (rb.Overwrite) {
                             renderable.Sprites = sprites;
                         } else

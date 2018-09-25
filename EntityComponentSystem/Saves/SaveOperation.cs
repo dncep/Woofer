@@ -19,16 +19,21 @@ namespace EntityComponentSystem.Saves
     public class SaveOperation
     {
         private readonly Scene Scene;
+        private readonly string Path;
         private List<ITagConverter> Converters = new List<ITagConverter>();
 
-        public SaveOperation(Scene scene) => Scene = scene;
+        public SaveOperation(Scene scene, string path)
+        {
+            Scene = scene;
+            Path = path;
+        }
 
         public void AddConverter(ITagConverter converter)
         {
             Converters.Add(converter);
         }
 
-        public void Save(string path)
+        public void Save()
         {
             TagMaster tagMaster = new TagMaster();
 
@@ -38,6 +43,7 @@ namespace EntityComponentSystem.Saves
             tagMaster.RegisterConverter(new NumberConverter<float>());
             tagMaster.RegisterConverter(new NumberConverter<long>());
             tagMaster.RegisterConverter(new NumberConverter<double>());
+            tagMaster.RegisterConverter(new StringConverter());
 
             tagMaster.RegisterConverter(new ListConverter<long>());
             tagMaster.RegisterConverter(new ListConverter<int>());
@@ -51,6 +57,8 @@ namespace EntityComponentSystem.Saves
             TagCompound sceneRoot = new TagCompound();
             root.AddProperty("scene", sceneRoot);
 
+            sceneRoot.AddProperty("name", Scene.Name);
+
             sceneRoot.AddProperty("viewport", Scene.CurrentViewport);
             
             {
@@ -62,8 +70,8 @@ namespace EntityComponentSystem.Saves
                     entities.Add(entityObj);
                     entityObj.AddProperty("name", entity.Name);
                     entityObj.AddProperty("id", entity.Id);
-                    TagCompound components = new TagCompound();
                     entityObj.AddProperty("active", entity.Active);
+                    TagCompound components = new TagCompound();
                     entityObj.AddProperty("components", components);
                     foreach (Component component in entity.Components)
                     {
@@ -81,7 +89,7 @@ namespace EntityComponentSystem.Saves
                 }
             }
 
-            BinaryWriter writer = new BinaryWriter(new FileStream(path, FileMode.Create));
+            BinaryWriter writer = new BinaryWriter(new FileStream(Path, FileMode.Create));
             tagMaster.Write(root, writer);
             writer.Close();
             writer.Dispose();

@@ -15,10 +15,11 @@ namespace EntityComponentSystem.Saves.Json.Objects
         internal const byte TypeId = 10;
         private readonly Dictionary<string, ITag> Properties = new Dictionary<string, ITag>();
 
-        public void AddProperty(string key, short value) => AddProperty(key, new TagDouble(value));
-        public void AddProperty(string key, int value) => AddProperty(key, new TagDouble(value));
+        public void AddProperty(string key, byte value) => AddProperty(key, new TagByte(value));
+        public void AddProperty(string key, short value) => AddProperty(key, new TagShort(value));
+        public void AddProperty(string key, int value) => AddProperty(key, new TagInt(value));
         public void AddProperty(string key, double value) => AddProperty(key, new TagDouble(value));
-        public void AddProperty(string key, long value) => AddProperty(key, new TagDouble(value));
+        public void AddProperty(string key, long value) => AddProperty(key, new TagLong(value));
         public void AddProperty(string key, string value) => AddProperty(key, new TagString(value));
         public void AddProperty(string key, bool value) => AddProperty(key, new TagBoolean(value));
         public void AddProperty(string key, TagCompound value) => AddProperty(key, (object)value);

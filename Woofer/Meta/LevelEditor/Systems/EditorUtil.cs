@@ -35,7 +35,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
             else if (entity.Components.Has<Renderable>())
             {
                 Renderable renderable = entity.Components.Get<Renderable>();
-                Rectangle union = null;
+                Rectangle union = new Rectangle(0, 0, 0, 0);
                 foreach (Sprite sprite in renderable.Sprites)
                 {
                     if (union == null) union = sprite.Destination;

@@ -24,7 +24,7 @@ using WooferGame.Systems.Visual.Animation;
 
 namespace WooferGame.Systems.Debug
 {
-    [ComponentSystem("quicksave", ProcessingCycles.Input, ProcessingFlags.Pause)]
+    [ComponentSystem("quicksave", ProcessingCycles.Input)]
     class Quicksave : ComponentSystem
     {
         private static InputTimeframe quicksave = new InputTimeframe(5);
@@ -47,7 +47,7 @@ namespace WooferGame.Systems.Debug
 
             if (saveButton.IsPressed() && quicksave.Execute())
             {
-                SaveOperation save = new SaveOperation(Owner);
+                SaveOperation save = new SaveOperation(Owner, TargetFile);
                 save.AddConverter(new CollisionBoxConverter());
                 save.AddConverter(new ColorConverter());
                 save.AddConverter(new ListConverter<CollisionBox>());
@@ -57,7 +57,7 @@ namespace WooferGame.Systems.Debug
                 save.AddConverter(new EnumConverter<DrawMode>());
                 save.AddConverter(new BoolMapConverter());
 
-                save.Save(TargetFile);
+                save.Save();
                 Owner.Events.InvokeEvent(new ShowTextEvent("Saved", null));
             }
 

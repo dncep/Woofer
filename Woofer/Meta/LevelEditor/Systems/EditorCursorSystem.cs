@@ -62,7 +62,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
         public bool MayDrag { get; set; } = false;
         public bool Dragging { get; set; } = false;
 
-        public string SwitchToModal = "entity_list";
+        public string SwitchToModal = "editor_menu";
 
         public override bool ShouldSave => false;
 
