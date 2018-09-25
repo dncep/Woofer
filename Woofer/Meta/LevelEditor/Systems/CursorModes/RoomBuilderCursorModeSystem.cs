@@ -186,8 +186,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             maxY = Math.Min(maxY, Map.GetLength(1));
             int width = maxX - minX;
             int height = maxY - minY;
-            if (width == 0) width = 1;
-            if (height == 0) height = 1;
+            //if (width == 0) width = 1;
+            //if (height == 0) height = 1;
             
             return new Rectangle(minX, minY, width, height);
         }

@@ -45,7 +45,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 if (sp != null) realBounds += sp.Position;
             } else if(sp != null)
             {
-                realBounds = new Rectangle(sp.Position.X - 2, sp.Position.X - 2, 4, 4);
+                realBounds = new Rectangle(sp.Position.X - 2, sp.Position.Y - 2, 4, 4);
             }
 
             return realBounds;
