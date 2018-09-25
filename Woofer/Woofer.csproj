@@ -57,11 +57,12 @@
     <Compile Include="Input\KeyboardInputMap.cs" />
     <Compile Include="Meta\LevelEditor\Editor.cs" />
     <Compile Include="Meta\LevelEditor\InspectorAttribute.cs" />
-    <Compile Include="Meta\LevelEditor\Systems\ComponentView\ComponentSelectView.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\ComponentView\EnumSelectViewSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\CollisionCursorModeSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\CollisionFaceView.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\EntitySelectionCursorModeSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\MoveCursorModeSystem.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\CursorModes\RoomBuilderCursorModeSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\SpriteCursorModeSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\SpriteSourceViewSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\EditorCursorSystem.cs" />
@@ -183,6 +184,9 @@
     <Compile Include="Systems\Refill\EnergyRefillComponent.cs" />
     <Compile Include="Systems\Refill\EnergyRefillOrb.cs" />
     <Compile Include="Systems\Refill\EnergyRefillSystem.cs" />
+    <Compile Include="Systems\RoomBuilding\BoolMapConverter.cs" />
+    <Compile Include="Systems\RoomBuilding\RoomBuilder.cs" />
+    <Compile Include="Systems\RoomBuilding\RoomBuilderSystem.cs" />
     <Compile Include="Systems\Sailboat\Sailboat.cs" />
     <Compile Include="Systems\Sailboat\SailboatComponent.cs" />
     <Compile Include="Systems\Sailboat\SailboatSystem.cs" />

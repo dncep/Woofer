@@ -74,10 +74,10 @@ namespace WooferGame.Systems.Visual
 
                 if(sprite.Source is Rectangle source)
                 {
-                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, sprite.Source.ToDrawing(), new DrawInfo() { Mode = sprite.DrawMode });
+                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, sprite.Source.ToDrawing(), new DrawInfo() { Mode = sprite.DrawMode, Color = System.Drawing.Color.FromArgb((int)(sprite.Opacity * 255), 255, 255, 255) });
                 } else
                 {
-                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, info: new DrawInfo() { Mode = sprite.DrawMode });
+                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, info: new DrawInfo() { Mode = sprite.DrawMode, Color = System.Drawing.Color.FromArgb((int)(sprite.Opacity * 255), 255, 255, 255) });
                 }
             }
 

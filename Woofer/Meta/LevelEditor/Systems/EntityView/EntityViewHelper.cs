@@ -9,10 +9,12 @@ using EntityComponentSystem.Entities;
 using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 using WooferGame.Common;
+using WooferGame.Meta.LevelEditor.Systems.ComponentView;
 using WooferGame.Meta.LevelEditor.Systems.CursorModes;
 using WooferGame.Meta.LevelEditor.Systems.InputModes;
 using WooferGame.Systems;
 using WooferGame.Systems.Physics;
+using WooferGame.Systems.RoomBuilding;
 using WooferGame.Systems.Visual;
 
 namespace WooferGame.Meta.LevelEditor.Systems.EntityView
@@ -207,7 +209,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 else if (member.EditType == InspectorEditType.Offset)
                 {
                     Vector2D pivot = Vector2D.Empty;
-                    if(member.Owner != null)
+                    if (member.Owner != null)
                     {
                         Entity entity = member.Scene.Entities[member.Owner.Owner.Id];
                         pivot = entity.Components.Get<Spatial>().Position;
@@ -257,13 +259,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 member.Scene.Events.InvokeEvent(new StartNumberInputEvent((int)member.GetValue(), v => member.SetValue((int)v), false, null));
                 return true;
             }
-            else if(type == typeof(string))
+            else if (type == typeof(string))
             {
                 member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("text_input", null));
-                member.Scene.Events.InvokeEvent(new StartTextInputEvent((string)member.GetValue(), v => member.SetValue(v), null));
+                member.Scene.Events.InvokeEvent(new StartTextInputEvent((string)member.GetValue() ?? "", v => member.SetValue(v), null));
                 return true;
             }
-            else if(type == typeof(CollisionBox))
+            else if (type == typeof(CollisionBox))
             {
                 Vector2D pivot = Vector2D.Empty;
                 if (member.Owner != null)
@@ -275,7 +277,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("collision_cursor_mode", null));
                 member.Scene.Events.InvokeEvent(new StartCollisionModeEvent(pivot, new[] { (CollisionBox)member.GetValue() }, v => member.SetValue(v[0]), false));
                 return true;
-            } else if(type == typeof(CollisionBox[]))
+            }
+            else if (type == typeof(CollisionBox[]))
             {
                 Vector2D pivot = Vector2D.Empty;
                 if (member.Owner != null)
@@ -330,7 +333,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("sprite_cursor_mode", null));
                 member.Scene.Events.InvokeEvent(new StartSpriteModeEvent(origin, (List<Sprite>)member.GetValue(), v => member.SetValue(v), true));
                 return true;
-            } else if(type == typeof(Rectangle))
+            }
+            else if (type == typeof(Rectangle))
             {
                 Rectangle rect = (Rectangle)member.GetValue();
                 if (rect == null) rect = new Rectangle(0, 0, 16, 16);
@@ -364,6 +368,26 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
                 member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
                 member.Scene.Events.InvokeEvent(new StartNumberInputEvent(rect.X, onReceiveX, null) { Label = "X=" });
+                return true;
+            }
+            else if (type == typeof(bool[,]))
+            {
+                Vector2D origin = Vector2D.Empty;
+                if (member.Owner != null)
+                {
+                    Entity entity = member.Scene.Entities[member.Owner.Owner.Id];
+                    origin += entity.Components.Get<Spatial>().Position;
+                    origin += entity.Components.Get<RoomBuilder>().Offset;
+                    member.Scene.Events.InvokeEvent(new ForceMoveCursorEvent(origin));
+                }
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("room_builder_mode", null));
+                member.Scene.Events.InvokeEvent(new StartRoomBuilderModeEvent(origin, (bool[,])member.GetValue(), v => member.SetValue(v)));
+                return true;
+            }
+            else if (type.IsEnum)
+            {
+                member.Scene.Events.InvokeEvent(new StartEnumSelectEvent(member.Name, type.GetEnumNames().ToList(), v => member.SetValue(Enum.Parse(type, v)), null));
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("enum_select", null));
                 return true;
             }
             return false;

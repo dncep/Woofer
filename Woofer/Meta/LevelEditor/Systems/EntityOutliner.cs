@@ -51,7 +51,6 @@ namespace WooferGame.Meta.LevelEditor.Systems
                             .IntersectsWith(
                             new Rectangle(view.X - layerSize.Width / 2, view.Y - layerSize.Height / 2, layerSize.Width, layerSize.Height))) continue;
 
-
                         x -= (int)Math.Floor(view.X);
                         y -= (int)Math.Floor(view.Y);
 
@@ -75,6 +74,8 @@ namespace WooferGame.Meta.LevelEditor.Systems
                         y += (int)(scale * (GeneralUtil.EuclideanMod(view.Y, 1) - 1));
                         
                         System.Drawing.Rectangle drawingRect = new System.Drawing.Rectangle((int)Math.Floor(x), (int)Math.Floor(y), (int)width, (int)height);
+
+                        layer.FillRect(drawingRect, outline.Fill);
 
                         layer.FillRect(new System.Drawing.Rectangle(drawingRect.X, drawingRect.Y, drawingRect.Width, outline.Thickness), outline.Color);
                         layer.FillRect(new System.Drawing.Rectangle(drawingRect.X, drawingRect.Y + drawingRect.Height - outline.Thickness, drawingRect.Width, outline.Thickness), outline.Color);

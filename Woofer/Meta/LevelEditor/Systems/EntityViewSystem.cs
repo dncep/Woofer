@@ -112,8 +112,8 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 }
                 else if (SelectedComponentIndex == Helper.Components.Count)
                 {
-                    Owner.Events.InvokeEvent(new StartComponentSelectEvent(AddComponent, null));
-                    Owner.Events.InvokeEvent(new ForceModalChangeEvent("component_select", null));
+                    Owner.Events.InvokeEvent(new StartEnumSelectEvent("Available components", Component.GetAllIdentifiers(), AddComponent, null));
+                    Owner.Events.InvokeEvent(new ForceModalChangeEvent("enum_select", null));
                     ModalActive = false;
                     ModalVisible = false;
                 }

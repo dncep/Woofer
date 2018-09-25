@@ -73,13 +73,18 @@ namespace EntityComponentSystem.ComponentSystems
 
         internal void InvokeInput() => _inputSystems.ForEach((s) =>
         {
+            if (Owner.Disposed) return;
             if (!Owner.Controller.Paused || s.PauseProcessing) s.Input();
         });
         internal void InvokeTick() => _tickSystems.ForEach((s) =>
         {
-            if(!Owner.Controller.Paused || s.PauseProcessing) s.Tick();
+            if (Owner.Disposed) return;
+            if (!Owner.Controller.Paused || s.PauseProcessing) s.Tick();
         });
-        internal void InvokeRender<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r) => _renderSystems.ForEach((s) => s.Render(r));
+        internal void InvokeRender<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r) => _renderSystems.ForEach((s) => {
+            if (Owner.Disposed) return;
+            s.Render(r);
+        });
 
         public IEnumerator<ComponentSystem> GetEnumerator() => _dict.Values.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => _dict.GetEnumerator();

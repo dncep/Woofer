@@ -12,13 +12,13 @@ using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
 using WooferGame.Common;
 using WooferGame.Input;
-using static WooferGame.Meta.LevelEditor.Systems.ComponentView.StartComponentSelectEvent;
+using static WooferGame.Meta.LevelEditor.Systems.ComponentView.StartEnumSelectEvent;
 
 namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
 {
-    [ComponentSystem("component_select", ProcessingCycles.Input | ProcessingCycles.Render, ProcessingFlags.Pause),
-        Listening(typeof(StartComponentSelectEvent))]
-    class ComponentSelectViewSystem : ComponentSystem
+    [ComponentSystem("enum_select", ProcessingCycles.Input | ProcessingCycles.Render, ProcessingFlags.Pause),
+        Listening(typeof(StartEnumSelectEvent))]
+    class EnumerationSelectViewSystem : ComponentSystem
     {
         private bool ModalActive = false;
         private int SelectedIndex = 0;
@@ -28,15 +28,11 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
 
         public override bool ShouldSave => false;
 
-        private List<string> ComponentNames;
+        private string Title;
+        private List<string> Options;
 
         private OnSubmit Callback = null;
         private string SwitchTo = null;
-
-        public ComponentSelectViewSystem()
-        {
-            ComponentNames = Component.GetAllIdentifiers();
-        }
 
         public override void Input()
         {
@@ -53,7 +49,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
                 }
                 else if (movement.Y < 0)
                 {
-                    if (SelectedIndex + 1 < ComponentNames.Count) SelectedIndex++;
+                    if (SelectedIndex + 1 < Options.Count) SelectedIndex++;
                 }
                 if (SelectedIndex < StartOffset)
                 {
@@ -75,7 +71,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
         {
             ModalActive = false;
             Owner.Events.InvokeEvent(new ForceModalChangeEvent(SwitchTo, null));
-            Callback(ComponentNames[SelectedIndex]);
+            Callback(Options[SelectedIndex]);
         }
 
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
@@ -85,13 +81,23 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
             StartOffset = Math.Max(0, Math.Min(StartOffset, Owner.Entities.Count - 1));
             var layer = r.GetLayerGraphics("hi_res_overlay");
 
-            int y = 10;
+            System.Drawing.Rectangle sidebar = new System.Drawing.Rectangle(EditorRendering.SidebarX, 0, EditorRendering.SidebarWidth, 720);
+
+            int titleHeight = 24;
+            
+            layer.FillRect(sidebar, Color.FromArgb(45, 45, 48));
+            layer.FillRect(new System.Drawing.Rectangle(sidebar.X + EditorRendering.SidebarMargin, sidebar.Y + EditorRendering.SidebarMargin+titleHeight, sidebar.Width - 2 * EditorRendering.SidebarMargin, sidebar.Height - 2 * EditorRendering.SidebarMargin-titleHeight), Color.FromArgb(37, 37, 38));
+
+
+            int y = 10+titleHeight;
             int x = EditorRendering.SidebarX + EditorRendering.SidebarMargin;
+
+            new TextUnit(Title).Render(r, layer, new Point(x + 8, 10), 2);
             
             int index = StartOffset;
-            for (; index < ComponentNames.Count; index++)
+            for (; index < Options.Count; index++)
             {
-                string identifier = ComponentNames[index];
+                string identifier = Options[index];
                 if (index == SelectedIndex)
                 {
                     layer.FillRect(new System.Drawing.Rectangle(x, y, EditorRendering.SidebarWidth - 2 * EditorRendering.SidebarMargin, 20), ModalActive ? Color.CornflowerBlue : Color.FromArgb(63, 63, 70));
@@ -115,20 +121,26 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
             {
                 SwitchTo = change.From;
                 ModalActive = true;
-            } else if(e is StartComponentSelectEvent start)
+            } else if(e is StartEnumSelectEvent start)
             {
+                Title = start.Title;
+                Options = start.Options;
                 Callback = start.Callback;
             }
         }
     }
 
-    [Event("start_component_select")]
-    public class StartComponentSelectEvent : Event
+    [Event("start_enum_select")]
+    public class StartEnumSelectEvent : Event
     {
+        public string Title;
+        public List<String> Options;
         public OnSubmit Callback;
         
-        public StartComponentSelectEvent(OnSubmit callback, Component sender) : base(sender)
+        public StartEnumSelectEvent(string title, List<String> options, OnSubmit callback, Component sender) : base(sender)
         {
+            Title = title;
+            Options = options;
             Callback = callback;
         }
 

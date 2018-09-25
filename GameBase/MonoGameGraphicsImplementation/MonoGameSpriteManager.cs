@@ -20,6 +20,7 @@ namespace GameBase.MonoGameGraphicsImplementation
         public Texture2D this[string name] {
             get
             {
+                if(name == null) return sprites["null"];
                 if(!sprites.ContainsKey(name))
                 {
                     sprites[name] = sprites["null"];

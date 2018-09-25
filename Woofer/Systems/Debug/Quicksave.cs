@@ -17,6 +17,7 @@ using WooferGame.Controller.Commands;
 using WooferGame.Input;
 using WooferGame.Systems.HUD;
 using WooferGame.Systems.Physics;
+using WooferGame.Systems.RoomBuilding;
 using WooferGame.Systems.Sounds;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Animation;
@@ -54,6 +55,8 @@ namespace WooferGame.Systems.Debug
                 save.AddConverter(new ListConverter<Sprite>());
                 save.AddConverter(new ListConverter<AnimatedSprite>());
                 save.AddConverter(new EnumConverter<DrawMode>());
+                save.AddConverter(new BoolMapConverter());
+
                 save.Save(TargetFile);
                 Owner.Events.InvokeEvent(new ShowTextEvent("Saved", null));
             }
@@ -70,6 +73,7 @@ namespace WooferGame.Systems.Debug
                 load.AddConverter(new ListConverter<Sprite>());
                 load.AddConverter(new ListConverter<AnimatedSprite>());
                 load.AddConverter(new EnumConverter<DrawMode>());
+                load.AddConverter(new BoolMapConverter());
 
                 Woofer.Controller.CommandFired(new SceneChangeCommand(load.Load()));
                 Woofer.Controller.ActiveScene.Events.InvokeEvent(new ShowTextEvent("Loaded", null));

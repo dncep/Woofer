@@ -23,6 +23,7 @@ using WooferGame.Systems.Player.Feedback;
 using WooferGame.Systems.Pulse;
 using WooferGame.Systems.Puzzles;
 using WooferGame.Systems.Refill;
+using WooferGame.Systems.RoomBuilding;
 using WooferGame.Systems.Sailboat;
 using WooferGame.Systems.Sounds;
 using WooferGame.Systems.Timer;
@@ -94,7 +95,6 @@ namespace WooferGame.Scenes
             Systems.Add(new CameraRegionSystem());
             Systems.Add(new SoundSystem());
 
-            Systems.Add(new PauseSystem());
 
             //Systems.Add(new DebugSystem());
 
@@ -111,8 +111,10 @@ namespace WooferGame.Scenes
 
             //DEBUG
             Systems.Add(new DebugClipping());
-            Systems.Add(new Quicksave());
 
+            Systems.Add(new PauseSystem());
+            Systems.Add(new Quicksave());
+            Systems.Add(new RoomBuilderSystem());
         }
     }
 

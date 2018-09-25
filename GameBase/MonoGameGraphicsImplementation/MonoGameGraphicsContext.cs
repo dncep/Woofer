@@ -81,9 +81,10 @@ namespace GameBase.MonoGameGraphics
             if (pixel == null)
             {
                 pixel = new Texture2D(device, 1, 1);
+                pixel.SetData(new[] { Color.White });
             }
-            ChangePixelColor(color);
-            spriteBatch.Draw(pixel, DrawingToXna(rectangle), Color.White);
+            //ChangePixelColor(color);
+            spriteBatch.Draw(pixel, DrawingToXna(rectangle), null, DrawingToXna(color));
             spriteBatch.End();
         }
 
@@ -97,9 +98,10 @@ namespace GameBase.MonoGameGraphics
             if (pixel == null)
             {
                 pixel = new Texture2D(device, 1, 1);
+                pixel.SetData(new[] { Color.White });
             }
-            ChangePixelColor(color);
-            spriteBatch.Draw(pixel, DrawingToXna(new System.Drawing.Rectangle(point1.X, point1.Y-thickness/2, length, thickness)), null, Color.White, angle, new Vector2(0, 0), SpriteEffects.None, 0);
+            //ChangePixelColor(color);
+            spriteBatch.Draw(pixel, DrawingToXna(new System.Drawing.Rectangle(point1.X, point1.Y-thickness/2, length, thickness)), null, DrawingToXna(color), angle, new Vector2(0, 0), SpriteEffects.None, 0);
             spriteBatch.End();
         }
 

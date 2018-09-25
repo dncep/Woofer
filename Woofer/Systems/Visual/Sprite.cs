@@ -16,7 +16,7 @@ namespace WooferGame.Systems.Visual
         public const byte Mod_InputType = 1;
 
         [PersistentProperty("texture")]
-        private string _texture;
+        public string _texture;
         public string Texture
         {
             get

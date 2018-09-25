@@ -113,11 +113,11 @@ namespace EntityComponentSystem.Scenes
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        public bool Disposed = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!Disposed)
             {
                 if (disposing)
                 {
@@ -130,7 +130,7 @@ namespace EntityComponentSystem.Scenes
                 Systems = null;
                 Events = null;
 
-                disposedValue = true;
+                Disposed = true;
             }
         }
 

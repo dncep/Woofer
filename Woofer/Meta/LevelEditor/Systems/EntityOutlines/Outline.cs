@@ -46,6 +46,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityOutlines
         Rectangle Bounds { get; }
         Color Color { get; }
         int Thickness { get; }
+        Color Fill { get; }
     }
 
     class RectangleOutline : IOutline
@@ -53,6 +54,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityOutlines
         public Rectangle Bounds { get; set; }
         public Color Color { get; set; }
         public int Thickness { get; set; } = 2;
+        public Color Fill { get; set; } = Color.Transparent;
 
         public RectangleOutline(Rectangle bounds, Color color) : this(bounds, color, 4)
         {
@@ -74,6 +76,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityOutlines
         public Rectangle Bounds => Sprite.Destination + Origin;
         public Color Color { get; set; }
         public int Thickness { get; set; } = 2;
+        public Color Fill { get; set; } = Color.Transparent;
 
         public SpriteOutline(Vector2D origin, Sprite sprite, Color color) : this(origin, sprite, color, 4)
         {
@@ -98,6 +101,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityOutlines
         private Vector2D Pivot;
         public Rectangle Bounds => Box.ToRectangle() + Pivot;
 
+        public Color Fill { get; set; } = Color.Transparent;
+
         public CollisionBoxOutline(Vector2D pivot, CollisionBox bounds, Color color) : this(pivot, bounds, color, 2)
         {
 
@@ -120,6 +125,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityOutlines
         public Rectangle Bounds => Id == 0 ? null : EditorUtil.GetSelectionBounds(Scene.Entities[Id]);
         public Color Color { get; set; } = Color.White;
         public int Thickness { get; set; } = 2;
+
+        public Color Fill { get; set; } = Color.Transparent;
 
         public EntityOutline(Scene scene, long id)
         {

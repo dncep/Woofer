@@ -32,7 +32,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
         private List<CollisionBox> Boxes = new List<CollisionBox>();
 
         private List<IOutline> Outlines = new List<IOutline>();
-        private RectangleOutline faceOutline = null;
+        private RectangleOutline FaceOutline = null;
 
         private CollisionBox SelectedBox = null;
         private bool SelectionLocked = false;
@@ -83,19 +83,19 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             {
                 if (Math.Abs(selectedBounds.Left - CursorSystem.CursorPos.X) <= 4)
                 {
-                    faceOutline.Bounds.X = selectedBounds.Left;
-                    faceOutline.Bounds.Width = 1;
-                    faceOutline.Bounds.Y = selectedBounds.Bottom;
-                    faceOutline.Bounds.Height = selectedBounds.Height;
+                    FaceOutline.Bounds.X = selectedBounds.Left;
+                    FaceOutline.Bounds.Width = 1;
+                    FaceOutline.Bounds.Y = selectedBounds.Bottom;
+                    FaceOutline.Bounds.Height = selectedBounds.Height;
 
                     return 3;
                 }
                 else if (Math.Abs(selectedBounds.Right - CursorSystem.CursorPos.X) <= 4)
                 {
-                    faceOutline.Bounds.X = selectedBounds.Right;
-                    faceOutline.Bounds.Width = 1;
-                    faceOutline.Bounds.Y = selectedBounds.Bottom;
-                    faceOutline.Bounds.Height = selectedBounds.Height;
+                    FaceOutline.Bounds.X = selectedBounds.Right;
+                    FaceOutline.Bounds.Width = 1;
+                    FaceOutline.Bounds.Y = selectedBounds.Bottom;
+                    FaceOutline.Bounds.Height = selectedBounds.Height;
 
                     return 1;
                 }
@@ -104,19 +104,19 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             {
                 if (Math.Abs(selectedBounds.Bottom - CursorSystem.CursorPos.Y) <= 4)
                 {
-                    faceOutline.Bounds.X = selectedBounds.Left;
-                    faceOutline.Bounds.Width = selectedBounds.Width;
-                    faceOutline.Bounds.Y = selectedBounds.Bottom;
-                    faceOutline.Bounds.Height = 1;
+                    FaceOutline.Bounds.X = selectedBounds.Left;
+                    FaceOutline.Bounds.Width = selectedBounds.Width;
+                    FaceOutline.Bounds.Y = selectedBounds.Bottom;
+                    FaceOutline.Bounds.Height = 1;
 
                     return 2;
                 }
                 else if (Math.Abs(selectedBounds.Top - CursorSystem.CursorPos.Y) <= 4)
                 {
-                    faceOutline.Bounds.X = selectedBounds.Left;
-                    faceOutline.Bounds.Width = selectedBounds.Width;
-                    faceOutline.Bounds.Y = selectedBounds.Top;
-                    faceOutline.Bounds.Height = 1;
+                    FaceOutline.Bounds.X = selectedBounds.Left;
+                    FaceOutline.Bounds.Width = selectedBounds.Width;
+                    FaceOutline.Bounds.Y = selectedBounds.Top;
+                    FaceOutline.Bounds.Height = 1;
 
                     return 0;
                 }
@@ -145,9 +145,9 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 Outlines.Add(pivotOutline);
                 Owner.Events.InvokeEvent(new BeginOverlay(pivotOutline));
 
-                faceOutline = new RectangleOutline(new Rectangle(0, 0, 0, 0), Color.White, 4);
-                Outlines.Add(faceOutline);
-                Owner.Events.InvokeEvent(new BeginOverlay(faceOutline));
+                FaceOutline = new RectangleOutline(new Rectangle(0, 0, 0, 0), Color.White, 4);
+                Outlines.Add(FaceOutline);
+                Owner.Events.InvokeEvent(new BeginOverlay(FaceOutline));
             }
             else if (e is ModalChangeEvent changed)
             {
@@ -212,7 +212,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                     {
                         DraggingSide = -1;
                     }
-                    faceOutline.Bounds.Width = faceOutline.Bounds.Height = 0;
+                    FaceOutline.Bounds.Width = FaceOutline.Bounds.Height = 0;
 
                     Rectangle selectedBounds = SelectedBox.ToRectangle() + Pivot;
 
@@ -351,7 +351,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 }
                 if (SelectionLocked)
                 {
-                    faceOutline.Bounds.Width = faceOutline.Bounds.Height = 0;
+                    FaceOutline.Bounds.Width = FaceOutline.Bounds.Height = 0;
 
                     int highlightedFace = UpdateSelectedFace();
                     
