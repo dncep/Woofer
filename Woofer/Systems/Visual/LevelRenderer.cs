@@ -26,7 +26,10 @@ namespace WooferGame.Systems.Visual
             foreach (LevelRenderable tile in WatchedComponents)
             {
                 if (!tile.Owner.Active) continue;
-                tile.Owner.Components.Get<Renderable>().Render(layer, view, r);
+                if(tile.Owner.Components.Get<Renderable>() is Renderable renderable)
+                {
+                    renderable.Render(layer, view, r);
+                }
             }
 
             layer.Complete();
