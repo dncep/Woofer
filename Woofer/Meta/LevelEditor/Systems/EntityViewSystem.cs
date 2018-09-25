@@ -125,6 +125,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 }
                 else
                 {
+                    if (SelectedPropertyIndex >= Helper.Components.Values.ElementAt(SelectedComponentIndex).Members.Count) return;
                     IMemberSummary member = Helper.Components.Values.ElementAt(SelectedComponentIndex).Members.Values.ElementAt(SelectedPropertyIndex);
                     if (member.CanSet)
                     {
