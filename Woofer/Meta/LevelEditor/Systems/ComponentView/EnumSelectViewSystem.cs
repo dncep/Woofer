@@ -34,8 +34,6 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
         private OnSubmit Callback = null;
         private string SwitchTo = null;
 
-        private bool ShouldClose = false;
-
         public override void Input()
         {
             if (!ModalActive) return;
@@ -74,7 +72,6 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
         {
             ModalActive = false;
             Owner.Events.InvokeEvent(new ForceModalChangeEvent(SwitchTo, null));
-            ShouldClose = true;
             Console.WriteLine("submitting " + Options[SelectedIndex] + " to " + SwitchTo + " using callback " + Callback);
             Callback(Options[SelectedIndex]);
             //if (ShouldClose && !ModalActive && !Owner.Disposed) Owner.Events.InvokeEvent(new RequestModalChangeEvent(null));
@@ -127,7 +124,6 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
             {
                 Console.WriteLine("changing from: " + change.From);
                 if(change.From != "enum_select") SwitchTo = change.From;
-                ShouldClose = false;
                 ModalActive = true;
             } else if(e is StartEnumSelectEvent start)
             {

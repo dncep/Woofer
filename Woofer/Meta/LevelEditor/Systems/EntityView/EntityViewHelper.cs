@@ -327,7 +327,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 if (member.Owner != null)
                 {
                     Entity entity = member.Scene.Entities[member.Owner.Owner.Id];
-                    origin = entity.Components.Get<Spatial>().Position;
+                    origin += entity.Components.Get<Spatial>()?.Position ?? Vector2D.Empty;
                     member.Scene.Events.InvokeEvent(new ForceMoveCursorEvent(origin));
                 }
                 member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("sprite_cursor_mode", null));
