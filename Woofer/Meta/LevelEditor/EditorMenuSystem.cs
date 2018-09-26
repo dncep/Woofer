@@ -86,10 +86,8 @@ namespace WooferGame.Meta.LevelEditor
                         }
                     case 4:
                         {
-                            WooferSaveOperation save = new WooferSaveOperation(Owner, Owner.Name, Woofer.Controller.CurrentSave);
-                            save.Save();
-
                             Woofer.Controller.CommandFired(new SceneChangeCommand(new MainMenuScene()));
+                            Woofer.Controller.Paused = false;
                             break;
                         }
                 }
@@ -139,7 +137,7 @@ namespace WooferGame.Meta.LevelEditor
             }
 
             {
-                new GUIButton(Vector2D.Empty, "Save and Quit", new Rectangle(buttonBounds)) { TextSize = 2, Highlighted = SelectedIndex == index, Focused = ModalActive }.Render(r, layer, new Vector2D(x, y));
+                new GUIButton(Vector2D.Empty, "Quit", new Rectangle(buttonBounds)) { TextSize = 2, Highlighted = SelectedIndex == index, Focused = ModalActive }.Render(r, layer, new Vector2D(x, y));
                 y += 32;
                 index++;
             }
