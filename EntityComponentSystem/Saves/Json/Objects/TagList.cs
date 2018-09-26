@@ -19,10 +19,11 @@ namespace EntityComponentSystem.Saves.Json.Objects
         public bool Inline { get; set; } = false;
         public int Length => Content.Count;
 
-        public void Add(short value) => Add(new TagDouble(value));
-        public void Add(int value) => Add(new TagDouble(value));
+        public void Add(byte value) => Add(new TagByte(value));
+        public void Add(short value) => Add(new TagShort(value));
+        public void Add(int value) => Add(new TagInt(value));
         public void Add(double value) => Add(new TagDouble(value));
-        public void Add(long value) => Add(new TagDouble(value));
+        public void Add(long value) => Add(new TagLong(value));
         public void Add(string value) => Add(new TagString(value));
         public void Add(bool value) => Add(new TagBoolean(value));
         public void Add(TagCompound value) => Add((object)value);
@@ -34,12 +35,12 @@ namespace EntityComponentSystem.Saves.Json.Objects
             {
                 switch (value)
                 {
-                    case byte i: Content.Add(new TagDouble(i)); break;
-                    case short i: Content.Add(new TagDouble(i)); break;
-                    case int i: Content.Add(new TagDouble(i)); break;
-                    case float i: Content.Add(new TagDouble(i)); break;
+                    case byte i: Content.Add(new TagByte(i)); break;
+                    case short i: Content.Add(new TagShort(i)); break;
+                    case int i: Content.Add(new TagInt(i)); break;
+                    case float i: Content.Add(new TagFloat(i)); break;
                     case double i: Content.Add(new TagDouble(i)); break;
-                    case long i: Content.Add(new TagDouble(i)); break;
+                    case long i: Content.Add(new TagLong(i)); break;
                     case string i: Content.Add(new TagString(i)); break;
                     case bool i: Content.Add(new TagBoolean(i)); break;
                     default: Content.Add(new TagCustom(value)); break;
