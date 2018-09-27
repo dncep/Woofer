@@ -72,8 +72,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
         {
             ModalActive = false;
             Owner.Events.InvokeEvent(new ForceModalChangeEvent(SwitchTo, null));
-            Console.WriteLine("submitting " + Options[SelectedIndex] + " to " + SwitchTo + " using callback " + Callback);
-            Callback(Options[SelectedIndex]);
+            if(SelectedIndex < Options.Count) Callback(Options[SelectedIndex]);
             //if (ShouldClose && !ModalActive && !Owner.Disposed) Owner.Events.InvokeEvent(new RequestModalChangeEvent(null));
         }
 
@@ -122,7 +121,6 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
             }
             else if (e is ModalChangeEvent change)
             {
-                Console.WriteLine("changing from: " + change.From);
                 if(change.From != "enum_select") SwitchTo = change.From;
                 ModalActive = true;
             } else if(e is StartEnumSelectEvent start)
@@ -130,7 +128,6 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
                 Title = start.Title;
                 Options = start.Options;
                 Callback = start.Callback;
-                Console.WriteLine("received start event: " + Title);
             }
         }
     }
