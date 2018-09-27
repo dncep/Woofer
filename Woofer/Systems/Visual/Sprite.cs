@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EntityComponentSystem.Interfaces.Visuals;
 using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
+using WooferGame.Meta.LevelEditor;
 
 namespace WooferGame.Systems.Visual
 {
@@ -36,7 +37,14 @@ namespace WooferGame.Systems.Visual
         [PersistentProperty]
         public DrawMode DrawMode = DrawMode.Normal;
 
-        public float Opacity = 1f;
+        [HideInInspector]
+        private float _opacity = 1f;
+
+        [PersistentProperty]
+        public float Opacity {
+            get => _opacity;
+            set => _opacity = value;
+        }
 
         public Sprite()
         {

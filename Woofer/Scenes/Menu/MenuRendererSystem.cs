@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EntityComponentSystem.ComponentSystems;
+using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
 using GameInterfaces.GraphicsInterface;
@@ -12,6 +13,7 @@ using GameInterfaces.Input;
 using WooferGame.Common;
 using WooferGame.Controller.Commands;
 using WooferGame.Input;
+using WooferGame.Meta;
 using WooferGame.Meta.LevelEditor;
 using WooferGame.Meta.LevelSelect;
 using WooferGame.Systems.Visual;
@@ -55,7 +57,12 @@ namespace WooferGame.Scenes.Menu
                 switch (SelectedIndex)
                 {
                     case 0:
-                        Woofer.Controller.CommandFired(new SceneChangeCommand(new IntroScene()));
+                        WooferLoadOperation load = new WooferLoadOperation(Woofer.Controller, "Tutorial", "scenes");
+                        Scene scene = load.Load();
+                        if(scene != null)
+                        {
+                            Woofer.Controller.CommandFired(new SceneChangeCommand(scene));
+                        }
                         break;
                     case 1:
                         break;
