@@ -19,11 +19,18 @@ namespace WooferGame.Systems.Interaction
             if(evt is ActivationEvent e && e.Affected.Components.Has<LinkedActivationComponent>())
             {
                 LinkedActivationComponent links = e.Affected.Components.Get<LinkedActivationComponent>();
-                foreach(long id in links.EntitiesToActivate)
+                if (links.Enabled)
                 {
-                    if(id != links.Owner.Id && Owner.Entities.ContainsId(id))
+                    foreach (long id in links.EntitiesToActivate)
                     {
-                        Owner.Events.InvokeEvent(new ActivationEvent(links, Owner.Entities[id], e));
+                        if (id != links.Owner.Id && Owner.Entities.ContainsId(id))
+                        {
+                            Owner.Events.InvokeEvent(new ActivationEvent(links, Owner.Entities[id], e));
+                        }
+                    }
+                    if(links.OneTime)
+                    {
+                        links.Enabled = false;
                     }
                 }
             }

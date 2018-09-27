@@ -39,9 +39,12 @@ namespace EntityComponentSystem.Saves
 
                 if (!property.CanWrite) throw new MissingMethodException("Property " + property.Name + " of type '" + typeof(T).Name + "' can't be written to.");
 
+                bool containsKey = obj.ContainsKey(key);
+                if (!containsKey) continue;
+
                 object newValue = typeof(TagCompound).GetMethod("Get", new Type[] { typeof(TagMaster), typeof(string) }).MakeGenericMethod(property.PropertyType).Invoke(obj, new object[] { json, key });
 
-                if(newValue != null) property.SetValue(boxed, newValue);
+                property.SetValue(boxed, newValue);
             }
 
             foreach(FieldInfo field in typeof(T).GetFields())

@@ -16,6 +16,10 @@ namespace WooferGame.Systems.Interaction
     {
         [PersistentProperty]
         public List<long> EntitiesToActivate { get; set; } = new List<long>();
+        [PersistentProperty]
+        public bool Enabled = true;
+        [PersistentProperty]
+        public bool OneTime = false;
 
         public LinkedActivationComponent()
         {

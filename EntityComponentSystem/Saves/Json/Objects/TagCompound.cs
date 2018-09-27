@@ -50,6 +50,11 @@ namespace EntityComponentSystem.Saves.Json.Objects
             return Get<T>(null, key);
         }
 
+        public bool ContainsKey(string key)
+        {
+            return Properties.ContainsKey(key);
+        }
+
         public T Get<T>(TagMaster json, string key)
         {
             if (!Properties.ContainsKey(key)) return default(T);

@@ -197,12 +197,15 @@
     <Compile Include="Systems\Sailboat\Sailboat.cs" />
     <Compile Include="Systems\Sailboat\SailboatComponent.cs" />
     <Compile Include="Systems\Sailboat\SailboatSystem.cs" />
+    <Compile Include="Systems\Setters\PositionSetter.cs" />
+    <Compile Include="Systems\Setters\SetterSystem.cs" />
     <Compile Include="Systems\Sound\Sound.cs" />
     <Compile Include="Systems\Sound\SoundEmitter.cs" />
     <Compile Include="Systems\Sound\SoundSystem.cs" />
     <Compile Include="Systems\Spatial.cs" />
     <Compile Include="Systems\Timer\TimerComponent.cs" />
     <Compile Include="Systems\Timer\TimerSystem.cs" />
+    <Compile Include="Systems\Setters\VelocitySetter.cs" />
     <Compile Include="Systems\Visual\Animation\AnimationComponent.cs" />
     <Compile Include="Systems\Visual\Animation\AnimatedSprite.cs" />
     <Compile Include="Systems\Visual\Animation\AnimationEndEvent.cs" />
