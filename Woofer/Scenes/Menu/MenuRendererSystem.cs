@@ -31,7 +31,7 @@ namespace WooferGame.Scenes.Menu
         {
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
 
-            StartInput.RegisterState(inputMap.Start);
+            StartInput.RegisterState(inputMap.Jump);
             
 
             SelectInput.RegisterState(inputMap.Movement.Magnitude > 0 ? ButtonState.Pressed : ButtonState.Released);
@@ -50,7 +50,7 @@ namespace WooferGame.Scenes.Menu
             }
 
 
-            if (inputMap.Start.IsPressed() && StartInput.Execute())
+            if (inputMap.Jump.IsPressed() && StartInput.Execute())
             {
                 switch (SelectedIndex)
                 {
