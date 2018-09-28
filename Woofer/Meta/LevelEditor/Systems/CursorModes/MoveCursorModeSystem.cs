@@ -30,7 +30,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             if (!ModalActive) return;
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
 
-            if(Editor.SelectTimeframe.Execute())
+            if(inputMap.Jump.Consume())
             {
                 Callback(CursorSystem.CursorPos, true);
                 ModalActive = false;

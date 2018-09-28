@@ -119,7 +119,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.InputModes
                 }
             }
 
-            if (CurrentButton != null && ((CurrentButton.Repeating && Editor.SelectTimeframe.ExecuteRepeating()) || (!CurrentButton.Repeating && Editor.SelectTimeframe.Execute())))
+            if (CurrentButton != null && ((CurrentButton.Repeating && inputMap.Jump.ConsumeRepeating()) || (!CurrentButton.Repeating && inputMap.Jump.Consume())))
             {
                 GUIButton button = CurrentButton;
                 if (button != null && button.Enabled)

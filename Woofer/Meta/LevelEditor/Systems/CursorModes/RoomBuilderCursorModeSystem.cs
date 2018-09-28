@@ -10,6 +10,7 @@ using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
 using WooferGame.Common;
+using WooferGame.Input;
 using WooferGame.Meta.LevelEditor.Systems.EntityOutlines;
 using WooferGame.Systems.Physics;
 using Color = System.Drawing.Color;
@@ -135,7 +136,9 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
         {
             if (!ModalActive) return;
 
-            if (Editor.SelectSecondaryTimeframe.Execute())
+            IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
+
+            if (inputMap.Pulse.Consume())
             {
                 Mode++;
                 if (Mode > 1) Mode = 0;

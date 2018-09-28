@@ -68,7 +68,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 }
             }
 
-            if (Editor.SelectTimeframe.Execute())
+            if (inputMap.Jump.Consume())
             {
                 if (SelectedIndex == -1)
                 {
@@ -87,7 +87,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
             }
 
             if(RemoveTimer > 0) RemoveTimer--;
-            if (inputMap.Pulse.IsPressed() && SelectedIndex >= 0)
+            if (inputMap.Pulse.Pressed && SelectedIndex >= 0)
             {
                 RemoveTimer += 2;
                 if(RemoveTimer / 25 > 3)

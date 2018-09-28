@@ -6,6 +6,7 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Interfaces.Input;
 using EntityComponentSystem.Util;
 using GameInterfaces.Audio;
 using GameInterfaces.Input;
@@ -33,13 +34,11 @@ namespace WooferGame.Systems.Pulse
 
             foreach(PulseAbility pa in WatchedComponents.Where(c => c is PulseAbility))
             {
-                ButtonState pulseButton = inputMap.Pulse;
-
-                pa.Pulse.RegisterState(pulseButton);
+                ButtonInput pulseButton = inputMap.Pulse;
 
                 if(pa.EnergyMeter >= pa.PulseCost)
                 {
-                    if(pulseButton.IsPressed() && pa.Pulse.Execute())
+                    if(pulseButton.Consume())
                     {
                         double strength = (pa.PulseStrength * Math.Sqrt(pa.EnergyMeter / pa.MaxEnergy));
 

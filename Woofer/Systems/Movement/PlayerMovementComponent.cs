@@ -19,9 +19,6 @@ namespace WooferGame.Systems.Movement
         [PersistentProperty]
         public double JumpSpeed { get; set; } = 192;
 
-        [HideInInspector]
-        public InputTimeframe Jump = new InputTimeframe(5);
-
         public double CurrentSpeed => OnGround ? WalkSpeed : AirborneSpeed;
         public double CurrentMaxSpeed => OnGround ? MaxWalkSpeed : MaxAirborneSpeed;
 

@@ -1,4 +1,5 @@
-﻿using EntityComponentSystem.Interfaces.Input.Mouse;
+﻿using EntityComponentSystem.Interfaces.Input;
+using EntityComponentSystem.Interfaces.Input.Mouse;
 using EntityComponentSystem.Util;
 
 using GameInterfaces.Input;
@@ -27,27 +28,27 @@ namespace WooferGame.Input
 
         public Vector2D Orientation => Movement;
 
-        public ButtonState Run => keyboard[Key.LeftShift];
+        public ButtonInput Run { get; private set; }
 
-        public ButtonState Jump => keyboard[Key.Z];
+        public ButtonInput Jump { get; private set; }
 
-        public ButtonState Pulse => keyboard[Key.X];
+        public ButtonInput Pulse { get; private set; }
 
-        public ButtonState Interact => keyboard[Key.C];
+        public ButtonInput Interact { get; private set; }
 
-        public ButtonState Pause => keyboard[Key.Escape];
+        public ButtonInput Pause { get; private set; }
 
-        public ButtonState Back => keyboard[Key.Tab];
+        public ButtonInput Back { get; private set; }
 
-        public ButtonState Debug => keyboard[Key.F3];
+        public ButtonInput Debug { get; private set; }
 
-        public ButtonState Start => keyboard[Key.Enter];
+        public ButtonInput Start { get; private set; }
 
         public Vector2D DebugMovement => Movement;
 
-        public ButtonState Quicksave => keyboard[Key.F5];
+        public ButtonInput Quicksave { get; private set; }
 
-        public ButtonState Quickload => keyboard[Key.F7];
+        public ButtonInput Quickload { get; private set; }
 
         IKeyboard keyboard;
         IMouse mouse;
@@ -56,6 +57,17 @@ namespace WooferGame.Input
         {
             this.keyboard = keyboard;
             this.mouse = mouse;
+
+            Run = new ButtonInput(() => keyboard[Key.LeftShift]);
+            Jump = new ButtonInput(() => keyboard[Key.Z]);
+            Pulse = new ButtonInput(() => keyboard[Key.X]);
+            Interact = new ButtonInput(() => keyboard[Key.C]);
+            Pause = new ButtonInput(() => keyboard[Key.Escape]);
+            Back = new ButtonInput(() => keyboard[Key.Tab]);
+            Debug = new ButtonInput(() => keyboard[Key.F3]);
+            Start = new ButtonInput(() => keyboard[Key.Enter]);
+            Quicksave = new ButtonInput(() => keyboard[Key.F5]);
+            Quickload = new ButtonInput(() => keyboard[Key.F7]);
         }
 
         public bool IsBeingUsed => keyboard.IsBeingUsed || mouse.IsBeingUsed;
@@ -65,5 +77,19 @@ namespace WooferGame.Input
         public void SetVibration(float amount) { }
 
         public void SetOrientationOrigin(Vector2D origin) => Origin = origin;
+
+        public void ProcessInput()
+        {
+            Run.RegisterState();
+            Jump.RegisterState();
+            Pulse.RegisterState();
+            Interact.RegisterState();
+            Pause.RegisterState();
+            Back.RegisterState();
+            Debug.RegisterState();
+            Start.RegisterState();
+            Quicksave.RegisterState();
+            Quickload.RegisterState();
+        }
     }
 }

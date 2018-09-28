@@ -24,12 +24,10 @@ namespace WooferGame.Systems.Debug
 
             foreach (DebugClippable clippable in WatchedComponents)
             {
-                clippable.Toggle.RegisterState(inputMap.Debug);
-
                 if (clippable.Enabled)
                 {
                     clippable.CameraLocation += inputMap.DebugMovement.Unit() * 2;
-                    if (inputMap.Debug.IsPressed() && clippable.Toggle.Execute())
+                    if (inputMap.Debug.Consume())
                     {
                         clippable.Enabled = false;
                         clippable.Owner.Components.Get<Spatial>().Position = clippable.CameraLocation;
@@ -37,7 +35,7 @@ namespace WooferGame.Systems.Debug
                 }
                 else
                 {
-                    if (inputMap.Debug.IsPressed() && clippable.Toggle.Execute())
+                    if (inputMap.Debug.Consume())
                     {
                         clippable.Enabled = true;
                         clippable.CameraLocation = Owner.CurrentViewport.Location;

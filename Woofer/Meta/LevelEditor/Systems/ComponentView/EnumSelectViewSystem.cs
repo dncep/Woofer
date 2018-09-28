@@ -62,7 +62,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.ComponentView
                 StartOffset = SelectedIndex - AmountVisible;
             }
 
-            if (Editor.SelectTimeframe.Execute())
+            if (inputMap.Jump.Consume())
             {
                 Submit();
             }

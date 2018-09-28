@@ -21,8 +21,8 @@ namespace WooferGame.Meta.LevelEditor
     static class Editor
     {
         internal static InputRepeatingTimeframe MoveTimeframe = new InputRepeatingTimeframe(15, 3);
-        internal static InputHybridTimeframe SelectTimeframe = new InputHybridTimeframe(15, 3);
-        internal static InputHybridTimeframe SelectSecondaryTimeframe = new InputHybridTimeframe(15, 3);
+        //internal static InputHybridTimeframe SelectTimeframe = new InputHybridTimeframe(15, 3);
+        //internal static InputHybridTimeframe SelectSecondaryTimeframe = new InputHybridTimeframe(15, 3);
 
         public static void AttachEditor(Scene scene, string sceneName, string saveName)
         {
@@ -66,8 +66,8 @@ namespace WooferGame.Meta.LevelEditor
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
 
             Editor.MoveTimeframe.RegisterState(inputMap.Movement.Magnitude > 1e-5 ? ButtonState.Pressed : ButtonState.Released);
-            Editor.SelectTimeframe.RegisterState(inputMap.Jump);
-            Editor.SelectSecondaryTimeframe.RegisterState(inputMap.Pulse);
+            /*Editor.SelectTimeframe.RegisterState(inputMap.Jump);
+            Editor.SelectSecondaryTimeframe.RegisterState(inputMap.Pulse);*/
         }
     }
 }

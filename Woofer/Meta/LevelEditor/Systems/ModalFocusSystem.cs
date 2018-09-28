@@ -7,6 +7,7 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Interfaces.Input;
 using GameInterfaces.Input;
 using WooferGame.Input;
 
@@ -16,17 +17,14 @@ namespace WooferGame.Meta.LevelEditor.Systems
         Listening(typeof(ForceModalChangeEvent), typeof(RequestModalChangeEvent))]
     class ModalFocusSystem : ComponentSystem
     {
-        private readonly InputTimeframe modalChange = new InputTimeframe(2);
         public string CurrentSystem = "editor_cursor";
 
         public override bool ShouldSave => false;
 
         public override void Input()
         {
-            ButtonState changeButton = Woofer.Controller.InputManager.ActiveInputMap.Back;
-            modalChange.RegisterState(changeButton);
-
-            if(changeButton.IsPressed() && modalChange.Execute())
+            ButtonInput changeButton = Woofer.Controller.InputManager.ActiveInputMap.Back;
+            if(changeButton.Consume())
             {
                 BeginModalChange();
             }

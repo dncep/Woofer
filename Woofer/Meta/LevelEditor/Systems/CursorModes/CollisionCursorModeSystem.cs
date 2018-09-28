@@ -10,6 +10,7 @@ using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
 using WooferGame.Common;
+using WooferGame.Input;
 using WooferGame.Meta.LevelEditor.Systems.EntityOutlines;
 using WooferGame.Systems.Physics;
 using Color = System.Drawing.Color;
@@ -189,7 +190,9 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
         {
             if (!ModalActive) return;
 
-            if(Editor.SelectSecondaryTimeframe.Execute())
+            IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
+
+            if(inputMap.Pulse.Consume())
             {
                 Mode++;
                 if ((MultipleAllowed && Mode > 3) || (!MultipleAllowed && Mode > 1)) Mode = 0;
@@ -201,7 +204,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 if (!SelectionLocked)
                 {
                     UpdateSelected();
-                    if(SelectedBox != null && Editor.SelectTimeframe.Execute())
+                    if(SelectedBox != null && inputMap.Jump.Consume())
                     {
                         SelectionLocked = true;
                     }
@@ -334,7 +337,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                             }
                         }
                     }
-                    if(Editor.SelectTimeframe.Execute())
+                    if(inputMap.Jump.Consume())
                     {
                         RemoveBox(SelectedBox);
                     }
@@ -344,7 +347,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 if (!SelectionLocked)
                 {
                     UpdateSelected();
-                    if (SelectedBox != null && Editor.SelectTimeframe.Execute())
+                    if (SelectedBox != null && inputMap.Jump.Consume())
                     {
                         SelectionLocked = true;
                     }

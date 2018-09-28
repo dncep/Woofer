@@ -7,6 +7,7 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Interfaces.Input;
 using GameInterfaces.Input;
 using WooferGame.Input;
 
@@ -46,11 +47,9 @@ namespace WooferGame.Systems.Interaction
 
                     if(inRange)
                     {
-                        ButtonState interact = Woofer.Controller.InputManager.ActiveInputMap.Interact;
-
-                        currentAgent.Input.RegisterState(interact);
+                        ButtonInput interact = Woofer.Controller.InputManager.ActiveInputMap.Interact;
                         
-                        if(currentAgent.Input.Execute())
+                        if(interact.Consume())
                         {
                             Entity sendTo = interactable.EntityToActivate != 0 ? Owner.Entities[interactable.EntityToActivate] : interactable.Owner;
                             Owner.Events.InvokeEvent(new ActivationEvent(currentAgent, sendTo, null));
