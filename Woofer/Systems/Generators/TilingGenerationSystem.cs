@@ -50,9 +50,17 @@ namespace WooferGame.Systems.Generators
                     {
                         for(double y = gen.MaxBounds.Y; y < gen.MaxBounds.Top; y += gen.TileBounds.Height)
                         {
+                            double possibleWidth = Math.Min((gen.MaxBounds.Right - x) / gen.TileBounds.Width, 1);
+                            double possibleHeight = Math.Min((gen.MaxBounds.Top - y) / gen.TileBounds.Height, 1);
                             Sprite selected = gen.Sprites[random.Next(gen.Sprites.Count)].Clone();
                             selected.Destination.X = x;
                             selected.Destination.Y = y;
+                            selected.Destination.Width *= possibleWidth;
+                            selected.Destination.Height *= possibleHeight;
+                            //selected.Source.X += selected.Source.Width * (1 - possibleWidth);
+                            selected.Source.Y += selected.Source.Height * (1 - possibleHeight);
+                            selected.Source.Width *= possibleWidth;
+                            selected.Source.Height *= possibleHeight;
                             newSprites.Add(selected);
                         }
                     }
