@@ -104,6 +104,7 @@
     <Compile Include="Scenes\CameraView.cs" />
     <Compile Include="Util\FreeVector2D.cs" />
     <Compile Include="Util\GeneralUtil.cs" />
+    <Compile Include="Util\Generics\OrderedDictionary.cs" />
     <Compile Include="Util\HorizontalDirection.cs" />
     <Compile Include="Util\Rectangle.cs" />
     <Compile Include="Util\Size.cs" />

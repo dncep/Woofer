@@ -21,7 +21,7 @@ namespace EntityComponentSystem.Interfaces.Input
         public bool Pressed => FramesPressed > 0;
         private bool Effective => Pressed && FramesPressed < 5;
 
-        private bool EffectiveRepeating => Effective || (FramesPressed > Delay && (FramesPressed-Delay) % Period == 0);
+        private bool EffectiveRepeating => (!Consumed && Effective) || (FramesPressed > Delay && (FramesPressed-Delay) % Period == 0);
 
         public ButtonInput() : this(null) { }
 

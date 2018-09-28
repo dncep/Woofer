@@ -6,13 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.Scenes;
+using EntityComponentSystem.Util.Generics;
 
 namespace EntityComponentSystem.Entities
 {
     public class EntityMap : IEnumerable<Entity>
     {
         private readonly Scene Owner;
-        private readonly Dictionary<long, Entity> _dict = new Dictionary<long, Entity>();
+        private readonly OrderedDictionary<long, Entity> _dict = new OrderedDictionary<long, Entity>();
         private readonly Dictionary<long, Entity> _scheduledAdd = new Dictionary<long, Entity>();
         private readonly List<long> _scheduledRemove = new List<long>();
 

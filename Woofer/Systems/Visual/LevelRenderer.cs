@@ -28,7 +28,7 @@ namespace WooferGame.Systems.Visual
                 if (!tile.Owner.Active) continue;
                 if(tile.Owner.Components.Get<Renderable>() is Renderable renderable)
                 {
-                    renderable.Render(layer, view, r);
+                    Renderable.Render(layer, view, r, renderable.Sprites, renderable.Owner.Components.Get<Spatial>());
                 }
             }
 

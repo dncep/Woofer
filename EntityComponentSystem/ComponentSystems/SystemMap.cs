@@ -8,6 +8,7 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
+using EntityComponentSystem.Util.Generics;
 using GameInterfaces.Controller;
 
 namespace EntityComponentSystem.ComponentSystems
@@ -15,7 +16,7 @@ namespace EntityComponentSystem.ComponentSystems
     public class SystemMap : IEnumerable<ComponentSystem>
     {
         private readonly Scene Owner;
-        private readonly Dictionary<string, ComponentSystem> _dict = new Dictionary<string, ComponentSystem>();
+        private readonly OrderedDictionary<string, ComponentSystem> _dict = new OrderedDictionary<string, ComponentSystem>();
 
         private readonly List<ComponentSystem> _inputSystems = new List<ComponentSystem>();
         private readonly List<ComponentSystem> _tickSystems = new List<ComponentSystem>();

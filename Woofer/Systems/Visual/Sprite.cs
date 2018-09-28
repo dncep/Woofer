@@ -46,6 +46,9 @@ namespace WooferGame.Systems.Visual
             set => _opacity = value;
         }
 
+        [PersistentProperty]
+        public float ViewOrder { get; set; } = 0;
+
         public Sprite()
         {
         }
