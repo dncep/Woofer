@@ -16,30 +16,30 @@ namespace EntityComponentSystem.ComponentSystems
     public class SystemMap : IEnumerable<ComponentSystem>
     {
         private readonly Scene Owner;
-        private readonly OrderedDictionary<string, ComponentSystem> _dict = new OrderedDictionary<string, ComponentSystem>();
+        public readonly OrderedDictionary<string, ComponentSystem> Dictionary = new OrderedDictionary<string, ComponentSystem>();
 
-        private readonly List<ComponentSystem> _inputSystems = new List<ComponentSystem>();
-        private readonly List<ComponentSystem> _tickSystems = new List<ComponentSystem>();
-        private readonly List<ComponentSystem> _renderSystems = new List<ComponentSystem>();
+        private List<ComponentSystem> _inputSystems = new List<ComponentSystem>();
+        private List<ComponentSystem> _tickSystems = new List<ComponentSystem>();
+        private List<ComponentSystem> _renderSystems = new List<ComponentSystem>();
 
         public SystemMap(Scene owner)
         {
             Owner = owner;
         }
 
-        public ComponentSystem this[string name] => _dict[name];
+        public ComponentSystem this[string name] => Dictionary[name];
 
-        public int Count => _dict.Count;
+        public int Count => Dictionary.Count;
         public void Add(ComponentSystem system)
         {
             ToAdd.Add(system);
         }
 
-        public void Clear() => _dict.Clear();
-        public bool Contains(string name) => _dict.ContainsKey(name);
+        public void Clear() => Dictionary.Clear();
+        public bool Contains(string name) => Dictionary.ContainsKey(name);
         public bool Remove(string name)
         {
-            if (!_dict.ContainsKey(name)) return false;
+            if (!Dictionary.ContainsKey(name)) return false;
             ToRemove.Add(name);
             return true;
         }
@@ -47,11 +47,17 @@ namespace EntityComponentSystem.ComponentSystems
         private List<ComponentSystem> ToAdd = new List<ComponentSystem>();
         private List<string> ToRemove = new List<string>();
 
+        private List<Action> QueuedActions = new List<Action>();
+
+        public void QueueOnFlush(Action action) => QueuedActions.Add(action);
+
         internal void Flush()
         {
+            QueuedActions.ForEach(a => a.Invoke());
+            QueuedActions.Clear();
             foreach(ComponentSystem system in ToAdd)
             {
-                _dict.Add(system.SystemName, system);
+                Dictionary.Add(system.SystemName, system);
                 system.Owner = Owner;
 
                 if (system.InputProcessing) _inputSystems.Add(system);
@@ -78,8 +84,8 @@ namespace EntityComponentSystem.ComponentSystems
             ToAdd.Clear();
             foreach(string remove in ToRemove)
             {
-                if (!_dict.ContainsKey(remove)) continue;
-                ComponentSystem system = _dict[remove];
+                if (!Dictionary.ContainsKey(remove)) continue;
+                ComponentSystem system = Dictionary[remove];
                 foreach (string eventName in system.Listening)
                 {
                     Owner.Events.RegisterEventType(eventName);
@@ -88,9 +94,20 @@ namespace EntityComponentSystem.ComponentSystems
                 _inputSystems.Remove(system);
                 _tickSystems.Remove(system);
                 _renderSystems.Remove(system);
-                _dict.Remove(remove);
+                Dictionary.Remove(remove);
             }
             ToRemove.Clear();
+        }
+
+        public void UpdateOrder()
+        {
+            _inputSystems.Clear();
+            _tickSystems.Clear();
+            _renderSystems.Clear();
+
+            _inputSystems = Dictionary.Values.Where(s => s.InputProcessing).ToList();
+            _tickSystems = Dictionary.Values.Where(s => s.TickProcessing).ToList();
+            _renderSystems = Dictionary.Values.Where(s => s.RenderProcessing).ToList();
         }
 
         internal void InvokeInput() => _inputSystems.ForEach((s) =>
@@ -108,7 +125,7 @@ namespace EntityComponentSystem.ComponentSystems
             s.Render(r);
         });
 
-        public IEnumerator<ComponentSystem> GetEnumerator() => _dict.Values.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => _dict.GetEnumerator();
+        public IEnumerator<ComponentSystem> GetEnumerator() => Dictionary.Values.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => Dictionary.GetEnumerator();
     }
 }

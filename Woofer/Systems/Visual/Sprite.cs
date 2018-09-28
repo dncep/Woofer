@@ -63,5 +63,15 @@ namespace WooferGame.Systems.Visual
             Destination = destination;
             Source = source;
         }
+
+        public Sprite Clone() => new Sprite() {
+            _texture = _texture,
+            Destination = new Rectangle(Destination),
+            Modifiers = Modifiers,
+            Source = new Rectangle(Source),
+            DrawMode = DrawMode,
+            _opacity = _opacity,
+            ViewOrder = ViewOrder
+        };
     }
 }

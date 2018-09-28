@@ -41,13 +41,39 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
             if (movement.Magnitude > 1e-5 && Editor.MoveTimeframe.Execute())
             {
+                bool shifting = inputMap.Interact.Pressed;
+
                 if (movement.Y > 0)
                 {
-                    if (SelectedIndex - 1 >= -1) SelectedIndex--;
+                    if(shifting)
+                    {
+                        ComponentSystem selected = Owner.Systems.ElementAtOrDefault(SelectedIndex);
+                        if(selected != null)
+                        {
+                            if(SelectedIndex - 1 >= 0)
+                            {
+                                Owner.Systems.Dictionary.Insert(selected.SystemName, selected, SelectedIndex - 1);
+                                Owner.Systems.QueueOnFlush(() => Owner.Systems.UpdateOrder());
+                                SelectedIndex--;
+                            }
+                        }
+                    } else if (SelectedIndex - 1 >= -1) SelectedIndex--;
                 }
                 else if (movement.Y < 0)
                 {
-                    if (SelectedIndex + 1 < Owner.Systems.Count) SelectedIndex++;
+                    if(shifting)
+                    {
+                        ComponentSystem selected = Owner.Systems.ElementAtOrDefault(SelectedIndex);
+                        if (selected != null)
+                        {
+                            if (SelectedIndex + 1 < Owner.Systems.Count)
+                            {
+                                Owner.Systems.Dictionary.Insert(selected.SystemName, selected, SelectedIndex + 1);
+                                Owner.Systems.QueueOnFlush(() => Owner.Systems.UpdateOrder());
+                                SelectedIndex++;
+                            }
+                        }
+                    } else if (SelectedIndex + 1 < Owner.Systems.Count) SelectedIndex++;
                 }
                 if (movement.Y != 0)
                 {
