@@ -8,6 +8,7 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Interfaces.Input;
 using EntityComponentSystem.Interfaces.Visuals;
 using EntityComponentSystem.Saves;
 using EntityComponentSystem.Saves.Json.Converter.DefaultConverters;
@@ -27,9 +28,6 @@ namespace WooferGame.Systems.Debug
     [ComponentSystem("quicksave", ProcessingCycles.Input)]
     class Quicksave : ComponentSystem
     {
-        private static InputTimeframe quicksave = new InputTimeframe(5);
-        private static InputTimeframe quickload = new InputTimeframe(5);
-
         private static readonly string TargetDirectory = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), @"Woofer/scenes");
         private static readonly string TargetFile = Path.Combine(TargetDirectory, "scene");
 
@@ -40,12 +38,10 @@ namespace WooferGame.Systems.Debug
 
         public override void Input()
         {
-            ButtonState saveButton = Woofer.Controller.InputManager.ActiveInputMap.Quicksave;
-            ButtonState loadButton = Woofer.Controller.InputManager.ActiveInputMap.Quickload;
-
-            quicksave.RegisterState(saveButton);
-
-            if (saveButton.IsPressed() && quicksave.Execute())
+            ButtonInput saveButton = Woofer.Controller.InputManager.ActiveInputMap.Quicksave;
+            ButtonInput loadButton = Woofer.Controller.InputManager.ActiveInputMap.Quickload;
+            
+            if (saveButton.Consume())
             {
                 SaveOperation save = new SaveOperation(Owner, TargetFile);
                 save.AddConverter(new CollisionBoxConverter());
@@ -61,9 +57,7 @@ namespace WooferGame.Systems.Debug
                 Owner.Events.InvokeEvent(new ShowTextEvent("Saved", null));
             }
 
-            quickload.RegisterState(loadButton);
-
-            if (loadButton.IsPressed() && quickload.Execute())
+            if (loadButton.Consume())
             {
                 LoadOperation load = new LoadOperation(Woofer.Controller, TargetFile);
                 load.AddConverter(new CollisionBoxConverter());

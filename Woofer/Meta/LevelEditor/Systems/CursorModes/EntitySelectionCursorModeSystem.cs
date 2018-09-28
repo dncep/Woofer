@@ -56,7 +56,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
 
-            if (MultipleAllowed && Editor.SelectSecondaryTimeframe.Execute())
+            if (MultipleAllowed && inputMap.Pulse.Consume())
             {
                 Mode++;
                 if (Mode > 1) Mode = 0;
@@ -66,7 +66,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             {
                 HoverOutline.Color = Color.CadetBlue;
                 UpdateHighlighted();
-                if (HoverOutline.Id != 0 && Editor.SelectTimeframe.Execute())
+                if (HoverOutline.Id != 0 && inputMap.Jump.Consume())
                 {
                     AddLink(HoverOutline.Id);
                 }
@@ -81,14 +81,14 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 {
                     HoverLine.End = HoverLine.Start;
                 }
-                if (HoverOutline.Id != 0 && Editor.SelectTimeframe.Execute())
+                if (HoverOutline.Id != 0 && inputMap.Jump.Consume())
                 {
                     RemoveLink(HoverOutline.Id);
                 }
             } else if(Mode == Single)
             {
                 UpdateHighlighted();
-                if(HoverOutline.Id != 0 && Editor.SelectTimeframe.Execute())
+                if(HoverOutline.Id != 0 && inputMap.Jump.Consume())
                 {
                     RemoveLink(Selected[0]);
                     AddLink(HoverOutline.Id);

@@ -1,4 +1,5 @@
-﻿using EntityComponentSystem.Util;
+﻿using EntityComponentSystem.Interfaces.Input;
+using EntityComponentSystem.Util;
 
 using GameInterfaces.Input;
 
@@ -10,26 +11,25 @@ namespace WooferGame.Input
 
         Vector2D Movement { get; }
         Vector2D Orientation { get; }
-
-        ButtonState Run { get; }
-
-        ButtonState Jump { get; }
-        ButtonState Pulse { get; }
-        ButtonState Interact { get; }
-
-        ButtonState Start { get; }
+        
+        ButtonInput Run { get; }
+        ButtonInput Jump { get; }
+        ButtonInput Pulse { get; }
+        ButtonInput Interact { get; }
+        ButtonInput Start { get; }
 
         bool IsBeingUsed { get; }
         string IconSpritesheet { get; }
         
-        ButtonState Debug { get; }
+        ButtonInput Debug { get; }
         Vector2D DebugMovement { get; }
-        ButtonState Quicksave { get; }
-        ButtonState Quickload { get; }
+        ButtonInput Quicksave { get; }
+        ButtonInput Quickload { get; }
 
-        ButtonState Pause { get; }
-        ButtonState Back { get; }
+        ButtonInput Pause { get; }
+        ButtonInput Back { get; }
 
         void SetVibration(float amount);
+        void ProcessInput();
     }
 }

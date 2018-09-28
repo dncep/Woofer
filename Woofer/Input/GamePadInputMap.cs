@@ -1,4 +1,5 @@
-﻿using EntityComponentSystem.Util;
+﻿using EntityComponentSystem.Interfaces.Input;
+using EntityComponentSystem.Util;
 
 using GameInterfaces.Input;
 using GameInterfaces.Input.GamePad;
@@ -13,34 +14,49 @@ namespace WooferGame.Input
 
         public Vector2D Orientation => gamePad.Thumbsticks.Left;
 
-        public ButtonState Run => gamePad.Triggers.Right.TriggerToButtonState();
-
-        public ButtonState Jump => gamePad.Buttons.A;
-
-        public ButtonState Pulse => gamePad.Buttons.X;
-
-        public ButtonState Interact => gamePad.Buttons.B;
-
-        public ButtonState Start => gamePad.Buttons.Start;
-
-        public ButtonState Pause => gamePad.Buttons.Start;
-
-        public ButtonState Back => gamePad.Buttons.Back;
-
-        private IGamePad gamePad;
-
-        public GamePadInputMap(IGamePad gamePad) => this.gamePad = gamePad;
+        public ButtonInput Run { get; private set; }
+        public ButtonInput Jump { get; private set; }
+        public ButtonInput Pulse { get; private set; }
+        public ButtonInput Interact { get; private set; }
+        public ButtonInput Start { get; private set; }
+        public ButtonInput Pause { get; private set; }
+        public ButtonInput Back { get; private set; }
 
         public bool IsBeingUsed => gamePad.IsBeingUsed;
 
         public string IconSpritesheet => "gamepad_icons";
 
-        public ButtonState Debug => gamePad.Buttons.RightStick;
+        public ButtonInput Debug { get; private set; }
         public Vector2D DebugMovement => Orientation;
 
-        public ButtonState Quicksave => gamePad.Buttons.LeftBumper;
-        public ButtonState Quickload => gamePad.Buttons.RightBumper;
+        public ButtonInput Quicksave { get; private set; }
+        public ButtonInput Quickload { get; private set; }
+
+        private IGamePad gamePad;
+
+        public GamePadInputMap(IGamePad gamePad)
+        {
+            this.gamePad = gamePad;
+
+            Run = new ButtonInput(() => gamePad.Triggers.Right.TriggerToButtonState());
+            Jump = new ButtonInput(() => gamePad.Buttons.A);
+            Pulse = new ButtonInput(() => gamePad.Buttons.X);
+            Interact = new ButtonInput(() => gamePad.Buttons.B);
+            Start = new ButtonInput(() => gamePad.Buttons.Start);
+            Pause = new ButtonInput(() => gamePad.Buttons.Start);
+            Back = new ButtonInput(() => gamePad.Buttons.Back);
+
+            Debug = new ButtonInput(() => gamePad.Buttons.RightStick);
+            Quicksave = new ButtonInput(() => gamePad.Buttons.LeftBumper);
+            Quickload = new ButtonInput(() => gamePad.Buttons.RightBumper);
+        }
 
         public void SetVibration(float amount) => gamePad.SetVibration(amount, amount);
+
+        public void ProcessInput() {
+            Jump.RegisterState();
+            Pulse.RegisterState();
+            Interact.RegisterState();
+        }
     }
 }

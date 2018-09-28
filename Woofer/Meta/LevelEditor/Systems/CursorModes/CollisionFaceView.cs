@@ -55,7 +55,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 }
             }
 
-            if (Editor.SelectTimeframe.Execute())
+            if (inputMap.Jump.Consume())
             {
                 IMemberSummary member = Members.ElementAt(SelectedPropertyIndex);
                 if (member.CanSet)

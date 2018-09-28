@@ -36,6 +36,11 @@ namespace EntityComponentSystem.Saves
 
         public Scene Load()
         {
+            if (!File.Exists(Path))
+            {
+                Console.WriteLine("Tried to load scene at '" + Path + "', does not exist");
+                return null;
+            }
             TagMaster tagMaster = new TagMaster();
             
             tagMaster.RegisterConverter(new ListConverter<long>());

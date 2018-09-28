@@ -23,7 +23,6 @@ namespace WooferGame.Scenes.Menu
     [ComponentSystem("menu", ProcessingCycles.Input | ProcessingCycles.Render)]
     class MenuSystem : ComponentSystem
     {
-        private static InputTimeframe StartInput = new InputTimeframe(1);
         private static InputTimeframe SelectInput = new InputTimeframe(1);
 
         private string[] OptionLabels = new[] { "Start", "Options", "Level Editor", "Quit" };
@@ -33,10 +32,8 @@ namespace WooferGame.Scenes.Menu
         {
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
 
-            StartInput.RegisterState(inputMap.Jump);
-            
-
             SelectInput.RegisterState(inputMap.Movement.Magnitude > 0 ? ButtonState.Pressed : ButtonState.Released);
+
             if(inputMap.Movement.Magnitude > 0)
             {
                 if(inputMap.Movement.Y > 0 && SelectInput.Execute())
@@ -52,7 +49,7 @@ namespace WooferGame.Scenes.Menu
             }
 
 
-            if (inputMap.Jump.IsPressed() && StartInput.Execute())
+            if (inputMap.Jump.Consume())
             {
                 switch (SelectedIndex)
                 {

@@ -14,7 +14,6 @@ namespace WooferGame.Systems.Interaction
     {
         [PersistentProperty]
         public double MaxDistance { get; set; }
-        public InputTimeframe Input = new InputTimeframe(2);
 
         public InteractingAgent() : this(32)
         {

@@ -45,6 +45,7 @@ namespace WooferGame.Input
                     break;
                 }
             }
+            ActiveInputMap.ProcessInput();
         }
     }
 }

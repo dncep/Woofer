@@ -52,7 +52,7 @@ namespace WooferGame.Meta.LevelEditor
                 }
             }
 
-            if (Editor.SelectTimeframe.Execute())
+            if (inputMap.Jump.Consume())
             {
                 switch(SelectedIndex)
                 {

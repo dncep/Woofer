@@ -73,16 +73,16 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
 
-            _cursorPos += (inputMap.Run.IsPressed() ? 4 : 2)*Woofer.Controller.InputManager.ActiveInputMap.Movement;
-            if(BoundToGrid && !inputMap.Interact.IsPressed())
+            _cursorPos += (inputMap.Run.Pressed ? 4 : 2)*Woofer.Controller.InputManager.ActiveInputMap.Movement;
+            if(BoundToGrid && !inputMap.Interact.Pressed)
             {
                 _cursorPos = CursorPos;
             }
-            BoundToGrid = inputMap.Interact.IsPressed();
+            BoundToGrid = inputMap.Interact.Pressed;
 
             if(DraggingEnabled)
             {
-                if (!inputMap.Jump.IsPressed())
+                if (!inputMap.Jump.Pressed)
                 {
                     SelectionStart = CursorPos;
                     MayDrag = true;

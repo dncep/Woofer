@@ -2,6 +2,7 @@
 
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Interfaces.Input;
 using EntityComponentSystem.Util;
 using GameInterfaces.Input;
 
@@ -25,13 +26,12 @@ namespace WooferGame.Systems.Movement
                 if (!pmc.Owner.Active) continue;
                 Physical rb = pmc.Owner.Components.Get<Physical>();
 
-                ButtonState jumpButton = inputMap.Jump;
+                ButtonInput jumpButton = inputMap.Jump;
 
                 //Jump logic
-                pmc.Jump.RegisterState(jumpButton);
                 if (pmc.OnGround)
                 {
-                    if(jumpButton.IsPressed() && pmc.Jump.Execute())
+                    if(jumpButton.Consume())
                     {
                         rb.Velocity.Y = pmc.JumpSpeed;
                         Owner.Events.InvokeEvent(new PlayerJumpEvent(pmc));

@@ -10,6 +10,7 @@ using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
 using WooferGame.Common;
+using WooferGame.Input;
 using WooferGame.Meta.LevelEditor.Systems.EntityOutlines;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Visual;
@@ -182,7 +183,9 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
         {
             if (!ModalActive) return;
 
-            if (Editor.SelectSecondaryTimeframe.Execute())
+            IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;
+
+            if (inputMap.Pulse.Consume())
             {
                 Mode++;
                 if ((MultipleAllowed && Mode > 4) || (!MultipleAllowed && Mode > 1)) Mode = 0;
@@ -194,7 +197,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 if (!SelectionLocked)
                 {
                     UpdateSelected();
-                    if (SelectedSprite != null && Editor.SelectTimeframe.Execute())
+                    if (SelectedSprite != null && inputMap.Jump.Consume())
                     {
                         SelectionLocked = true;
                     }
@@ -327,7 +330,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                             }
                         }
                     }
-                    if (Editor.SelectTimeframe.Execute())
+                    if (inputMap.Jump.Consume())
                     {
                         RemoveSprite(SelectedSprite);
                     }
@@ -338,7 +341,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 if (!SelectionLocked)
                 {
                     UpdateSelected();
-                    if (SelectedSprite != null && Editor.SelectTimeframe.Execute())
+                    if (SelectedSprite != null && inputMap.Jump.Consume())
                     {
                         //SelectionLocked = true;
                         Owner.Events.InvokeEvent(new StartSpriteSourceEditEvent(SelectedSprite));
@@ -366,15 +369,17 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                             }
                         }
                     }
-                    if (Editor.SelectTimeframe.Execute())
+                    if (inputMap.Jump.Consume())
                     {
-                        Sprite clone = new Sprite();
-                        clone.Texture = SelectedSprite.Texture;
-                        clone.Destination = new Rectangle(SelectedSprite.Destination) + new Vector2D(4, 4);
-                        clone.Source = SelectedSprite.Source != null ? new Rectangle(SelectedSprite.Source) : null;
-                        clone.DrawMode = SelectedSprite.DrawMode;
-                        clone.Modifiers = SelectedSprite.Modifiers;
-                        clone.Opacity = SelectedSprite.Opacity;
+                        Sprite clone = new Sprite
+                        {
+                            Texture = SelectedSprite.Texture,
+                            Destination = new Rectangle(SelectedSprite.Destination) + new Vector2D(4, 4),
+                            Source = SelectedSprite.Source != null ? new Rectangle(SelectedSprite.Source) : null,
+                            DrawMode = SelectedSprite.DrawMode,
+                            Modifiers = SelectedSprite.Modifiers,
+                            Opacity = SelectedSprite.Opacity
+                        };
                         AddSprite(clone);
                     }
                 }
