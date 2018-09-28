@@ -14,7 +14,7 @@ using WooferGame.Meta.LevelEditor.Systems.CursorModes;
 using WooferGame.Meta.LevelEditor.Systems.InputModes;
 using WooferGame.Systems;
 using WooferGame.Systems.Physics;
-using WooferGame.Systems.RoomBuilding;
+using WooferGame.Systems.Generators;
 using WooferGame.Systems.Visual;
 
 namespace WooferGame.Meta.LevelEditor.Systems.EntityView

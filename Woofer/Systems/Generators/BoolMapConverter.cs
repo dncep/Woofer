@@ -7,7 +7,7 @@ using EntityComponentSystem.Saves.Json;
 using EntityComponentSystem.Saves.Json.Converter;
 using EntityComponentSystem.Saves.Json.Objects;
 
-namespace WooferGame.Systems.RoomBuilding
+namespace WooferGame.Systems.Generators
 {
     class BoolMapConverter : ITagConverter
     {

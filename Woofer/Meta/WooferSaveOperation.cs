@@ -11,7 +11,7 @@ using EntityComponentSystem.Scenes;
 using GameInterfaces.Controller;
 using WooferGame.Common;
 using WooferGame.Systems.Physics;
-using WooferGame.Systems.RoomBuilding;
+using WooferGame.Systems.Generators;
 using WooferGame.Systems.Sounds;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Animation;

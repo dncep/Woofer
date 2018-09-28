@@ -11,7 +11,7 @@ using EntityComponentSystem.Util;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Visual;
 
-namespace WooferGame.Systems.RoomBuilding
+namespace WooferGame.Systems.Generators
 {
     [ComponentSystem("room_builder_system", ProcessingCycles.Tick, ProcessingFlags.Pause),
         Watching(typeof(RoomBuilder))]

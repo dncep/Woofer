@@ -18,7 +18,7 @@ using WooferGame.Controller.Commands;
 using WooferGame.Input;
 using WooferGame.Systems.HUD;
 using WooferGame.Systems.Physics;
-using WooferGame.Systems.RoomBuilding;
+using WooferGame.Systems.Generators;
 using WooferGame.Systems.Sounds;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Animation;

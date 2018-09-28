@@ -11,7 +11,7 @@ using EntityComponentSystem.Saves;
 using EntityComponentSystem.Util;
 using WooferGame.Meta.LevelEditor;
 
-namespace WooferGame.Systems.RoomBuilding
+namespace WooferGame.Systems.Generators
 {
     [Component("room_builder")]
     class RoomBuilder : Component
