@@ -34,6 +34,7 @@ namespace WooferGame.Controller
             SpriteManager.LoadSprite("lab_tileset");
             SpriteManager.LoadSprite("lab_objects");
             SpriteManager.LoadSprite("wall_seams");
+            SpriteManager.LoadSprite("wall_seamsd");
             SpriteManager.LoadSprite("room_background");
             SpriteManager.LoadSprite("parallax_bg");
             SpriteManager.LoadSprite("switch");

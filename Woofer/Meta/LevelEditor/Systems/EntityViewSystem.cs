@@ -286,7 +286,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 y += 32;
             }
 
-            if (RemoveTimer > 0 && SelectedComponentIndex >= 0)
+            if (RemoveTimer > 0 && SelectedComponentIndex >= 0 && SelectedComponentIndex < Helper.Components.Count)
             {
                 TextUnit removingLabel = new TextUnit("Removing " + Helper.Components.ElementAt(SelectedComponentIndex).Key + new string('.', RemoveTimer / 25));
                 System.Drawing.Size labelSize = removingLabel.GetSize(3);
