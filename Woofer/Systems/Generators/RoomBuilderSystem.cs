@@ -35,9 +35,9 @@ namespace WooferGame.Systems.Generators
                 {
                     bool[,] old = rb.Map;
                     rb.Map = new bool[rb.Width, rb.Height];
-                    for(int i = 0; i < old.GetLength(0); i++)
+                    for(int i = 0; i < Math.Min(old.GetLength(0), rb.Width); i++)
                     {
-                        for(int j = 0; j < old.GetLength(1); j++)
+                        for(int j = 0; j < Math.Min(old.GetLength(1), rb.Height); j++)
                         {
                             rb.Map[i, j] = old[i, j];
                         }
