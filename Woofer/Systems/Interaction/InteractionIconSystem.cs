@@ -12,22 +12,37 @@ using WooferGame.Systems.Visual;
 
 namespace WooferGame.Systems.Interaction
 {
-    [ComponentSystem("interaction_icon_system", ProcessingCycles.None),
+    [ComponentSystem("interaction_icon_system", ProcessingCycles.Tick),
         Watching(typeof(InteractionIcon)),
         Listening(typeof(InteractionRangeEnter), typeof(InteractionRangeExit))]
     class InteractionIconSystem : ComponentSystem
     {
+        private Interactable Focused = null;
+
+        public override void Tick()
+        {
+            if (Focused == null) return;
+            InteractionIcon icon = WatchedComponents.FirstOrDefault() as InteractionIcon;
+            if (icon == null) return;
+            icon.Owner.Components.Get<Spatial>().Position = Focused.Owner.Components.Get<Spatial>().Position + Focused.IconOffset;
+        }
+
         public override void EventFired(object sender, Event evt)
         {
             InteractionIcon icon = WatchedComponents.FirstOrDefault() as InteractionIcon;
             if (icon == null) return;
             if(evt is InteractionRangeEnter enter)
             {
-                icon.Owner.Active = true;
-                icon.Owner.Components.Get<Spatial>().Position = enter.Interactable.Owner.Components.Get<Spatial>().Position + enter.Interactable.IconOffset;
+                if(enter.Interactable.Owner.Components.Has<Spatial>())
+                {
+                    icon.Owner.Active = true;
+                    icon.Owner.Components.Get<Spatial>().Position = enter.Interactable.Owner.Components.Get<Spatial>().Position + enter.Interactable.IconOffset;
+                    Focused = enter.Interactable;
+                }
             } else if(evt is InteractionRangeExit)
             {
                 icon.Owner.Active = false;
+                Focused = null;
             }
         }
     }
