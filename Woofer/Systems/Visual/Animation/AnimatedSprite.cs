@@ -15,9 +15,7 @@ namespace WooferGame.Systems.Visual.Animation
         [PersistentProperty]
         public int SpriteIndex { get; set; }
         [PersistentProperty]
-        public Size FrameSize { get; set; }
-        [PersistentProperty]
-        public Vector2D Origin { get; set; }
+        public Rectangle Frame { get; set; }
         [PersistentProperty]
         public Vector2D Step { get; set; }
 
@@ -32,35 +30,21 @@ namespace WooferGame.Systems.Visual.Animation
         public double FrameProgress { get; set; }
 
         [PersistentProperty]
-        public int[] FrameDurations { get; set; }
+        public int FrameDuration { get; set; }
 
         public AnimatedSprite()
         {
+            Frame = new Rectangle();
+            FrameDuration = 1;
         }
 
-        public AnimatedSprite(int spriteIndex, Size frameSize, Vector2D origin, Vector2D step, int frameCount, int[] frameDurations)
+        public AnimatedSprite(int spriteIndex, Rectangle frame, Vector2D step, int frameCount, int frameDuration)
         {
             SpriteIndex = spriteIndex;
-            FrameSize = frameSize;
-            Origin = origin;
+            Frame = frame;
             Step = step;
             FrameCount = frameCount;
-            FrameDurations = frameDurations;
-
-            CurrentFrame = 0;
-            FrameProgress = -1;
-            Loop = false;
-        }
-
-        public AnimatedSprite(int spriteIndex, Size frameSize, Vector2D origin, Vector2D step, int frameCount, int frameDuration)
-        {
-            SpriteIndex = spriteIndex;
-            FrameSize = frameSize;
-            Origin = origin;
-            Step = step;
-            FrameCount = frameCount;
-            FrameDurations = new int[frameCount];
-            for (int i = 0; i < frameCount; i++) FrameDurations[i] = frameDuration;
+            FrameDuration = 1;
 
             CurrentFrame = 0;
             FrameProgress = -1;

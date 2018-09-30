@@ -7,9 +7,9 @@ namespace WooferGame.Systems.Physics
     class SoftBody : Component
     {
         [PersistentProperty]
-        public CollisionBox Bounds { get; private set; }
+        public CollisionBox Bounds { get; private set; } = new CollisionBox();
         [PersistentProperty]
-        public float Mass { get; set; }
+        public float Mass { get; set; } = 0;
         [PersistentProperty]
         public bool Movable { get; set; } = true;
 

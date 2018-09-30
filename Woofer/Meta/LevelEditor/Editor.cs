@@ -11,6 +11,7 @@ using GameInterfaces.Controller;
 using GameInterfaces.Input;
 using WooferGame.Input;
 using WooferGame.Meta.LevelEditor.Systems;
+using WooferGame.Meta.LevelEditor.Systems.AnimationView;
 using WooferGame.Meta.LevelEditor.Systems.ComponentView;
 using WooferGame.Meta.LevelEditor.Systems.CursorModes;
 using WooferGame.Meta.LevelEditor.Systems.InputModes;
@@ -41,6 +42,7 @@ namespace WooferGame.Meta.LevelEditor
             
             scene.Systems.Add(new CollisionFaceViewSystem());
             scene.Systems.Add(new SpriteSourceViewSystem());
+            scene.Systems.Add(new AnimationViewSystem());
             
             scene.Systems.Add(new MoveCursorModeSystem());
             scene.Systems.Add(new CollisionCursorModeSystem());
@@ -51,7 +53,7 @@ namespace WooferGame.Meta.LevelEditor
             scene.Systems.Add(new NumberInputSystem());
             scene.Systems.Add(new TextInputSystem());
             scene.Systems.Add(new EnumerationSelectViewSystem());
-            
+
             scene.Systems.Add(new ModalFocusSystem());
         }
     }

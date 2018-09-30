@@ -23,8 +23,11 @@ namespace WooferGame.Meta.LevelEditor.Systems
             {
                 SoftBody sb = entity.Components.Get<SoftBody>();
                 CollisionBox cb = sb.Bounds;
-                realBounds = new Rectangle(cb.X, cb.Y, cb.Width, cb.Height);
-                if (sp != null) realBounds += sp.Position;
+                if (cb != null)
+                {
+                    realBounds = new Rectangle(cb.X, cb.Y, cb.Width, cb.Height);
+                    if (sp != null) realBounds += sp.Position;
+                }
             }
             else if (entity.Components.Has<RigidBody>())
             {

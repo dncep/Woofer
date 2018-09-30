@@ -43,6 +43,17 @@ namespace WooferGame.Systems.Setters
                         else phys.Velocity = velSet.Amount;
                     }
                 }
+                if (ae.Affected.Components.Get<ActiveSetter>() is ActiveSetter actSet)
+                {
+                    Entity toAffect;
+                    if (actSet.ChangedId == 0) toAffect = ae.Affected;
+                    else toAffect = Owner.Entities[actSet.ChangedId];
+
+                    if (toAffect != null)
+                    {
+                        toAffect.Active = actSet.Active;
+                    }
+                }
             }
         }
     }

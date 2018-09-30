@@ -58,6 +58,7 @@
     <Compile Include="Meta\LevelEditor\Editor.cs" />
     <Compile Include="Meta\LevelEditor\EditorMenuSystem.cs" />
     <Compile Include="Meta\LevelEditor\InspectorAttribute.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\AnimationView\AnimationViewSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\ComponentView\EnumSelectViewSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\CollisionCursorModeSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\CursorModes\CollisionFaceView.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Systems\Sailboat\Sailboat.cs" />
     <Compile Include="Systems\Sailboat\SailboatComponent.cs" />
     <Compile Include="Systems\Sailboat\SailboatSystem.cs" />
+    <Compile Include="Systems\Setters\ActiveSetter.cs" />
     <Compile Include="Systems\Setters\PositionSetter.cs" />
     <Compile Include="Systems\Setters\SetterSystem.cs" />
     <Compile Include="Systems\Sound\Sound.cs" />
@@ -208,6 +210,9 @@
     <Compile Include="Systems\Timer\TimerComponent.cs" />
     <Compile Include="Systems\Timer\TimerSystem.cs" />
     <Compile Include="Systems\Setters\VelocitySetter.cs" />
+    <Compile Include="Systems\Variables\CounterVariableComponent.cs" />
+    <Compile Include="Systems\Variables\VariableResetComponent.cs" />
+    <Compile Include="Systems\Variables\VariableSystem.cs" />
     <Compile Include="Systems\Visual\Animation\AnimationComponent.cs" />
     <Compile Include="Systems\Visual\Animation\AnimatedSprite.cs" />
     <Compile Include="Systems\Visual\Animation\AnimationEndEvent.cs" />

@@ -28,17 +28,20 @@ namespace WooferGame.Controller
             ISpriteManager<TSource> SpriteManager = screenRenderer.SpriteManager;
             SpriteManager.LoadSprite("sprites0");
             SpriteManager.LoadSprite("intro_bg");
+            SpriteManager.LoadSprite("tutorial_room5_bg");
             SpriteManager.LoadSprite("char");
             SpriteManager.LoadSprite("woofer");
             SpriteManager.LoadSprite("particles");
             SpriteManager.LoadSprite("lab_tileset");
             SpriteManager.LoadSprite("lab_objects");
+            SpriteManager.LoadSprite("props");
             SpriteManager.LoadSprite("wall_seams");
             SpriteManager.LoadSprite("wall_seamsd");
             SpriteManager.LoadSprite("room_background");
             SpriteManager.LoadSprite("parallax_bg");
             SpriteManager.LoadSprite("switch");
             SpriteManager.LoadSprite("MainSceneBG");
+
 
             SpriteManager.LoadSprite("font");
 

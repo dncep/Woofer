@@ -35,6 +35,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
         private EntityOutline Outline;
 
         private int RemoveTimer = 0;
+        private int RemoveSpeed = 0;
 
         private const string BLANK_ENTITY = "Blank Entity";
         private const string FROM_PREFABS = "From Prefabs";
@@ -89,14 +90,19 @@ namespace WooferGame.Meta.LevelEditor.Systems
             if(RemoveTimer > 0) RemoveTimer--;
             if (inputMap.Pulse.Pressed && SelectedIndex >= 0)
             {
-                RemoveTimer += 2;
-                if(RemoveTimer / 25 > 3)
+                RemoveTimer += 2 + RemoveSpeed;
+                if (RemoveTimer / 25 > 3)
                 {
                     Owner.Entities.Remove(Owner.Entities.ElementAt(SelectedIndex).Id);
                     RemoveTimer = 0;
+                    RemoveSpeed++;
                 }
             }
-            else RemoveTimer = 0;
+            else
+            {
+                RemoveTimer = 0;
+                RemoveSpeed = 0;
+            }
 
             Outline.Id = 0;
             if (SelectedIndex >= 0 && SelectedIndex < Owner.Entities.Count)

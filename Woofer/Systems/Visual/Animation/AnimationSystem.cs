@@ -22,7 +22,7 @@ namespace WooferGame.Systems.Visual.Animation
                     if (anim.CurrentFrame < 0 || anim.CurrentFrame >= anim.FrameCount) continue;
                     anim.FrameProgress++;
                     if (anim.FrameProgress == 0) Owner.Events.InvokeEvent(new AnimationStartEvent(c, anim));
-                    if (anim.FrameProgress >= anim.FrameDurations[anim.CurrentFrame])
+                    if (anim.FrameProgress >= anim.FrameDuration)
                     {
                         anim.FrameProgress = 0;
                         anim.CurrentFrame++;
@@ -48,7 +48,11 @@ namespace WooferGame.Systems.Visual.Animation
 
                 foreach(AnimatedSprite anim in c.Animations)
                 {
-                    renderable.Sprites[anim.SpriteIndex].Source = new Rectangle(anim.Origin + (anim.Step * anim.CurrentFrame), (anim.FrameProgress >= 0) ? anim.FrameSize : new Size(0,0));
+                    if(anim.SpriteIndex >= 0 && anim.SpriteIndex < renderable.Sprites.Count)
+                    {
+                        if (anim.FrameProgress >= 0) renderable.Sprites[anim.SpriteIndex].Source = anim.Frame + (anim.Step * anim.CurrentFrame);
+                        else renderable.Sprites[anim.SpriteIndex].Source = new Rectangle();
+                    }
                 }
             }
         }

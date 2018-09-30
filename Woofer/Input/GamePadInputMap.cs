@@ -38,7 +38,7 @@ namespace WooferGame.Input
         {
             this.gamePad = gamePad;
 
-            Run = new ButtonInput(() => gamePad.Triggers.Right.TriggerToButtonState());
+            Run = new ButtonInput(() => gamePad.Buttons.Y);
             Jump = new ButtonInput(() => gamePad.Buttons.A);
             Pulse = new ButtonInput(() => gamePad.Buttons.X);
             Interact = new ButtonInput(() => gamePad.Buttons.B);
@@ -53,10 +53,18 @@ namespace WooferGame.Input
 
         public void SetVibration(float amount) => gamePad.SetVibration(amount, amount);
 
-        public void ProcessInput() {
+        public void ProcessInput()
+        {
+            Run.RegisterState();
             Jump.RegisterState();
             Pulse.RegisterState();
             Interact.RegisterState();
+            Pause.RegisterState();
+            Back.RegisterState();
+            Debug.RegisterState();
+            Start.RegisterState();
+            Quicksave.RegisterState();
+            Quickload.RegisterState();
         }
     }
 }

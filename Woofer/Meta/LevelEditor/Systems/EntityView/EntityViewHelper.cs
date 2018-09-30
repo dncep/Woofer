@@ -16,6 +16,8 @@ using WooferGame.Systems;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Generators;
 using WooferGame.Systems.Visual;
+using WooferGame.Systems.Visual.Animation;
+using WooferGame.Meta.LevelEditor.Systems.AnimationView;
 
 namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 {
@@ -64,6 +66,30 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 if (field.DeclaringType == typeof(Component)) continue;
                 if (field.GetCustomAttribute(typeof(HideInInspector)) != null) continue;
                 Members[field.Name] = new FieldSummary(this, field, component);
+            }
+        }
+    }
+
+    internal class ObjectSummary
+    {
+        public readonly Scene Scene;
+        public Dictionary<string, IMemberSummary> Members = new Dictionary<string, IMemberSummary>();
+
+        public ObjectSummary(Scene scene, object obj)
+        {
+            Scene = scene;
+            foreach (PropertyInfo property in obj.GetType().GetProperties())
+            {
+                if (property.DeclaringType == typeof(Component)) continue;
+                if (property.GetCustomAttribute(typeof(HideInInspector)) != null) continue;
+                Members[property.Name] = new PropertySummary(scene, property, obj);
+            }
+
+            foreach (FieldInfo field in obj.GetType().GetFields())
+            {
+                if (field.DeclaringType == typeof(Component)) continue;
+                if (field.GetCustomAttribute(typeof(HideInInspector)) != null) continue;
+                Members[field.Name] = new FieldSummary(scene, field, obj);
             }
         }
     }
@@ -382,6 +408,12 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 }
                 member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("room_builder_mode", null));
                 member.Scene.Events.InvokeEvent(new StartRoomBuilderModeEvent(origin, (bool[,])member.GetValue(), v => member.SetValue(v)));
+                return true;
+            }
+            else if (type == typeof(List<AnimatedSprite>))
+            {
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("animation_view", null));
+                member.Scene.Events.InvokeEvent(new SelectAnimationEvent((List<AnimatedSprite>)member.GetValue()));
                 return true;
             }
             else if (type.IsEnum)
