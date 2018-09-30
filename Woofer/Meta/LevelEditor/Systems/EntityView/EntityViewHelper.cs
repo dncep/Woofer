@@ -267,6 +267,48 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                     return true;
                 }
             }
+            else if (type == typeof(Size))
+            {
+                Size vec = (Size)member.GetValue();
+
+                StartNumberInputEvent.OnSubmit onReceiveHeight = v =>
+                {
+                    vec.Height = v;
+                    member.SetValue(vec);
+                };
+
+                StartNumberInputEvent.OnSubmit onReceiveWidth = (v =>
+                {
+                    vec.Width = v;
+                    member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                    member.Scene.Events.InvokeEvent(new StartNumberInputEvent(vec.Height, onReceiveHeight, true, null) { Label = "Size.Height" });
+                });
+
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                member.Scene.Events.InvokeEvent(new StartNumberInputEvent(vec.Width, onReceiveWidth, true, null) { Label = "Size.Width" });
+                return true;
+            }
+            else if (type == typeof(System.Drawing.Size))
+            {
+                System.Drawing.Size vec = (System.Drawing.Size)member.GetValue();
+
+                StartNumberInputEvent.OnSubmit onReceiveHeight = v =>
+                {
+                    vec.Height = (int)v;
+                    member.SetValue(vec);
+                };
+
+                StartNumberInputEvent.OnSubmit onReceiveWidth = (v =>
+                {
+                    vec.Width = (int)v;
+                    member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                    member.Scene.Events.InvokeEvent(new StartNumberInputEvent(vec.Height, onReceiveHeight, false, null) { Label = "Size.Height" });
+                });
+
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
+                member.Scene.Events.InvokeEvent(new StartNumberInputEvent(vec.Width, onReceiveWidth, false, null) { Label = "Size.Width" });
+                return true;
+            }
             else if (type == typeof(double))
             {
                 member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));

@@ -59,6 +59,8 @@ namespace WooferGame.Controller
             ActiveScene.InvokeInput();
         }
 
+        private bool ResolutionChanged = false;
+
         public void CommandFired(Command command)
         {
             switch(command)
@@ -76,9 +78,27 @@ namespace WooferGame.Controller
                         Scene oldScene = ActiveScene;
                         ActiveScene = changeScene.NewScene;
                         oldScene.Dispose();
+                        LevelRenderingLayer.LevelScreenSize = LevelRenderingLayer.DefaultLevelScreenSize;
+                        ResolutionChanged = true;
+                        break;
+                    }
+                case ResolutionChangeCommand changeResolution:
+                    {
+                        LevelRenderingLayer.LevelScreenSize = changeResolution.NewResolution;
+                        ResolutionChanged = true;
                         break;
                     }
             }
+        }
+
+        public void Draw<TSurface, TSource>(ScreenRenderer<TSurface, TSource> screenRenderer)
+        {
+            if(ResolutionChanged)
+            {
+                screenRenderer.UpdateLayers(RenderingUnit);
+                ResolutionChanged = false;
+            }
+            RenderingUnit.Draw(screenRenderer);
         }
     }
 }

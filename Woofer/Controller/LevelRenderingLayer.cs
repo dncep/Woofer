@@ -15,7 +15,9 @@ namespace WooferGame.Controller
 
         //private readonly int LockedResolutionWidth = 320;
 
-        public static readonly Size LevelScreenSize = new Size(320, 180);
+        public static readonly Size DefaultLevelScreenSize = new Size(320, 180);
+
+        public static Size LevelScreenSize = DefaultLevelScreenSize;
 
         public Rectangle Destination
         {

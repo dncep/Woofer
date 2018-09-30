@@ -113,7 +113,7 @@ namespace GameBase
         protected override void Draw(GameTime gameTime)
         {
             screenRenderer.Clear();
-            gameController.RenderingUnit.Draw(screenRenderer);
+            gameController.Draw(screenRenderer);
             screenRenderer.Update();
 
             base.Draw(gameTime);

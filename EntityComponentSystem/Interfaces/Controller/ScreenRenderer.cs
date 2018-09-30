@@ -29,7 +29,7 @@ namespace GameInterfaces.Controller
             IRenderingLayer layer = renderingUnit.Layers[layerName];*/
         }
 
-        internal void UpdateLayers(IRenderingUnit renderingUnit)
+        public void UpdateLayers(IRenderingUnit renderingUnit)
         {
             this.renderingUnit = renderingUnit;
 

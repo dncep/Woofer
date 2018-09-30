@@ -17,5 +17,6 @@ namespace GameInterfaces.Controller
         void Input();
 
         void CommandFired(Command command);
+        void Draw<TSurface, TSource>(ScreenRenderer<TSurface, TSource> screenRenderer);
     }
 }

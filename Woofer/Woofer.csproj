@@ -46,6 +46,7 @@
     <Compile Include="Common\TextUnit.cs" />
     <Compile Include="Controller\BackgroundRenderingLayer.cs" />
     <Compile Include="Controller\Commands\OrientationOriginChangeCommand.cs" />
+    <Compile Include="Controller\Commands\ResolutionChangeCommand.cs" />
     <Compile Include="Controller\Commands\SceneChangeCommand.cs" />
     <Compile Include="Controller\HudRenderingLayer.cs" />
     <Compile Include="Controller\ParallaxRenderingLayer.cs" />
@@ -117,6 +118,8 @@
     <Compile Include="Systems\Checkpoints\CheckpointSystem.cs" />
     <Compile Include="Systems\Checkpoints\CheckpointRequestEvent.cs" />
     <Compile Include="Systems\Checkpoints\CheckpointTrigger.cs" />
+    <Compile Include="Systems\Commands\CommandSystem.cs" />
+    <Compile Include="Systems\Commands\ResolutionChangeComponent.cs" />
     <Compile Include="Systems\DeathBarrier\CheckpointOnBarrierComponent.cs" />
     <Compile Include="Systems\DeathBarrier\DeathBarrier.cs" />
     <Compile Include="Systems\DeathBarrier\DeathBarrierComponent.cs" />
