@@ -26,7 +26,7 @@ namespace WooferGame.Systems.Debug
             {
                 if (clippable.Enabled)
                 {
-                    clippable.CameraLocation += inputMap.DebugMovement.Unit() * 2;
+                    clippable.CameraLocation += inputMap.DebugMovement.Normalize() * 2;
                     if (inputMap.Debug.Consume())
                     {
                         clippable.Enabled = false;

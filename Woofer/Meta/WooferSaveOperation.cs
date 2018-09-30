@@ -15,6 +15,7 @@ using WooferGame.Systems.Generators;
 using WooferGame.Systems.Sounds;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Animation;
+using WooferGame.Systems.HealthSystems;
 
 namespace WooferGame.Meta
 {
@@ -29,6 +30,7 @@ namespace WooferGame.Meta
             this.AddConverter(new ListConverter<Sprite>());
             this.AddConverter(new ListConverter<AnimatedSprite>());
             this.AddConverter(new EnumConverter<DrawMode>());
+            this.AddConverter(new EnumConverter<DamageFilter>());
             this.AddConverter(new BoolMapConverter());
         }
     }

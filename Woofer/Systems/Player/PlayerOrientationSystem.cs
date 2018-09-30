@@ -24,7 +24,7 @@ namespace WooferGame.Systems.Player
             {
                 foreach(PlayerOrientation po in WatchedComponents)
                 {
-                    po.Unit = thumbstick.Unit();
+                    po.Unit = thumbstick.Normalize();
                     po.Owner.Components.Get<FollowedComponent>().Offset = po.OriginOffset + po.Unit * 24;
                 }
             }

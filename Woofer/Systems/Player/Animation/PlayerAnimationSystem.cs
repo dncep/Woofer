@@ -7,6 +7,7 @@ using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
 
 using GameInterfaces.Controller;
+using WooferGame.Systems.HealthSystems;
 using WooferGame.Systems.Linking;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;

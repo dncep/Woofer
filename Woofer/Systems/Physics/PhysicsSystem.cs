@@ -12,7 +12,7 @@ namespace WooferGame.Systems.Physics
 {
     [ComponentSystem("physics", ProcessingCycles.Tick),
         Watching(typeof(Physical), typeof(RigidBody), typeof(SoftBody)),
-        Listening(typeof(RaycastEvent))]
+        Listening(typeof(RaycastEvent), typeof(SoftCollisionEvent), typeof(RigidCollisionEvent))]
     public class PhysicsSystem : ComponentSystem
     {
         private Vector2D Gravity = new Vector2D(0, -362);
@@ -67,6 +67,8 @@ namespace WooferGame.Systems.Physics
 
                         SoftBody objA = c0 is SoftBody ? (SoftBody)c0 : (SoftBody)c1;
                         Component objB = objA == c0 ? c1 : c0;
+
+                        if (objA.PassThroughLevel && objB is RigidBody) continue;
 
                         Physical physA = objA.Owner.Components.Get<Physical>();
                         Physical physB = objB.Owner.Components.Get<Physical>();
@@ -167,7 +169,7 @@ namespace WooferGame.Systems.Physics
 
                             double force = 2 * Owner.FixedDeltaTime * intersection.Area * (objA.Mass * (objB as SoftBody).Mass);
 
-                            Vector2D forceVec = (center1 - center0).Unit() * force;
+                            Vector2D forceVec = (center1 - center0).Normalize() * force;
                             forceVec.Y = 0;
 
                             if (objA.Movable && objA.Mass != 0) physA.Velocity -= forceVec / (objA.Mass);
@@ -213,6 +215,13 @@ namespace WooferGame.Systems.Physics
                             }
                         }
                     }
+                }
+            }
+            else if((e is RigidCollisionEvent || e is SoftCollisionEvent) && e.Sender.Owner.Components.Get<RemoveOnCollision>() is RemoveOnCollision remove)
+            {
+                if((remove.RemoveOnRigid && e is RigidCollisionEvent) || (remove.RemoveOnSoft && e is SoftCollisionEvent))
+                {
+                    e.Sender.Owner.Remove();
                 }
             }
         }

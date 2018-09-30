@@ -16,6 +16,7 @@ using WooferGame.Systems.Generators;
 using WooferGame.Systems.Sounds;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Animation;
+using WooferGame.Systems.HealthSystems;
 
 namespace WooferGame.Meta.LevelEditor.Systems
 {
@@ -49,6 +50,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
             Master.RegisterConverter(new ListConverter<Sprite>());
             Master.RegisterConverter(new ListConverter<AnimatedSprite>());
             Master.RegisterConverter(new EnumConverter<DrawMode>());
+            Master.RegisterConverter(new EnumConverter<DamageFilter>());
             Master.RegisterConverter(new BoolMapConverter());
         }
 
@@ -103,32 +105,9 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
             try
             {
-                TagMaster tagMaster = new TagMaster();
-                tagMaster.RegisterConverter(new ListConverter<long>());
-                tagMaster.RegisterConverter(new ListConverter<int>());
-
-                tagMaster.RegisterConverter(new NumberConverter<byte>());
-                tagMaster.RegisterConverter(new NumberConverter<short>());
-                tagMaster.RegisterConverter(new NumberConverter<int>());
-                tagMaster.RegisterConverter(new NumberConverter<float>());
-                tagMaster.RegisterConverter(new NumberConverter<long>());
-                tagMaster.RegisterConverter(new NumberConverter<double>());
-
-                tagMaster.RegisterConverter(new StringConverter());
-                tagMaster.RegisterConverter(new BooleanConverter());
-
-                tagMaster.RegisterConverter(new CollisionBoxConverter());
-                tagMaster.RegisterConverter(new ColorConverter());
-                tagMaster.RegisterConverter(new ListConverter<CollisionBox>());
-                tagMaster.RegisterConverter(new ListConverter<Sound>());
-                tagMaster.RegisterConverter(new ListConverter<Sprite>());
-                tagMaster.RegisterConverter(new ListConverter<AnimatedSprite>());
-                tagMaster.RegisterConverter(new EnumConverter<DrawMode>());
-                tagMaster.RegisterConverter(new BoolMapConverter());
-
                 using (BinaryReader reader = new BinaryReader(new FileStream(file.FullName, FileMode.Open)))
                 {
-                    TagCompound obj = tagMaster.Read(reader);
+                    TagCompound obj = Master.Read(reader);
                     Entity entity = new Entity
                     {
                         Name = obj.Get<TagString>("name").Value,
@@ -138,7 +117,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                     foreach (KeyValuePair<string, ITag> rawComponent in obj.Get<TagCompound>("components"))
                     {
                         Type componentType = Component.TypeForIdentifier(rawComponent.Key);
-                        Component component = tagMaster.ConvertFromValue(rawComponent.Value, componentType) as Component;
+                        Component component = Master.ConvertFromValue(rawComponent.Value, componentType) as Component;
                         entity.Components.Add(component);
                     }
                     return entity;

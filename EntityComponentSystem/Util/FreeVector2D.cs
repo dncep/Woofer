@@ -13,7 +13,7 @@ namespace EntityComponentSystem.Util
 
         public double Magnitude => (B - A).Magnitude;
         public double Angle => (B - A).Angle;
-        public Vector2D Normal => (B - A).Rotate(Math.PI / 2).Unit();
+        public Vector2D Normal => (B - A).Rotate(Math.PI / 2).Normalize();
 
         public FreeVector2D(Vector2D b) : this(new Vector2D(), b)
         {

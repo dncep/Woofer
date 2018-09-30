@@ -20,4 +20,9 @@ namespace WooferGame.Systems.Pulse
     class PulseReceiverPhysical : Component
     {
     }
+
+    [Component("pulse_damaged")]
+    class PulseDamaged : Component
+    {
+    }
 }

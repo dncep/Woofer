@@ -3,6 +3,7 @@ using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Scenes;
 
 using GameInterfaces.Controller;
+using WooferGame.Systems.HealthSystems;
 
 namespace WooferGame.Systems.Visual
 {
@@ -26,7 +27,8 @@ namespace WooferGame.Systems.Visual
             foreach (LevelRenderable tile in WatchedComponents)
             {
                 if (!tile.Owner.Active) continue;
-                if(tile.Owner.Components.Get<Renderable>() is Renderable renderable)
+                if (tile.Owner.Components.Has<DamageFlashing>() && tile.Owner.Components.Get<Health>() is Health health && ((int)(health.InvincibilityTimer / 6) % 2) != 0) continue;
+                if (tile.Owner.Components.Get<Renderable>() is Renderable renderable)
                 {
                     Renderable.Render(layer, view, r, renderable.Sprites, renderable.Owner.Components.Get<Spatial>());
                 }

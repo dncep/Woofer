@@ -54,7 +54,7 @@ namespace WooferGame.Scenes.Menu
                 switch (SelectedIndex)
                 {
                     case 0:
-                        WooferLoadOperation load = new WooferLoadOperation(Woofer.Controller, "Tutorial", "scenes");
+                        WooferLoadOperation load = new WooferLoadOperation(Woofer.Controller, "Pre boss", "scenes");
                         Scene scene = load.Load();
                         if(scene != null)
                         {

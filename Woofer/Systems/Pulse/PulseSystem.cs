@@ -12,6 +12,7 @@ using GameInterfaces.Audio;
 using GameInterfaces.Input;
 
 using WooferGame.Input;
+using WooferGame.Systems.HealthSystems;
 using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Movement;
 using WooferGame.Systems.Physics;
@@ -45,7 +46,7 @@ namespace WooferGame.Systems.Pulse
                         if (pa.Owner.Components.Has<Physical>() && pa.Owner.Components.Has<PlayerOrientation>())
                         {
                             pa.Owner.Components.Get<Physical>().Velocity = pa.Owner.Components.Get<PlayerOrientation>().Unit * -strength;
-                            
+
                             ISoundEffect sound_low = Woofer.Controller.AudioUnit["pulse_low"];
                             sound_low.Pitch = (float)(strength / 256) - 1;
                             ISoundEffect sound_mid = Woofer.Controller.AudioUnit["pulse_mid"];
@@ -102,15 +103,16 @@ namespace WooferGame.Systems.Pulse
                     {
                         double mass = 1;
                         if (pp.Owner.Components.Has<SoftBody>()) mass = pp.Owner.Components.Get<SoftBody>().Mass;
-                        ph.Velocity += ((center - pe.Source).Unit() * ((pe.Reach - distance) * pe.Strength/2) / mass);
+                        ph.Velocity += ((center - pe.Source).Normalize() * ((distance / pe.Reach) * pe.Strength/2) / mass);
                     }
                 }
                 
                 if (pe.Direction.Magnitude > 0)
                 {
                     List<Entity> hit = new List<Entity>();
+                    List<Entity> damaged = new List<Entity>();
 
-                    for(int i = -1; i <= 1; i++)
+                    for (int i = -1; i <= 1; i++)
                     {
                         RaycastEvent raycast = new RaycastEvent(evt.Sender, new FreeVector2D(pe.Source, pe.Source + pe.Direction.Rotate(i * (Math.PI / 4)) * pe.Reach));
                         Owner.Events.InvokeEvent(raycast);
@@ -122,10 +124,17 @@ namespace WooferGame.Systems.Pulse
                             {
                                 hit.Add(intersection.Component.Owner);
                             }
+                            else if (intersection.Component.Owner != pe.Sender.Owner &&
+                                intersection.Component.Owner.Components.Has<PulseDamaged>() &&
+                                !damaged.Contains(intersection.Component.Owner))
+                            {
+                                damaged.Add(intersection.Component.Owner);
+                            }
                         }
                     }
 
                     hit.ForEach(e => Owner.Events.InvokeEvent(new ActivationEvent(pe.Sender, e, pe)));
+                    damaged.ForEach(e => Owner.Events.InvokeEvent(new DamageEvent(e, 1, pe.Sender)));
                 }
 
                 foreach(PulseReceiver pr in WatchedComponents.Where(c => c is PulseReceiver))

@@ -358,7 +358,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 
                     int highlightedFace = UpdateSelectedFace();
                     
-                    if(highlightedFace != -1 && CursorSystem.StartedDragging)
+                    if(highlightedFace != -1 && inputMap.Jump.Consume())
                     {
                         Owner.Events.InvokeEvent(new CollisionFaceSelectEvent(SelectedBox, highlightedFace));
                         Owner.Events.InvokeEvent(new ForceModalChangeEvent("collision_face_view", null));

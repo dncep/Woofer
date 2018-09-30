@@ -17,7 +17,7 @@ namespace WooferGame.Systems.Environment
             if(re is ActivationEvent e && e.Affected.Components.Has<BreakableGlassComponent>())
             {
                 e.Affected.Active = false;
-                Owner.Events.InvokeEvent(new CameraShakeEvent(e.Sender, 8 * ((e.InnerEvent is PulseEvent pe && pe.Direction.Magnitude > 0) ? pe.Direction.Unit() : -Vector2D.UnitJ)));
+                Owner.Events.InvokeEvent(new CameraShakeEvent(e.Sender, 8 * ((e.InnerEvent is PulseEvent pe && pe.Direction.Magnitude > 0) ? pe.Direction.Normalize() : -Vector2D.UnitJ)));
             }
         }
     }

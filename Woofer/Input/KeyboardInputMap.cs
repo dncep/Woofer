@@ -22,7 +22,7 @@ namespace WooferGame.Input
                 if (keyboard[Key.Left].IsPressed()) movement -= Vector2D.UnitI;
                 if (keyboard[Key.Down].IsPressed()) movement -= Vector2D.UnitJ;
                 if (keyboard[Key.Right].IsPressed()) movement += Vector2D.UnitI;
-                return movement.Unit();
+                return movement.Normalize();
             }
         }
 

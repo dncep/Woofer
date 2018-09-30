@@ -7,6 +7,7 @@ using EntityComponentSystem.Util;
 using GameInterfaces.Input;
 
 using WooferGame.Input;
+using WooferGame.Systems.HealthSystems;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Visual.Particles;
 
@@ -24,6 +25,12 @@ namespace WooferGame.Systems.Movement
             foreach(PlayerMovementComponent pmc in WatchedComponents)
             {
                 if (!pmc.Owner.Active) continue;
+                if ((pmc.Owner.Components.Get<Health>()?.InvincibilityTimer ?? 0) > 40)
+                {
+                    continue;
+                }
+                if ((pmc.Owner.Components.Get<Health>()?.CurrentHealth ?? 1) <= 0) continue;
+
                 Physical rb = pmc.Owner.Components.Get<Physical>();
 
                 ButtonInput jumpButton = inputMap.Jump;

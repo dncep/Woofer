@@ -12,6 +12,8 @@ namespace WooferGame.Systems.Physics
         public float Mass { get; set; } = 0;
         [PersistentProperty]
         public bool Movable { get; set; } = true;
+        [PersistentProperty]
+        public bool PassThroughLevel = false;
 
         public SoftBody()
         {

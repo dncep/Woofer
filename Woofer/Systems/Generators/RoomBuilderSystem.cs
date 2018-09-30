@@ -31,6 +31,7 @@ namespace WooferGame.Systems.Generators
         {
             foreach(RoomBuilder rb in WatchedComponents)
             {
+                if (rb.Build && (rb.Width != rb.Map.GetLength(0) || rb.Height != rb.Map.GetLength(1))) rb.Refresh = true;
                 if(rb.Refresh)
                 {
                     bool[,] old = rb.Map;
