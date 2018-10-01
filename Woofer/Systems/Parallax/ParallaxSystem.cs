@@ -25,6 +25,7 @@ namespace WooferGame.Systems.Parallax
 
             foreach(Parallax parallax in WatchedComponents)
             {
+                if (!parallax.Owner.Active) continue;
                 var layer = parallax.Speed.X >= 1 ? front : back;
                 Spatial sp = parallax.Owner.Components.Get<Spatial>();
 

@@ -25,6 +25,7 @@ namespace WooferGame.Systems.HealthSystems
         {
             foreach (Health health in WatchedComponents)
             {
+                if (!health.Owner.Active) continue;
                 if (health.InvincibilityTimer > 0) health.InvincibilityTimer--;
                 if (health.CurrentHealth <= 0)
                 {
@@ -65,6 +66,7 @@ namespace WooferGame.Systems.HealthSystems
 
             foreach(Health health in WatchedComponents)
             {
+                if (!health.Owner.Active) continue;
                 if (!health.HealthBarVisible) continue;
                 Spatial sp = health.Owner.Components.Get<Spatial>();
 
@@ -102,7 +104,9 @@ namespace WooferGame.Systems.HealthSystems
             }
             else if (e is SoftCollisionEvent sce && sce.Sender.Owner.Components.Get<DamageOnContactComponent>() is DamageOnContactComponent sHurt && sce.Victim.Components.Get<Health>() is Health sVictim)
             {
-                if(sHurt.Filter == DamageFilter.DamageAll ||
+                if ((sHurt.Owner.Components.Get<Health>()?.CurrentHealth ?? 1) <= 0) return;
+                if (sVictim.CurrentHealth <= 0) return;
+                if (sHurt.Filter == DamageFilter.DamageAll ||
                     (sHurt.Filter == DamageFilter.DamageAllies && sVictim.Owner.Components.Has<PlayerComponent>()) ||
                     (sHurt.Filter == DamageFilter.DamageEnemies && !sVictim.Owner.Components.Has<PlayerComponent>())
                 )
@@ -116,6 +120,8 @@ namespace WooferGame.Systems.HealthSystems
             }
             else if (e is RigidCollisionEvent rce && rce.Sender.Owner.Components.Get<DamageOnContactComponent>() is DamageOnContactComponent rHurt && rce.Victim.Components.Get<Health>() is Health rVictim)
             {
+                if ((rHurt.Owner.Components.Get<Health>()?.CurrentHealth ?? 1) <= 0) return;
+                if (rVictim.CurrentHealth <= 0) return;
                 if (rHurt.Filter == DamageFilter.DamageAll ||
                     (rHurt.Filter == DamageFilter.DamageAllies && rVictim.Owner.Components.Has<PlayerComponent>()) ||
                     (rHurt.Filter == DamageFilter.DamageEnemies && !rVictim.Owner.Components.Has<PlayerComponent>())

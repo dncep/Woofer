@@ -8,6 +8,7 @@ using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
+using WooferGame.Systems.HealthSystems;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player;
 
@@ -28,9 +29,10 @@ namespace WooferGame.Systems.Enemies
             Spatial playerSp = player.Components.Get<Spatial>();
             if (playerSp == null) return;
 
-            foreach(SentryAI sentry in WatchedComponents.Where(c => c is SentryAI))
+            foreach(SentryAI sentry in WatchedComponents.Where(c => c is SentryAI && c.Owner.Active))
             {
                 if (sentry.ActionTime > 0) sentry.ActionTime--;
+                if ((sentry.Owner.Components.Get<Health>()?.CurrentHealth ?? 1) <= 0) continue;
                 Spatial sp = sentry.Owner.Components.Get<Spatial>();
                 Physical phys = sentry.Owner.Components.Get<Physical>();
                 if (sp == null || phys == null) continue;
