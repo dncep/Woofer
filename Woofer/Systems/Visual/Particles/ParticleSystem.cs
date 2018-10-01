@@ -9,10 +9,27 @@ using WooferGame.Systems.Visual.Animation;
 
 namespace WooferGame.Systems.Visual.Particles
 {
-    [ComponentSystem("particles"),
+    [ComponentSystem("particles", ProcessingCycles.Tick),
+        Watching(typeof(ParticleComponent)),
         Listening(typeof(AnimationEndEvent))]
     class ParticleSystem : ComponentSystem
     {
+        public int MaxParticleCount = 100;
+
+        public override void Tick()
+        {
+            if(WatchedComponents.Count > MaxParticleCount)
+            {
+                int toRemove = WatchedComponents.Count - MaxParticleCount;
+                foreach(ParticleComponent particle in WatchedComponents)
+                {
+                    particle.Owner.Remove();
+                    toRemove--;
+                    if (toRemove <= 0) break;
+                }
+            }
+        }
+
         public override void EventFired(object sender, Event evt)
         {
             if(evt is AnimationEndEvent ae)

@@ -103,7 +103,8 @@ namespace WooferGame.Systems.Pulse
                     {
                         double mass = 1;
                         if (pp.Owner.Components.Has<SoftBody>()) mass = pp.Owner.Components.Get<SoftBody>().Mass;
-                        ph.Velocity += ((center - pe.Source).Normalize() * ((distance / pe.Reach) * pe.Strength/2) / mass);
+                        double factor = 1-(distance / pe.Reach);
+                        ph.Velocity += ((center - pe.Source).Normalize() * (factor * pe.Strength) / mass);
                     }
                 }
                 
@@ -158,7 +159,7 @@ namespace WooferGame.Systems.Pulse
 
                 if (!pe.Sender.Owner.Components.Has<PlayerAnimation>())
                 {
-                    for (int i = 0; i < 5 * Math.Pow(pe.Strength / 256, 2); i++)
+                    for (int i = 0; i < 5 * Math.Pow(pe.Strength / 16384, 2); i++)
                     {
                         SoundParticle particle = new SoundParticle(pe.Source + pe.Direction * 12, i * 8);
                         Owner.Entities.Add(particle);
