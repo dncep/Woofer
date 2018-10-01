@@ -17,8 +17,18 @@ namespace WooferGame.Systems.Enemies
         [PersistentProperty]
         public int FollowDistance = 192;
         
-        public int ThrowTime = 0;
-        
         public bool OnGround = true;
+
+        public int ActionTime = 0;
+
+        public SentryAction Action = SentryAction.Idle;
+    }
+
+    enum SentryAction
+    {
+        Idle,
+        Throw,
+        Charge,
+        Dodge
     }
 }

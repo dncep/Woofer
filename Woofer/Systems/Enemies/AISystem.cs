@@ -30,13 +30,13 @@ namespace WooferGame.Systems.Enemies
 
             foreach(SentryAI sentry in WatchedComponents.Where(c => c is SentryAI))
             {
-                if (sentry.ThrowTime > 0) sentry.ThrowTime--;
+                if (sentry.ActionTime > 0) sentry.ActionTime--;
                 Spatial sp = sentry.Owner.Components.Get<Spatial>();
                 Physical phys = sentry.Owner.Components.Get<Physical>();
                 if (sp == null || phys == null) continue;
                 bool inRange = (sp.Position - playerSp.Position).Magnitude < sentry.FollowDistance;
 
-                if (sentry.ThrowTime == 5)
+                if (sentry.Action == SentryAction.Throw && sentry.ActionTime == 30)
                 {
                     Vector2D velocity = new Vector2D();
                     double targetTime = 0.8;
@@ -49,9 +49,46 @@ namespace WooferGame.Systems.Enemies
 
                 if (!sentry.OnGround) continue;
 
-                if(inRange && sentry.ThrowTime == 0)
+                if(inRange && sentry.ActionTime == 0)
                 {
-                    sentry.ThrowTime = 80;
+                    //Choose action
+
+                    double distance = (playerSp.Position - sp.Position).Magnitude;
+
+                    int[] weights = { 1, 2, 3 };
+                    if (distance > 64) weights[0] = 10;
+                    else if (distance < 48) weights[1] = 6;
+                    else weights[2] = 4;
+
+                    SentryAction next;
+
+                    int pick = Random.Next(weights[0] + weights[1] + weights[2]);
+                    if (pick < weights[0]) next = SentryAction.Charge;
+                    else if (pick < weights[0] + weights[1]) next = SentryAction.Dodge;
+                    else next = SentryAction.Throw;
+                    
+                    sentry.Action = next;
+
+                    switch(next)
+                    {
+                        case SentryAction.Charge:
+                            {
+                                phys.Velocity = new Vector2D(128 * Math.Sign(playerSp.Position.X - sp.Position.X), 64);
+                                sentry.ActionTime = Random.Next(30, 60);
+                                break;
+                            }
+                        case SentryAction.Dodge:
+                            {
+                                phys.Velocity = new Vector2D(-64 * Math.Sign(playerSp.Position.X - sp.Position.X), 64);
+                                sentry.ActionTime = Random.Next(30, 60);
+                                break;
+                            }
+                        case SentryAction.Throw:
+                            {
+                                sentry.ActionTime = 80;
+                                break;
+                            }
+                    }
                 }
             }
         }
