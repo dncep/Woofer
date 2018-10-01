@@ -19,7 +19,7 @@ namespace WooferGame.Systems.Player
 {
     class PlayerEntity : Entity
     {
-        public PlayerEntity(double x, double y)
+        public PlayerEntity(float x, float y)
         {
             //Physics
             Components.Add(new Spatial(x, y));

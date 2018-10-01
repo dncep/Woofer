@@ -11,31 +11,31 @@ namespace EntityComponentSystem.Util
     public class Rectangle
     {
         [PersistentProperty]
-        public double X;
+        public float X;
         [PersistentProperty]
-        public double Y;
+        public float Y;
         [PersistentProperty]
-        public double Width;
+        public float Width;
         [PersistentProperty]
-        public double Height;
+        public float Height;
 
         public Vector2D Position => new Vector2D(X, Y);
         public Size Size => new Size(Width, Height);
 
-        public double Left => X;
-        public double Right => X + Width;
-        public double Bottom => Y;
-        public double Top => Y + Height;
+        public float Left => X;
+        public float Right => X + Width;
+        public float Bottom => Y;
+        public float Top => Y + Height;
 
         public Vector2D Center => new Vector2D(X + Width / 2, Y + Height / 2);
 
-        public double Area => Width * Height;
+        public float Area => Width * Height;
 
         public Rectangle(Rectangle other) : this(other.X, other.Y, other.Width, other.Height)
         {
         }
 
-        public Rectangle(double x, double y, double width, double height)
+        public Rectangle(float x, float y, float width, float height)
         {
             X = x;
             Y = y;
@@ -43,7 +43,7 @@ namespace EntityComponentSystem.Util
             Height = height;
         }
 
-        public Rectangle(Vector2D pos, double width, double height)
+        public Rectangle(Vector2D pos, float width, float height)
         {
             X = pos.X;
             Y = pos.Y;
@@ -80,10 +80,10 @@ namespace EntityComponentSystem.Util
 
         public Rectangle Union(Rectangle other)
         {
-            double x1 = Math.Min(this.Left, other.Left);
-            double y1 = Math.Min(this.Bottom, other.Bottom);
-            double x2 = Math.Max(this.Right, other.Right);
-            double y2 = Math.Max(this.Top, other.Top);
+            float x1 = Math.Min(this.Left, other.Left);
+            float y1 = Math.Min(this.Bottom, other.Bottom);
+            float x2 = Math.Max(this.Right, other.Right);
+            float y2 = Math.Max(this.Top, other.Top);
 
             return new Rectangle(x1, y1, x2 - x1, y2 - y1);
         }

@@ -134,7 +134,7 @@ namespace WooferGame.Systems.Physics
 
                             if (normal.X == 0)
                             {
-                                double displacement = Math.Abs(normalSide.A.Y - (normal.Y > 0 ? objA.Bounds.Offset(physA.Position).Bottom : objA.Bounds.Offset(physA.Position).Top));
+                                float displacement = Math.Abs(normalSide.A.Y - (normal.Y > 0 ? objA.Bounds.Offset(physA.Position).Bottom : objA.Bounds.Offset(physA.Position).Top));
                                 if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.Y - physA.PreviousPosition.Y), 8))
                                 {
                                     physA.Position += new Vector2D(0, displacement) * normal.Y;
@@ -144,7 +144,7 @@ namespace WooferGame.Systems.Physics
                             }
                             else
                             {
-                                double displacement = Math.Abs(normalSide.A.X - (normal.X > 0 ? objA.Bounds.Offset(physA.Position).Left : objA.Bounds.Offset(physA.Position).Right));
+                                float displacement = Math.Abs(normalSide.A.X - (normal.X > 0 ? objA.Bounds.Offset(physA.Position).Left : objA.Bounds.Offset(physA.Position).Right));
                                 if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.X - physA.PreviousPosition.X), 8))
                                 {
                                     physA.Position += new Vector2D(displacement, 0) * normal.X;
@@ -167,7 +167,7 @@ namespace WooferGame.Systems.Physics
                             double distance = (center0 - center1).Magnitude;
                             if (distance <= 1e-4) continue;
 
-                            double force = 2 * Owner.FixedDeltaTime * intersection.Area * (objA.Mass * (objB as SoftBody).Mass);
+                            float force = 2 * Owner.FixedDeltaTime * intersection.Area * (objA.Mass * (objB as SoftBody).Mass);
 
                             Vector2D forceVec = (center1 - center0).Normalize() * force;
                             forceVec.Y = 0;

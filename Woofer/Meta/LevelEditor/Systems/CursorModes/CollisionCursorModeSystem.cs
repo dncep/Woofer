@@ -236,13 +236,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                     {
                         if (DraggingSide == 3) //Left
                         {
-                            double prevRight = SelectedBox.Right;
+                            float prevRight = SelectedBox.Right;
                             SelectedBox.X = (CursorSystem.CursorPos.X - Pivot.X);
                             SelectedBox.Width = prevRight - SelectedBox.X;
                             if(SelectedBox.Width < 0)
                             {
-                                double min = Math.Min(SelectedBox.Left, SelectedBox.Right);
-                                double max = Math.Max(SelectedBox.Left, SelectedBox.Right);
+                                float min = Math.Min(SelectedBox.Left, SelectedBox.Right);
+                                float max = Math.Max(SelectedBox.Left, SelectedBox.Right);
                                 SelectedBox.X = min;
                                 SelectedBox.Width = max - min;
                                 DraggingSide = 1;
@@ -254,21 +254,21 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 
                             if (SelectedBox.Width < 0)
                             {
-                                double min = Math.Min(SelectedBox.Left, SelectedBox.Right);
-                                double max = Math.Max(SelectedBox.Left, SelectedBox.Right);
+                                float min = Math.Min(SelectedBox.Left, SelectedBox.Right);
+                                float max = Math.Max(SelectedBox.Left, SelectedBox.Right);
                                 SelectedBox.X = min;
                                 SelectedBox.Width = max - min;
                                 DraggingSide = 3;
                             }
                         } else if (DraggingSide == 2) //Bottom
                         {
-                            double prevTop = SelectedBox.Top;
+                            float prevTop = SelectedBox.Top;
                             SelectedBox.Y = (CursorSystem.CursorPos.Y - Pivot.Y);
                             SelectedBox.Height = prevTop - SelectedBox.Y;
                             if (SelectedBox.Height < 0)
                             {
-                                double min = Math.Min(SelectedBox.Bottom, SelectedBox.Top);
-                                double max = Math.Max(SelectedBox.Bottom, SelectedBox.Top);
+                                float min = Math.Min(SelectedBox.Bottom, SelectedBox.Top);
+                                float max = Math.Max(SelectedBox.Bottom, SelectedBox.Top);
                                 SelectedBox.Y = min;
                                 SelectedBox.Height = max - min;
                                 DraggingSide = 0;
@@ -280,8 +280,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 
                             if (SelectedBox.Height < 0)
                             {
-                                double min = Math.Min(SelectedBox.Bottom, SelectedBox.Top);
-                                double max = Math.Max(SelectedBox.Bottom, SelectedBox.Top);
+                                float min = Math.Min(SelectedBox.Bottom, SelectedBox.Top);
+                                float max = Math.Max(SelectedBox.Bottom, SelectedBox.Top);
                                 SelectedBox.Y = min;
                                 SelectedBox.Height = max - min;
                                 DraggingSide = 2;

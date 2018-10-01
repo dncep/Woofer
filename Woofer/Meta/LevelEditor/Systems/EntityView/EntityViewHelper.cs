@@ -251,13 +251,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
                     StartNumberInputEvent.OnSubmit onReceiveY = v =>
                     {
-                        vec.Y = v;
+                        vec.Y = (float)v;
                         member.SetValue(vec);
                     };
 
                     StartNumberInputEvent.OnSubmit onReceiveX = (v =>
                     {
-                        vec.X = v;
+                        vec.X = (float)v;
                         member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
                         member.Scene.Events.InvokeEvent(new StartNumberInputEvent(vec.Y, onReceiveY, null) { Label = "Vector2D.Y" });
                     });
@@ -273,13 +273,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
                 StartNumberInputEvent.OnSubmit onReceiveHeight = v =>
                 {
-                    vec.Height = v;
+                    vec.Height = (float)v;
                     member.SetValue(vec);
                 };
 
                 StartNumberInputEvent.OnSubmit onReceiveWidth = (v =>
                 {
-                    vec.Width = v;
+                    vec.Width = (float)v;
                     member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
                     member.Scene.Events.InvokeEvent(new StartNumberInputEvent(vec.Height, onReceiveHeight, true, null) { Label = "Size.Height" });
                 });
@@ -409,27 +409,27 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
                 StartNumberInputEvent.OnSubmit onReceiveHeight = v =>
                 {
-                    rect.Height = v;
+                    rect.Height = (float)v;
                     member.SetValue(rect);
                 };
 
                 StartNumberInputEvent.OnSubmit onReceiveWidth = v =>
                 {
-                    rect.Width = v;
+                    rect.Width = (float)v;
                     member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
                     member.Scene.Events.InvokeEvent(new StartNumberInputEvent(rect.Height, onReceiveHeight, null) { Label = "Height=" });
                 };
 
                 StartNumberInputEvent.OnSubmit onReceiveY = v =>
                 {
-                    rect.Y = v;
+                    rect.Y = (float)v;
                     member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
                     member.Scene.Events.InvokeEvent(new StartNumberInputEvent(rect.Width, onReceiveWidth, null) { Label = "Width=" });
                 };
 
                 StartNumberInputEvent.OnSubmit onReceiveX = (v =>
                 {
-                    rect.X = v;
+                    rect.X = (float)v;
                     member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("number_input", null));
                     member.Scene.Events.InvokeEvent(new StartNumberInputEvent(rect.Y, onReceiveY, null) { Label = "Y=" });
                 });

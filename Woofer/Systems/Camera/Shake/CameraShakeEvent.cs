@@ -14,7 +14,7 @@ namespace WooferGame.Systems.Camera.Shake
             this.Motion = motion;
         }
 
-        public CameraShakeEvent(Component sender, double strength) : this(sender, new Vector2D(0, -strength))
+        public CameraShakeEvent(Component sender, float strength) : this(sender, new Vector2D(0, -strength))
         {
         }
 

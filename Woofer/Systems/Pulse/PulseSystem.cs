@@ -41,7 +41,7 @@ namespace WooferGame.Systems.Pulse
                 {
                     if(pulseButton.Consume())
                     {
-                        double strength = (pa.PulseStrength * Math.Sqrt(pa.EnergyMeter / pa.MaxEnergy));
+                        float strength = (float)(pa.PulseStrength * Math.Sqrt(pa.EnergyMeter / pa.MaxEnergy));
 
                         if (pa.Owner.Components.Has<Physical>() && pa.Owner.Components.Has<PlayerOrientation>())
                         {
@@ -96,15 +96,15 @@ namespace WooferGame.Systems.Pulse
 
                     Vector2D center = pp.Owner.Components.Has<SoftBody>() ? pp.Owner.Components.Get<SoftBody>().Bounds.Offset(ph.Position).Center : ph.Position;
 
-                    double distance = (center - pe.Source).Magnitude;
+                    float distance = (center - pe.Source).Magnitude;
 
                     if (distance > pe.Reach) continue;
 
                     if(pe.Source.Magnitude == 0 || GeneralUtil.SubtractAngles((center - pe.Source).Angle, pe.Direction.Angle) <= Math.PI/4)
                     {
-                        double mass = 1;
+                        float mass = 1;
                         if (pp.Owner.Components.Has<SoftBody>()) mass = pp.Owner.Components.Get<SoftBody>().Mass;
-                        double factor = 1-(distance / pe.Reach);
+                        float factor = 1-(distance / pe.Reach);
                         ph.Velocity += ((center - pe.Source).Normalize() * (factor * pe.Strength) / mass);
                     }
                 }
@@ -116,7 +116,7 @@ namespace WooferGame.Systems.Pulse
 
                     for (int i = -1; i <= 1; i++)
                     {
-                        RaycastEvent raycast = new RaycastEvent(evt.Sender, new FreeVector2D(pe.Source, pe.Source + pe.Direction.Rotate(i * (Math.PI / 4)) * pe.Reach));
+                        RaycastEvent raycast = new RaycastEvent(evt.Sender, new FreeVector2D(pe.Source, pe.Source + pe.Direction.Rotate(i * (float)(Math.PI / 4)) * pe.Reach));
                         Owner.Events.InvokeEvent(raycast);
                         foreach(RaycastIntersection intersection in raycast.Intersected)
                         {

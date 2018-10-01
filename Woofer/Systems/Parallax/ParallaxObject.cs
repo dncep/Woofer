@@ -11,7 +11,7 @@ namespace WooferGame.Systems.Parallax
 {
     class ParallaxObject : Entity
     {
-        public ParallaxObject(Vector2D pos, Rectangle sourceBounds, Vector2D speed, double scale = 1)
+        public ParallaxObject(Vector2D pos, Rectangle sourceBounds, Vector2D speed, float scale = 1)
         {
             this.Components.Add(new Spatial(pos));
             this.Components.Add(new Parallax("parallax_bg", sourceBounds, speed, scale));

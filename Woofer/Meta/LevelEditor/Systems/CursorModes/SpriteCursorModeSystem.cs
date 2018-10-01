@@ -229,13 +229,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                     {
                         if (DraggingSide == 3) //Left
                         {
-                            double prevRight = SelectedSprite.Destination.Right;
+                            float prevRight = SelectedSprite.Destination.Right;
                             SelectedSprite.Destination.X = (CursorSystem.CursorPos.X - Origin.X);
                             SelectedSprite.Destination.Width = prevRight - SelectedSprite.Destination.X;
                             if (SelectedSprite.Destination.Width < 0)
                             {
-                                double min = Math.Min(SelectedSprite.Destination.Left, SelectedSprite.Destination.Right);
-                                double max = Math.Max(SelectedSprite.Destination.Left, SelectedSprite.Destination.Right);
+                                float min = Math.Min(SelectedSprite.Destination.Left, SelectedSprite.Destination.Right);
+                                float max = Math.Max(SelectedSprite.Destination.Left, SelectedSprite.Destination.Right);
                                 SelectedSprite.Destination.X = min;
                                 SelectedSprite.Destination.Width = max - min;
                                 DraggingSide = 1;
@@ -247,8 +247,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 
                             if (SelectedSprite.Destination.Width < 0)
                             {
-                                double min = Math.Min(SelectedSprite.Destination.Left, SelectedSprite.Destination.Right);
-                                double max = Math.Max(SelectedSprite.Destination.Left, SelectedSprite.Destination.Right);
+                                float min = Math.Min(SelectedSprite.Destination.Left, SelectedSprite.Destination.Right);
+                                float max = Math.Max(SelectedSprite.Destination.Left, SelectedSprite.Destination.Right);
                                 SelectedSprite.Destination.X = min;
                                 SelectedSprite.Destination.Width = max - min;
                                 DraggingSide = 3;
@@ -256,13 +256,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                         }
                         else if (DraggingSide == 2) //Bottom
                         {
-                            double prevTop = SelectedSprite.Destination.Top;
+                            float prevTop = SelectedSprite.Destination.Top;
                             SelectedSprite.Destination.Y = (CursorSystem.CursorPos.Y - Origin.Y);
                             SelectedSprite.Destination.Height = prevTop - SelectedSprite.Destination.Y;
                             if (SelectedSprite.Destination.Height < 0)
                             {
-                                double min = Math.Min(SelectedSprite.Destination.Bottom, SelectedSprite.Destination.Top);
-                                double max = Math.Max(SelectedSprite.Destination.Bottom, SelectedSprite.Destination.Top);
+                                float min = Math.Min(SelectedSprite.Destination.Bottom, SelectedSprite.Destination.Top);
+                                float max = Math.Max(SelectedSprite.Destination.Bottom, SelectedSprite.Destination.Top);
                                 SelectedSprite.Destination.Y = min;
                                 SelectedSprite.Destination.Height = max - min;
                                 DraggingSide = 0;
@@ -274,8 +274,8 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 
                             if (SelectedSprite.Destination.Height < 0)
                             {
-                                double min = Math.Min(SelectedSprite.Destination.Bottom, SelectedSprite.Destination.Top);
-                                double max = Math.Max(SelectedSprite.Destination.Bottom, SelectedSprite.Destination.Top);
+                                float min = Math.Min(SelectedSprite.Destination.Bottom, SelectedSprite.Destination.Top);
+                                float max = Math.Max(SelectedSprite.Destination.Bottom, SelectedSprite.Destination.Top);
                                 SelectedSprite.Destination.Y = min;
                                 SelectedSprite.Destination.Height = max - min;
                                 DraggingSide = 2;

@@ -12,21 +12,21 @@ namespace WooferGame.Systems.Player.Actions
     class PulseAbility : Component
     {
         [PersistentProperty]
-        public double MaxEnergy = 100;
+        public float MaxEnergy = 100;
 
         [PersistentProperty]
-        public double EnergyMeter = 100;
-
-
-        [PersistentProperty]
-        public double PulseCost = 20;
-
-        [PersistentProperty]
-        public double PulseStrength = 256;
+        public float EnergyMeter = 100;
 
 
         [PersistentProperty]
-        public double MaxRange = 48;
+        public float PulseCost = 20;
+
+        [PersistentProperty]
+        public float PulseStrength = 256;
+
+
+        [PersistentProperty]
+        public float MaxRange = 48;
 
 
         [PersistentProperty]

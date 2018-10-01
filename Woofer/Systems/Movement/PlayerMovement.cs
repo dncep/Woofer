@@ -52,13 +52,13 @@ namespace WooferGame.Systems.Movement
                 {
                     if(rb.Velocity.X <= xMovementCap)
                     {
-                        rb.Velocity.X = Math.Min(rb.Velocity.X + xMovement, xMovementCap);
+                        rb.Velocity.X = (float)Math.Min(rb.Velocity.X + xMovement, xMovementCap);
                     }
                 } else if(xMovement < 0)
                 {
                     if (rb.Velocity.X >= -xMovementCap)
                     {
-                        rb.Velocity.X = Math.Max(rb.Velocity.X + xMovement, -xMovementCap);
+                        rb.Velocity.X = (float)Math.Max(rb.Velocity.X + xMovement, -xMovementCap);
                     }
                 }
 

@@ -15,20 +15,20 @@ namespace WooferGame.Scenes.LevelObjects
     class Ramp : Entity
     {
 
-        public Ramp(Vector2D from, Vector2D to, double friction, Vector2D spriteOffset)
+        public Ramp(Vector2D from, Vector2D to, float friction, Vector2D spriteOffset)
         {
             this.Components.Add(new Spatial(from));
             this.Components.Add(new Physical() { GravityMultiplier = 0 });
             this.Components.Add(new RigidBody(CreateCollisionBoxesForSlope(from-from, to-from, friction).ToArray()));
 
-            double minX = Math.Min(from.X, to.X) - 8;
-            double width = Math.Abs(from.X - to.X) + 16;
-            double minY = Math.Min(from.Y, to.Y);
-            double height = Math.Abs(from.Y - to.Y);
+            float minX = Math.Min(from.X, to.X) - 8;
+            float width = Math.Abs(from.X - to.X) + 16;
+            float minY = Math.Min(from.Y, to.Y);
+            float height = Math.Abs(from.Y - to.Y);
 
-            double descent = 22;
+            float descent = 22;
 
-            double slope = (to.Y - from.Y) / (to.X - from.X);
+            float slope = (to.Y - from.Y) / (to.X - from.X);
 
             Renderable rend;
 
@@ -41,19 +41,19 @@ namespace WooferGame.Scenes.LevelObjects
 
         }
 
-        public static List<CollisionBox> CreateCollisionBoxesForSlope(Vector2D from, Vector2D to, double friction)
+        public static List<CollisionBox> CreateCollisionBoxesForSlope(Vector2D from, Vector2D to, float friction)
         {
             List<CollisionBox> collisionBoxes = new List<CollisionBox>();
 
-            double minX = Math.Min(from.X, to.X);
-            double width = Math.Abs(from.X - to.X);
-            double minY = Math.Min(from.Y, to.Y);
-            double height = Math.Abs(from.Y - to.Y);
+            float minX = Math.Min(from.X, to.X);
+            float width = Math.Abs(from.X - to.X);
+            float minY = Math.Min(from.Y, to.Y);
+            float height = Math.Abs(from.Y - to.Y);
 
-            double slope = (to.Y - from.Y) / (to.X - from.X);
+            float slope = (to.Y - from.Y) / (to.X - from.X);
 
-            double stepWidth;
-            double stepHeight;
+            float stepWidth;
+            float stepHeight;
 
             if (width >= height)
             {
@@ -68,9 +68,9 @@ namespace WooferGame.Scenes.LevelObjects
             if (stepWidth <= 0) throw new ArgumentException("Width cannot be zero");
             if (stepHeight <= 0) throw new ArgumentException("Height cannot be zero");
 
-            double y = (slope < 0) ? minY + height - stepHeight : minY;
+            float y = (slope < 0) ? minY + height - stepHeight : minY;
 
-            for (double x = minX; x < minX + width; x += stepWidth)
+            for (float x = minX; x < minX + width; x += stepWidth)
             {
                 collisionBoxes.Add(new CollisionBox(x, y, stepWidth, stepHeight)
                 {

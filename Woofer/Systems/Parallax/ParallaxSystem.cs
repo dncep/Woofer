@@ -32,8 +32,8 @@ namespace WooferGame.Systems.Parallax
                 center.X *= parallax.Speed.X;
                 center.Y *= parallax.Speed.Y;
 
-                double width = parallax.SourceBounds.Width * parallax.Scale;
-                double height = parallax.SourceBounds.Height * parallax.Scale;
+                float width = parallax.SourceBounds.Width * parallax.Scale;
+                float height = parallax.SourceBounds.Height * parallax.Scale;
 
                 Rectangle destination = new Rectangle(center.X, center.Y, width, height);
                 destination.X -= width / 2;

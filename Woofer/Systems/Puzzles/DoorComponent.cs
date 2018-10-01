@@ -12,14 +12,14 @@ namespace WooferGame.Systems.Puzzles
     class DoorComponent : Component
     {
         [PersistentProperty]
-        public double MaxOpenDistance = 48 - 8;
+        public float MaxOpenDistance = 48 - 8;
         [PersistentProperty]
-        public double CurrentOpenDistance = 0;
+        public float CurrentOpenDistance = 0;
         [PersistentProperty]
-        public double OpeningTime = 0.5;
+        public float OpeningTime = 0.5f;
 
         [PersistentProperty]
-        public double OpeningDirection = 0;
+        public float OpeningDirection = 0;
 
         [PersistentProperty]
         public bool Toggle = false;

@@ -11,9 +11,9 @@ namespace EntityComponentSystem.Util
         public Vector2D A;
         public Vector2D B;
 
-        public double Magnitude => (B - A).Magnitude;
-        public double Angle => (B - A).Angle;
-        public Vector2D Normal => (B - A).Rotate(Math.PI / 2).Normalize();
+        public float Magnitude => (B - A).Magnitude;
+        public float Angle => (B - A).Angle;
+        public Vector2D Normal => (B - A).Rotate(Math.PI / 2).Normalize().GetRounded();
 
         public FreeVector2D(Vector2D b) : this(new Vector2D(), b)
         {
@@ -25,7 +25,7 @@ namespace EntityComponentSystem.Util
             B = b;
         }
 
-        public FreeVector2D Rotate(double rad)
+        public FreeVector2D Rotate(float rad)
         {
             return new FreeVector2D(A.Rotate(rad), B.Rotate(rad));
         }
@@ -65,11 +65,11 @@ namespace EntityComponentSystem.Util
             FreeVector2D thisRotated = this.Rotate(-this.Angle);
             FreeVector2D otherRotated = other.Rotate(-this.Angle);
 
-            double yOff = thisRotated.A.Y - otherRotated.A.Y;
-            double xOff = yOff / Math.Tan(otherRotated.Angle);
+            float yOff = thisRotated.A.Y - otherRotated.A.Y;
+            float xOff = yOff / (float)Math.Tan(otherRotated.Angle);
 
-            double intersectX = otherRotated.A.X + xOff;
-            double intersectY = otherRotated.A.Y + yOff;
+            float intersectX = otherRotated.A.X + xOff;
+            float intersectY = otherRotated.A.Y + yOff;
 
             Vector2D intersection = new Vector2D(intersectX, intersectY);
             if (thisRotated.Contains(intersection) && otherRotated.Contains(intersection))

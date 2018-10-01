@@ -113,7 +113,7 @@ namespace WooferGame.Scenes
             //var boxrb = (box.Components["rigidbody"]) as RigidBody;
             if (boxrb.Position.Y < -1000)
             {
-                boxrb.Position = new Vector2D(32.001, 64);
+                boxrb.Position = new Vector2D(32.001f, 64);
                 boxrb.Velocity = new Vector2D();
             }
             //CurrentViewport.Y = (float) (16d*Math.Sin(2*time));

@@ -13,12 +13,12 @@ namespace EntityComponentSystem.Scenes
     {
         [PersistentProperty]
         public Vector2D Location;
-        public double X
+        public float X
         {
             get => Location.X;
             set => Location.X = value;
         }
-        public double Y
+        public float Y
         {
             get => Location.Y;
             set => Location.Y = value;

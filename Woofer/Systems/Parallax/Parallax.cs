@@ -22,13 +22,13 @@ namespace WooferGame.Systems.Parallax
         [PersistentProperty]
         public Vector2D Speed { get; set; }
         [PersistentProperty]
-        public double Scale { get; set; }
+        public float Scale { get; set; }
 
         public Parallax()
         {
         }
 
-        public Parallax(string texture, Rectangle sourceBounds, Vector2D speed, double scale)
+        public Parallax(string texture, Rectangle sourceBounds, Vector2D speed, float scale)
         {
             Texture = texture;
             SourceBounds = sourceBounds;

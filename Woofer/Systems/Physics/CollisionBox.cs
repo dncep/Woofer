@@ -12,18 +12,18 @@ namespace WooferGame.Systems.Physics
         private const int BottomFace = 2;
         private const int LeftFace = 3;
 
-        public double X;
-        public double Y;
-        public double Width;
-        public double Height;
+        public float X;
+        public float Y;
+        public float Width;
+        public float Height;
 
-        public double Top => Y + Height;
-        public double Right => X + Width;
-        public double Bottom => Y;
-        public double Left => X;
+        public float Top => Y + Height;
+        public float Right => X + Width;
+        public float Bottom => Y;
+        public float Left => X;
 
-        public double Area => Width * Height;
-        public double Perimeter => 2 * (Width + Height);
+        public float Area => Width * Height;
+        public float Perimeter => 2 * (Width + Height);
 
         private CollisionFaceProperties[] faceProperties = new CollisionFaceProperties[4]; //top, right, bottom, left
 
@@ -59,14 +59,14 @@ namespace WooferGame.Systems.Physics
 
         }
 
-        public CollisionBox(double x, double y, double width, double height)
+        public CollisionBox(float x, float y, float width, float height)
         {
             X = x;
             Y = y;
             Width = width;
             Height = height;
 
-            faceProperties[0] = new CollisionFaceProperties() { Enabled = true, Friction = 0.3 }; //top
+            faceProperties[0] = new CollisionFaceProperties() { Enabled = true, Friction = 0.3f }; //top
             faceProperties[1] = new CollisionFaceProperties() { Enabled = true }; //right
             faceProperties[2] = new CollisionFaceProperties() { Enabled = true }; //bottom
             faceProperties[3] = new CollisionFaceProperties() { Enabled = true }; //left
@@ -94,10 +94,10 @@ namespace WooferGame.Systems.Physics
         public CollisionBox Intersect(CollisionBox rectangle)
         {
             if (!IntersectsWith(rectangle)) return null;
-            double x1 = Math.Max(this.Left, rectangle.Left);
-            double y1 = Math.Max(this.Bottom, rectangle.Bottom);
-            double x2 = Math.Min(this.Right, rectangle.Right);
-            double y2 = Math.Min(this.Top, rectangle.Top);
+            float x1 = Math.Max(this.Left, rectangle.Left);
+            float y1 = Math.Max(this.Bottom, rectangle.Bottom);
+            float x2 = Math.Min(this.Right, rectangle.Right);
+            float y2 = Math.Min(this.Top, rectangle.Top);
 
             CollisionBox newBox = new CollisionBox(x1, y1, x2 - x1, y2 - y1);
             newBox.faceProperties[TopFace] = (newBox.Top == this.Top ? this : rectangle).faceProperties[TopFace];
@@ -110,10 +110,10 @@ namespace WooferGame.Systems.Physics
 
         public CollisionBox Union(CollisionBox rectangle)
         {
-            double x1 = Math.Min(this.Left, rectangle.Left);
-            double y1 = Math.Min(this.Bottom, rectangle.Bottom);
-            double x2 = Math.Max(this.Right, rectangle.Right);
-            double y2 = Math.Max(this.Top, rectangle.Top);
+            float x1 = Math.Min(this.Left, rectangle.Left);
+            float y1 = Math.Min(this.Bottom, rectangle.Bottom);
+            float x2 = Math.Max(this.Right, rectangle.Right);
+            float y2 = Math.Max(this.Top, rectangle.Top);
 
             CollisionBox newBox = new CollisionBox(x1, y1, x2 - x1, y2 - y1);
             newBox.faceProperties[TopFace] = (newBox.Top == this.Top ? this : rectangle).faceProperties[TopFace];

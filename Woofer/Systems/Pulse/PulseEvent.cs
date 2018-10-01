@@ -9,10 +9,10 @@ namespace WooferGame.Systems.Pulse
     {
         public Vector2D Source { get; set; }
         public Vector2D Direction { get; set; } //Can be a zero vector, meaning radial 
-        public double Strength { get; set; }
-        public double Reach { get; set; }
+        public float Strength { get; set; }
+        public float Reach { get; set; }
 
-        public PulseEvent(Component sender, Vector2D source, Vector2D direction, double strength, double reach) : base(sender)
+        public PulseEvent(Component sender, Vector2D source, Vector2D direction, float strength, float reach) : base(sender)
         {
             this.Source = source;
             this.Direction = direction;

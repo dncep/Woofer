@@ -11,16 +11,16 @@ namespace EntityComponentSystem.Util
     public class Size
     {
         [PersistentProperty]
-        public double Width;
+        public float Width;
         [PersistentProperty]
-        public double Height;
+        public float Height;
 
         public Size() : this(0, 0)
         {
 
         }
 
-        public Size(double width, double height)
+        public Size(float width, float height)
         {
             Width = width;
             Height = height;

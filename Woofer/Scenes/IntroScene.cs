@@ -38,10 +38,10 @@ namespace WooferGame.Scenes
 
         public IntroScene() : base(Woofer.Controller)
         {
-            Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 0, 320, 180), new Vector2D(0.0, 0)));
-            Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 180, 320, 180), new Vector2D(0.01, 0)));
-            Entities.Add(new ParallaxObject(new Vector2D(32000, 0), new Rectangle(0, 180, 320, 180), new Vector2D(0.01, 0)));
-            Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 360, 320, 180), new Vector2D(0.05, 0)));
+            Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 0, 320, 180), new Vector2D(0.0f, 0)));
+            Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 180, 320, 180), new Vector2D(0.01f, 0)));
+            Entities.Add(new ParallaxObject(new Vector2D(32000, 0), new Rectangle(0, 180, 320, 180), new Vector2D(0.01f, 0)));
+            Entities.Add(new ParallaxObject(Vector2D.Empty, new Rectangle(0, 360, 320, 180), new Vector2D(0.05f, 0)));
             //Entities.Add(new ParallaxObject(new Vector2D(0, 464), new Rectangle(0, 180, 320, 180), new Vector2D(3, 3), scale:3));
 
             Entities.Add(new Room4(94 * 16, 128));
@@ -130,7 +130,7 @@ namespace WooferGame.Scenes
 
             LabRoomBuilder rb = new LabRoomBuilder(40, 43, "lab_tileset", 7);
             rb.Fill(new Rectangle(0, 0, 20, 8), true); //Floor
-            this.AddCollision(CoordinateMode.Grid, new CollisionBox(0, 0, 19.75, 8)
+            this.AddCollision(CoordinateMode.Grid, new CollisionBox(0, 0, 19.75f, 8)
             {
                 RightFaceProperties = new CollisionFaceProperties()
             }); //Floor
@@ -142,7 +142,7 @@ namespace WooferGame.Scenes
             rb.Fill(new Rectangle(20, 0, 20, 6), true); //Floor after slope
             this.AddCollision(CoordinateMode.Grid, new CollisionBox(20, 0, 20, 6)
             {
-                TopFaceProperties = new CollisionFaceProperties(true, 0.3, true)
+                TopFaceProperties = new CollisionFaceProperties(true, 0.3f, true)
             }); //Floor after slope
 
             this.AddSegment(rb, new Rectangle(0, 27, 40, 10)); //Ceiling
@@ -165,12 +165,12 @@ namespace WooferGame.Scenes
 
             renderable.Sprites.AddRange(rb.Build());
 
-            this.QueueEntity(new BreakableGlassEntity(new Rectangle(3.375 * 16, 18 * 16, 0.5 * 16, 3 * 16), new Rectangle(0, 160, 40, 48), new Vector2D(-2 * 16, 0)));
+            this.QueueEntity(new BreakableGlassEntity(new Rectangle(3.375f * 16, 18 * 16, 0.5f * 16, 3 * 16), new Rectangle(0, 160, 40, 48), new Vector2D(-2 * 16, 0)));
 
-            this.QueueEntity(new Shelf(new Vector2D(18 * 16, 13.5 * 16), HorizontalDirection.Left));
+            this.QueueEntity(new Shelf(new Vector2D(18 * 16, 13.5f * 16), HorizontalDirection.Left));
 
-            this.QueueEntity(new Ramp(new Vector2D(24 * 16, 6 * 16), new Vector2D(20 * 16, 8 * 16), 0.5, new Vector2D(8, 0)));
-            this.QueueEntity(new Ramp(new Vector2D(36 * 16, 6 * 16), new Vector2D(40 * 16, 8 * 16), 0.5, new Vector2D(-8, 0)));
+            this.QueueEntity(new Ramp(new Vector2D(24 * 16, 6 * 16), new Vector2D(20 * 16, 8 * 16), 0.5f, new Vector2D(8, 0)));
+            this.QueueEntity(new Ramp(new Vector2D(36 * 16, 6 * 16), new Vector2D(40 * 16, 8 * 16), 0.5f, new Vector2D(-8, 0)));
 
             TriggerArea hint = new TriggerArea(new Rectangle(32 * 16, 6 * 16, 5 * 16, 4 * 16), true);
             hint.Components.Add(new ShowTextComponent(new TextUnit(new Sprite("x_icons", new Rectangle(0, 0, 9, 9), new Rectangle(0, 0, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Jump"), 10));
@@ -204,19 +204,19 @@ namespace WooferGame.Scenes
         public override void Initialize()
         {
             this.QueueEntity(new MovableBox(new Vector2D(17 * 16, 9 * 16)));
-            PulseEmitter emitter = new PulseEmitter(new Vector2D(13.5 * 16, 7.5 * 16), Vector2D.UnitJ, 128, 48);
+            PulseEmitter emitter = new PulseEmitter(new Vector2D(13.5f * 16, 7.5f * 16), Vector2D.UnitJ, 128, 48);
             this.QueueEntity(emitter);
 
             Owner.Entities.EagerAssignId(emitter);
 
-            this.QueueEntity(new InteractableButton(new Vector2D(7.5 * 16, 9.5 * 16), emitter.Id));
+            this.QueueEntity(new InteractableButton(new Vector2D(7.5f * 16, 9.5f * 16), emitter.Id));
 
             Door door = new Door(new Vector2D(21 * 16, 11 * 16), true);
             this.QueueEntity(door);
 
             Owner.Entities.EagerAssignId(door);
 
-            Switch @switch = new Switch(new Vector2D(13.5 * 16, 15 * 16), new Rectangle(-16, -4, 32, 4));
+            Switch @switch = new Switch(new Vector2D(13.5f * 16, 15 * 16), new Rectangle(-16, -4, 32, 4));
             @switch.Components.Add(new LinkedActivationComponent(door.Id));
             this.QueueEntity(@switch);
 
@@ -224,7 +224,7 @@ namespace WooferGame.Scenes
 
             this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(0, -16)));
 
-            this.QueueEntity(new Checkpoint(5.5 * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
+            this.QueueEntity(new Checkpoint(5.5f * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
 
             base.Initialize();
         }
@@ -259,7 +259,7 @@ namespace WooferGame.Scenes
 
         public override void Initialize()
         {
-            PulseEmitter emitter = new PulseEmitter(new Vector2D(7.5 * 16, 7.5 * 16), Vector2D.UnitJ, 128, 48);
+            PulseEmitter emitter = new PulseEmitter(new Vector2D(7.5f * 16, 7.5f * 16), Vector2D.UnitJ, 128, 48);
             emitter.Components.Add(new TimerComponent(1));
             this.QueueEntity(emitter);
 
@@ -268,13 +268,13 @@ namespace WooferGame.Scenes
 
             Owner.Entities.EagerAssignId(door);
 
-            this.QueueEntity(new InteractableButton(new Vector2D(3.5 * 16, 14.5 * 16), door.Id));
+            this.QueueEntity(new InteractableButton(new Vector2D(3.5f * 16, 14.5f * 16), door.Id));
 
             Rectangle cameraArea = new Rectangle(0 * 16, 9 * 16, 15 * 16, 10 * 16);
 
             this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(8, -32)));
 
-            this.QueueEntity(new Checkpoint(5.5 * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
+            this.QueueEntity(new Checkpoint(5.5f * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
 
             base.Initialize();
         }
@@ -302,13 +302,13 @@ namespace WooferGame.Scenes
 
         public override void Initialize()
         {
-            PulseEmitter emitter = new PulseEmitter(new Vector2D(1.5 * 16, 4.5 * 16), Vector2D.UnitJ, 152, 48);
+            PulseEmitter emitter = new PulseEmitter(new Vector2D(1.5f * 16, 4.5f * 16), Vector2D.UnitJ, 152, 48);
             emitter.Components.Add(new TimerComponent(1));
             this.QueueEntity(emitter);
 
             this.QueueEntity(new Shelf(new Vector2D(1 * 16, 12 * 16), HorizontalDirection.Right));
 
-            PulseEmitter sideEmitter = new PulseEmitter(new Vector2D(4 * 16, 13 * 16), Vector2D.UnitI.Rotate(Math.PI/12), 192, 48);
+            PulseEmitter sideEmitter = new PulseEmitter(new Vector2D(4 * 16, 13 * 16), Vector2D.UnitI.Rotate((float)(Math.PI/12)), 192, 48);
             sideEmitter.Components.Get<Renderable>().Sprites[0].Source.X += 16;
             this.QueueEntity(sideEmitter);
 
@@ -318,15 +318,15 @@ namespace WooferGame.Scenes
             Owner.Entities.EagerAssignId(door);
             Owner.Entities.EagerAssignId(sideEmitter);
 
-            this.QueueEntity(new InteractableButton(new Vector2D(13.5 * 16, 13.5 * 16), door.Id));
+            this.QueueEntity(new InteractableButton(new Vector2D(13.5f * 16, 13.5f * 16), door.Id));
 
-            this.QueueEntity(new InteractableButton(new Vector2D(5.5 * 16, 13.5 * 16), sideEmitter.Id));
+            this.QueueEntity(new InteractableButton(new Vector2D(5.5f * 16, 13.5f * 16), sideEmitter.Id));
 
             Rectangle cameraArea = new Rectangle(0 * 16, 9 * 16, 15 * 16, 10 * 16);
 
             this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(8, -16)));
 
-            this.QueueEntity(new Checkpoint(5.5 * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
+            this.QueueEntity(new Checkpoint(5.5f * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
             this.QueueEntity(new Padding(new Rectangle(0, -3 * 16, 16 * 16, 3 * 16)));
 
             base.Initialize();
@@ -356,20 +356,20 @@ namespace WooferGame.Scenes
 
         public override void Initialize()
         {
-            this.QueueEntity(new Shelf(new Vector2D(2 * 16, 12.5 * 16), HorizontalDirection.Right));
+            this.QueueEntity(new Shelf(new Vector2D(2 * 16, 12.5f * 16), HorizontalDirection.Right));
 
             Door door = new Door(new Vector2D(20 * 16, 16 * 16), true);
             this.QueueEntity(door);
 
             Owner.Entities.EagerAssignId(door);
 
-            this.QueueEntity(new InteractableButton(new Vector2D(16.5 * 16, 14.5 * 16), door.Id));
+            this.QueueEntity(new InteractableButton(new Vector2D(16.5f * 16, 14.5f * 16), door.Id));
 
             this.QueueEntity(new TriggerArea(new Rectangle(21 * 16, 6 * 16, 8 * 16, 6 * 16), door.Id, true));
 
-            this.QueueEntity(new WooferGiver(new Vector2D(29.5 * 16, 5 * 16)));
+            this.QueueEntity(new WooferGiver(new Vector2D(29.5f * 16, 5 * 16)));
 
-            this.QueueEntity(new BreakableGlassEntity(new Rectangle(16.375 * 16, 3 * 16, 0.5 * 16, 3 * 16), new Rectangle(0, 160, 40, 48), new Vector2D(-2 * 16, 0)));
+            this.QueueEntity(new BreakableGlassEntity(new Rectangle(16.375f * 16, 3 * 16, 0.5f * 16, 3 * 16), new Rectangle(0, 160, 40, 48), new Vector2D(-2 * 16, 0)));
             this.QueueEntity(new Padding(new Rectangle(0, -3 * 16, 64 * 16, 3 * 16)));
 
             base.Initialize();
@@ -417,7 +417,7 @@ namespace WooferGame.Scenes
 
             this.QueueEntity(new CameraRegion(cameraArea, cameraArea.Center + new Vector2D(0, -16)));
 
-            this.QueueEntity(new Checkpoint(4.5 * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
+            this.QueueEntity(new Checkpoint(4.5f * 16, 8 * 16, new Rectangle(-24, 0, 32, 48)));
 
             rb.ResolveNeighbors();
             renderable.Sprites.AddRange(rb.Build());

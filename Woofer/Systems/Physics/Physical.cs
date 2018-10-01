@@ -25,6 +25,6 @@ namespace WooferGame.Systems.Physics
         public Vector2D PreviousVelocity { get; set; }
 
         [PersistentProperty]
-        public double GravityMultiplier { get; set; } = 1;
+        public float GravityMultiplier { get; set; } = 1;
     }
 }

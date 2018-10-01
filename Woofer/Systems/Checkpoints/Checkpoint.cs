@@ -8,12 +8,12 @@ namespace WooferGame.Systems.Checkpoints
 {
     class Checkpoint : Entity
     {
-        public Checkpoint(double x, double y, Rectangle bounds) : this(x, y, bounds, false)
+        public Checkpoint(float x, float y, Rectangle bounds) : this(x, y, bounds, false)
         {
 
         }
 
-        public Checkpoint(double x, double y, Rectangle bounds, bool selected)
+        public Checkpoint(float x, float y, Rectangle bounds, bool selected)
         {
             this.Components.Add(new Spatial(x, y));
             this.Components.Add(new Physical() { GravityMultiplier = 0 });

@@ -23,11 +23,11 @@ namespace WooferGame.Systems.Camera
         public Vector2D Focus { get; set; }
 
         [PersistentProperty]
-        public double Easing { get; set; } = 0;
+        public float Easing { get; set; } = 0;
         [PersistentProperty]
-        public double EasingStep { get; set; } = 0.01;
+        public float EasingStep { get; set; } = 0.01f;
         [PersistentProperty]
-        public double MaxEasing { get; set; } = 1;
+        public float MaxEasing { get; set; } = 1;
 
         public CameraRegionComponent()
         {

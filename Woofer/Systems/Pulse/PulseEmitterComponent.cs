@@ -16,19 +16,19 @@ namespace WooferGame.Systems.Pulse
         [PersistentProperty]
         public Vector2D Direction;
         [PersistentProperty]
-        public double Strength;
+        public float Strength;
         [PersistentProperty]
-        public double Reach;
+        public float Reach;
 
         [PersistentProperty]
         [Inspector(InspectorEditType.Offset)]
-        public Vector2D Offset { get; internal set; }
+        public Vector2D Offset { get; set; }
 
         public PulseEmitterComponent()
         {
         }
 
-        public PulseEmitterComponent(Vector2D direction, double strength, double reach)
+        public PulseEmitterComponent(Vector2D direction, float strength, float reach)
         {
             Direction = direction;
             Strength = strength;

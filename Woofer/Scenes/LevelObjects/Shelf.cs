@@ -19,8 +19,8 @@ namespace WooferGame.Scenes.LevelObjects
             this.Components.Add(new Spatial(pos));
             this.Components.Add(new Physical() { GravityMultiplier = 0 });
 
-            double width = 80;
-            double height = 8;
+            float width = 80;
+            float height = 8;
 
             Rectangle platformBounds = new Rectangle(direction == HorizontalDirection.Right ? 0 : -width, 0, width, height);
 

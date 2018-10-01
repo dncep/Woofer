@@ -10,21 +10,21 @@ namespace EntityComponentSystem.Util
     [PersistentObject]
     public struct Vector2D : IEquatable<Vector2D>
     {
-        public const int Rounding = 7;
+        public const int Rounding = 6;
 
         public static readonly Vector2D Empty = new Vector2D();
         public static readonly Vector2D UnitI = new Vector2D(1, 0);
         public static readonly Vector2D UnitJ = new Vector2D(0, 1);
 
         [PersistentProperty]
-        public double X { get; set; }
+        public float X { get; set; }
         [PersistentProperty]
-        public double Y { get; set; }
+        public float Y { get; set; }
 
-        public double Angle => Math.Atan2(Y, X);
-        public double Magnitude => Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2));
+        public float Angle => (float)Math.Atan2(Y, X);
+        public float Magnitude => (float)Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2));
 
-        public Vector2D(double x, double y)
+        public Vector2D(float x, float y)
         {
             X = x;
             Y = y;
@@ -36,7 +36,7 @@ namespace EntityComponentSystem.Util
         {
             double angle = this.Angle;
             double magnitude = this.Magnitude;
-            return new Vector2D(Math.Round(magnitude * Math.Cos(angle + rad), Rounding), Math.Round(magnitude * Math.Sin(angle + rad), Rounding));
+            return new Vector2D((float)Math.Round(magnitude * Math.Cos(angle + rad), Rounding), (float)Math.Round(magnitude * Math.Sin(angle + rad), Rounding));
         }
 
         public static Vector2D operator +(Vector2D a, Vector2D b) => new Vector2D(a.X + b.X, a.Y + b.Y);
@@ -45,11 +45,11 @@ namespace EntityComponentSystem.Util
 
         public static Vector2D operator -(Vector2D a) => new Vector2D(-a.X, -a.Y);
 
-        public static Vector2D operator *(Vector2D a, double b) => new Vector2D(b * a.X, b * a.Y);
+        public static Vector2D operator *(Vector2D a, float b) => new Vector2D(b * a.X, b * a.Y);
 
-        public static Vector2D operator *(double b, Vector2D a) => new Vector2D(b * a.X, b * a.Y);
+        public static Vector2D operator *(float b, Vector2D a) => new Vector2D(b * a.X, b * a.Y);
 
-        public static Vector2D operator /(Vector2D a, double b) => new Vector2D(a.X / b, a.Y / b);
+        public static Vector2D operator /(Vector2D a, float b) => new Vector2D(a.X / b, a.Y / b);
 
         public override string ToString()
         {
@@ -72,13 +72,13 @@ namespace EntityComponentSystem.Util
 
         public void Round()
         {
-            X = Math.Round(X, Rounding);
-            Y = Math.Round(Y, Rounding);
+            X = (float)Math.Round(X, Rounding);
+            Y = (float)Math.Round(Y, Rounding);
         }
 
         public Vector2D GetRounded()
         {
-            return new Vector2D(Math.Round(X, Rounding), Math.Round(Y, Rounding));
+            return new Vector2D((float)Math.Round(X, Rounding), (float)Math.Round(Y, Rounding));
         }
     }
 }

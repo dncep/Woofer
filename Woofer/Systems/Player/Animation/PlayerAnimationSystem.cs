@@ -126,7 +126,7 @@ namespace WooferGame.Systems.Player.Animation
 
                 if(pulse != null)
                 {
-                    srcOffsets[Woofer].Y += 32 * Math.Round(5*(1-(pulse.EnergyMeter / pulse.MaxEnergy)));
+                    srcOffsets[Woofer].Y += 32 * (float)Math.Round(5*(1-(pulse.EnergyMeter / pulse.MaxEnergy)));
                 }
 
                 if (!movement.OnGround || Math.Abs(physical.Velocity.X) <= 1e-2) {/*player.WalkAnimationProgress = 0;*/}
@@ -179,7 +179,7 @@ namespace WooferGame.Systems.Player.Animation
                 {
                     for(int i = Owner.Random.Next(2, 16); i > 0; i--)
                     {
-                        Owner.Entities.Add(new CloudParticle(pe.Source + pe.Direction.Rotate(Owner.Random.NextDouble()*Math.PI/4 - Math.PI/8) * (12 + Owner.Random.NextDouble()*24), Owner.Random.Next(0, 9)));
+                        Owner.Entities.Add(new CloudParticle(pe.Source + pe.Direction.Rotate((float)(Owner.Random.NextDouble()*Math.PI/4 - Math.PI/8)) * (float)(12 + Owner.Random.NextDouble()*24), Owner.Random.Next(0, 9)));
                     }
                     for(int i = 0; i < 5*Math.Pow(pe.Strength / 256,2); i++)
                     {

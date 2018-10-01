@@ -19,7 +19,7 @@ namespace WooferGame.Systems.Camera.Shake
             {
                 Offset += OffsetVelocity * Owner.DeltaTime;
                 OffsetVelocity += (-Offset * Owner.DeltaTime);
-                OffsetVelocity *= 0.995;
+                OffsetVelocity *= 0.995f;
                 if(OffsetVelocity.Magnitude < 1e-1 && Offset.Magnitude < 1e-1)
                 {
                     OffsetVelocity = Vector2D.Empty;

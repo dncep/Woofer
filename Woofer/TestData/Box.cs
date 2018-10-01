@@ -30,14 +30,14 @@ namespace WooferGame.Test_Data
 
     class TileEntity : Entity
     {
-        public TileEntity(string texture, double tileX, double tileY)
+        public TileEntity(string texture, float tileX, float tileY)
         {
             Components.Add(new Spatial(16 * tileX, 16 * tileY));
             Components.Add(new Renderable(texture, new Rectangle(0, 0, 16, 16)));
             Components.Add(new Physical() { GravityMultiplier = 0 });
             Components.Add(new RigidBody(new CollisionBox[] {new CollisionBox(0, 0, 16, 16)
             {
-                TopFaceProperties = new CollisionFaceProperties(true, 0.3)/*,
+                TopFaceProperties = new CollisionFaceProperties(true, 0.3f)/*,
                 LeftFaceProperties = new CollisionFaceProperties(),
                 BottomFaceProperties = new CollisionFaceProperties(),
                 RightFaceProperties = new CollisionFaceProperties()*/
@@ -50,7 +50,7 @@ namespace WooferGame.Test_Data
 
     class Slope : Entity
     {
-        public Slope(string texture, double tileX, double tileY)
+        public Slope(string texture, float tileX, float tileY)
         {
             Components.Add(new Spatial(tileX, tileY));
             Components.Add(new Renderable(texture, new Rectangle(-8, -8, 16, 16)));
@@ -58,49 +58,49 @@ namespace WooferGame.Test_Data
             Components.Add(new RigidBody(new CollisionBox[] {
                 new CollisionBox(-8, -8, 16, 2)
                 {
-                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3f, true),
                     LeftFaceProperties = new CollisionFaceProperties(),
                     RightFaceProperties = new CollisionFaceProperties()
                 },
                 new CollisionBox(-6, -6, 14, 2)
                 {
-                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3f, true),
                     LeftFaceProperties = new CollisionFaceProperties(),
                     RightFaceProperties = new CollisionFaceProperties()
                 },
                 new CollisionBox(-4, -4, 12, 2)
                 {
-                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3f, true),
                     LeftFaceProperties = new CollisionFaceProperties(),
                     RightFaceProperties = new CollisionFaceProperties()
                 },
                 new CollisionBox(-2, -2, 10, 2)
                 {
-                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3f, true),
                     LeftFaceProperties = new CollisionFaceProperties(),
                     RightFaceProperties = new CollisionFaceProperties()
                 },
                 new CollisionBox(0, 0, 8, 2)
                 {
-                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3f, true),
                     LeftFaceProperties = new CollisionFaceProperties(),
                     RightFaceProperties = new CollisionFaceProperties()
                 },
                 new CollisionBox(2, 2, 6, 2)
                 {
-                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3f, true),
                     LeftFaceProperties = new CollisionFaceProperties(),
                     RightFaceProperties = new CollisionFaceProperties()
                 },
                 new CollisionBox(4, 4, 4, 2)
                 {
-                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3f, true),
                     LeftFaceProperties = new CollisionFaceProperties(),
                     RightFaceProperties = new CollisionFaceProperties()
                 },
                 new CollisionBox(6, 6, 2, 2)
                 {
-                    TopFaceProperties = new CollisionFaceProperties(true, 0.3, true),
+                    TopFaceProperties = new CollisionFaceProperties(true, 0.3f, true),
                     LeftFaceProperties = new CollisionFaceProperties(),
                     RightFaceProperties = new CollisionFaceProperties()
                 }

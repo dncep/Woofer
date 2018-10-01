@@ -21,25 +21,25 @@ namespace WooferGame.Systems.Physics
             TagCompound obj = value as TagCompound;
             CollisionBox box = new CollisionBox();
             TagList bounds = obj.Get<TagList>("bounds");
-            box.X = (bounds[0] as TagDouble).Value;
-            box.Y = (bounds[1] as TagDouble).Value;
-            box.Width = (bounds[2] as TagDouble).Value;
-            box.Height = (bounds[3] as TagDouble).Value;
+            box.X = json.ConvertFromValue<float>(bounds[0]);
+            box.Y = json.ConvertFromValue<float>(bounds[1]);
+            box.Width = json.ConvertFromValue<float>(bounds[2]);
+            box.Height = json.ConvertFromValue<float>(bounds[3]);
 
             TagList faces = obj.Get<TagList>("faces");
-            box.TopFaceProperties = FaceFromJson(faces[0] as TagCompound);
-            box.RightFaceProperties = FaceFromJson(faces[1] as TagCompound);
-            box.BottomFaceProperties= FaceFromJson(faces[2] as TagCompound);
-            box.LeftFaceProperties = FaceFromJson(faces[3] as TagCompound);
+            box.TopFaceProperties = FaceFromJson(json, faces[0] as TagCompound);
+            box.RightFaceProperties = FaceFromJson(json, faces[1] as TagCompound);
+            box.BottomFaceProperties= FaceFromJson(json, faces[2] as TagCompound);
+            box.LeftFaceProperties = FaceFromJson(json, faces[3] as TagCompound);
             return (T)Convert.ChangeType(box, typeof(T));
         }
 
-        private CollisionFaceProperties FaceFromJson(TagCompound obj)
+        private CollisionFaceProperties FaceFromJson(TagMaster json, TagCompound obj)
         {
             return new CollisionFaceProperties()
             {
                 Enabled = obj.Get<TagBoolean>("enabled").Value,
-                Friction = obj.Get<TagDouble>("friction").Value,
+                Friction = obj.Get<float>(json, "friction"),
                 Snap = obj.Get<TagBoolean>("snap").Value
             };
         }

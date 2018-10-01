@@ -23,7 +23,7 @@ namespace WooferGame.Systems.Puzzles
             {
                 if(door.OpeningDirection != 0)
                 {
-                    double delta = door.OpeningDirection * (door.MaxOpenDistance / door.OpeningTime) * Owner.DeltaTime;
+                    float delta = door.OpeningDirection * (door.MaxOpenDistance / door.OpeningTime) * Owner.DeltaTime;
                     if(delta > 0 && door.CurrentOpenDistance + delta > door.MaxOpenDistance)
                     {
                         delta = door.MaxOpenDistance - door.CurrentOpenDistance;

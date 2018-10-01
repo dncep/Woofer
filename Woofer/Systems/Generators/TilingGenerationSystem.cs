@@ -46,12 +46,12 @@ namespace WooferGame.Systems.Generators
 
                     List<Sprite> newSprites = new List<Sprite>();
 
-                    for(double x = gen.MaxBounds.X; x < gen.MaxBounds.Right; x += gen.TileBounds.Width)
+                    for(float x = gen.MaxBounds.X; x < gen.MaxBounds.Right; x += gen.TileBounds.Width)
                     {
-                        for(double y = gen.MaxBounds.Y; y < gen.MaxBounds.Top; y += gen.TileBounds.Height)
+                        for(float y = gen.MaxBounds.Y; y < gen.MaxBounds.Top; y += gen.TileBounds.Height)
                         {
-                            double possibleWidth = Math.Min((gen.MaxBounds.Right - x) / gen.TileBounds.Width, 1);
-                            double possibleHeight = Math.Min((gen.MaxBounds.Top - y) / gen.TileBounds.Height, 1);
+                            float possibleWidth = Math.Min((gen.MaxBounds.Right - x) / gen.TileBounds.Width, 1);
+                            float possibleHeight = Math.Min((gen.MaxBounds.Top - y) / gen.TileBounds.Height, 1);
                             Sprite selected = gen.Sprites[random.Next(gen.Sprites.Count)].Clone();
                             selected.Destination.X = x;
                             selected.Destination.Y = y;

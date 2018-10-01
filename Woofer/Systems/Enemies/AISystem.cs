@@ -39,7 +39,7 @@ namespace WooferGame.Systems.Enemies
                 if (sentry.Action == SentryAction.Throw && sentry.ActionTime == 30)
                 {
                     Vector2D velocity = new Vector2D();
-                    double targetTime = 0.8;
+                    float targetTime = 0.8f;
                     velocity.X = (playerSp.Position.X - sp.Position.X) / targetTime;
                     velocity.Y = ((playerSp.Position.Y - sp.Position.Y) + (362 * targetTime * targetTime) / 2) / targetTime;
                     velocity = velocity.Normalize() * Math.Min(velocity.Magnitude, 256);

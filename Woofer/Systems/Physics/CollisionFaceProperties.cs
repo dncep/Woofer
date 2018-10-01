@@ -3,17 +3,17 @@
     public struct CollisionFaceProperties
     {
         public bool Enabled;
-        public double Friction;
+        public float Friction;
         public bool Snap;
 
-        public CollisionFaceProperties(bool enabled, double friction)
+        public CollisionFaceProperties(bool enabled, float friction)
         {
             Enabled = enabled;
             Friction = friction;
             Snap = false;
         }
 
-        public CollisionFaceProperties(bool enabled, double friction, bool snap)
+        public CollisionFaceProperties(bool enabled, float friction, bool snap)
         {
             Enabled = enabled;
             Friction = friction;

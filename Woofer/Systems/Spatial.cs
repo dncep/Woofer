@@ -18,7 +18,7 @@ namespace WooferGame.Systems
 
         public Spatial() { }
 
-        public Spatial(double x, double y) : this()
+        public Spatial(float x, float y) : this()
         {
             this.Position = new Vector2D(x, y);
         }

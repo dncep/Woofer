@@ -16,7 +16,7 @@ namespace WooferGame.Systems.Pulse
 {
     class PulseEmitter : Entity
     {
-        public PulseEmitter(Vector2D pos, Vector2D direction, double strength, double reach, bool solid = true)
+        public PulseEmitter(Vector2D pos, Vector2D direction, float strength, float reach, bool solid = true)
         {
             this.Components.Add(new Spatial(pos));
             if (solid)
