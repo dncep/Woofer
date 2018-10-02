@@ -5,7 +5,7 @@ using GameInterfaces.Input;
 
 namespace WooferGame.Input
 {
-    interface IInputMap
+    public interface IInputMap
     {
         string Name { get; }
 

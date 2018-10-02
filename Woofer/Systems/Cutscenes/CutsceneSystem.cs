@@ -53,7 +53,8 @@ namespace WooferGame.Systems.Cutscenes
             {
                 Elapsed = 0;
                 CurrentNode = node.Owner.Id;
-            } else if(e is CameraLocationQueryEvent camera)
+            }
+            else if(e is CameraLocationQueryEvent camera)
             {
                 if(CurrentNode != 0 && Owner.Entities[CurrentNode] is Entity nodeEntity)
                 {

@@ -6,7 +6,7 @@ using WooferGame.Controller;
 
 namespace WooferGame
 {
-    static class Woofer
+    public static class Woofer
     {
         public static WooferController Controller;
 

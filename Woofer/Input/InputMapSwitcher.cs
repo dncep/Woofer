@@ -5,7 +5,7 @@ using WooferGame.Systems.Meta;
 
 namespace WooferGame.Input
 {
-    class InputMapManager
+    public class InputMapManager
     {
         private readonly IGameController Owner;
         private readonly List<IInputMap> inputMaps = new List<IInputMap>();

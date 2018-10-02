@@ -11,7 +11,7 @@ using WooferGame.Scenes;
 
 namespace WooferGame.Controller
 {
-    class WooferController : IGameController
+    public class WooferController : IGameController
     {
         public Scene ActiveScene { get; internal set; }
         public IRenderingUnit RenderingUnit { get; internal set; }

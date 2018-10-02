@@ -5,9 +5,14 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using EntityComponentSystem.Components;
+using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Saves.Json;
 using EntityComponentSystem.Saves.Json.Objects;
+using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
+using WooferGame;
+using WooferGame.Controller.Game;
 using WooferGame.Scenes;
 using WooferGame.Systems.Physics;
 
@@ -35,6 +40,9 @@ namespace Tests
                       .SelectMany(t => t.GetMethods())
                       .Where(m => m.GetCustomAttributes(typeof(Test), false).Length > 0)
                       .ToList();
+
+            Component.PopulateDictionaryWithAssembly(Assembly.GetAssembly(typeof(Woofer)));
+            ComponentSystem.PopulateDictionaryWithAssembly(Assembly.GetAssembly(typeof(Woofer)));
 
             if (possibleTests.Any(m => m.GetCustomAttributes(typeof(Solo), false).Length > 0))
             {
@@ -97,6 +105,17 @@ namespace Tests
             tile.Enabled = true;
             tile.Neighbors = 0b1011_1111;
             Assert(Convert.ToString(tile.GetSignificantSecondaryNeighbors(), 2), Convert.ToString(0b0010, 2));
+        }
+        
+        [Test, Solo]
+        public static void ThreadTest()
+        {
+            SaveGame sg = new SaveGame("scenes");
+            Console.WriteLine("Loading scene");
+            sg.PrepareScene("Tutorial");
+            Console.WriteLine("doing something else");
+            Scene scene = sg.GetScene("Tutorial");
+            Console.WriteLine("done");
         }
 
         public static void Assert(object real, object expected)

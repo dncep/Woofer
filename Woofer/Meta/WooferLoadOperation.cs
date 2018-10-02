@@ -15,6 +15,7 @@ using WooferGame.Systems.Sounds;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Animation;
 using WooferGame.Systems.HealthSystems;
+using System.Threading;
 
 namespace WooferGame.Meta
 {
