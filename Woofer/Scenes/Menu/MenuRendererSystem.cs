@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Scenes;
@@ -12,10 +13,12 @@ using GameInterfaces.GraphicsInterface;
 using GameInterfaces.Input;
 using WooferGame.Common;
 using WooferGame.Controller.Commands;
+using WooferGame.Controller.Game;
 using WooferGame.Input;
 using WooferGame.Meta;
 using WooferGame.Meta.LevelEditor;
 using WooferGame.Meta.LevelSelect;
+using WooferGame.Meta.Loading;
 using WooferGame.Systems.Visual;
 
 namespace WooferGame.Scenes.Menu
@@ -54,12 +57,9 @@ namespace WooferGame.Scenes.Menu
                 switch (SelectedIndex)
                 {
                     case 0:
-                        WooferLoadOperation load = new WooferLoadOperation(Woofer.Controller, "Pre boss", "scenes");
-                        Scene scene = load.Load();
-                        if(scene != null)
-                        {
-                            Woofer.Controller.CommandFired(new SceneChangeCommand(scene));
-                        }
+                        Woofer.Controller.CurrentSave = new SaveGame("scenes");
+                        Woofer.Controller.CommandFired(new SceneChangeCommand(new LoadingScreen()));
+                        new Thread(() => Woofer.Controller.CommandFired(new SceneChangeCommand(Woofer.Controller.CurrentSave.GetScene("Tutorial")))).Start();
                         break;
                     case 1:
                         break;
@@ -78,7 +78,8 @@ namespace WooferGame.Scenes.Menu
         {
             var layer = r.GetLayerGraphics("hud");
 
-            layer.Draw(r.SpriteManager["MainSceneBG"], new System.Drawing.Rectangle(0, 0, 330, 180));
+            layer.Draw(r.SpriteManager["menu_bg"], new System.Drawing.Rectangle(new Point(0, 0), layer.GetSize()));
+
 
             int destY = 100;
             int index = 0;
@@ -87,7 +88,7 @@ namespace WooferGame.Scenes.Menu
                 TextUnit text;
                 if (index == SelectedIndex) text = new TextUnit(new Sprite("gui", new EntityComponentSystem.Util.Rectangle(0, 0, 8, 8), new EntityComponentSystem.Util.Rectangle(0, 0, 8, 8)), label ,Color.Coral);
                 else text = new TextUnit(label , Color.White);
-                text.Render(r, layer, new System.Drawing.Point(8, destY));
+                text.Render(r, layer, new Point(8, destY));
                 destY += 12;
                 index++;
             }

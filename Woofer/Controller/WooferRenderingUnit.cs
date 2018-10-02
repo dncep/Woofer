@@ -42,6 +42,7 @@ namespace WooferGame.Controller
             SpriteManager.LoadSprite("parallax_bg");
             SpriteManager.LoadSprite("switch");
             SpriteManager.LoadSprite("MainSceneBG");
+            SpriteManager.LoadSprite("menu_bg");
 
             SpriteManager.LoadSprite("font");
 

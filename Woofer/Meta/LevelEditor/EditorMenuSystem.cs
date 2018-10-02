@@ -65,7 +65,7 @@ namespace WooferGame.Meta.LevelEditor
                         }
                     case 1:
                         {
-                            WooferSaveOperation save = new WooferSaveOperation(Owner, Owner.Name, Woofer.Controller.CurrentSave);
+                            WooferSaveOperation save = new WooferSaveOperation(Owner, Owner.Name, Woofer.Controller.CurrentSave.DirectoryName);
                             save.Save();
                             SavedTimer = 3;
                             break;

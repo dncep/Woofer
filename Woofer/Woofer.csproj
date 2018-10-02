@@ -88,6 +88,8 @@
     <Compile Include="Meta\LevelEditor\Systems\SystemListSystem.cs" />
     <Compile Include="Meta\LevelSelect\BackToMainMenuSystem.cs" />
     <Compile Include="Meta\LevelSelect\LevelSelect.cs" />
+    <Compile Include="Meta\Loading\LoadingScreen.cs" />
+    <Compile Include="Meta\Loading\LoadingScreenSystem.cs" />
     <Compile Include="Meta\WooferLoadOperation.cs" />
     <Compile Include="Meta\WooferSaveOperation.cs" />
     <Compile Include="Program.cs" />

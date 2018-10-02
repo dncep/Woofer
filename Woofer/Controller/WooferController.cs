@@ -5,6 +5,7 @@ using EntityComponentSystem.Scenes;
 using GameInterfaces.Audio;
 using GameInterfaces.Controller;
 using WooferGame.Controller.Commands;
+using WooferGame.Controller.Game;
 using WooferGame.Input;
 using WooferGame.Meta.LevelEditor;
 using WooferGame.Scenes;
@@ -20,7 +21,7 @@ namespace WooferGame.Controller
 
         public InputMapManager InputManager { get; private set; }
         public bool Paused { get; set; }
-        public string CurrentSave { get; internal set; } = "scenes";
+        public SaveGame CurrentSave { get; internal set; } = new SaveGame("scenes");
 
         public WooferController()
         {

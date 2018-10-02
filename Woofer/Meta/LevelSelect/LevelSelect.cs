@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using System.Threading;
 using EntityComponentSystem.Scenes;
 
 using WooferGame.Controller.Commands;
@@ -10,6 +10,7 @@ using WooferGame.Meta.LevelEditor;
 using WooferGame.Meta.LevelEditor.Systems;
 using WooferGame.Meta.LevelEditor.Systems.ComponentView;
 using WooferGame.Meta.LevelEditor.Systems.InputModes;
+using WooferGame.Meta.Loading;
 
 namespace WooferGame.Meta.LevelSelect
 {
@@ -44,9 +45,13 @@ namespace WooferGame.Meta.LevelSelect
                 }
                 Events.InvokeEvent(new StartEnumSelectEvent("Select Scene", sceneList, l =>
                 {
-                    Scene scene = new WooferLoadOperation(Woofer.Controller, l, "scenes").Load();
-                    Editor.AttachEditor(scene, l, "scenes");
-                    Woofer.Controller.CommandFired(new SceneChangeCommand(scene));
+                    Woofer.Controller.CommandFired(new SceneChangeCommand(new LoadingScreen()));
+                    new Thread(() =>
+                    {
+                        Scene scene = new WooferLoadOperation(Woofer.Controller, l, "scenes").Load();
+                        Editor.AttachEditor(scene, l, "scenes");
+                        Woofer.Controller.CommandFired(new SceneChangeCommand(scene));
+                    }).Start();
                 }, null));
                 Events.InvokeEvent(new ForceModalChangeEvent("enum_select", null));
                 Initialized = true;
