@@ -14,10 +14,15 @@ namespace WooferGame.Systems.Environment
     {
         public override void EventFired(object sender, Event re)
         {
-            if(re is ActivationEvent e && e.Affected.Components.Has<BreakableGlassComponent>())
+            if(re is ActivationEvent e && e.Affected.Components.Get<BreakableGlassComponent>() is BreakableGlassComponent glass)
             {
-                e.Affected.Active = false;
+                glass.CurrentHits++;
                 Owner.Events.InvokeEvent(new CameraShakeEvent(e.Sender, 8 * ((e.InnerEvent is PulseEvent pe && pe.Direction.Magnitude > 0) ? pe.Direction.Normalize() : -Vector2D.UnitJ)));
+                if (glass.CurrentHits >= glass.MaxHits)
+                {
+                    glass.CurrentHits = 0;
+                    e.Affected.Active = false;
+                }
             }
         }
     }

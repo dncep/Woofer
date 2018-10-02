@@ -55,6 +55,9 @@ namespace EntityComponentSystem.Saves
 
                 //if (!field.) throw new MissingMethodException("Field" + field.Name + " can't be written to.");
 
+                bool containsKey = obj.ContainsKey(key);
+                if (!containsKey) continue;
+
                 object newValue = typeof(TagCompound).GetMethod("Get", new Type[] { typeof(TagMaster), typeof(string) }).MakeGenericMethod(field.FieldType).Invoke(obj, new object[] { json, key });
 
                 if(newValue != null) field.SetValue(boxed, newValue);
