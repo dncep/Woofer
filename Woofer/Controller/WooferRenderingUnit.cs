@@ -31,6 +31,7 @@ namespace WooferGame.Controller
             SpriteManager.LoadSprite("tutorial_room5_bg");
             SpriteManager.LoadSprite("char");
             SpriteManager.LoadSprite("woofer");
+            SpriteManager.LoadSprite("enemies");
             SpriteManager.LoadSprite("particles");
             SpriteManager.LoadSprite("lab_tileset");
             SpriteManager.LoadSprite("lab_objects");
@@ -41,7 +42,6 @@ namespace WooferGame.Controller
             SpriteManager.LoadSprite("parallax_bg");
             SpriteManager.LoadSprite("switch");
             SpriteManager.LoadSprite("MainSceneBG");
-
 
             SpriteManager.LoadSprite("font");
 

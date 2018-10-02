@@ -130,8 +130,12 @@
     <Compile Include="Systems\Debug\DebugClipping.cs" />
     <Compile Include="Systems\Debug\Quicksave.cs" />
     <Compile Include="Systems\Enemies\AISystem.cs" />
+    <Compile Include="Systems\Enemies\DeflectOnPulseComponent.cs" />
+    <Compile Include="Systems\Enemies\EnemyComponent.cs" />
     <Compile Include="Systems\Enemies\Projectile.cs" />
+    <Compile Include="Systems\Enemies\ProjectileComponent.cs" />
     <Compile Include="Systems\Enemies\SentryAI.cs" />
+    <Compile Include="Systems\Enemies\SentryAnimationSystem.cs" />
     <Compile Include="Systems\Environment\BreakableGlassComponent.cs" />
     <Compile Include="Systems\Environment\BreakableGlassEntity.cs" />
     <Compile Include="Systems\Environment\GlassBreakingSystem.cs" />
@@ -235,6 +239,7 @@
     <Compile Include="Systems\Visual\LevelRenderer.cs" />
     <Compile Include="Systems\Visual\LevelSection.cs" />
     <Compile Include="Systems\Visual\Particles\CloudParticle.cs" />
+    <Compile Include="Systems\Visual\Particles\CommonParticleSystem.cs" />
     <Compile Include="Systems\Visual\Particles\ParticleComponent.cs" />
     <Compile Include="Systems\Visual\Particles\ParticleSystem.cs" />
     <Compile Include="Systems\Visual\Particles\SoundParticle.cs" />

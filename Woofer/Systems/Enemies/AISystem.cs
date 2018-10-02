@@ -14,13 +14,20 @@ using WooferGame.Systems.Player;
 
 namespace WooferGame.Systems.Enemies
 {
-    [ComponentSystem("ai_system", ProcessingCycles.Tick),
+    [ComponentSystem("ai_system", ProcessingCycles.Input | ProcessingCycles.Tick),
         Watching(typeof(PlayerComponent), typeof(SentryAI)),
         Listening(typeof(RigidCollisionEvent))]
     class AISystem : ComponentSystem
     {
-
         private static readonly Random Random = new Random();
+
+        public override void Input()
+        {
+            foreach (SentryAI sentry in WatchedComponents.Where(c => c is SentryAI && c.Owner.Active))
+            {
+                sentry.OnGround = false;
+            }
+        }
 
         public override void Tick()
         {
@@ -43,10 +50,10 @@ namespace WooferGame.Systems.Enemies
                     Vector2D velocity = new Vector2D();
                     double targetTime = 0.8;
                     velocity.X = (playerSp.Position.X - sp.Position.X) / targetTime;
-                    velocity.Y = ((playerSp.Position.Y - sp.Position.Y) + (362 * targetTime * targetTime) / 2) / targetTime;
+                    velocity.Y = ((playerSp.Position.Y - sp.Position.Y - 4) + (362 * targetTime * targetTime) / 2) / targetTime;
                     velocity = velocity.Normalize() * Math.Min(velocity.Magnitude, 256);
 
-                    Owner.Entities.Add(new Projectile(sp.Position, velocity));
+                    Owner.Entities.Add(new Projectile(sentry.Owner, sp.Position+new Vector2D(0, 4), velocity));
                 }
 
                 if (!sentry.OnGround) continue;
@@ -94,7 +101,6 @@ namespace WooferGame.Systems.Enemies
                 }
             }
         }
-
 
         public override void EventFired(object sender, Event e)
         {

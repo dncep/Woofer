@@ -12,6 +12,7 @@ using GameInterfaces.Audio;
 using GameInterfaces.Input;
 
 using WooferGame.Input;
+using WooferGame.Systems.Enemies;
 using WooferGame.Systems.HealthSystems;
 using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Movement;
@@ -106,6 +107,21 @@ namespace WooferGame.Systems.Pulse
                         if (pp.Owner.Components.Has<SoftBody>()) mass = pp.Owner.Components.Get<SoftBody>().Mass;
                         double factor = 1-(distance / pe.Reach);
                         ph.Velocity += ((center - pe.Source).Normalize() * (factor * pe.Strength) / mass);
+
+                        if(pp.Owner.Components.Get<ProjectileComponent>() is ProjectileComponent projectile && projectile.Deflectable && pp.Owner.Components.Get<DamageOnContactComponent>() is DamageOnContactComponent damager)
+                        {
+                            if (pe.Sender != null)
+                            {
+                                projectile.Thrower = pe.Sender.Owner.Id;
+                                if(pe.Sender.Owner.Components.Has<PlayerComponent>())
+                                {
+                                    damager.Filter = DamageFilter.DamageEnemies;
+                                } else if(pe.Sender.Owner.Components.Has<EnemyComponent>())
+                                {
+                                    damager.Filter = DamageFilter.DamageAllies;
+                                }
+                            }
+                        }
                     }
                 }
                 
