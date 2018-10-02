@@ -120,6 +120,8 @@
     <Compile Include="Systems\Checkpoints\CheckpointTrigger.cs" />
     <Compile Include="Systems\Commands\CommandSystem.cs" />
     <Compile Include="Systems\Commands\ResolutionChangeComponent.cs" />
+    <Compile Include="Systems\Cutscenes\CutsceneNode.cs" />
+    <Compile Include="Systems\Cutscenes\CutsceneSystem.cs" />
     <Compile Include="Systems\DeathBarrier\CheckpointOnBarrierComponent.cs" />
     <Compile Include="Systems\DeathBarrier\DeathBarrier.cs" />
     <Compile Include="Systems\DeathBarrier\DeathBarrierComponent.cs" />
