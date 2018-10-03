@@ -126,7 +126,8 @@ namespace WooferGame.Systems.Player.Animation
 
                 if(pulse != null)
                 {
-                    srcOffsets[Woofer].Y += 32 * Math.Round(5*(1-(pulse.EnergyMeter / pulse.MaxEnergy)));
+                    srcOffsets[Woofer].Y = 256;
+                    srcOffsets[Woofer].Y -= 32 * Math.Round(pulse.EnergyMeter / 20);
                 }
 
                 if (!movement.OnGround || Math.Abs(physical.Velocity.X) <= 1e-2) {/*player.WalkAnimationProgress = 0;*/}

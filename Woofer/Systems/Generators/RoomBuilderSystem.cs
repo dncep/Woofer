@@ -163,7 +163,7 @@ namespace WooferGame.Systems.Generators
                             }
                         }
 
-                        sprites.Add(new Sprite(Current.Spritesheet, new Rectangle(x * 16, y * 16, 16, 16), source));
+                        sprites.Add(new Sprite(Current.Spritesheet, new Rectangle(x * 16, y * 16, 16, 16) + Current.Offset, source));
                     }
                 }
             }

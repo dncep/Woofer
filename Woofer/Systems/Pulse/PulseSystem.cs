@@ -42,7 +42,7 @@ namespace WooferGame.Systems.Pulse
                 {
                     if(pulseButton.Consume())
                     {
-                        double strength = (pa.PulseStrength * Math.Sqrt(pa.EnergyMeter / pa.MaxEnergy));
+                        double strength = (pa.PulseStrength * Math.Sqrt(pa.EnergyMeter / 100));
 
                         if (pa.Owner.Components.Has<Physical>() && pa.Owner.Components.Has<PlayerOrientation>())
                         {
