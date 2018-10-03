@@ -25,5 +25,8 @@ namespace WooferGame.Systems.Variables
 
         [PersistentProperty]
         public long TriggerId = 0;
+
+        [PersistentProperty]
+        public bool DoRender = false;
     }
 }
