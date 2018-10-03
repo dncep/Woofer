@@ -331,3 +331,9 @@
 /processorParam:TextureFormat=Color
 /build:menu_bg.png
 
+#begin boss_defeat.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:boss_defeat.wav
+

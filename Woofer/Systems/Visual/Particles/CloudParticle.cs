@@ -45,7 +45,7 @@ namespace WooferGame.Systems.Visual.Particles
             Components.Add(new Spatial(pos));
             Components.Add(new Renderable(new Sprite("particles", new Rectangle(-4.5, -2, 9, 4), new Rectangle(0, 4, 9, 4))));
             Components.Add(new LevelRenderable());
-            Components.Add(new AnimationComponent(new AnimatedSprite(0, new Rectangle(0, 4, 9, 4), new Vector2D(9, 0), 6, 4) { FrameProgress = -(delay + 1) }));
+            Components.Add(new AnimationComponent(new AnimatedSprite(0, new Rectangle(0, 4, 9, 4), new Vector2D(9, 0), 6, 2) { FrameProgress = -(delay + 1) }));
             Components.Add(new ParticleComponent());
             Components.Add(new Physical() { GravityMultiplier = 0.1 });
         }
@@ -67,7 +67,7 @@ namespace WooferGame.Systems.Visual.Particles
             Components.Add(new Spatial(pos));
             Components.Add(new Renderable(new Sprite("particles", new Rectangle(-4, -4, 8, 8), new Rectangle(0, 8, 8, 8))));
             Components.Add(new LevelRenderable());
-            Components.Add(new AnimationComponent(new AnimatedSprite(0, new Rectangle(0, 8, 8, 8), new Vector2D(8, 0), 8, 4) { FrameProgress = -(delay + 1) }));
+            Components.Add(new AnimationComponent(new AnimatedSprite(0, new Rectangle(0, 8, 8, 8), new Vector2D(8, 0), 8, 1) { FrameProgress = -(delay + 1) }));
             Components.Add(new ParticleComponent());
         }
     }

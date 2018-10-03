@@ -44,7 +44,7 @@ namespace WooferGame.Systems.Visual.Animation
             Frame = frame;
             Step = step;
             FrameCount = frameCount;
-            FrameDuration = 1;
+            FrameDuration = frameDuration;
 
             CurrentFrame = 0;
             FrameProgress = -1;

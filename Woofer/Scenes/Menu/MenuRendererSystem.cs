@@ -42,9 +42,11 @@ namespace WooferGame.Scenes.Menu
                 if(inputMap.Movement.Y > 0 && SelectInput.Execute())
                 {
                     SelectedIndex--;
+                    Woofer.Controller.AudioUnit["select"].Play();
                 } else if(inputMap.Movement.Y < 0 && SelectInput.Execute())
                 {
                     SelectedIndex++;
+                    Woofer.Controller.AudioUnit["select"].Play();
                 }
 
                 if (SelectedIndex > 3 ) SelectedIndex = 0;
