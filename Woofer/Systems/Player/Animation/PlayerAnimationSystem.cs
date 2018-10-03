@@ -44,6 +44,16 @@ namespace WooferGame.Systems.Player.Animation
                 PlayerMovementComponent movement = player.Owner.Components.Get<PlayerMovementComponent>();
                 PlayerOrientation orientation = player.Owner.Components.Get<PlayerOrientation>();
                 PulseAbility pulse = player.Owner.Components.Get<PulseAbility>();
+                if (physical == null || movement == null || orientation == null) continue;
+                if (pulse != null && pulse.EnergyMeter == 0)
+                {
+                    player.WooferBlinkingTime += Owner.DeltaTime;
+                    if (player.WooferBlinkingTime >= 0.75)
+                    {
+                        player.WooferBlinkingTime -= 0.75;
+                    }
+                }
+                else player.WooferBlinkingTime = 0;
 
                 if (!movement.OnGround || Math.Abs(physical.Velocity.X) <= 1e-2) player.WalkAnimationProgress = 0;
                 else if (Math.Abs(physical.Velocity.X) > 1e-2)
@@ -128,6 +138,7 @@ namespace WooferGame.Systems.Player.Animation
                 {
                     srcOffsets[Woofer].Y = 256;
                     srcOffsets[Woofer].Y -= 32 * Math.Round(pulse.EnergyMeter / 20);
+                    if (pulse.EnergyMeter == 0 && player.WooferBlinkingTime >= 0.375) srcOffsets[Woofer].Y += 32;
                 }
 
                 if (!movement.OnGround || Math.Abs(physical.Velocity.X) <= 1e-2) {/*player.WalkAnimationProgress = 0;*/}

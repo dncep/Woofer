@@ -20,6 +20,8 @@ namespace WooferGame.Systems.Player.Animation
         [PersistentProperty]
         public bool LastLookedRight = true;
 
+        public double WooferBlinkingTime = 0;
+
         public PlayerAnimation() : this("char")
         {
 
