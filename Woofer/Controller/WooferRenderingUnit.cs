@@ -33,6 +33,7 @@ namespace WooferGame.Controller
             SpriteManager.LoadSprite("woofer");
             SpriteManager.LoadSprite("enemies");
             SpriteManager.LoadSprite("particles");
+            SpriteManager.LoadSprite("overlays");
             SpriteManager.LoadSprite("lab_tileset");
             SpriteManager.LoadSprite("lab_objects");
             SpriteManager.LoadSprite("props");
