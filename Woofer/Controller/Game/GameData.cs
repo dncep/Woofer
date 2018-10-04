@@ -11,9 +11,9 @@ namespace WooferGame.Controller.Game
     public class GameData
     {
         [PersistentProperty]
-        public bool HasWoofer = false;
+        public bool HasWoofer = true;
         [PersistentProperty]
-        public int MaxEnergy = 100;
+        public int MaxEnergy = 160;
         [PersistentProperty]
         public int MaxHealth = 4;
 

@@ -13,5 +13,6 @@ namespace WooferGame.Systems.Player
     [Component("player")]
     class PlayerComponent : Component
     {
+        public bool Initialized = false;
     }
 }
