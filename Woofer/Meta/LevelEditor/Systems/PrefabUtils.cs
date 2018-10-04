@@ -20,15 +20,15 @@ using WooferGame.Systems.HealthSystems;
 
 namespace WooferGame.Meta.LevelEditor.Systems
 {
-    static class PrefabUtils
+    static class TagIOUtils
     {
         private static readonly string PrefabDirectory = Path.Combine(Woofer.DirectoryPath, "prefabs");
 
         private static readonly List<string> PrefabNames = new List<string>();
 
-        private static readonly TagMaster Master = new TagMaster();
+        public static readonly TagMaster Master = new TagMaster();
 
-        static PrefabUtils()
+        static TagIOUtils()
         {
             Master.RegisterConverter(new ListConverter<long>());
             Master.RegisterConverter(new ListConverter<int>());

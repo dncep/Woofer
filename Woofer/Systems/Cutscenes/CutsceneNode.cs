@@ -20,6 +20,9 @@ namespace WooferGame.Systems.Cutscenes
         public float Duration = 1;
 
         [PersistentProperty]
+        public bool FollowPlayer = false;
+
+        [PersistentProperty]
         public bool Interpolate = true;
     }
 }

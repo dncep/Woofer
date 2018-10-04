@@ -31,6 +31,7 @@ namespace WooferGame.Systems.Player
                 ae.Affected.Active = false;
                 if(!player.Components.Has<PulseAbility>())
                 {
+                    Woofer.Controller.CurrentSave.Data.HasWoofer = true;
                     player.Components.Add(new PulseAbility());
                     
                     Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("x_icons", new Rectangle(0, 0, 9, 9), new Rectangle(0, 9, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Activate", ae.Sender) { Duration = 10 });

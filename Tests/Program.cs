@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
@@ -107,15 +108,27 @@ namespace Tests
             Assert(Convert.ToString(tile.GetSignificantSecondaryNeighbors(), 2), Convert.ToString(0b0010, 2));
         }
         
-        [Test, Solo]
         public static void ThreadTest()
         {
             SaveGame sg = new SaveGame("scenes");
             Console.WriteLine("Loading scene");
-            sg.PrepareScene("Tutorial");
+            new Thread(() =>
+            {
+                Scene scene = sg.PrepareScene("Tutorial").Result;
+                Console.WriteLine("Done loading scene");
+            }).Start();
             Console.WriteLine("doing something else");
-            Scene scene = sg.GetScene("Tutorial");
             Console.WriteLine("done");
+        }
+
+        [Test]
+        public static void GameDataTest()
+        {
+            SaveGame sg = new SaveGame("main");
+            sg.Data.HasWoofer = true;
+            sg.Data.MaxEnergy = 160;
+            sg.Save();
+            Console.WriteLine(sg.Data);
         }
 
         public static void Assert(object real, object expected)

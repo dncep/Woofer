@@ -48,6 +48,7 @@
     <Compile Include="Controller\Commands\OrientationOriginChangeCommand.cs" />
     <Compile Include="Controller\Commands\ResolutionChangeCommand.cs" />
     <Compile Include="Controller\Commands\SceneChangeCommand.cs" />
+    <Compile Include="Controller\Game\GameData.cs" />
     <Compile Include="Controller\Game\SaveGame.cs" />
     <Compile Include="Controller\HudRenderingLayer.cs" />
     <Compile Include="Controller\ParallaxRenderingLayer.cs" />

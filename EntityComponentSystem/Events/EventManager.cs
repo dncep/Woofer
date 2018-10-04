@@ -31,27 +31,6 @@ namespace EntityComponentSystem.Events
             EventDictionary[evt.EventName].Invoke(this, evt);
         }
 
-        public void InvokeEvent(Event evt, Entity target, object sender)
-        {
-            //TODO
-            /*foreach (Component component in target.Components)
-            {
-                if (component.ListenedEvents.Contains(evt.EventType))
-                {
-                    component.EventFired(sender, evt);
-                }
-            }*/
-        }
-
-        public void InvokeEvent(Event evt, List<Entity> targets, object sender)
-        {
-            //TODO
-            /*foreach (Entity target in targets)
-            {
-                InvokeEvent(evt, target, sender);
-            }*/
-        }
-
         private static void DummyEvent(object sender, Event evt) { }
     }
 }

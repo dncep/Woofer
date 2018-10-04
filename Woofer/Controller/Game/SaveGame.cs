@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using EntityComponentSystem.Saves.Json.Objects;
 using EntityComponentSystem.Scenes;
 using WooferGame.Meta;
+using WooferGame.Meta.LevelEditor.Systems;
 
 namespace WooferGame.Controller.Game
 {
     public class SaveGame
     {
-        public string DirectoryName;
+        public readonly string DirectoryName;
         private Dictionary<string, Scene> Scenes = new Dictionary<string, Scene>();
         private Dictionary<string, Task<Scene>> LoadingTasks = new Dictionary<string, Task<Scene>>();
+
+        public GameData Data { get; private set; } = new GameData();
 
         public SaveGame(string directoryName) => DirectoryName = directoryName;
 
@@ -40,6 +45,38 @@ namespace WooferGame.Controller.Game
 
             LoadingTasks[sceneName] = task;
             return await task;
+        }
+
+        public void Save()
+        {
+            string rootPath = Path.Combine(Woofer.DirectoryPath, DirectoryName);
+            string dataPath = Path.Combine(rootPath, "data.wgf");
+
+            Directory.CreateDirectory(rootPath);
+
+            BinaryWriter writer = new BinaryWriter(new FileStream(dataPath, FileMode.Create));
+            TagCompound rootTag = new TagCompound();
+            rootTag.AddProperty("data", Data);
+            TagIOUtils.Master.Write(rootTag, writer);
+            writer.Flush();
+            writer.Close();
+            writer.Dispose();
+        }
+
+        public void Load()
+        {
+            string rootPath = Path.Combine(Woofer.DirectoryPath, DirectoryName);
+            string dataPath = Path.Combine(rootPath, "data.wgf");
+
+            if (File.Exists(dataPath))
+            {
+                BinaryReader reader = new BinaryReader(new FileStream(dataPath, FileMode.Open));
+                TagCompound rootTag = TagIOUtils.Master.Read(reader);
+                Data = rootTag.Get<GameData>(TagIOUtils.Master, "data");
+                reader.Close();
+                reader.Dispose();
+            }
+
         }
     }
 }

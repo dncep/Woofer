@@ -188,8 +188,8 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 SelectedIndex = Owner.Entities.Count - 1;
             } else if(instruction == FROM_PREFABS)
             {
-                PrefabUtils.Refresh();
-                Owner.Events.InvokeEvent(new StartEnumSelectEvent("Select Prefab", PrefabUtils.GetPrefabNames(), SpawnPrefab, null));
+                TagIOUtils.Refresh();
+                Owner.Events.InvokeEvent(new StartEnumSelectEvent("Select Prefab", TagIOUtils.GetPrefabNames(), SpawnPrefab, null));
                 Owner.Events.InvokeEvent(new ForceModalChangeEvent("enum_select", null));
                 ModalActive = false;
                 ModalVisible = false;
@@ -198,7 +198,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
         private void SpawnPrefab(string name)
         {
-            Entity entity = PrefabUtils.InstantiatePrefab(name);
+            Entity entity = TagIOUtils.InstantiatePrefab(name);
             if(entity != null)
             {
                 Owner.Entities.Add(entity);

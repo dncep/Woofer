@@ -54,6 +54,7 @@ namespace WooferGame.Controller
         {
             ActiveScene.InvokeTick(timeSpan, elapsedGameTime);
         }
+
         public void Input()
         {
             InputManager.Tick();

@@ -32,10 +32,6 @@ namespace EntityComponentSystem.Components
             }
         }
 
-        public virtual void EventFired(object sender, Event e)
-        {
-        }
-
         public static string IdentifierOf<T>() where T : Component
         {
             return IdentifierOf(typeof(T));

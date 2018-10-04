@@ -124,7 +124,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 }
                 else if(SelectedComponentIndex == Helper.Components.Count + 1)
                 {
-                    Owner.Events.InvokeEvent(new StartTextInputEvent(entity.Name, n => PrefabUtils.SavePrefab(entity, n), null) { Label = "Prefab Name" });
+                    Owner.Events.InvokeEvent(new StartTextInputEvent(entity.Name, n => TagIOUtils.SavePrefab(entity, n), null) { Label = "Prefab Name" });
                     Owner.Events.InvokeEvent(new ForceModalChangeEvent("text_input", null));
                     ModalActive = false;
                 }
