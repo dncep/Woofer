@@ -85,6 +85,7 @@
     <Compile Include="Meta\LevelEditor\Systems\InputModes\TextInputSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\ModalChangeEvent.cs" />
     <Compile Include="Meta\LevelEditor\Systems\ModalFocusSystem.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\ObjectEditor\ObjectViewSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\PrefabUtils.cs" />
     <Compile Include="Meta\LevelEditor\Systems\SystemListSystem.cs" />
     <Compile Include="Meta\LevelSelect\BackToMainMenuSystem.cs" />

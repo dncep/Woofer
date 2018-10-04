@@ -43,7 +43,9 @@ namespace WooferGame.Meta.LevelEditor
             scene.Systems.Add(new CollisionFaceViewSystem());
             scene.Systems.Add(new SpriteSourceViewSystem());
             scene.Systems.Add(new AnimationViewSystem());
-            
+
+            scene.Systems.Add(new ObjectViewSystem());
+
             scene.Systems.Add(new MoveCursorModeSystem());
             scene.Systems.Add(new CollisionCursorModeSystem());
             scene.Systems.Add(new EntitySelectionCursorModeSystem());

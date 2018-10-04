@@ -12,6 +12,7 @@ using WooferGame.Common;
 using WooferGame.Controller.Commands;
 using WooferGame.Input;
 using WooferGame.Meta.LevelEditor.Systems;
+using WooferGame.Meta.LevelEditor.Systems.CursorModes;
 using WooferGame.Meta.LevelEditor.Systems.EntityView;
 using WooferGame.Meta.LevelEditor.Systems.InputModes;
 using WooferGame.Scenes;
@@ -48,7 +49,7 @@ namespace WooferGame.Meta.LevelEditor
                 }
                 else if (movement.Y < 0)
                 {
-                    if (SelectedIndex + 1 < 5) SelectedIndex++;
+                    if (SelectedIndex + 1 <= 5) SelectedIndex++;
                 }
             }
 
@@ -85,6 +86,14 @@ namespace WooferGame.Meta.LevelEditor
                             break;
                         }
                     case 4:
+                        {
+                            Owner.Events.InvokeEvent(new StartObjectEditEvent(Woofer.Controller.CurrentSave.Data, "Edit Save Data", "editor_menu"));
+                            Owner.Events.InvokeEvent(new ForceModalChangeEvent("object_editor", null));
+                            ModalActive = false;
+                            ModalVisible = false;
+                            break;
+                        }
+                    case 5:
                         {
                             Woofer.Controller.CommandFired(new DirectSceneChangeCommand(new MainMenuScene()));
                             Woofer.Controller.Paused = false;
@@ -132,6 +141,12 @@ namespace WooferGame.Meta.LevelEditor
 
             {
                 new GUIButton(Vector2D.Empty, "Systems", new Rectangle(buttonBounds)) { TextSize = 2, Highlighted = SelectedIndex == index, Focused = ModalActive }.Render(r, layer, new Vector2D(x, y));
+                y += 32;
+                index++;
+            }
+
+            {
+                new GUIButton(Vector2D.Empty, "Edit Save Data", new Rectangle(buttonBounds)) { TextSize = 2, Highlighted = SelectedIndex == index, Focused = ModalActive }.Render(r, layer, new Vector2D(x, y));
                 y += 32;
                 index++;
             }
