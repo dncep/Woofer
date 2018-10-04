@@ -58,6 +58,8 @@
     <Compile Include="Input\InputTimeframe.cs" />
     <Compile Include="Input\IScreenAwareInput.cs" />
     <Compile Include="Input\KeyboardInputMap.cs" />
+    <Compile Include="Meta\FileSelect\FileSelect.cs" />
+    <Compile Include="Meta\FileSelect\FileSelectSystem.cs" />
     <Compile Include="Meta\LevelEditor\Editor.cs" />
     <Compile Include="Meta\LevelEditor\EditorMenuSystem.cs" />
     <Compile Include="Meta\LevelEditor\InspectorAttribute.cs" />

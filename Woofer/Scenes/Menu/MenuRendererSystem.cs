@@ -16,6 +16,7 @@ using WooferGame.Controller.Commands;
 using WooferGame.Controller.Game;
 using WooferGame.Input;
 using WooferGame.Meta;
+using WooferGame.Meta.FileSelect;
 using WooferGame.Meta.LevelEditor;
 using WooferGame.Meta.LevelSelect;
 using WooferGame.Meta.Loading;
@@ -59,8 +60,9 @@ namespace WooferGame.Scenes.Menu
                 switch (SelectedIndex)
                 {
                     case 0:
-                        Woofer.Controller.CurrentSave = new SaveGame("main");
-                        Woofer.Controller.CommandFired(new SavedSceneChangeCommand("Tutorial"));
+                        //Woofer.Controller.CurrentSave = new SaveGame("main");
+                        //Woofer.Controller.CommandFired(new SavedSceneChangeCommand("Tutorial"));
+                        Woofer.Controller.CommandFired(new DirectSceneChangeCommand(new FileSelect()));
                         break;
                     case 1:
                         break;
@@ -80,7 +82,6 @@ namespace WooferGame.Scenes.Menu
             var layer = r.GetLayerGraphics("hud");
 
             layer.Draw(r.SpriteManager["menu_bg"], new System.Drawing.Rectangle(new Point(0, 0), layer.GetSize()));
-
 
             int destY = 100;
             int index = 0;
