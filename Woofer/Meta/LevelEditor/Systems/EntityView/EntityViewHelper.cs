@@ -18,6 +18,9 @@ using WooferGame.Systems.Generators;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Animation;
 using WooferGame.Meta.LevelEditor.Systems.AnimationView;
+using WooferGame.Systems.Sounds;
+using WooferGame.Meta.LevelEditor.Systems.SoundView;
+using WooferGame.Meta.LevelEditor.Systems.ObjectEditor;
 
 namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 {
@@ -462,10 +465,17 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("animation_view", null));
                 member.Scene.Events.InvokeEvent(new SelectAnimationEvent((List<AnimatedSprite>)member.GetValue()));
                 return true;
-            } else if(type == typeof(TextUnit))
+            }
+            else if (type == typeof(TextUnit))
             {
                 member.Scene.Events.InvokeEvent(new StartObjectEditEvent((TextUnit)member.GetValue(), "Edit Text", null));
                 member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("object_editor", null));
+                return true;
+            }
+            else if (type == typeof(List<Sound>))
+            {
+                member.Scene.Events.InvokeEvent(new SelectSoundEvent((List<Sound>)member.GetValue()));
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("sound_view", null));
                 return true;
             }
             else if (type.IsEnum)

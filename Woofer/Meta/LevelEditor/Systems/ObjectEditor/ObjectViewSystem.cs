@@ -17,7 +17,7 @@ using WooferGame.Systems.Visual;
 using Color = System.Drawing.Color;
 using Point = System.Drawing.Point;
 
-namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
+namespace WooferGame.Meta.LevelEditor.Systems.ObjectEditor
 {
     [ComponentSystem("object_editor", ProcessingCycles.Input | ProcessingCycles.Render, ProcessingFlags.Pause),
         Listening(typeof(StartObjectEditEvent))]

@@ -11,7 +11,7 @@ namespace WooferGame.Systems.Sounds
     class Sound
     {
         [PersistentProperty]
-        public string Name;
+        public string Name = "";
         [PersistentProperty]
         public float Volume = 1;
         [PersistentProperty]

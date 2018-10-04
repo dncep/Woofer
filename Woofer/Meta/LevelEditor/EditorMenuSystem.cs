@@ -15,6 +15,7 @@ using WooferGame.Meta.LevelEditor.Systems;
 using WooferGame.Meta.LevelEditor.Systems.CursorModes;
 using WooferGame.Meta.LevelEditor.Systems.EntityView;
 using WooferGame.Meta.LevelEditor.Systems.InputModes;
+using WooferGame.Meta.LevelEditor.Systems.ObjectEditor;
 using WooferGame.Scenes;
 using WooferGame.Systems.Visual;
 using Color = System.Drawing.Color;

@@ -87,6 +87,7 @@
     <Compile Include="Meta\LevelEditor\Systems\ModalFocusSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\ObjectEditor\ObjectViewSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\PrefabUtils.cs" />
+    <Compile Include="Meta\LevelEditor\Systems\SoundView\SoundsViewSystem.cs" />
     <Compile Include="Meta\LevelEditor\Systems\SystemListSystem.cs" />
     <Compile Include="Meta\LevelSelect\BackToMainMenuSystem.cs" />
     <Compile Include="Meta\LevelSelect\LevelSelect.cs" />
