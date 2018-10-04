@@ -132,25 +132,28 @@ namespace WooferGame.Systems.Physics
                             }
                             CollisionFaceProperties faceProperties = intersection.GetFaceProperties(normal);
 
-                            if (normal.X == 0)
+                            if (objA.Movable)
                             {
-                                double displacement = Math.Abs(normalSide.A.Y - (normal.Y > 0 ? objA.Bounds.Offset(physA.Position).Bottom : objA.Bounds.Offset(physA.Position).Top));
-                                if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.Y - physA.PreviousPosition.Y), 8))
+                                if (normal.X == 0)
                                 {
-                                    physA.Position += new Vector2D(0, displacement) * normal.Y;
-                                    physA.Velocity = new Vector2D(physA.Velocity.X * (1 - faceProperties.Friction), 0) + physB.Velocity * faceProperties.Friction;
+                                    double displacement = Math.Abs(normalSide.A.Y - (normal.Y > 0 ? objA.Bounds.Offset(physA.Position).Bottom : objA.Bounds.Offset(physA.Position).Top));
+                                    if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.Y - physA.PreviousPosition.Y), 8))
+                                    {
+                                        physA.Position += new Vector2D(0, displacement) * normal.Y;
+                                        physA.Velocity = new Vector2D(physA.Velocity.X * (1 - faceProperties.Friction), 0) + physB.Velocity * faceProperties.Friction;
+                                    }
+                                    else continue;
                                 }
-                                else continue;
-                            }
-                            else
-                            {
-                                double displacement = Math.Abs(normalSide.A.X - (normal.X > 0 ? objA.Bounds.Offset(physA.Position).Left : objA.Bounds.Offset(physA.Position).Right));
-                                if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.X - physA.PreviousPosition.X), 8))
+                                else
                                 {
-                                    physA.Position += new Vector2D(displacement, 0) * normal.X;
-                                    physA.Velocity = new Vector2D(0, physA.Velocity.Y * (1 - faceProperties.Friction)) + physB.Velocity * faceProperties.Friction;
+                                    double displacement = Math.Abs(normalSide.A.X - (normal.X > 0 ? objA.Bounds.Offset(physA.Position).Left : objA.Bounds.Offset(physA.Position).Right));
+                                    if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.X - physA.PreviousPosition.X), 8))
+                                    {
+                                        physA.Position += new Vector2D(displacement, 0) * normal.X;
+                                        physA.Velocity = new Vector2D(0, physA.Velocity.Y * (1 - faceProperties.Friction)) + physB.Velocity * faceProperties.Friction;
+                                    }
+                                    else continue;
                                 }
-                                else continue;
                             }
 
                             Owner.Events.InvokeEvent(new RigidCollisionEvent(objA, objB.Owner, normal));

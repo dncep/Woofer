@@ -59,14 +59,13 @@ namespace WooferGame.Scenes.Menu
                 switch (SelectedIndex)
                 {
                     case 0:
-                        Woofer.Controller.CurrentSave = new SaveGame("scenes");
-                        Woofer.Controller.CommandFired(new SceneChangeCommand(new LoadingScreen()));
-                        new Thread(() => Woofer.Controller.CommandFired(new SceneChangeCommand(Woofer.Controller.CurrentSave.GetScene("Tutorial")))).Start();
+                        Woofer.Controller.CurrentSave = new SaveGame("main");
+                        Woofer.Controller.CommandFired(new SavedSceneChangeCommand("Tutorial"));
                         break;
                     case 1:
                         break;
                     case 2:
-                        Woofer.Controller.CommandFired(new SceneChangeCommand(new LevelSelect()));
+                        Woofer.Controller.CommandFired(new DirectSceneChangeCommand(new LevelSelect()));
                         break;
                     case 3:
                         Environment.Exit(0);

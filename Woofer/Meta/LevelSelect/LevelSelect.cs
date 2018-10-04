@@ -45,12 +45,13 @@ namespace WooferGame.Meta.LevelSelect
                 }
                 Events.InvokeEvent(new StartEnumSelectEvent("Select Scene", sceneList, l =>
                 {
-                    Woofer.Controller.CommandFired(new SceneChangeCommand(new LoadingScreen()));
+                    Woofer.Controller.CommandFired(new DirectSceneChangeCommand(new LoadingScreen()));
+                    Woofer.Controller.CurrentSave = new Controller.Game.SaveGame("scenes");
                     new Thread(() =>
                     {
                         Scene scene = new WooferLoadOperation(Woofer.Controller, l, "scenes").Load();
                         Editor.AttachEditor(scene, l, "scenes");
-                        Woofer.Controller.CommandFired(new SceneChangeCommand(scene));
+                        Woofer.Controller.CommandFired(new DirectSceneChangeCommand(scene));
                     }).Start();
                 }, null));
                 Events.InvokeEvent(new ForceModalChangeEvent("enum_select", null));

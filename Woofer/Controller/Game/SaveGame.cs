@@ -39,7 +39,8 @@ namespace WooferGame.Controller.Game
                 Scene scene = loader.Load();
                 Scenes[sceneName] = scene;
                 LoadingTasks.Remove(sceneName);
-                Console.WriteLine($"Successfully loaded scene '{scene.Name}'");
+                if(scene != null) Console.WriteLine($"Successfully loaded scene '{scene.Name}'");
+                else Console.WriteLine("Could not load scene of name '" + sceneName + "'");
                 return scene;
             });
 

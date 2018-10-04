@@ -63,6 +63,7 @@ namespace WooferGame.Systems.Variables
                         renderable.Sprites.Add(new Sprite("lab_objects", new Rectangle(-4, -8, 8, 16), new Rectangle(0, 400, 8, 16)));
                         renderable.Sprites.Add(new Sprite("lab_objects", new Rectangle(-4, -8, 8, 16), new Rectangle(8, 400, 8, 16)));
                     }
+
                     if(renderable.Sprites.Count >= 2)
                     {
                         if (counter.EndValue - counter.StartValue == 0) continue;

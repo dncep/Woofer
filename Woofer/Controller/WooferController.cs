@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using EntityComponentSystem.Commands;
 using EntityComponentSystem.Saves;
 using EntityComponentSystem.Scenes;
@@ -8,6 +9,7 @@ using WooferGame.Controller.Commands;
 using WooferGame.Controller.Game;
 using WooferGame.Input;
 using WooferGame.Meta.LevelEditor;
+using WooferGame.Meta.Loading;
 using WooferGame.Scenes;
 
 namespace WooferGame.Controller
@@ -75,13 +77,31 @@ namespace WooferGame.Controller
                         }
                         break;
                     }
-                case SceneChangeCommand changeScene:
+                case DirectSceneChangeCommand changeScene:
                     {
                         Scene oldScene = ActiveScene;
                         ActiveScene = changeScene.NewScene;
                         oldScene.Dispose();
                         LevelRenderingLayer.LevelScreenSize = LevelRenderingLayer.DefaultLevelScreenSize;
                         ResolutionChanged = true;
+                        break;
+                    }
+                case SavedSceneChangeCommand changeScene:
+                    {
+                        Scene oldScene = ActiveScene;
+                        Woofer.Controller.CommandFired(new DirectSceneChangeCommand(new LoadingScreen()));
+                        oldScene.Dispose();
+                        LevelRenderingLayer.LevelScreenSize = LevelRenderingLayer.DefaultLevelScreenSize;
+                        ResolutionChanged = true;
+
+                        new Thread(() => {
+                            ActiveScene = CurrentSave.GetScene(changeScene.SceneName);
+                            if(ActiveScene == null)
+                            {
+                                ActiveScene = new MainMenuScene();
+                                Console.WriteLine("An error occurred");
+                            }
+                        }).Start();
                         break;
                     }
                 case ResolutionChangeCommand changeResolution:

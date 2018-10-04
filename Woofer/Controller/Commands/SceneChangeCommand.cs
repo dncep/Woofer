@@ -8,10 +8,17 @@ using EntityComponentSystem.Scenes;
 
 namespace WooferGame.Controller.Commands
 {
-    class SceneChangeCommand : Command
+    class DirectSceneChangeCommand : Command
     {
         public Scene NewScene;
 
-        public SceneChangeCommand(Scene scene) => NewScene = scene;
+        public DirectSceneChangeCommand(Scene scene) => NewScene = scene;
+    }
+
+    class SavedSceneChangeCommand : Command
+    {
+        public string SceneName;
+
+        public SavedSceneChangeCommand(string sceneName) => SceneName = sceneName;
     }
 }
