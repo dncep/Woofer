@@ -74,17 +74,19 @@ namespace GameBase.MonoGameGraphics
             spriteBatch.End();
         }
 
-        public void FillRect(RenderTarget2D target, System.Drawing.Rectangle rectangle, System.Drawing.Color color)
+        public void FillRect(RenderTarget2D target, System.Drawing.Rectangle rectangle, System.Drawing.Color color) => FillRect(target, rectangle, new DrawInfo() { Color = color, Mode = DrawMode.Normal });
+
+        public void FillRect(RenderTarget2D target, System.Drawing.Rectangle rectangle, DrawInfo info)
         {
             ChangeRenderTarget(target);
-            spriteBatch.Begin(SpriteSortMode.Immediate, blendState: null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, blendState: ModeToBlend(info.Mode));
             if (pixel == null)
             {
                 pixel = new Texture2D(device, 1, 1);
                 pixel.SetData(new[] { Color.White });
             }
             //ChangePixelColor(color);
-            spriteBatch.Draw(pixel, DrawingToXna(rectangle), null, DrawingToXna(color));
+            spriteBatch.Draw(pixel, DrawingToXna(rectangle), null, DrawingToXna(info.Color ?? System.Drawing.Color.White));
             spriteBatch.End();
         }
 
@@ -105,8 +107,10 @@ namespace GameBase.MonoGameGraphics
             spriteBatch.End();
         }
 
+        private BlendState ModeToBlend(DrawMode mode) => mode == DrawMode.Additive ? BlendState.Additive : mode == DrawMode.Overlay ? BlendState.AlphaBlend : BlendState.NonPremultiplied;
+
         //Retrieve size of texture or screen
-        public System.Drawing.Size GetSize(Texture2D surface) => new System.Drawing.Size(surface.Width, surface.Height);
+        public System.Drawing.Size GetSize(Texture2D surface) => surface != null ? new System.Drawing.Size(surface.Width, surface.Height) : GetScreenSize();// new System.Drawing.Size(surface.Width, surface.Height);
         public System.Drawing.Size GetScreenSize() => new System.Drawing.Size(manager.PreferredBackBufferWidth, manager.PreferredBackBufferHeight);
 
         //Scale texture
@@ -141,6 +145,11 @@ namespace GameBase.MonoGameGraphics
             return new Color(color.R, color.G, color.B, color.A);
         }
 
+        public void Begin()
+        {
+            ChangeRenderTarget(null);
+            device.Clear(Color.Black);
+        }
         public void Reset() => ChangeRenderTarget(null);
 
         //Redirection of subclasses of Texture2D (as type parameter 1 extends type parameter 2)

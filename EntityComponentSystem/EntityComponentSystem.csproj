@@ -48,6 +48,7 @@
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\ComponentMap.cs" />
     <Compile Include="Interfaces\Input\ButtonInput.cs" />
+    <Compile Include="Interfaces\Visuals\LayerGraphics.cs" />
     <Compile Include="Saves\Json\Converter\DefaultConverters\BooleanConverter.cs" />
     <Compile Include="Saves\Json\Converter\DefaultConverters\EnumConverter.cs" />
     <Compile Include="Saves\Json\Converter\DefaultConverters\NumberConverter.cs" />

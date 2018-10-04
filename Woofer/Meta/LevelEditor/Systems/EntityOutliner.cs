@@ -7,9 +7,11 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
+using EntityComponentSystem.Interfaces.Visuals;
 using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
+using GameInterfaces.GraphicsInterface;
 using WooferGame.Controller;
 using WooferGame.Meta.LevelEditor.Systems.EntityOutlines;
 using WooferGame.Systems.Physics;
@@ -75,7 +77,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                         
                         System.Drawing.Rectangle drawingRect = new System.Drawing.Rectangle((int)Math.Floor(x), (int)Math.Floor(y), (int)width, (int)height);
 
-                        layer.FillRect(drawingRect, outline.Fill);
+                        layer.FillRect(drawingRect, new DrawInfo() { Color = outline.Fill, Mode = DrawMode.Additive });
 
                         layer.FillRect(new System.Drawing.Rectangle(drawingRect.X, drawingRect.Y, drawingRect.Width, outline.Thickness), outline.Color);
                         layer.FillRect(new System.Drawing.Rectangle(drawingRect.X, drawingRect.Y + drawingRect.Height - outline.Thickness, drawingRect.Width, outline.Thickness), outline.Color);

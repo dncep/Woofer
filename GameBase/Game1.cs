@@ -112,9 +112,13 @@ namespace GameBase
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            screenRenderer.Clear();
+            spriteBatch.Begin(SpriteSortMode.Immediate, null);
+            GraphicsDevice.Clear(Color.White);
+            spriteBatch.End();
+
+            screenRenderer.Begin();
             gameController.Draw(screenRenderer);
-            screenRenderer.Update();
+            screenRenderer.End();
 
             base.Draw(gameTime);
         }

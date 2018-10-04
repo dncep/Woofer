@@ -43,30 +43,17 @@ namespace WooferGame.Systems.HUD
 
                 int destY = 3*layer.GetSize().Height/4;
 
-                TSurface[] Rendered = new TSurface[Active.Count];
-
-                for (int i = 0; i < Active.Count; i++)
+                foreach(ShowTextEvent current in Active)
                 {
-                    Rendered[i] = Active[i].Text.Render<TSurface, TSource>(r);
-                }
-
-                for(int i = 0; i < Active.Count; i++)
-                {
-                    ShowTextEvent current = Active[i];
-                    TSurface surface = Rendered[i];
-                    var surfaceOp = new DirectGraphicsContext<TSurface, TSource>(surface, r.GraphicsContext);
-
-                    int width = surfaceOp.GetSize().Width;
-                    int height = surfaceOp.GetSize().Height;
-                    int destX = layer.GetSize().Width / 2 - width / 2;
-
-                    var rect = new System.Drawing.Rectangle(destX, destY - height, width, height);
+                    System.Drawing.Size size = current.Text.GetSize(current.TextSize);
                     
-                    layer.Draw(surface, rect);
+                    int destX = layer.GetSize().Width / 2 - size.Width / 2;
 
-                    destY -= height + 2;
+                    var rect = new System.Drawing.Rectangle(destX, destY - size.Height, size.Width, size.Height);
 
-                    surfaceOp.DisposeSurface();
+                    current.Text.Render(r, layer, rect.Location, current.TextSize);
+
+                    destY -= size.Height + 2;
                 }
             }
         }

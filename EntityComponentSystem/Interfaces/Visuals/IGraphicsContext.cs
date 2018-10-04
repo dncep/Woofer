@@ -16,6 +16,7 @@ namespace GameInterfaces.GraphicsInterface
         void Draw(TSource subject, TSurface target, Rectangle destination, Rectangle? source = null, DrawInfo info = default(DrawInfo));
 
         void FillRect(TSurface target, Rectangle rectangle, Color color);
+        void FillRect(TSurface target, Rectangle rectangle, DrawInfo info);
         void DrawLine(TSurface target, Point point1, Point point2, Color color, int thickness);
 
         TSurface CreateTarget(int width, int height);
@@ -28,6 +29,7 @@ namespace GameInterfaces.GraphicsInterface
         void DisposeSource(TSource source);
         TSource TargetToSource(TSurface target);
         void Reset();
+        void Begin();
     }
 
     public struct DrawInfo

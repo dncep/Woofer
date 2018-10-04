@@ -102,9 +102,11 @@ namespace Tests
         [Test]
         public static void TileNeighborTest()
         {
-            RoomTileRaw tile = new RoomTileRaw();
-            tile.Enabled = true;
-            tile.Neighbors = 0b1011_1111;
+            RoomTileRaw tile = new RoomTileRaw
+            {
+                Enabled = true,
+                Neighbors = 0b1011_1111
+            };
             Assert(Convert.ToString(tile.GetSignificantSecondaryNeighbors(), 2), Convert.ToString(0b0010, 2));
         }
         

@@ -29,7 +29,7 @@ namespace WooferGame.Scenes.Menu
     {
         private static InputTimeframe SelectInput = new InputTimeframe(1);
 
-        private string[] OptionLabels = new[] { "Start", "Options", "Level Editor", "Quit" };
+        private readonly string[] OptionLabels = new[] { "Start", "Options", "Level Editor", "Quit" };
         private int SelectedIndex = 0;
 
         public override void Input()
