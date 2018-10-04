@@ -25,7 +25,7 @@ namespace WooferGame.Systems.HealthSystems
         public double RegenCooldown = 0;
 
         [PersistentProperty]
-        public bool HealthBarVisible = true;
+        public bool HealthBarVisible = false;
 
         [PersistentProperty]
         public double InvincibilityTimer = 0;

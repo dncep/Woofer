@@ -46,6 +46,7 @@ namespace WooferGame.Systems.Player
                     bool heal = health.CurrentHealth == health.MaxHealth;
                     health.MaxHealth = Woofer.Controller.CurrentSave.Data.MaxHealth;
                     if (heal) health.CurrentHealth = health.MaxHealth;
+                    health.HealthBarOffset = new Vector2D(0, 32);
                     player.Initialized = true;
                 }
             }
