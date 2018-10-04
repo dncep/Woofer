@@ -79,7 +79,7 @@ namespace GameBase
             // TODO: Unload any non ContentManager content here
         }
 
-        private TimeSpan lastTick;
+        private TimeSpan lastUpdate;
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -97,8 +97,8 @@ namespace GameBase
             }*/
 
             // TODO: Add your update logic here
-            gameController.Tick(gameTime.TotalGameTime - lastTick, gameTime.ElapsedGameTime);
-            lastTick = gameTime.TotalGameTime;
+            gameController.Update(gameTime.TotalGameTime - lastUpdate, gameTime.ElapsedGameTime);
+            lastUpdate = gameTime.TotalGameTime;
             /*System.Console.WriteLine(gameTime.TotalGameTime);
             System.Console.WriteLine(gameTime.ElapsedGameTime);
             System.Console.WriteLine();*/

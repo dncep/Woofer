@@ -9,7 +9,7 @@ using WooferGame.Systems.Checkpoints;
 
 namespace WooferGame.Systems.DeathBarrier
 {
-    [ComponentSystem("death_barrier", ProcessingCycles.Tick),
+    [ComponentSystem("death_barrier", ProcessingCycles.Update),
         Watching(typeof(DeathBarrierComponent), typeof(RemoveOnBarrierComponent), typeof(CheckpointOnBarrierComponent))]
     class DeathBarrierSystem : ComponentSystem
     {
@@ -21,7 +21,7 @@ namespace WooferGame.Systems.DeathBarrier
             typeof(CheckpointOnBarrierComponent)
         };
 
-        public override void Tick()
+        public override void Update()
         {
             DeathBarrierComponent barrier = null;
 

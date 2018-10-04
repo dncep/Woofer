@@ -12,11 +12,11 @@ using WooferGame.Systems.Visual;
 
 namespace WooferGame.Systems.Generators
 {
-    [ComponentSystem("tiling_generation", ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause),
+    [ComponentSystem("tiling_generation", ProcessingCycles.Update | ProcessingCycles.Render, ProcessingFlags.Pause),
         Watching(typeof(TilingGenerator))]
     class TilingGenerationSystem : ComponentSystem
     {
-        public override void Tick()
+        public override void Update()
         {
             foreach(TilingGenerator gen in WatchedComponents)
             {

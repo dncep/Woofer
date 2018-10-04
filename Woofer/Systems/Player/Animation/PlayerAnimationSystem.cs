@@ -19,7 +19,7 @@ using WooferGame.Systems.Visual.Particles;
 
 namespace WooferGame.Systems.Player.Animation
 {
-    [ComponentSystem("player_animation_system", ProcessingCycles.Tick | ProcessingCycles.Render),
+    [ComponentSystem("player_animation_system", ProcessingCycles.Update | ProcessingCycles.Render),
         Watching(typeof(PlayerAnimation)),
         Listening(typeof(PlayerJumpEvent), typeof(PulseEvent), typeof(AnimationStartEvent))]
     class PlayerAnimationSystem : ComponentSystem
@@ -36,7 +36,7 @@ namespace WooferGame.Systems.Player.Animation
 
         private static Rectangle Destination => new Rectangle(-16, 0, 32, 32);
 
-        public override void Tick()
+        public override void Update()
         {
             foreach (PlayerAnimation player in WatchedComponents)
             {

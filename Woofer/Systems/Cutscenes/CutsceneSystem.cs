@@ -13,7 +13,7 @@ using WooferGame.Systems.Player;
 
 namespace WooferGame.Systems.Cutscenes
 {
-    [ComponentSystem("cutscenes", ProcessingCycles.Tick),
+    [ComponentSystem("cutscenes", ProcessingCycles.Update),
         Watching(typeof(CameraTracked)),
         Listening(typeof(ActivationEvent), typeof(CameraLocationQueryEvent))]
     class CutsceneSystem : ComponentSystem
@@ -21,7 +21,7 @@ namespace WooferGame.Systems.Cutscenes
         private long CurrentNode = 0;
         private float Elapsed = 0;
 
-        public override void Tick()
+        public override void Update()
         {
             if(CurrentNode != 0)
             {

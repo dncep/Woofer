@@ -18,9 +18,9 @@ namespace EntityComponentSystem.ComponentSystems
         private readonly Scene Owner;
         public readonly OrderedDictionary<string, ComponentSystem> Dictionary = new OrderedDictionary<string, ComponentSystem>();
 
-        private List<ComponentSystem> _inputSystems = new List<ComponentSystem>();
-        private List<ComponentSystem> _tickSystems = new List<ComponentSystem>();
-        private List<ComponentSystem> _renderSystems = new List<ComponentSystem>();
+        private List<ComponentSystem> inputSystems = new List<ComponentSystem>();
+        private List<ComponentSystem> updateSystems = new List<ComponentSystem>();
+        private List<ComponentSystem> renderSystems = new List<ComponentSystem>();
 
         public SystemMap(Scene owner)
         {
@@ -60,9 +60,9 @@ namespace EntityComponentSystem.ComponentSystems
                 Dictionary.Add(system.SystemName, system);
                 system.Owner = Owner;
 
-                if (system.InputProcessing) _inputSystems.Add(system);
-                if (system.TickProcessing) _tickSystems.Add(system);
-                if (system.RenderProcessing) _renderSystems.Add(system);
+                if (system.InputProcessing) inputSystems.Add(system);
+                if (system.UpdateProcessing) updateSystems.Add(system);
+                if (system.RenderProcessing) renderSystems.Add(system);
 
                 foreach (Entity entity in Owner.Entities)
                 {
@@ -91,9 +91,9 @@ namespace EntityComponentSystem.ComponentSystems
                     Owner.Events.RegisterEventType(eventName);
                     Owner.Events.EventDictionary[eventName] -= system.EventFired;
                 }
-                _inputSystems.Remove(system);
-                _tickSystems.Remove(system);
-                _renderSystems.Remove(system);
+                inputSystems.Remove(system);
+                updateSystems.Remove(system);
+                renderSystems.Remove(system);
                 Dictionary.Remove(remove);
             }
             ToRemove.Clear();
@@ -101,26 +101,26 @@ namespace EntityComponentSystem.ComponentSystems
 
         public void UpdateOrder()
         {
-            _inputSystems.Clear();
-            _tickSystems.Clear();
-            _renderSystems.Clear();
+            inputSystems.Clear();
+            updateSystems.Clear();
+            renderSystems.Clear();
 
-            _inputSystems = Dictionary.Values.Where(s => s.InputProcessing).ToList();
-            _tickSystems = Dictionary.Values.Where(s => s.TickProcessing).ToList();
-            _renderSystems = Dictionary.Values.Where(s => s.RenderProcessing).ToList();
+            inputSystems = Dictionary.Values.Where(s => s.InputProcessing).ToList();
+            updateSystems = Dictionary.Values.Where(s => s.UpdateProcessing).ToList();
+            renderSystems = Dictionary.Values.Where(s => s.RenderProcessing).ToList();
         }
 
-        internal void InvokeInput() => _inputSystems.ForEach((s) =>
+        internal void InvokeInput() => inputSystems.ForEach((s) =>
         {
             if (Owner.Disposed) return;
             if (!Owner.Controller.Paused || s.PauseProcessing) s.Input();
         });
-        internal void InvokeTick() => _tickSystems.ForEach((s) =>
+        internal void InvokeUpdate() => updateSystems.ForEach((s) =>
         {
             if (Owner.Disposed) return;
-            if (!Owner.Controller.Paused || s.PauseProcessing) s.Tick();
+            if (!Owner.Controller.Paused || s.PauseProcessing) s.Update();
         });
-        internal void InvokeRender<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r) => _renderSystems.ForEach((s) => {
+        internal void InvokeRender<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r) => renderSystems.ForEach((s) => {
             if (Owner.Disposed) return;
             s.Render(r);
         });

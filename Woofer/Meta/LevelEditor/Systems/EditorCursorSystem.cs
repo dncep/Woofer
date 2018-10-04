@@ -16,7 +16,7 @@ using WooferGame.Meta.LevelEditor.Systems.EntityOutlines;
 
 namespace WooferGame.Meta.LevelEditor.Systems
 {
-    [ComponentSystem("editor_cursor", ProcessingCycles.Input | ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause),
+    [ComponentSystem("editor_cursor", ProcessingCycles.Input | ProcessingCycles.Update | ProcessingCycles.Render, ProcessingFlags.Pause),
         Listening(typeof(ForceMoveCursorEvent))]
     class EditorCursorSystem : ComponentSystem
     {
@@ -106,7 +106,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
             }
 
         }
-        public override void Tick()
+        public override void Update()
         {
             if (!Woofer.Controller.Paused) return;
             Rectangle viewRect = new Rectangle(Owner.CurrentViewport.Location - new Vector2D(320 / 2 - 16, 180 / 2 - 16), new Size(320-32, 180-32));

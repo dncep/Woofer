@@ -13,13 +13,13 @@ using WooferGame.Input;
 
 namespace WooferGame.Systems.Interaction
 {
-    [ComponentSystem("interaction", ProcessingCycles.Input | ProcessingCycles.Tick),
+    [ComponentSystem("interaction", ProcessingCycles.Input | ProcessingCycles.Update),
         Watching(typeof(InteractingAgent), typeof(Interactable))]
     class InteractionSystem : ComponentSystem
     {
         private readonly Dictionary<Interactable, InteractingAgent> CurrentInteractions = new Dictionary<Interactable, InteractingAgent>();
 
-        public override void Tick()
+        public override void Update()
         {
             if (CurrentInteractions.Count == 0) return;
             List<Interactable> toRemove = new List<Interactable>();

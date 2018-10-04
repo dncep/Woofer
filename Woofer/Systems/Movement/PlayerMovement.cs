@@ -13,7 +13,7 @@ using WooferGame.Systems.Visual.Particles;
 
 namespace WooferGame.Systems.Movement
 {
-    [ComponentSystem("player_controller", ProcessingCycles.Input | ProcessingCycles.Tick),
+    [ComponentSystem("player_controller", ProcessingCycles.Input | ProcessingCycles.Update),
         Watching(typeof(PlayerMovementComponent)),
         Listening(typeof(RigidCollisionEvent))]
     class PlayerMovement : ComponentSystem
@@ -96,7 +96,7 @@ namespace WooferGame.Systems.Movement
             }
         }
 
-        public override void Tick()
+        public override void Update()
         {
             foreach(PlayerMovementComponent pmc in WatchedComponents)
             {

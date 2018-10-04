@@ -10,11 +10,11 @@ using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Linking
 {
-    [ComponentSystem("following_system", ProcessingCycles.Tick),
+    [ComponentSystem("following_system", ProcessingCycles.Update),
         Watching(typeof(FollowingComponent))]
     class FollowingSystem : ComponentSystem
     {
-        public override void Tick()
+        public override void Update()
         {
             foreach(FollowingComponent following in WatchedComponents)
             {

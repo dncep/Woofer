@@ -8,11 +8,11 @@ using WooferGame.Systems.Interaction;
 
 namespace WooferGame.Systems.Timer
 {
-    [ComponentSystem("timer", ProcessingCycles.Tick),
+    [ComponentSystem("timer", ProcessingCycles.Update),
         Watching(typeof(TimerComponent))]
     class TimerSystem : ComponentSystem
     {
-        public override void Tick()
+        public override void Update()
         {
             foreach(TimerComponent timer in WatchedComponents)
             {

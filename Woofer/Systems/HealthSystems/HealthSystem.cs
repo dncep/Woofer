@@ -16,12 +16,12 @@ using WooferGame.Systems.Visual;
 
 namespace WooferGame.Systems.HealthSystems
 {
-    [ComponentSystem("health_system", ProcessingCycles.Tick | ProcessingCycles.Render),
+    [ComponentSystem("health_system", ProcessingCycles.Update | ProcessingCycles.Render),
         Watching(typeof(Health)),
         Listening(typeof(DamageEvent), typeof(SoftCollisionEvent), typeof(RigidCollisionEvent))]
     class HealthSystem : ComponentSystem
     {
-        public override void Tick()
+        public override void Update()
         {
             foreach (Health health in WatchedComponents)
             {

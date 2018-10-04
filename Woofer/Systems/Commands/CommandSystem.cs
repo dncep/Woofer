@@ -12,13 +12,13 @@ using WooferGame.Systems.Interaction;
 
 namespace WooferGame.Systems.Commands
 {
-    [ComponentSystem("CommandSystem", ProcessingCycles.Tick),
+    [ComponentSystem("CommandSystem", ProcessingCycles.Update),
         Listening(typeof(ActivationEvent))]
     class CommandSystem : ComponentSystem
     {
         private string ScheduledSceneChange = null;
 
-        public override void Tick()
+        public override void Update()
         {
             if(ScheduledSceneChange != null)
             {

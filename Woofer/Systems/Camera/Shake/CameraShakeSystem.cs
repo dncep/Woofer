@@ -4,7 +4,7 @@ using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Camera.Shake
 {
-    [ComponentSystem("camera_shake", ProcessingCycles.Tick),
+    [ComponentSystem("camera_shake", ProcessingCycles.Update),
         Listening(typeof(CameraShakeEvent), typeof(CameraLocationQueryEvent))]
     class CameraShakeSystem : ComponentSystem
     {
@@ -13,7 +13,7 @@ namespace WooferGame.Systems.Camera.Shake
 
         private readonly double timeScale = 64;
         
-        public override void Tick()
+        public override void Update()
         {
             for(int i = 0; i < timeScale && (OffsetVelocity.Magnitude > 0 || Offset.Magnitude > 0); i++)
             {

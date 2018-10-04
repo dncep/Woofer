@@ -117,7 +117,7 @@ namespace WooferGame.Test_Data
     }
 
     [ComponentSystem("fpscounter",
-        ProcessingCycles.Tick | ProcessingCycles.Render
+        ProcessingCycles.Update | ProcessingCycles.Render
         )]
     public class FramerateCounter : ComponentSystem
     {
@@ -127,7 +127,7 @@ namespace WooferGame.Test_Data
 
         //private Font font;
 
-        public override void Tick()
+        public override void Update()
         {
             frames++;
             _elapsed += Owner.DeltaTime;

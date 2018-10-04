@@ -12,12 +12,12 @@ using WooferGame.Systems.Interaction;
 
 namespace WooferGame.Systems.Puzzles
 {
-    [ComponentSystem("door_system", ProcessingCycles.Tick),
+    [ComponentSystem("door_system", ProcessingCycles.Update),
         Watching(typeof(DoorComponent)),
         Listening(typeof(ActivationEvent))]
     class DoorSystem : ComponentSystem
     {
-        public override void Tick()
+        public override void Update()
         {
             foreach(DoorComponent door in WatchedComponents)
             {

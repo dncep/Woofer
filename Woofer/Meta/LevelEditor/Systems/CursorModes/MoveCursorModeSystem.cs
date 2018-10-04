@@ -15,7 +15,7 @@ using WooferGame.Meta.LevelEditor.Systems.EntityView;
 
 namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 {
-    [ComponentSystem("move_cursor_mode", ProcessingCycles.Input | ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause),
+    [ComponentSystem("move_cursor_mode", ProcessingCycles.Input | ProcessingCycles.Update | ProcessingCycles.Render, ProcessingFlags.Pause),
         Listening(typeof(StartMoveModeEvent))]
     class MoveCursorModeSystem : ComponentSystem
     {
@@ -38,7 +38,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             }
         }
 
-        public override void Tick()
+        public override void Update()
         {
             if(CursorSystem == null) CursorSystem = Owner.Systems["editor_cursor"] as EditorCursorSystem;
 

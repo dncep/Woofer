@@ -18,7 +18,7 @@ using Color = System.Drawing.Color;
 
 namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 {
-    [ComponentSystem("sprite_cursor_mode", ProcessingCycles.Input | ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause),
+    [ComponentSystem("sprite_cursor_mode", ProcessingCycles.Input | ProcessingCycles.Update | ProcessingCycles.Render, ProcessingFlags.Pause),
         Listening(typeof(StartSpriteModeEvent))]
     class SpriteCursorModeSystem : ComponentSystem
     {
@@ -52,7 +52,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
         private const byte Delete = 3;
         private const byte Clone = 4;
 
-        public override void Tick()
+        public override void Update()
         {
             if (CursorSystem == null) CursorSystem = Owner.Systems["editor_cursor"] as EditorCursorSystem;
         }

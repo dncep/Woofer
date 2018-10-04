@@ -13,12 +13,12 @@ using WooferGame.Systems.Physics;
 
 namespace WooferGame.Systems.Visual.Particles
 {
-    [ComponentSystem("common_particle_system", ProcessingCycles.Tick),
+    [ComponentSystem("common_particle_system", ProcessingCycles.Update),
         Watching(typeof(ProjectileComponent)),
         Listening(typeof(RigidCollisionEvent), typeof(DamageEvent))]
     class CommonParticleSystem : ComponentSystem
     {
-        public override void Tick()
+        public override void Update()
         {
             foreach(ProjectileComponent projectile in WatchedComponents)
             {

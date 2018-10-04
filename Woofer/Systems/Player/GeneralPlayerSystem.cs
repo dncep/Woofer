@@ -18,12 +18,12 @@ using WooferGame.Systems.Visual;
 
 namespace WooferGame.Systems.Player
 {
-    [ComponentSystem("general_player_system", ProcessingCycles.Tick),
+    [ComponentSystem("general_player_system", ProcessingCycles.Update),
         Watching(typeof(PlayerComponent)),
         Listening(typeof(ActivationEvent))]
     class GeneralPlayerSystem : ComponentSystem
     {
-        public override void Tick()
+        public override void Update()
         {
             foreach(PlayerComponent player in WatchedComponents)
             {

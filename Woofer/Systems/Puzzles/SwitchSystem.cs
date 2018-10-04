@@ -14,12 +14,12 @@ using WooferGame.Systems.Player;
 namespace WooferGame.Systems.Puzzles
 {
     //Should be added **BEFORE** the physics system
-    [ComponentSystem("switches", ProcessingCycles.Tick),
+    [ComponentSystem("switches", ProcessingCycles.Update),
         Listening(typeof(SoftCollisionEvent)),
         Watching(typeof(SwitchComponent))]
     class SwitchSystem : ComponentSystem
     {
-        public override void Tick()
+        public override void Update()
         {
             foreach(SwitchComponent switchComponent in WatchedComponents)
             {

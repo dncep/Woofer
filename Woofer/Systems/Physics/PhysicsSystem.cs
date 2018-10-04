@@ -10,7 +10,7 @@ using WooferGame.Systems.Player.Actions;
 
 namespace WooferGame.Systems.Physics
 {
-    [ComponentSystem("physics", ProcessingCycles.Tick),
+    [ComponentSystem("physics", ProcessingCycles.Update),
         Watching(typeof(Physical), typeof(RigidBody), typeof(SoftBody)),
         Listening(typeof(RaycastEvent), typeof(SoftCollisionEvent), typeof(RigidCollisionEvent))]
     public class PhysicsSystem : ComponentSystem
@@ -19,7 +19,7 @@ namespace WooferGame.Systems.Physics
 
         private float accumulator = 0.0f;
 
-        public override void Tick()
+        public override void Update()
         {
             if (Owner.FixedDeltaTime == 0) return;
             accumulator += Owner.DeltaTime;

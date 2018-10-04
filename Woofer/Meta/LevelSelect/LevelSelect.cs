@@ -29,7 +29,7 @@ namespace WooferGame.Meta.LevelSelect
         }
 
         private bool Initialized = false;
-        protected override void Tick()
+        protected override void Update()
         {
             if(!Initialized)
             {

@@ -23,7 +23,7 @@ using Point = System.Drawing.Point;
 
 namespace WooferGame.Meta.LevelEditor
 {
-    [ComponentSystem("editor_menu", ProcessingCycles.Input | ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause)]
+    [ComponentSystem("editor_menu", ProcessingCycles.Input | ProcessingCycles.Update | ProcessingCycles.Render, ProcessingFlags.Pause)]
     class EditorMenuSystem : ComponentSystem
     {
         private bool ModalActive = false;
@@ -168,7 +168,7 @@ namespace WooferGame.Meta.LevelEditor
             }*/
         }
 
-        public override void Tick()
+        public override void Update()
         {
             if(SavedTimer > 0)
             {

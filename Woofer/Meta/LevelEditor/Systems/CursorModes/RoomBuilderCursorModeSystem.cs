@@ -18,7 +18,7 @@ using Point = System.Drawing.Point;
 
 namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 {
-    [ComponentSystem("room_builder_mode", ProcessingCycles.Input | ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause),
+    [ComponentSystem("room_builder_mode", ProcessingCycles.Input | ProcessingCycles.Update | ProcessingCycles.Render, ProcessingFlags.Pause),
         Listening(typeof(StartRoomBuilderModeEvent))]
     class RoomBuilderModeSystem : ComponentSystem
     {
@@ -41,7 +41,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
         private const byte Fill = 0;
         private const byte Clear = 1;
 
-        public override void Tick()
+        public override void Update()
         {
             if (CursorSystem == null) CursorSystem = Owner.Systems["editor_cursor"] as EditorCursorSystem;
         }

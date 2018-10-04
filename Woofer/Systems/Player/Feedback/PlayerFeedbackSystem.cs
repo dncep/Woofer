@@ -10,7 +10,7 @@ using WooferGame.Systems.Pulse;
 
 namespace WooferGame.Systems.Player.Feedback
 {
-    [ComponentSystem("player_feedback", ProcessingCycles.Tick),
+    [ComponentSystem("player_feedback", ProcessingCycles.Update),
         Watching(typeof(PlayerComponent)),
         Listening(typeof(PulseEvent))]
     class PlayerFeedbackSystem : ComponentSystem
@@ -31,7 +31,7 @@ namespace WooferGame.Systems.Player.Feedback
                 if (VibrationAmount < 0.1) VibrationAmount = 0;
             }
         }
-        public override void Tick()
+        public override void Update()
         {
             Woofer.Controller.InputManager.ActiveInputMap.SetVibration((float)(VibrationAmount/2));
             VibrationAmount = Math.Max(VibrationAmount/8, 0);

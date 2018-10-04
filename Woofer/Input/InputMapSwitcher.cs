@@ -33,7 +33,7 @@ namespace WooferGame.Input
             Owner.ActiveScene.Events.InvokeEvent(new SwitchInputMethod());
         }
 
-        public void Tick()
+        public void Update()
         {
             if (ActiveInputMap == null && inputMaps.Count >= 1) SwitchInputMap(inputMaps[0]);
 

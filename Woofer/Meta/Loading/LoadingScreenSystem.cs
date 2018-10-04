@@ -5,12 +5,12 @@ using WooferGame.Common;
 
 namespace WooferGame.Meta.Loading
 {
-    [ComponentSystem("loading", ProcessingCycles.Tick | ProcessingCycles.Render)]
+    [ComponentSystem("loading", ProcessingCycles.Update | ProcessingCycles.Render)]
     class LoadingScreenSystem : ComponentSystem
     {
         private double Timer = 0;
 
-        public override void Tick()
+        public override void Update()
         {
             Timer += Owner.DeltaTime;
             if(Timer >= 1)

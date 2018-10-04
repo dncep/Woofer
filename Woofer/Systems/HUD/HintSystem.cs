@@ -14,7 +14,7 @@ using WooferGame.Systems.Interaction;
 
 namespace WooferGame.Systems.HUD
 {
-    [ComponentSystem("HintSystem", ProcessingCycles.Tick | ProcessingCycles.Render),
+    [ComponentSystem("HintSystem", ProcessingCycles.Update | ProcessingCycles.Render),
         Listening(typeof(ShowTextEvent), typeof(ActivationEvent))]
     class HintSystem : ComponentSystem
     {
@@ -70,7 +70,7 @@ namespace WooferGame.Systems.HUD
                 }
             }
         }
-        public override void Tick()
+        public override void Update()
         {
             for(int i = 0; i < Active.Count; i++)
             {

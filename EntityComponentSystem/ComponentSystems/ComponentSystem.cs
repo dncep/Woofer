@@ -20,7 +20,7 @@ namespace EntityComponentSystem.ComponentSystems
         public string SystemName { get; private set; }
 
         private const byte _input = 0b001;
-        private const byte _tick = 0b010;
+        private const byte _update = 0b010;
         private const byte _render = 0b100;
 
         public Scene Owner { get; set; }
@@ -30,7 +30,7 @@ namespace EntityComponentSystem.ComponentSystems
         private readonly ProcessingFlags ProcessingFlags = ProcessingFlags.None;
 
         public bool InputProcessing => (ProcessingCycles & ProcessingCycles.Input) != ProcessingCycles.None;
-        public bool TickProcessing => (ProcessingCycles & ProcessingCycles.Tick) != ProcessingCycles.None;
+        public bool UpdateProcessing => (ProcessingCycles & ProcessingCycles.Update) != ProcessingCycles.None;
         public bool RenderProcessing => (ProcessingCycles & ProcessingCycles.Render) != ProcessingCycles.None;
 
         public bool PauseProcessing => (ProcessingFlags & ProcessingFlags.Pause) != ProcessingFlags.None;
@@ -75,7 +75,7 @@ namespace EntityComponentSystem.ComponentSystems
         {
         }
 
-        public virtual void Tick()
+        public virtual void Update()
         {
         }
 
@@ -192,7 +192,7 @@ namespace EntityComponentSystem.ComponentSystems
     {
         None = 0,
         Input = 1,
-        Tick = 2,
+        Update = 2,
         Render = 4,
     }
 

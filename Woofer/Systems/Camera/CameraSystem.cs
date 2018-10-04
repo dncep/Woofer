@@ -7,7 +7,7 @@ using EntityComponentSystem.Util;
 
 namespace WooferGame.Systems.Camera
 {
-    [ComponentSystem("camera_system", ProcessingCycles.Input | ProcessingCycles.Tick),
+    [ComponentSystem("camera_system", ProcessingCycles.Input | ProcessingCycles.Update),
         Watching(typeof(CameraTracked)),
         Listening(typeof(CameraLocationQueryEvent))]
     class CameraSystem : ComponentSystem
@@ -17,7 +17,7 @@ namespace WooferGame.Systems.Camera
             Owner.CurrentViewport.Location += Woofer.Controller.InputManager.ActiveInputMap.Movement;
         }
 
-        public override void Tick()
+        public override void Update()
         {
             CameraLocationQueryEvent query = new CameraLocationQueryEvent(null, Owner.CurrentViewport.Location);
             Owner.Events.InvokeEvent(query);

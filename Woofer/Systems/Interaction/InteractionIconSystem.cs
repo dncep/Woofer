@@ -12,14 +12,14 @@ using WooferGame.Systems.Visual;
 
 namespace WooferGame.Systems.Interaction
 {
-    [ComponentSystem("interaction_icon_system", ProcessingCycles.Tick),
+    [ComponentSystem("interaction_icon_system", ProcessingCycles.Update),
         Watching(typeof(InteractionIcon)),
         Listening(typeof(InteractionRangeEnter), typeof(InteractionRangeExit))]
     class InteractionIconSystem : ComponentSystem
     {
         private Interactable Focused = null;
 
-        public override void Tick()
+        public override void Update()
         {
             if (Focused == null) return;
             InteractionIcon icon = WatchedComponents.FirstOrDefault() as InteractionIcon;

@@ -33,12 +33,12 @@ namespace WooferGame.Input
 
         public void RegisterState(ButtonState state)
         {
-            Tick();
+            Update();
             if (state.IsPressed()) RegisterPressed();
             else RegisterUnpressed();
         }
 
-        protected virtual void Tick()
+        protected virtual void Update()
         {
             if (Effectiveness > 0) Effectiveness--;
         }

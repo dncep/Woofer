@@ -13,7 +13,7 @@ using WooferGame.Systems.Visual;
 
 namespace WooferGame.Systems.Generators
 {
-    [ComponentSystem("room_builder_system", ProcessingCycles.Tick, ProcessingFlags.Pause),
+    [ComponentSystem("room_builder_system", ProcessingCycles.Update, ProcessingFlags.Pause),
         Watching(typeof(RoomBuilder))]
     class RoomBuilderSystem : ComponentSystem
     {
@@ -27,7 +27,7 @@ namespace WooferGame.Systems.Generators
 
         private Random Random;
 
-        public override void Tick()
+        public override void Update()
         {
             foreach(RoomBuilder rb in WatchedComponents)
             {

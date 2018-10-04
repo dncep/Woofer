@@ -12,7 +12,7 @@ using WooferGame.Systems.Interaction;
 
 namespace WooferGame.Systems.Sounds
 {
-    [ComponentSystem("sound_system", ProcessingCycles.Tick),
+    [ComponentSystem("sound_system", ProcessingCycles.Update),
         Watching(typeof(SoundEmitter)),
         Listening(typeof(ActivationEvent))]
     class SoundSystem : ComponentSystem

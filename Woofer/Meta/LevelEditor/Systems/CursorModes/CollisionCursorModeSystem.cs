@@ -17,7 +17,7 @@ using Color = System.Drawing.Color;
 
 namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 {
-    [ComponentSystem("collision_cursor_mode", ProcessingCycles.Input | ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause),
+    [ComponentSystem("collision_cursor_mode", ProcessingCycles.Input | ProcessingCycles.Update | ProcessingCycles.Render, ProcessingFlags.Pause),
         Listening(typeof(StartCollisionModeEvent))]
     class CollisionCursorModeSystem : ComponentSystem
     {
@@ -50,7 +50,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
         private const byte Create = 2;
         private const byte Delete = 3;
 
-        public override void Tick()
+        public override void Update()
         {
             if (CursorSystem == null) CursorSystem = Owner.Systems["editor_cursor"] as EditorCursorSystem;
         }

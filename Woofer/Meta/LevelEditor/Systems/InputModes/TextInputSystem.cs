@@ -18,7 +18,7 @@ using Rectangle = EntityComponentSystem.Util.Rectangle;
 
 namespace WooferGame.Meta.LevelEditor.Systems.InputModes
 {
-    [ComponentSystem("text_input", ProcessingCycles.Input | ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause),
+    [ComponentSystem("text_input", ProcessingCycles.Input | ProcessingCycles.Update | ProcessingCycles.Render, ProcessingFlags.Pause),
         Listening(typeof(StartTextInputEvent))]
     class TextInputSystem : ComponentSystem
     {
@@ -154,7 +154,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.InputModes
             }
         }
 
-        public override void Tick()
+        public override void Update()
         {
             if (!ModalActive) return;
             CaretBlinkingProgress += Owner.DeltaTime;

@@ -9,14 +9,14 @@ using WooferGame.Systems.Visual.Animation;
 
 namespace WooferGame.Systems.Visual.Particles
 {
-    [ComponentSystem("particles", ProcessingCycles.Tick),
+    [ComponentSystem("particles", ProcessingCycles.Update),
         Watching(typeof(ParticleComponent)),
         Listening(typeof(AnimationEndEvent))]
     class ParticleSystem : ComponentSystem
     {
         public int MaxParticleCount = 100;
 
-        public override void Tick()
+        public override void Update()
         {
             if(WatchedComponents.Count > MaxParticleCount)
             {

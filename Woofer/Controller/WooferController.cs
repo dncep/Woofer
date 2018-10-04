@@ -52,14 +52,14 @@ namespace WooferGame.Controller
             ActiveScene = new MainMenuScene();
         }
 
-        public void Tick(TimeSpan timeSpan, TimeSpan elapsedGameTime)
+        public void Update(TimeSpan timeSpan, TimeSpan elapsedGameTime)
         {
-            ActiveScene.InvokeTick(timeSpan, elapsedGameTime);
+            ActiveScene.InvokeUpdate(timeSpan);
         }
 
         public void Input()
         {
-            InputManager.Tick();
+            InputManager.Update();
             ActiveScene.InvokeInput();
         }
 

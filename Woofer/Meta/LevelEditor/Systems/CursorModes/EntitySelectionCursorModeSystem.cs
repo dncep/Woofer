@@ -17,7 +17,7 @@ using Color = System.Drawing.Color;
 
 namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 {
-    [ComponentSystem("entity_selection_cursor_mode", ProcessingCycles.Input | ProcessingCycles.Tick | ProcessingCycles.Render, ProcessingFlags.Pause),
+    [ComponentSystem("entity_selection_cursor_mode", ProcessingCycles.Input | ProcessingCycles.Update | ProcessingCycles.Render, ProcessingFlags.Pause),
         Listening(typeof(StartEntitySelectionModeEvent))]
     class EntitySelectionCursorModeSystem : ComponentSystem
     {
@@ -45,7 +45,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
         private const byte Remove = 1;
         private const byte Single = 2;
 
-        public override void Tick()
+        public override void Update()
         {
             if (CursorSystem == null) CursorSystem = Owner.Systems["editor_cursor"] as EditorCursorSystem;
         }

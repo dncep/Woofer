@@ -9,11 +9,11 @@ using GameInterfaces.Controller;
 
 namespace WooferGame.Systems.Visual.Animation
 {
-    [ComponentSystem("animation", ProcessingCycles.Tick | ProcessingCycles.Render),
+    [ComponentSystem("animation", ProcessingCycles.Update | ProcessingCycles.Render),
         Watching(typeof(AnimationComponent))]
     class AnimationSystem : ComponentSystem
     {
-        public override void Tick()
+        public override void Update()
         {
             foreach(AnimationComponent c in WatchedComponents)
             {

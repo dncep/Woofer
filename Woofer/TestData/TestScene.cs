@@ -102,7 +102,7 @@ namespace WooferGame.Scenes
         }
 
 
-        protected override void Tick()
+        protected override void Update()
         {
             /*System.Console.WriteLine($"DeltaTime: \t{DeltaTime}");
             System.Console.WriteLine($"FixedDeltaTime: {FixedDeltaTime}");

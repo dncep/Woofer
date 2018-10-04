@@ -14,7 +14,7 @@ using WooferGame.Systems.Player;
 
 namespace WooferGame.Systems.Enemies
 {
-    [ComponentSystem("ai_system", ProcessingCycles.Input | ProcessingCycles.Tick),
+    [ComponentSystem("ai_system", ProcessingCycles.Input | ProcessingCycles.Update),
         Watching(typeof(PlayerComponent), typeof(SentryAI)),
         Listening(typeof(RigidCollisionEvent))]
     class AISystem : ComponentSystem
@@ -29,7 +29,7 @@ namespace WooferGame.Systems.Enemies
             }
         }
 
-        public override void Tick()
+        public override void Update()
         {
             Entity player = WatchedComponents.FirstOrDefault()?.Owner;
             if (player == null) return;

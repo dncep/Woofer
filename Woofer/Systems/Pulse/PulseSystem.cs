@@ -25,7 +25,7 @@ using WooferGame.Systems.Visual.Particles;
 namespace WooferGame.Systems.Pulse
 {
     [ComponentSystem("pulse_system", 
-        ProcessingCycles.Input | ProcessingCycles.Tick),
+        ProcessingCycles.Input | ProcessingCycles.Update),
         Watching(typeof(PulseAbility), typeof(PulsePushable), typeof(PulseReceiver)),
         Listening(typeof(PulseEvent), typeof(ActivationEvent))]
     class PulseSystem : ComponentSystem
@@ -75,7 +75,7 @@ namespace WooferGame.Systems.Pulse
             }
         }
 
-        public override void Tick()
+        public override void Update()
         {
             foreach(PulseAbility pa in WatchedComponents.Where(c => c is PulseAbility))
             {

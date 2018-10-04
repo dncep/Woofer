@@ -13,23 +13,57 @@ using GameInterfaces.Controller;
 
 namespace EntityComponentSystem.Scenes
 {
+    /// <summary>
+    /// Declares a collection of entities and systems that should act together in a level
+    /// </summary>
     public class Scene : IDisposable
     {
+        /// <summary>
+        /// The IGameController this scene belongs to
+        /// </summary>
         public readonly IGameController Controller;
 
+        /// <summary>
+        /// The name of this scene. Used for cross-scene references and the level editor
+        /// </summary>
         public string Name { get; set; } = "Scene";
 
+        /// <summary>
+        /// This scene's entity manager
+        /// </summary>
         public EntityMap Entities;
+        /// <summary>
+        /// This scene's system manager
+        /// </summary>
         public SystemMap Systems;
+        /// <summary>
+        /// This scene's event manager
+        /// </summary>
         public EventManager Events;
 
+        /// <summary>
+        /// The scene's current camera settings
+        /// </summary>
         public CameraView CurrentViewport { get; set; }
 
+        /// <summary>
+        /// The amount of seconds elapsed since the execution of the previous tick
+        /// </summary>
         public float DeltaTime { get; private set; } = 0;
+        /// <summary>
+        /// The random number generator for this scene
+        /// </summary>
         public Random Random { get; set; } = new Random();
 
+        /// <summary>
+        /// The fixed amount of seconds each timing-sensitive system should use per update
+        /// </summary>
         public float FixedDeltaTime = 1 / 60f;
 
+        /// <summary>
+        /// Creates and initializes a scene for the given controller
+        /// </summary>
+        /// <param name="controller"></param>
         public Scene(IGameController controller)
         {
             Controller = controller;
@@ -42,32 +76,45 @@ namespace EntityComponentSystem.Scenes
             CurrentViewport = new CameraView();
         }
 
+        /// <summary>
+        /// Called when the scene should draw itself
+        /// </summary>
+        /// <typeparam name="TSurface">The screen renderer's Surface type</typeparam>
+        /// <typeparam name="TSource">The screen renderer's Source type</typeparam>
+        /// <param name="screenRenderer">The screen renderer onto which to draw the scene</param>
         public void Draw<TSurface, TSource>(ScreenRenderer<TSurface, TSource> screenRenderer)
         {
-            //Console.WriteLine("render");
             Systems.Flush();
             Systems.InvokeRender(screenRenderer);
         }
 
-        protected virtual void Tick()
+        /// <summary>
+        /// Called once every frame. Can be optionally overriden by a subclass of scene.
+        /// </summary>
+        protected virtual void Update()
         {
 
         }
 
-        public void InvokeTick(TimeSpan deltaTime, TimeSpan fixedTime)
+        /// <summary>
+        /// Called once every frame
+        /// </summary>
+        /// <param name="timeSpan">The time since the last call to this method</param>
+        public void InvokeUpdate(TimeSpan deltaTime)
         {
-            //Console.WriteLine("ticks");
             DeltaTime = (float)(deltaTime.TotalMilliseconds / 1000d);
-            //Console.WriteLine($"DeltaTime: {DeltaTime}");
-            //FixedDeltaTime = (float)(fixedTime.TotalMilliseconds / 1000d);
             Entities.Flush();
             Systems.Flush();
 
-            Systems.InvokeTick();
+            Systems.InvokeUpdate();
 
-            Tick();
+            Update();
         }
 
+        /// <summary>
+        /// Updates all systems' watched component list to reflect an addition or a removal of an entity
+        /// </summary>
+        /// <param name="e">The event detailing what entity changed</param>
         private void NotifyEntityChange(EntityChangedEventArgs e)
         {
             foreach(Component component in e.Entity.Components)
@@ -83,6 +130,10 @@ namespace EntityComponentSystem.Scenes
             }
         }
 
+        /// <summary>
+        /// Updates all systems' watched component list to reflect an addition or a removal of a component
+        /// </summary>
+        /// <param name="e">The event detailing what component changed</param>
         private void NotifyComponentChange(ComponentChangedEventArgs e)
         {
             foreach (ComponentSystem system in Systems)
@@ -95,13 +146,19 @@ namespace EntityComponentSystem.Scenes
             }
         }
 
+        /// <summary>
+        /// Called when input information should be processed.
+        /// Delegates the call to all inner systems that are marked for input processing
+        /// </summary>
         public virtual void InvokeInput()
         {
-            //Console.WriteLine("input");
             Systems.Flush();
             Systems.InvokeInput();
         }
 
+        /// <summary>
+        /// Clears all event listeners, entities and systems in this scene to prepare it for disposal
+        /// </summary>
         public void Destroy()
         {
             List<string> systemNames = Systems.Select(s => s.SystemName).ToList();
@@ -128,9 +185,7 @@ namespace EntityComponentSystem.Scenes
                 {
                     Destroy();
                 }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
+                
                 Entities = null;
                 Systems = null;
                 Events = null;
@@ -139,19 +194,11 @@ namespace EntityComponentSystem.Scenes
             }
         }
 
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~Scene() {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
         // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
         }
         #endregion
     }
