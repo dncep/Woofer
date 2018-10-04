@@ -30,6 +30,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
         private List<IMemberSummary> Members = new List<IMemberSummary>();
 
         private Sprite Sprite;
+        private string ReturnTo;
 
         public override bool ShouldSave => false;
 
@@ -113,6 +114,11 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 SelectedPropertyIndex = 0;
                 Members.Clear();
                 Sprite = s.Sprite;
+                ReturnTo = s.ReturnTo;
+                if(ReturnTo == null)
+                {
+                    ReturnTo = (Owner.Systems[ComponentSystem.IdentifierOf<ModalFocusSystem>()] as ModalFocusSystem).CurrentSystem;
+                }
                 foreach (FieldInfo field in typeof(Sprite).GetFields())
                 {
                     Members.Add(new FieldSummary(Owner, field, Sprite));
@@ -129,7 +135,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             }
             else if (e is BeginModalChangeEvent bmce)
             {
-                bmce.SystemName = "sprite_cursor_mode";
+                bmce.SystemName = ReturnTo;
                 ModalActive = false;
                 ModalVisible = false;
             }
@@ -140,10 +146,12 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
     class StartSpriteSourceEditEvent : Event
     {
         public Sprite Sprite;
+        public string ReturnTo;
 
-        public StartSpriteSourceEditEvent(Sprite sprite) : base(null)
+        public StartSpriteSourceEditEvent(Sprite sprite, string returnTo = null) : base(null)
         {
             Sprite = sprite;
+            ReturnTo = returnTo;
         }
     }
 }

@@ -401,6 +401,11 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("sprite_cursor_mode", null));
                 member.Scene.Events.InvokeEvent(new StartSpriteModeEvent(origin, (List<Sprite>)member.GetValue(), v => member.SetValue(v), true));
                 return true;
+            } else if(type == typeof(Sprite))
+            {
+                member.Scene.Events.InvokeEvent(new StartSpriteSourceEditEvent((Sprite)member.GetValue()));
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("sprite_source_view", null));
+                return true;
             }
             else if (type == typeof(Rectangle))
             {
@@ -456,6 +461,11 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
             {
                 member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("animation_view", null));
                 member.Scene.Events.InvokeEvent(new SelectAnimationEvent((List<AnimatedSprite>)member.GetValue()));
+                return true;
+            } else if(type == typeof(TextUnit))
+            {
+                member.Scene.Events.InvokeEvent(new StartObjectEditEvent((TextUnit)member.GetValue(), "Edit Text", null));
+                member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("object_editor", null));
                 return true;
             }
             else if (type.IsEnum)

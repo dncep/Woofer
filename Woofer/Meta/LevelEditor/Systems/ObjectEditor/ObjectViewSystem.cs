@@ -118,6 +118,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 {
                     Members.Add(new PropertySummary(Owner, property, Object));
                 }
+                if(ReturnTo == null) ReturnTo = (Owner.Systems[ComponentSystem.IdentifierOf<ModalFocusSystem>()] as ModalFocusSystem)?.CurrentSystem ?? "editor_menu";
             }
             else if (e is ModalChangeEvent)
             {
