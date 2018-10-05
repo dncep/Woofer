@@ -33,8 +33,7 @@ namespace WooferGame.Systems.Visual
                     Renderable.Render(layer, view, r, renderable.Sprites, renderable.Owner.Components.Get<Spatial>());
                 }
             }
-
-            layer.Complete();
+            
         }
     }
 }

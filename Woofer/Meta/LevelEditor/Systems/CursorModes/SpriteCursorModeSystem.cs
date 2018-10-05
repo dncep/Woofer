@@ -153,6 +153,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 CursorSystem.ModalActive = true;
                 CursorSystem.DraggingEnabled = true;
                 if (changed.From != "sprite_source_view") CursorSystem.SwitchToModal = changed.From;
+                if(Sprites != null) Renderable.OrderSprites(Sprites);
                 //CursorSystem.OutlinesEnabled = true;
             }
             else if (e is BeginModalChangeEvent bmce)
@@ -403,6 +404,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             IOutline newOutline = new SpriteOutline(Origin, sprite, Color.Orange);
             Outlines.Add(newOutline);
             Owner.Events.InvokeEvent(new BeginOverlay(newOutline));
+            Renderable.OrderSprites(Sprites);
         }
 
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)

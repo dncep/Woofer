@@ -67,16 +67,9 @@ namespace WooferGame.Controller
 
         public void CommandFired(Command command)
         {
+            Console.WriteLine("Received command " + command);
             switch(command)
             {
-                case OrientationOriginChangeCommand changeOrigin:
-                    {
-                        if (InputManager.ActiveInputMap is IScreenAwareInput screenAware)
-                        {
-                            screenAware.SetOrientationOrigin(changeOrigin.NewOrigin);
-                        }
-                        break;
-                    }
                 case DirectSceneChangeCommand changeScene:
                     {
                         Scene oldScene = ActiveScene;
@@ -103,6 +96,7 @@ namespace WooferGame.Controller
                             } else
                             {
                                 Woofer.Controller.CurrentSave.Data.ActiveSceneName = changeScene.SceneName;
+                                CommandFired(new SaveCommand());
                             }
                         }).Start();
                         break;

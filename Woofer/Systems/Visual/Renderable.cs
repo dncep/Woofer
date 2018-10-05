@@ -87,11 +87,18 @@ namespace WooferGame.Systems.Visual
             return new System.Drawing.Rectangle((int)Math.Floor(x * scaleX), (int)Math.Floor(y * scaleY), (int)(width * scaleX), (int)(height * scaleY));
         }
 
+        public static void OrderSprites(List<Sprite> sprites)
+        {
+            IEnumerable<Sprite> sorted = sprites.OrderBy(s => s.ViewOrder);
+            sprites.Clear();
+            sprites.AddRange(sorted);
+        }
+
         public static void Render<TSurface, TSource>(DirectGraphicsContext<TSurface, TSource> layer, CameraView view, ScreenRenderer<TSurface, TSource> r, List<Sprite> sprites, Spatial spatial = null)
         {
             IGameController controller = Woofer.Controller;
-
-            foreach (Sprite sprite in sprites.OrderBy(s => s.ViewOrder))
+            
+            foreach (Sprite sprite in sprites)
             {
                 float x = (float)sprite.Destination.X;
                 float y = (float)sprite.Destination.Y;
@@ -102,10 +109,10 @@ namespace WooferGame.Systems.Visual
                 }
                 float width = (float)sprite.Destination.Width;
                 float height = (float)sprite.Destination.Height;
-
-                if (!new Rectangle(x, y, width, height)
+                
+                if (!new System.Drawing.RectangleF(x, y, width, height)
                     .IntersectsWith(
-                    new Rectangle(view.X - layer.GetSize().Width / 2, view.Y - layer.GetSize().Height / 2, layer.GetSize().Width, layer.GetSize().Height))) continue;
+                    new System.Drawing.RectangleF((float)(view.X - layer.GetSize().Width / 2), (float)(view.Y - layer.GetSize().Height / 2), layer.GetSize().Width, layer.GetSize().Height))) continue;
 
                 x -= (int)Math.Floor(view.X);
                 y -= (int)Math.Floor(view.Y);

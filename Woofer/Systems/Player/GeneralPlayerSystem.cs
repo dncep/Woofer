@@ -8,6 +8,7 @@ using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
+using WooferGame.Controller.Commands;
 using WooferGame.Scenes.LevelObjects;
 using WooferGame.Systems.HealthSystems;
 using WooferGame.Systems.HUD;
@@ -61,9 +62,10 @@ namespace WooferGame.Systems.Player
                 ae.Affected.Active = false;
                 if(!player.Components.Has<PulseAbility>())
                 {
-                    Woofer.Controller.CurrentSave.Data.HasWoofer = true;
                     player.Components.Add(new PulseAbility());
-                    
+                    Woofer.Controller.CurrentSave.Data.HasWoofer = true;
+                    Woofer.Controller.CommandFired(new SaveCommand());
+
                     Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("x_icons", new Rectangle(0, 0, 9, 9), new Rectangle(0, 9, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Activate", ae.Sender) { Duration = 10 });
                 }
             }
