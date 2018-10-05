@@ -7,23 +7,41 @@ namespace WooferGame.Systems.Physics
     [Component("rigidbody")]
     class RigidBody : Component
     {
+        private CollisionBox[] bounds = new CollisionBox[0];
+
         [PersistentProperty]
-        public CollisionBox[] Bounds { get; set; }
+        public CollisionBox[] Bounds
+        {
+            get => bounds;
+            set
+            {
+                CachedUnion = null;
+                bounds = value;
+            }
+        }
+
+        private CollisionBox CachedUnion = null;
+
         [HideInInspector]
-        public CollisionBox UnionBounds {
+        public CollisionBox UnionBounds
+        {
             get
             {
-                if (Bounds.Length == 0) return new CollisionBox(0, 0, 0, 0);
-                else if (Bounds.Length == 1) return Bounds[0];
-                else
+                if (CachedUnion == null)
                 {
-                    CollisionBox union = Bounds[0];
-                    for(int i = 0; i < Bounds.Length; i++)
+                    if (Bounds.Length == 0) return CachedUnion = new CollisionBox(0, 0, 0, 0);
+                    else if (Bounds.Length == 1) return CachedUnion = Bounds[0];
+                    else
                     {
-                        union = union.Union(Bounds[i]);
+                        CollisionBox union = Bounds[0];
+                        for (int i = 0; i < Bounds.Length; i++)
+                        {
+                            union = union.Union(Bounds[i]);
+                        }
+                        return CachedUnion = union;
                     }
-                    return union;
                 }
+                return CachedUnion;
             }
         }
 
