@@ -73,6 +73,8 @@ namespace WooferGame.Systems.Physics
                         Physical physA = objA.Owner.Components.Get<Physical>();
                         Physical physB = objB.Owner.Components.Get<Physical>();
 
+                        if (objB is RigidBody rb && !rb.UnionBounds.Offset(physB.Position).IntersectsWith(objA.Bounds.Offset(physA.Position))) continue;
+
                         IEnumerable<CollisionBox> solidBoxes =
                             objB is SoftBody ?
                                 new CollisionBox[] { (objB as SoftBody).Bounds.Offset(physB.Position) } :
