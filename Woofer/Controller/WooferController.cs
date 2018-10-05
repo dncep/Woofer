@@ -100,6 +100,9 @@ namespace WooferGame.Controller
                             {
                                 ActiveScene = new MainMenuScene();
                                 Console.WriteLine("An error occurred");
+                            } else
+                            {
+                                Woofer.Controller.CurrentSave.Data.ActiveSceneName = changeScene.SceneName;
                             }
                         }).Start();
                         break;
@@ -108,6 +111,11 @@ namespace WooferGame.Controller
                     {
                         LevelRenderingLayer.LevelScreenSize = changeResolution.NewResolution;
                         ResolutionChanged = true;
+                        break;
+                    }
+                case SaveCommand save:
+                    {
+                        Woofer.Controller.CurrentSave.Save();
                         break;
                     }
             }

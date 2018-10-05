@@ -15,6 +15,7 @@ namespace WooferGame.Controller.Game
     public class SaveGame
     {
         public readonly string DirectoryName;
+        public string DirectoryPath => Path.Combine(Woofer.DirectoryPath, DirectoryName);
         private Dictionary<string, Scene> Scenes = new Dictionary<string, Scene>();
         private Dictionary<string, Task<Scene>> LoadingTasks = new Dictionary<string, Task<Scene>>();
 
@@ -50,7 +51,7 @@ namespace WooferGame.Controller.Game
 
         public void Save()
         {
-            string rootPath = Path.Combine(Woofer.DirectoryPath, DirectoryName);
+            string rootPath = DirectoryPath;
             string dataPath = Path.Combine(rootPath, "data.wgf");
 
             Directory.CreateDirectory(rootPath);
@@ -78,6 +79,16 @@ namespace WooferGame.Controller.Game
                 reader.Dispose();
             }
 
+        }
+
+        public void CreateNew()
+        {
+            Directory.CreateDirectory(DirectoryPath);
+            foreach(string file in Directory.EnumerateFiles(Woofer.ScenesPath, "*.scn"))
+            {
+                File.Copy(file, file.Replace(Woofer.ScenesPath, DirectoryPath), true);
+            }
+            Save();
         }
     }
 }
