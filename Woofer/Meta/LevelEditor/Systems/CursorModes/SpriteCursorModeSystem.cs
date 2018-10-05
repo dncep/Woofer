@@ -300,7 +300,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 }
                 if (CursorSystem.Dragging && Creating)
                 {
-                    Sprite newSprite = Sprites.Last();
+                        Sprite newSprite = Sprites.Last();
                     newSprite.Destination.X = CursorSystem.SelectionRectangle.X - Origin.X;
                     newSprite.Destination.Y = CursorSystem.SelectionRectangle.Y - Origin.Y;
                     newSprite.Destination.Width = CursorSystem.SelectionRectangle.Width;
