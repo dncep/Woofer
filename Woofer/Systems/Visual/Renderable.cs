@@ -89,7 +89,7 @@ namespace WooferGame.Systems.Visual
 
         public static void OrderSprites(List<Sprite> sprites)
         {
-            IEnumerable<Sprite> sorted = sprites.OrderBy(s => s.ViewOrder);
+            IEnumerable<Sprite> sorted = sprites.OrderBy(s => s.ViewOrder).ToArray();
             sprites.Clear();
             sprites.AddRange(sorted);
         }
