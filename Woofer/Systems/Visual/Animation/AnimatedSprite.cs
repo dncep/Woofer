@@ -23,6 +23,8 @@ namespace WooferGame.Systems.Visual.Animation
         public int FrameCount { get; set; }
         [PersistentProperty]
         public bool Loop { get; set; }
+        [PersistentProperty]
+        public int LoopFrame { get; set; }
 
         [PersistentProperty]
         public int CurrentFrame { get; set; }
@@ -49,6 +51,7 @@ namespace WooferGame.Systems.Visual.Animation
             CurrentFrame = 0;
             FrameProgress = -1;
             Loop = false;
+            LoopFrame = 0;
         }
     }
 }

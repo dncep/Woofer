@@ -30,7 +30,7 @@ namespace WooferGame.Systems.Visual.Animation
                         {
                             if (anim.Loop)
                             {
-                                anim.CurrentFrame = 0;
+                                anim.CurrentFrame = anim.LoopFrame;
                             }
                             else Owner.Events.InvokeEvent(new AnimationEndEvent(c, anim));
                         }

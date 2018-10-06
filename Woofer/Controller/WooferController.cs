@@ -40,6 +40,7 @@ namespace WooferGame.Controller
             AudioUnit.Load("pulse_mid");
             AudioUnit.Load("pulse_high");
             AudioUnit.Load("select");
+            AudioUnit.Load("refill");
 
             AudioUnit.Load("bgm");
             AudioUnit.Load("bgm1");
