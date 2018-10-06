@@ -43,7 +43,8 @@ namespace WooferGame.Systems.HealthSystems
                                 }
                             }
                         }
-                        health.Owner.Remove();
+                        Owner.Events.InvokeEvent(new DeathEvent(health.Owner, health));
+                        if(health.RemoveOnDeath) health.Owner.Remove();
                     }
                     continue;
                 }
@@ -94,7 +95,7 @@ namespace WooferGame.Systems.HealthSystems
                     health.RegenCooldown = health.RegenRate;
                     if(de.Sender.Owner.Components.Get<Spatial>() is Spatial origin && health.Owner.Components.Get<Spatial>() is Spatial target && health.Owner.Components.Get<Physical>() is Physical phys)
                     {
-                        phys.Velocity = new Vector2D(96 * Math.Sign(target.Position.X - origin.Position.X), 96);
+                        phys.Velocity = new Vector2D(96 * Math.Sign(target.Position.X - origin.Position.X), 96) * de.Knockback;
                     }
                     if(health.CurrentHealth <= 0)
                     {
@@ -111,7 +112,7 @@ namespace WooferGame.Systems.HealthSystems
                     (sHurt.Filter == DamageFilter.DamageEnemies && !sVictim.Owner.Components.Has<PlayerComponent>())
                 )
                 {
-                    Owner.Events.InvokeEvent(new DamageEvent(sVictim.Owner, sHurt.Damage, sHurt));
+                    Owner.Events.InvokeEvent(new DamageEvent(sVictim.Owner, sHurt.Damage, sHurt) { Knockback = sHurt.Knockback });
                     if(sHurt.Remove)
                     {
                         sHurt.Owner.Remove();
@@ -127,7 +128,7 @@ namespace WooferGame.Systems.HealthSystems
                     (rHurt.Filter == DamageFilter.DamageEnemies && !rVictim.Owner.Components.Has<PlayerComponent>())
                 )
                 {
-                    Owner.Events.InvokeEvent(new DamageEvent(rVictim.Owner, rHurt.Damage, rHurt));
+                    Owner.Events.InvokeEvent(new DamageEvent(rVictim.Owner, rHurt.Damage, rHurt) { Knockback = rHurt.Knockback });
                     if (rHurt.Remove)
                     {
                         rHurt.Owner.Remove();

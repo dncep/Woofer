@@ -10,17 +10,14 @@ using EntityComponentSystem.Events;
 
 namespace WooferGame.Systems.HealthSystems
 {
-    [Event("DamageEvent")]
-    class DamageEvent : Event
+    [Event("death_event")]
+    class DeathEvent : Event
     {
         public Entity Affected;
-        public int Amount;
-        public float Knockback = 1;
 
-        public DamageEvent(Entity affected, int amount, Component sender) : base(sender)
+        public DeathEvent(Entity affected, Component sender) : base(sender)
         {
             Affected = affected;
-            Amount = amount;
         }
     }
 }

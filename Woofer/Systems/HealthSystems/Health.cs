@@ -38,5 +38,8 @@ namespace WooferGame.Systems.HealthSystems
 
         [PersistentProperty]
         public int DeathTime = 40;
+        
+        [PersistentProperty]
+        public bool RemoveOnDeath = true;
     }
 }

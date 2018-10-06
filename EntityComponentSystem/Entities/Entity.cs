@@ -71,10 +71,8 @@ namespace EntityComponentSystem.Entities
 
         }
 
-        public T GetComponent<T>() where T : Component
-        {
-            return Components.Get<T>();
-        }
+        public T GetComponent<T>() where T : Component => Components.Get<T>();
+        public bool HasComponent<T>() where T : Component => Components.Has<T>();
 
         public override bool Equals(object obj) => Equals(obj as Entity);
         public bool Equals(Entity other) => other != null && _id == other._id;

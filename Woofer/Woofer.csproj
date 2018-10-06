@@ -156,6 +156,7 @@
     <Compile Include="Systems\HealthSystems\DamageEvent.cs" />
     <Compile Include="Systems\HealthSystems\DamageFlashing.cs" />
     <Compile Include="Systems\HealthSystems\DamageOnContactComponent.cs" />
+    <Compile Include="Systems\HealthSystems\DeathEvent.cs" />
     <Compile Include="Systems\HealthSystems\Health.cs" />
     <Compile Include="Systems\HealthSystems\HealthSystem.cs" />
     <Compile Include="Systems\HealthSystems\OnDeathTrigger.cs" />

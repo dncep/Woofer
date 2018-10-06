@@ -38,6 +38,8 @@ namespace WooferGame.Systems.Pulse
             {
                 ButtonInput pulseButton = inputMap.Pulse;
 
+                if (pa.Owner.GetComponent<Health>() is Health health && health.CurrentHealth <= 0) continue;
+
                 if(pa.EnergyMeter >= pa.PulseCost)
                 {
                     if(pulseButton.Consume())

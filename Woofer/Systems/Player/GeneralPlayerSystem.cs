@@ -10,6 +10,7 @@ using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
 using WooferGame.Controller.Commands;
 using WooferGame.Scenes.LevelObjects;
+using WooferGame.Systems.Checkpoints;
 using WooferGame.Systems.HealthSystems;
 using WooferGame.Systems.HUD;
 using WooferGame.Systems.Interaction;
@@ -21,7 +22,7 @@ namespace WooferGame.Systems.Player
 {
     [ComponentSystem("general_player_system", ProcessingCycles.Update),
         Watching(typeof(PlayerComponent)),
-        Listening(typeof(ActivationEvent))]
+        Listening(typeof(ActivationEvent), typeof(DeathEvent))]
     class GeneralPlayerSystem : ComponentSystem
     {
         public override void Update()
@@ -48,6 +49,7 @@ namespace WooferGame.Systems.Player
                     health.MaxHealth = Woofer.Controller.CurrentSave.Data.MaxHealth;
                     if (heal) health.CurrentHealth = health.MaxHealth;
                     health.HealthBarOffset = new Vector2D(0, 32);
+                    health.RemoveOnDeath = false;
                     player.Initialized = true;
                 }
             }
@@ -68,6 +70,15 @@ namespace WooferGame.Systems.Player
 
                     Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("x_icons", new Rectangle(0, 0, 9, 9), new Rectangle(0, 9, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Activate", ae.Sender) { Duration = 10 });
                 }
+            } else if(evt is DeathEvent de && de.Affected.HasComponent<PlayerComponent>())
+            {
+                Health health = de.Affected.GetComponent<Health>();
+                if(health != null)
+                {
+                    health.RemoveOnDeath = false;
+                    health.CurrentHealth = health.MaxHealth;
+                }
+                Owner.Events.InvokeEvent(new CheckpointRequestEvent(de.Affected.GetComponent<PlayerComponent>(), de.Affected));
             }
         }
     }

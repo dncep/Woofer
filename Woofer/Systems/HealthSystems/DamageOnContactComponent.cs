@@ -22,6 +22,9 @@ namespace WooferGame.Systems.HealthSystems
 
         [PersistentProperty]
         public bool Remove = false;
+
+        [PersistentProperty]
+        public float Knockback = 1;
     }
 
     enum DamageFilter
