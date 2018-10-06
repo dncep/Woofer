@@ -27,7 +27,7 @@ namespace WooferGame.Meta.LevelEditor
         //internal static InputHybridTimeframe SelectTimeframe = new InputHybridTimeframe(15, 3);
         //internal static InputHybridTimeframe SelectSecondaryTimeframe = new InputHybridTimeframe(15, 3);
 
-        public static void AttachEditor(Scene scene, string sceneName, string saveName)
+        public static void AttachEditor(Scene scene)
         {
             scene.Controller.Paused = true;
 

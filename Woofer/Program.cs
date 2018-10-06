@@ -10,7 +10,7 @@ namespace WooferGame
     {
         public static WooferController Controller;
 
-        public static readonly string DirectoryPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), @"Woofer/");
+        public static readonly string DirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), @"Woofer");
         public static readonly string ScenesPath = Path.Combine(DirectoryPath, "scenes");
 
         [STAThread]

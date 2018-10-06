@@ -21,7 +21,7 @@ namespace WooferGame.Meta
 {
     class WooferLoadOperation : LoadOperation
     {
-        public WooferLoadOperation(IGameController controller, string name, string save) : base(controller, Path.Combine(Woofer.DirectoryPath, save, name + ".scn"))
+        public WooferLoadOperation(IGameController controller, string path) : base(controller, path)
         {
             this.AddConverter(new CollisionBoxConverter());
             this.AddConverter(new ColorConverter());

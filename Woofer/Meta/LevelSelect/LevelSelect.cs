@@ -34,7 +34,7 @@ namespace WooferGame.Meta.LevelSelect
             if(!Initialized)
             {
                 List<string> sceneList = new List<string>();
-                foreach (string path in Directory.GetFiles(Path.Combine(Woofer.DirectoryPath, "scenes"))) {
+                foreach (string path in Directory.GetFiles(Woofer.ScenesPath)) {
                     FileInfo file = new FileInfo(path);
                     if (file.Extension == ".scn")
                     {
@@ -49,8 +49,8 @@ namespace WooferGame.Meta.LevelSelect
                     Woofer.Controller.CurrentSave = new Controller.Game.SaveGame("scenes");
                     new Thread(() =>
                     {
-                        Scene scene = new WooferLoadOperation(Woofer.Controller, l, "scenes").Load();
-                        Editor.AttachEditor(scene, l, "scenes");
+                        Scene scene = new WooferLoadOperation(Woofer.Controller, Path.Combine(Woofer.ScenesPath, l + ".scn")).Load();
+                        Editor.AttachEditor(scene);
                         Woofer.Controller.CommandFired(new DirectSceneChangeCommand(scene));
                     }).Start();
                 }, null));

@@ -116,6 +116,44 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest" />
+    <None Include="Content\prefabs\Button.prefab">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\prefabs\Camera Region.prefab" />
+    <None Include="Content\prefabs\Ceiling Switch.prefab" />
+    <None Include="Content\prefabs\Checkpoint.prefab" />
+    <None Include="Content\prefabs\Collectable.prefab" />
+    <None Include="Content\prefabs\Cutscene Node.prefab" />
+    <None Include="Content\prefabs\Desk prop.prefab" />
+    <None Include="Content\prefabs\Desk top prop.prefab" />
+    <None Include="Content\prefabs\Door.prefab" />
+    <None Include="Content\prefabs\Following Cutscene Node.prefab" />
+    <None Include="Content\prefabs\Glass L.prefab" />
+    <None Include="Content\prefabs\Glow.prefab" />
+    <None Include="Content\prefabs\Loading Zone.prefab" />
+    <None Include="Content\prefabs\Locker prop.prefab" />
+    <None Include="Content\prefabs\MovableBox.prefab" />
+    <None Include="Content\prefabs\Pulse Emitter U.prefab" />
+    <None Include="Content\prefabs\Pulse Switch.prefab" />
+    <None Include="Content\prefabs\PulseEmitter R.prefab" />
+    <None Include="Content\prefabs\Ramp L.prefab" />
+    <None Include="Content\prefabs\Ramp R.prefab" />
+    <None Include="Content\prefabs\Refill Orb.prefab" />
+    <None Include="Content\prefabs\Room background.prefab" />
+    <None Include="Content\prefabs\Room Structure.prefab" />
+    <None Include="Content\prefabs\Sentry.prefab" />
+    <None Include="Content\prefabs\Shelf L.prefab" />
+    <None Include="Content\prefabs\Shelf R.prefab" />
+    <None Include="Content\prefabs\Small Glow.prefab" />
+    <None Include="Content\prefabs\Spikes.prefab" />
+    <None Include="Content\prefabs\Trigger Area.prefab" />
+    <None Include="Content\prefabs\Vent bg.prefab" />
+    <None Include="Content\prefabs\Wall seams dark.prefab" />
+    <None Include="Content\prefabs\Wall seams.prefab" />
+    <None Include="Content\scenes\Blank Game Scene.scn" />
+    <None Include="Content\scenes\Floor2.scn" />
+    <None Include="Content\scenes\Pre boss.scn" />
+    <None Include="Content\scenes\Tutorial.scn" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntityComponentSystem\EntityComponentSystem.csproj">
@@ -125,33 +163,6 @@
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\char.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\intro_bg.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\lab_objects.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\lab_tileset.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\MainSceneBG.png" />
-    <Content Include="Content\notes.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\parallax_bg.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\particles.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\sprites0.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Rendering\" />

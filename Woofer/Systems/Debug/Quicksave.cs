@@ -28,8 +28,10 @@ namespace WooferGame.Systems.Debug
     [ComponentSystem("quicksave", ProcessingCycles.Input)]
     class Quicksave : ComponentSystem
     {
-        private static readonly string TargetDirectory = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), @"Woofer/scenes");
+        private static readonly string TargetDirectory = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Woofer", "scenes");
         private static readonly string TargetFile = Path.Combine(TargetDirectory, "scene");
+
+        public override bool ShouldSave => false;
 
         static Quicksave()
         {

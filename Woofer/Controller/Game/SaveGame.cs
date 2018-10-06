@@ -35,7 +35,7 @@ namespace WooferGame.Controller.Game
             {
                 return await LoadingTasks[sceneName];
             }
-            WooferLoadOperation loader = new WooferLoadOperation(Woofer.Controller, sceneName, DirectoryName);
+            WooferLoadOperation loader = new WooferLoadOperation(Woofer.Controller, Path.Combine(DirectoryPath, sceneName + ".scn"));
             Task<Scene> task = Task.Run<Scene>(() => {
                 Scene scene = loader.Load();
                 Scenes[sceneName] = scene;

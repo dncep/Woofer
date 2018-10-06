@@ -23,7 +23,7 @@ namespace WooferGame.Controller
 
         public InputMapManager InputManager { get; private set; }
         public bool Paused { get; set; }
-        public SaveGame CurrentSave { get; internal set; } = new SaveGame("scenes");
+        public SaveGame CurrentSave { get; internal set; } = null;
 
         public WooferController()
         {
