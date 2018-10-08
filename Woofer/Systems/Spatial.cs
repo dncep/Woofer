@@ -14,7 +14,7 @@ namespace WooferGame.Systems
     public class Spatial : Component
     {
         [PersistentProperty("pos")] [Inspector(InspectorEditType.Position)]
-        public Vector2D Position { get; set; } = new Vector2D();
+        public Vector2D Position = new Vector2D();
 
         public Spatial() { }
 

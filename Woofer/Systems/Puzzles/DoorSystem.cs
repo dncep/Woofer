@@ -23,7 +23,10 @@ namespace WooferGame.Systems.Puzzles
             {
                 if(door.OpeningDirection != 0)
                 {
-                    double delta = door.OpeningDirection * (door.MaxOpenDistance / door.OpeningTime) * Owner.DeltaTime;
+                    door.CurrentOpenTime += Owner.DeltaTime;
+                    double delta = door.OpeningDirection * ((door.MaxOpenDistance * Math.PI) / (2 * door.OpeningTime)) * Math.Sin(door.CurrentOpenTime * Math.PI / door.OpeningTime) * Owner.DeltaTime;
+                    //double delta = door.OpeningDirection * ((2/door.MaxOpenDistance) * door.CurrentOpenTime) * (door.MaxOpenDistance / door.OpeningTime);
+
                     if(delta > 0 && door.CurrentOpenDistance + delta > door.MaxOpenDistance)
                     {
                         delta = door.MaxOpenDistance - door.CurrentOpenDistance;
@@ -32,12 +35,34 @@ namespace WooferGame.Systems.Puzzles
                         delta = -door.CurrentOpenDistance;
                     }
 
-                    door.OpeningDirection = delta;
-
-                    if(delta != 0)
+                    if (delta == 0 || door.CurrentOpenTime > door.OpeningTime)
                     {
-                        Spatial sp = door.Owner.Components.Get<Spatial>();
-                        sp.Position += new Vector2D(0, delta);
+                        Spatial sp = door.Owner.GetComponent<Spatial>();
+                        if (door.OpeningDirection > 0)
+                        {
+                            door.CurrentOpenDistance = door.MaxOpenDistance;
+                            if (sp != null)
+                            {
+                                sp.Position.Y = door.OpenY;
+                            }
+                        } else if(door.OpeningDirection < 0)
+                        {
+                            door.CurrentOpenDistance = 0;
+
+                            if (sp != null)
+                            {
+                                sp.Position.Y = door.ClosedY;
+                            }
+                        }
+                        door.OpeningDirection = 0;
+                    }
+                    else if(delta != 0)
+                    {
+                        Spatial sp = door.Owner.GetComponent<Spatial>();
+                        if(sp != null)
+                        {
+                            sp.Position += new Vector2D(0, delta);
+                        }
                         door.CurrentOpenDistance += delta;
                     }
                 }
@@ -48,17 +73,29 @@ namespace WooferGame.Systems.Puzzles
             if(evt is ActivationEvent ae && ae.Affected.Components.Get<DoorComponent>() is DoorComponent door)
             {
                 int multiplier = 1;
-                if(door.Toggle)
+                if(door.OpeningDirection == 0)
                 {
-                    if(door.OpeningDirection == 0)
+
+                    multiplier = (door.CurrentOpenDistance < door.MaxOpenDistance || !door.Toggle) ? 1 : -1;
+                    Spatial sp = door.Owner.GetComponent<Spatial>();
+                    if (sp != null)
                     {
-                        multiplier = (door.CurrentOpenDistance < door.MaxOpenDistance) ? 1 : -1;
-                    } else
-                    {
-                        multiplier = Math.Sign(door.OpeningDirection);
+                        if (door.CurrentOpenDistance == 0)
+                        {
+                            door.ClosedY = sp.Position.Y;
+                            door.OpenY = sp.Position.Y + door.MaxOpenDistance;
+                        } else if(door.CurrentOpenDistance == door.MaxOpenDistance)
+                        {
+                            door.OpenY = sp.Position.Y;
+                            door.ClosedY = sp.Position.Y - door.MaxOpenDistance;
+                        }
                     }
+                } else
+                {
+                    multiplier = Math.Sign(door.OpeningDirection);
                 }
                 door.OpeningDirection = multiplier;
+                door.CurrentOpenTime = 0;
             }
         }
     }

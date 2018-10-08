@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EntityComponentSystem.Components;
 using EntityComponentSystem.Saves;
+using WooferGame.Meta.LevelEditor;
 
 namespace WooferGame.Systems.Puzzles
 {
@@ -19,9 +20,20 @@ namespace WooferGame.Systems.Puzzles
         public double OpeningTime = 0.5;
 
         [PersistentProperty]
+        public double CurrentOpenTime = 0;
+
+        [PersistentProperty]
         public double OpeningDirection = 0;
 
         [PersistentProperty]
         public bool Toggle = false;
+
+        [HideInInspector]
+        [PersistentProperty]
+        public double OpenY = 0;
+
+        [HideInInspector]
+        [PersistentProperty]
+        public double ClosedY = 0;
     }
 }

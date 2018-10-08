@@ -30,11 +30,12 @@ namespace WooferGame.Systems.Refill
             {
                 foreach (EnergyRefillComponent refill in WatchedComponents.OfType<EnergyRefillComponent>())
                 {
+                    if (refill.Enabled) continue;
                     refill.Enabled = true;
                     Renderable renderable = refill.Owner.GetComponent<Renderable>();
                     if(renderable != null && renderable.Sprites.Count >= 1)
                     {
-                        renderable.Sprites[0].Source = new EntityComponentSystem.Util.Rectangle(0, 0, 16, 16);
+                        renderable.Sprites[0].Source = new Rectangle(0, 0, 16, 16);
                     }
                     AnimationComponent animatable = refill.Owner.GetComponent<AnimationComponent>();
                     if(animatable != null && animatable.Animations.Count >= 1 && animatable.Animations[0].SpriteIndex == 0)

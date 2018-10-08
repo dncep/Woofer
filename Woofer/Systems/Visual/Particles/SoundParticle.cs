@@ -21,7 +21,7 @@ namespace WooferGame.Systems.Visual.Particles
         {
             Components.Add(new Spatial(pos));
             Components.Add(new Renderable(new Sprite("particles", new Rectangle(-32, -32, 64, 64), new Rectangle(0, 0, 0, 0)) { DrawMode=DrawMode.Overlay}));
-            Components.Add(new LevelRenderable());
+            Components.Add(new LevelRenderable(4));
             Components.Add(new AnimationComponent(new AnimatedSprite(0, new Rectangle(0, 32, 64, 64), new Vector2D(64, 0), 6, 2) { FrameProgress = -(delay+1) }));
             Components.Add(new ParticleComponent());
         }

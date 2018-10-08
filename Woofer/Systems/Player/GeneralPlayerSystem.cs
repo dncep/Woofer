@@ -17,6 +17,7 @@ using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player.Actions;
 using WooferGame.Systems.Visual;
+using WooferGame.Systems.Visual.Particles;
 
 namespace WooferGame.Systems.Player
 {
@@ -57,20 +58,58 @@ namespace WooferGame.Systems.Player
 
         public override void EventFired(object sender, Event evt)
         {
-            if(evt is ActivationEvent ae && ae.Affected.Components.Has<WooferGiverComponent>())
+            if (evt is ActivationEvent ae)
             {
-                Entity player = WatchedComponents.FirstOrDefault()?.Owner;
-                if (player == null) return;
-                ae.Affected.Active = false;
-                if(!player.Components.Has<PulseAbility>())
+                if (ae.Affected.Components.Has<WooferGiverComponent>())
                 {
-                    player.Components.Add(new PulseAbility());
-                    Woofer.Controller.CurrentSave.Data.HasWoofer = true;
-                    Woofer.Controller.CommandFired(new SaveCommand());
+                    Entity player = WatchedComponents.FirstOrDefault()?.Owner;
+                    if (player == null) return;
+                    ae.Affected.Active = false;
+                    if (!player.Components.Has<PulseAbility>())
+                    {
+                        player.Components.Add(new PulseAbility());
+                        Woofer.Controller.CurrentSave.Data.HasWoofer = true;
+                        Woofer.Controller.CommandFired(new SaveCommand());
 
-                    Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("x_icons", new Rectangle(0, 0, 9, 9), new Rectangle(0, 9, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Activate", ae.Sender) { Duration = 10 });
+                        Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("x_icons", new Rectangle(0, 0, 9, 9), new Rectangle(0, 9, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Activate", ae.Sender) { Duration = 10 });
+                    }
                 }
-            } else if(evt is DeathEvent de && de.Affected.HasComponent<PlayerComponent>())
+                if (ae.Affected.Components.Get<WooferUpgradeComponent>() is WooferUpgradeComponent wooferUpgrade)
+                {
+                    Entity player = WatchedComponents.FirstOrDefault()?.Owner;
+                    if (player == null) return;
+                    ae.Affected.Active = false;
+                    Woofer.Controller.CurrentSave.Data.MaxEnergy = Math.Max(Woofer.Controller.CurrentSave.Data.MaxEnergy, wooferUpgrade.Energy);
+                    if (player.GetComponent<PulseAbility>() is PulseAbility pulse)
+                    {
+                        pulse.MaxEnergy = Woofer.Controller.CurrentSave.Data.MaxEnergy;
+                        pulse.EnergyMeter = pulse.MaxEnergy;
+                    }
+                    Woofer.Controller.CommandFired(new SaveCommand());
+                    Spatial sp = ae.Affected.GetComponent<Spatial>();
+                    if (sp != null) Owner.Entities.Add(new SoundParticle(sp.Position));
+                    Owner.Controller.AudioUnit["refill"].Play();
+                }
+                if (ae.Affected.Components.Get<HealthUpgradeComponent>() is HealthUpgradeComponent healthUpgrade)
+                {
+                    Entity player = WatchedComponents.FirstOrDefault()?.Owner;
+                    if (player == null) return;
+                    ae.Affected.Active = false;
+                    Woofer.Controller.CurrentSave.Data.MaxHealth = Math.Max(Woofer.Controller.CurrentSave.Data.MaxHealth, healthUpgrade.Health);
+                    if (player.GetComponent<Health>() is Health health)
+                    {
+                        health.MaxHealth = Woofer.Controller.CurrentSave.Data.MaxHealth;
+                        health.CurrentHealth = health.MaxHealth;
+                        health.RegenCooldown = health.RegenRate;
+                        health.HealthBarVisible = true;
+                    }
+                    Woofer.Controller.CommandFired(new SaveCommand());
+                    Spatial sp = ae.Affected.GetComponent<Spatial>();
+                    if (sp != null) Owner.Entities.Add(new SoundParticle(sp.Position));
+                    Owner.Controller.AudioUnit["refill"].Play();
+                }
+            }
+            else if(evt is DeathEvent de && de.Affected.HasComponent<PlayerComponent>())
             {
                 Health health = de.Affected.GetComponent<Health>();
                 if(health != null)
