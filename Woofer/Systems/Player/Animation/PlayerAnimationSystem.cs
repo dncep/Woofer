@@ -59,8 +59,8 @@ namespace WooferGame.Systems.Player.Animation
                 else if (Math.Abs(physical.Velocity.X) > 1e-2)
                 {
                     //Console.WriteLine("frames: " + ((int)(Owner.DeltaTime/Owner.FixedDeltaTime)));
-                    if (orientation.Unit.X == 0 || orientation.Unit.X / Math.Abs(orientation.Unit.X) == physical.Velocity.X / Math.Abs(physical.Velocity.X)) player.WalkAnimationProgress += (int)(Owner.FixedDeltaTime/Owner.DeltaTime);
-                    else player.WalkAnimationProgress -= (int)(Owner.FixedDeltaTime/Owner.DeltaTime);
+                    if (orientation.Unit.X == 0 || orientation.Unit.X / Math.Abs(orientation.Unit.X) == physical.Velocity.X / Math.Abs(physical.Velocity.X)) player.WalkAnimationProgress++;
+                    else player.WalkAnimationProgress--;
                     int frameDuration = 8;
                     int animationFrames = 6;
                     if (player.WalkAnimationProgress >= animationFrames * frameDuration) player.WalkAnimationProgress = 0;
