@@ -20,7 +20,7 @@ namespace EntityComponentSystem.Saves.Json.Objects
 
         public TagFloat(float value) => Value = value;
 
-        public int Resolve(TagMaster json, BinaryWriter writer)
+        public int Write(TagMaster json, BinaryWriter writer)
         {
             writer.Write(TypeId);
             writer.Write(Value);

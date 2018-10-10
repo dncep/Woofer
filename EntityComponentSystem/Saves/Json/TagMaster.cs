@@ -19,7 +19,7 @@ namespace EntityComponentSystem.Saves.Json
 
         public int Write(TagCompound root, BinaryWriter writer)
         {
-            return root.Resolve(this, writer);
+            return root.Write(this, writer);
         }
 
         public TagCompound Read(BinaryReader reader)

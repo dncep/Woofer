@@ -13,9 +13,9 @@ namespace EntityComponentSystem.Saves.Json.Objects
 
         public TagCustom(object value) => Value = value;
 
-        public int Resolve(TagMaster json, BinaryWriter writer)
+        public int Write(TagMaster json, BinaryWriter writer)
         {
-            return json.ConvertToValue(Value).Resolve(json, writer);
+            return json.ConvertToValue(Value).Write(json, writer);
         }
     }
 }

@@ -64,7 +64,7 @@ namespace EntityComponentSystem.Saves.Json.Objects
             else return default(T);
         }
 
-        public int Resolve(TagMaster json, BinaryWriter writer)
+        public int Write(TagMaster json, BinaryWriter writer)
         {
             writer.Write(TypeId);
             int size = 1;
@@ -73,11 +73,30 @@ namespace EntityComponentSystem.Saves.Json.Objects
                 writer.Write(true);
                 size++;
                 size += TagMaster.WriteString(property.Key, writer);
-                size += property.Value.Resolve(json, writer);
+                size += property.Value.Write(json, writer);
             }
             writer.Write(false);
             size++;
             return size;
+        }
+
+        public void Resolve(TagMaster json)
+        {
+            foreach(KeyValuePair<string, ITag> property in Properties.ToList())
+            {
+                if(property.Value is TagCustom)
+                {
+                    Properties[property.Key] = json.ConvertToValue(((TagCustom)property.Value).Value);
+                }
+                if (Properties[property.Key] is TagCompound)
+                {
+                    ((TagCompound)Properties[property.Key]).Resolve(json);
+                }
+                if (Properties[property.Key] is TagList)
+                {
+                    ((TagList)Properties[property.Key]).Resolve(json);
+                }
+            }
         }
 
         internal static ITag Parse(BinaryReader reader)

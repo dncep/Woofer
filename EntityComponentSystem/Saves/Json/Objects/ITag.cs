@@ -9,6 +9,6 @@ namespace EntityComponentSystem.Saves.Json.Objects
 {
     public interface ITag
     {
-        int Resolve(TagMaster json, BinaryWriter writer);
+        int Write(TagMaster json, BinaryWriter writer);
     }
 }

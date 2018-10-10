@@ -385,7 +385,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
                 {
                     Entity entity = member.Scene.Entities[member.Owner.Owner.Id];
                     forbidden = entity.Id;
-                    pivot = entity.Components.Get<Spatial>().Position;
+                    pivot = entity.Components.Get<Spatial>()?.Position ?? Vector2D.Empty;
                     member.Scene.Events.InvokeEvent(new ForceMoveCursorEvent(pivot));
                 }
                 member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("entity_selection_cursor_mode", null));

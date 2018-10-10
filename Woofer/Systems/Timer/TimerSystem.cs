@@ -16,6 +16,7 @@ namespace WooferGame.Systems.Timer
         {
             foreach(TimerComponent timer in WatchedComponents)
             {
+                if (!timer.Owner.Active) continue;
                 timer.TimeElapsed += Owner.DeltaTime;
                 while(timer.TimeElapsed >= timer.Period)
                 {

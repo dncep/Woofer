@@ -17,7 +17,7 @@ namespace EntityComponentSystem.Saves.Json.Objects
 
         public TagString(string value) => Value = value;
 
-        public int Resolve(TagMaster json, BinaryWriter writer)
+        public int Write(TagMaster json, BinaryWriter writer)
         {
             writer.Write(TypeId);
             return 1 + TagMaster.WriteString(Value, writer);

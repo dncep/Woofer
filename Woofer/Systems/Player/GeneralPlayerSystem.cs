@@ -11,6 +11,7 @@ using EntityComponentSystem.Util;
 using WooferGame.Controller.Commands;
 using WooferGame.Scenes.LevelObjects;
 using WooferGame.Systems.Checkpoints;
+using WooferGame.Systems.Commands;
 using WooferGame.Systems.HealthSystems;
 using WooferGame.Systems.HUD;
 using WooferGame.Systems.Interaction;
@@ -22,13 +23,13 @@ using WooferGame.Systems.Visual.Particles;
 namespace WooferGame.Systems.Player
 {
     [ComponentSystem("general_player_system", ProcessingCycles.Update),
-        Watching(typeof(PlayerComponent)),
+        Watching(typeof(PlayerComponent), typeof(OnLoadTrigger)),
         Listening(typeof(ActivationEvent), typeof(DeathEvent))]
     class GeneralPlayerSystem : ComponentSystem
     {
         public override void Update()
         {
-            foreach(PlayerComponent player in WatchedComponents)
+            foreach(PlayerComponent player in WatchedComponents.OfType<PlayerComponent>())
             {
                 if(!player.Initialized)
                 {
@@ -45,6 +46,7 @@ namespace WooferGame.Systems.Player
                     {
                         entity.Components.Add(new Health());
                     }
+                    entity.Components.Add(new DamageFlashing());
                     Health health = entity.Components.Get<Health>();
                     bool heal = health.CurrentHealth == health.MaxHealth;
                     health.MaxHealth = Woofer.Controller.CurrentSave.Data.MaxHealth;
@@ -52,6 +54,11 @@ namespace WooferGame.Systems.Player
                     health.HealthBarOffset = new Vector2D(0, 32);
                     health.RemoveOnDeath = false;
                     player.Initialized = true;
+
+                    foreach(Component listener in WatchedComponents.OfType<OnLoadTrigger>())
+                    {
+                        Owner.Events.InvokeEvent(new ActivationEvent(player, listener.Owner, null));
+                    }
                 }
             }
         }

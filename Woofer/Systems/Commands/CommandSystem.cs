@@ -32,7 +32,7 @@ namespace WooferGame.Systems.Commands
             {
                 if(ae.Affected.Components.Get<ResolutionChangeComponent>() is ResolutionChangeComponent resolutionChange)
                 {
-                    Owner.Controller.CommandFired(new ResolutionChangeCommand(resolutionChange.Resolution));
+                    Owner.Controller.CommandFired(new ResolutionChangeCommand(resolutionChange.Resolution.ToDrawing()));
                 }
                 else if (ae.Affected.Components.Get<SceneChangeComponent>() is SceneChangeComponent sceneChange)
                 {

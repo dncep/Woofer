@@ -11,6 +11,7 @@ using EntityComponentSystem.Scenes;
 using EntityComponentSystem.Util;
 using GameInterfaces.Controller;
 using GameInterfaces.Input;
+using WooferGame.Controller;
 using WooferGame.Input;
 using WooferGame.Meta.LevelEditor.Systems.EntityOutlines;
 
@@ -33,29 +34,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
 
         internal bool BoundToGrid = true;
         internal bool ModalActive = true;
-
-        private bool _outlinesEnabled = true;
-        internal bool DraggingEnabled {
-            get
-            {
-                return _outlinesEnabled;
-            }
-            set
-            {
-                /*if(Outline == null)
-                {
-                    Outline = new RectangleOutline(SelectionRectangle, Color.Orange);
-                }
-                if(value)
-                {
-                    Owner.Events.InvokeEvent(new BeginOutline(Outline));
-                } else
-                {
-                    Owner.Events.InvokeEvent(new RemoveOutline(Outline));
-                }*/
-                _outlinesEnabled = value;
-            }
-        }
+        internal bool DraggingEnabled { get; set; } = true;
 
         public bool StartedDragging { get; private set; } = false;
         public bool StoppedDragging { get; private set; } = false;
@@ -104,13 +83,13 @@ namespace WooferGame.Meta.LevelEditor.Systems
                     }
                 }
             }
-
         }
+
         public override void Update()
         {
             if (!Woofer.Controller.Paused) return;
-            Rectangle viewRect = new Rectangle(Owner.CurrentViewport.Location - new Vector2D(320 / 2 - 16, 180 / 2 - 16), new Size(320-32, 180-32));
-            viewRect.Width -= EditorRendering.SidebarWidth * 320 / 1280;
+            Rectangle viewRect = new Rectangle(Owner.CurrentViewport.Location - new Vector2D(LevelRenderingLayer.LevelScreenSize.Width / 2 - 16, LevelRenderingLayer.LevelScreenSize.Height / 2 - 16), new Size(LevelRenderingLayer.LevelScreenSize.Width - 32, LevelRenderingLayer.LevelScreenSize.Height - 32));
+            viewRect.Width -= EditorRendering.SidebarWidth * LevelRenderingLayer.LevelScreenSize.Width / 1280;
 
             if (!viewRect.Contains(CursorPos))
             {
@@ -120,6 +99,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                 if (_cursorPos.Y > viewRect.Top) Owner.CurrentViewport.Y += (_cursorPos.Y - viewRect.Top) / 2;
             }
         }
+
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
             if (!Woofer.Controller.Paused) return;
@@ -132,7 +112,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
             Vector2D pos = CursorPos;
             pos -= view.Location;
 
-            float scale = screenSize.Width / 320f;
+            float scale = screenSize.Width / (float)LevelRenderingLayer.LevelScreenSize.Width;
             pos *= scale;
 
             pos.Y *= -1;

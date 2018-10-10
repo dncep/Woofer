@@ -119,6 +119,7 @@
     <Compile Include="Systems\Camera\CameraRegionSystem.cs" />
     <Compile Include="Systems\Camera\CameraSystem.cs" />
     <Compile Include="Systems\Camera\CameraTracked.cs" />
+    <Compile Include="Systems\Camera\Shake\CameraShakeComponent.cs" />
     <Compile Include="Systems\Camera\Shake\CameraShakeEvent.cs" />
     <Compile Include="Systems\Camera\Shake\CameraShakeSystem.cs" />
     <Compile Include="Systems\Checkpoints\Checkpoint.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Systems\Checkpoints\CheckpointRequestEvent.cs" />
     <Compile Include="Systems\Checkpoints\CheckpointTrigger.cs" />
     <Compile Include="Systems\Commands\CommandSystem.cs" />
+    <Compile Include="Systems\Commands\OnLoadListener.cs" />
     <Compile Include="Systems\Commands\ResolutionChangeComponent.cs" />
     <Compile Include="Systems\Commands\SceneChangeComponent.cs" />
     <Compile Include="Systems\Commands\ScenePrepareComponent.cs" />
@@ -237,6 +239,9 @@
     <Compile Include="Systems\Sound\SoundEmitter.cs" />
     <Compile Include="Systems\Sound\SoundSystem.cs" />
     <Compile Include="Systems\Spatial.cs" />
+    <Compile Include="Systems\Spawner\EntitySpawner.cs" />
+    <Compile Include="Systems\Spawner\Spawned.cs" />
+    <Compile Include="Systems\Spawner\SpawnerSystem.cs" />
     <Compile Include="Systems\Timer\TimerComponent.cs" />
     <Compile Include="Systems\Timer\TimerSystem.cs" />
     <Compile Include="Systems\Setters\VelocitySetter.cs" />

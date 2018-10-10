@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,5 +26,9 @@ namespace EntityComponentSystem.Util
             Width = width;
             Height = height;
         }
+
+        public System.Drawing.Size ToDrawing() => new System.Drawing.Size((int)Width, (int)Height);
+
+        public override string ToString() => $"Size[{Width} x {Height}]";
     }
 }

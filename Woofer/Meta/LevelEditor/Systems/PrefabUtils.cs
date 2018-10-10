@@ -54,6 +54,31 @@ namespace WooferGame.Meta.LevelEditor.Systems
             Master.RegisterConverter(new BoolMapConverter());
         }
 
+        public static Entity CloneEntity(Entity entity)
+        {
+            TagCompound componentRoot = new TagCompound();
+            foreach (Component component in entity.Components)
+            {
+                componentRoot.AddProperty(component.ComponentName, component);
+            }
+
+            componentRoot.Resolve(Master);
+            
+            Entity copy = new Entity
+            {
+                Name = entity.Name,
+                Active = entity.Active
+            };
+
+            foreach (KeyValuePair<string, ITag> rawComponent in componentRoot)
+            {
+                Type componentType = Component.TypeForIdentifier(rawComponent.Key);
+                Component component = Master.ConvertFromValue(rawComponent.Value, componentType) as Component;
+                copy.Components.Add(component);
+            }
+            return copy;
+        }
+
         public static void Refresh()
         {
             PrefabNames.Clear();
