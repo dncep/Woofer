@@ -100,9 +100,9 @@ namespace EntityComponentSystem.Scenes
         /// Called once every frame
         /// </summary>
         /// <param name="timeSpan">The time since the last call to this method</param>
-        public void InvokeUpdate(TimeSpan deltaTime)
+        public void InvokeUpdate(float deltaTime)
         {
-            DeltaTime = (float)(deltaTime.TotalMilliseconds / 1000d);
+            DeltaTime = deltaTime;
             Entities.Flush();
             Systems.Flush();
 

@@ -25,6 +25,10 @@ namespace WooferGame.Controller
         public bool Paused { get; set; }
         public SaveGame CurrentSave { get; internal set; } = null;
 
+        public double GameSpeed = 1;
+
+        private double Accumulator = 0;
+
         public WooferController()
         {
             RenderingUnit = new WooferRenderingUnit(this);
@@ -53,15 +57,27 @@ namespace WooferGame.Controller
             ActiveScene = new MainMenuScene();
         }
 
+        private bool InputQueued = true;
+
         public void Update(TimeSpan timeSpan, TimeSpan elapsedGameTime)
         {
-            ActiveScene.InvokeUpdate(timeSpan);
+            Accumulator += timeSpan.TotalMilliseconds * GameSpeed;
+            if(Accumulator >= (1000d/60))
+            {
+                Accumulator -= 1000d / 60;
+                ActiveScene.InvokeUpdate((float)(timeSpan.TotalMilliseconds * GameSpeed / 1000));
+                InputQueued = true;
+            }
         }
 
         public void Input()
         {
-            InputManager.Update();
-            ActiveScene.InvokeInput();
+            if(InputQueued)
+            {
+                InputManager.Update();
+                ActiveScene.InvokeInput();
+                InputQueued = false;
+            }
         }
 
         private bool ResolutionChanged = false;

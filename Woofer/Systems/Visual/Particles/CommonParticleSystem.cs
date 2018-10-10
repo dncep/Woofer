@@ -22,6 +22,7 @@ namespace WooferGame.Systems.Visual.Particles
         {
             foreach(ProjectileComponent projectile in WatchedComponents)
             {
+                if (!projectile.Owner.Active) continue;
                 Spatial sp = projectile.Owner.Components.Get<Spatial>();
                 if(sp != null)
                 {

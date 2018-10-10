@@ -61,6 +61,7 @@ namespace WooferGame.Systems.HealthSystems
                 }
             }
         }
+
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
             var layer = r.GetLayerGraphics("hi_res_overlay");
@@ -68,6 +69,7 @@ namespace WooferGame.Systems.HealthSystems
             foreach(Health health in WatchedComponents)
             {
                 if (!health.Owner.Active) continue;
+                if (!health.DoShowHealth) continue;
                 if (!health.HealthBarVisible) continue;
                 Spatial sp = health.Owner.Components.Get<Spatial>();
 

@@ -28,6 +28,9 @@ namespace WooferGame.Systems.HealthSystems
         public bool HealthBarVisible = false;
 
         [PersistentProperty]
+        public bool DoShowHealth = true;
+
+        [PersistentProperty]
         public double InvincibilityTimer = 0;
 
         [PersistentProperty]
