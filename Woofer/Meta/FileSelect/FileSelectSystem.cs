@@ -17,6 +17,8 @@ using EntityComponentSystem.Saves.Json.Objects;
 using EntityComponentSystem.Interfaces.Visuals;
 using WooferGame.Input;
 using GameInterfaces.Input;
+using WooferGame.Systems.Visual;
+using EntityComponentSystem.Util;
 
 namespace WooferGame.Meta.FileSelect
 {
@@ -135,7 +137,32 @@ namespace WooferGame.Meta.FileSelect
 
             GameData slot = Slots[index];
 
-            new TextUnit("File " + (index + 1)).Render(r, layer, new Point(136, y + 8), 2);
+            string text = "File " + (index + 1);
+            if (slot == null && SelectedIndex == index) text += "    -    Create";
+
+            List<Sprite> icons = new List<Sprite>();
+
+            new TextUnit(text).Render(r, layer, new Point(bounds.X + bounds.Height, y + 24), 3);
+            if(slot != null)
+            {
+                layer.Draw(r.SpriteManager["char"], new System.Drawing.Rectangle(bounds.X, bounds.Y, bounds.Height, bounds.Height), new System.Drawing.Rectangle(263, 132, 16, 16));
+                if(slot.HasWoofer)
+                {
+                    icons.Add(new Sprite("gui", new Rectangle(0, 0, 21, 21), new Rectangle(0, slot.MaxEnergy > 100 ? 34 : 13, 21, 21)));
+                }
+                if(slot.MaxHealth > 4)
+                {
+                    icons.Add(new Sprite("gui", new Rectangle(0, 0, 19, 21), new Rectangle(0, 55, 19, 21)));
+                }
+            }
+
+            int iconX = bounds.X + bounds.Height;
+            int iconY = y + 56;
+            foreach(Sprite sprite in icons)
+            {
+                layer.Draw(r.SpriteManager[sprite.Texture], new System.Drawing.Rectangle(iconX+(int)sprite.Destination.X, iconY+(int)sprite.Destination.Y, (int)sprite.Destination.Width, (int)sprite.Destination.Height), sprite.Source?.ToDrawing());
+                iconX += 24;
+            }
         }
     }
 }
