@@ -33,6 +33,7 @@ namespace WooferGame.Systems.Puzzles
             {
                 SwitchComponent switchComponent = ce.Victim.Components.Get<SwitchComponent>();
                 if (switchComponent.PlayerOnly && !ce.Sender.Owner.Components.Has<PlayerComponent>()) return;
+                if (switchComponent.ReactOnlyTo != 0 && ce.Sender.Owner.Id != switchComponent.ReactOnlyTo) return;
                 if(!switchComponent.Pressed)
                 {
                     Owner.Events.InvokeEvent(new ActivationEvent(ce.Sender, switchComponent.Owner, ce));

@@ -20,6 +20,8 @@ namespace WooferGame.Systems.Puzzles
         [PersistentProperty]
         public bool PlayerOnly = false;
         [PersistentProperty]
+        public long ReactOnlyTo = 0;
+        [PersistentProperty]
         public bool OneTimeUse = false;
     }
 }
