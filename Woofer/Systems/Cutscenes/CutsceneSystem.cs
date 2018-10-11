@@ -20,6 +20,7 @@ namespace WooferGame.Systems.Cutscenes
     {
         private long CurrentNode = 0;
         private float Elapsed = 0;
+        private bool Locked = false;
 
         public override void Update()
         {
@@ -35,8 +36,11 @@ namespace WooferGame.Systems.Cutscenes
                 Elapsed += Owner.DeltaTime;
                 if(Elapsed > node.Delay + node.Duration)
                 {
-                    CurrentNode = node.Next;
-                    Elapsed -= node.Delay + node.Duration;
+                    Locked = false;
+                    CurrentNode = 0;
+                    Elapsed = 0;
+                    /*CurrentNode = node.Next;
+                    Elapsed -= node.Delay + node.Duration;*/
                     if(node.Next != 0)
                     {
                         Entity next = Owner.Entities[node.Next];
@@ -53,8 +57,12 @@ namespace WooferGame.Systems.Cutscenes
         {
             if(e is ActivationEvent ae && ae.Affected.Components.Get<CutsceneNode>() is CutsceneNode node)
             {
-                Elapsed = 0;
-                CurrentNode = node.Owner.Id;
+                if(!Locked)
+                {
+                    Elapsed = 0;
+                    CurrentNode = node.Owner.Id;
+                    Locked = true;
+                }
             }
             else if(e is CameraLocationQueryEvent camera)
             {

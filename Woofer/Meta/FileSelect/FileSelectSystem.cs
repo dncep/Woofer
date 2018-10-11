@@ -145,7 +145,7 @@ namespace WooferGame.Meta.FileSelect
             new TextUnit(text).Render(r, layer, new Point(bounds.X + bounds.Height, y + 24), 3);
             if(slot != null)
             {
-                layer.Draw(r.SpriteManager["char"], new System.Drawing.Rectangle(bounds.X, bounds.Y, bounds.Height, bounds.Height), new System.Drawing.Rectangle(263, 132, 16, 16));
+                layer.Draw(r.SpriteManager["gui"], new System.Drawing.Rectangle(bounds.X, bounds.Y, bounds.Height, bounds.Height), new System.Drawing.Rectangle(0, 76, 32, 32));
                 if(slot.HasWoofer)
                 {
                     icons.Add(new Sprite("gui", new Rectangle(0, 0, 21, 21), new Rectangle(0, slot.MaxEnergy > 100 ? 34 : 13, 21, 21)));
