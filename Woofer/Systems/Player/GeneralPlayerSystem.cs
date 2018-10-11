@@ -96,6 +96,8 @@ namespace WooferGame.Systems.Player
                     Spatial sp = ae.Affected.GetComponent<Spatial>();
                     if (sp != null) Owner.Entities.Add(new SoundParticle(sp.Position));
                     Owner.Controller.AudioUnit["refill"].Play();
+
+                    Owner.Events.InvokeEvent(new ShowTextEvent(new Sprite("x_icons", new Rectangle(0, 0, 9, 9), new Rectangle(0, 9, 9, 9)) { Modifiers = Sprite.Mod_InputType }, "Activate", ae.Sender) { Duration = 10 });
                 }
                 if (ae.Affected.Components.Get<HealthUpgradeComponent>() is HealthUpgradeComponent healthUpgrade)
                 {
