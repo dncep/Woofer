@@ -48,11 +48,8 @@ namespace WooferGame.Controller
 
             AudioUnit.Load("bgm");
             AudioUnit.Load("bgm1");
+            AudioUnit.Load("bgmboss");
 
-            ISoundEffect music = AudioUnit["bgm1"];
-            music.Looping = true;
-            music.Volume = 0.7f;
-            music.Play();
 
             ActiveScene = new MainMenuScene();
         }

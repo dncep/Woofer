@@ -7,5 +7,9 @@ namespace GameInterfaces.Controller
         ISoundEffect this[string name] { get; }
 
         void Load(string name);
+
+        void StopAll();
+        void StopMusic();
+        void SetMusic(ISoundEffect sound);
     }
 }

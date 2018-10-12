@@ -367,3 +367,9 @@
 /processorParam:Quality=Best
 /build:refill.wav
 
+#begin bgmboss.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:bgmboss.wav
+

@@ -16,6 +16,8 @@ namespace WooferGame.Systems.Sounds
     {
         [PersistentProperty]
         public List<Sound> Sounds;
+        [PersistentProperty]
+        public bool Music = false;
 
         public SoundEmitter() : this(new Sound[0])
         {

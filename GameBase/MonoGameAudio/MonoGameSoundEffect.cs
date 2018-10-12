@@ -12,35 +12,47 @@ namespace GameBase.MonoGameAudio
     {
         public bool Looping
         {
-            get => sound.IsLooped;
-            set => sound.IsLooped = value;
+            get => Sound.IsLooped;
+            set => Sound.IsLooped = value;
         }
         public float Pan
         {
-            get => sound.Pan;
-            set => sound.Pan = value;
+            get => Sound.Pan;
+            set => Sound.Pan = value;
         }
         public float Volume
         {
-            get => sound.Volume;
-            set => sound.Volume = value;
+            get => Sound.Volume;
+            set => Sound.Volume = value;
         }
         public float Pitch
         {
-            get => sound.Pitch;
-            set => sound.Pitch = value;
+            get => Sound.Pitch;
+            set => Sound.Pitch = value;
         }
+        public string Name { get; set; }
 
-        private readonly SoundEffectInstance sound;
+        private readonly MonoGameAudioUnit Unit;
+        private readonly SoundEffectInstance Sound;
 
-        public MonoGameSoundEffect(SoundEffectInstance sound)
+        public MonoGameSoundEffect(MonoGameAudioUnit unit, SoundEffectInstance sound)
         {
-            this.sound = sound;
+            this.Unit = unit;
+            this.Sound = sound;
         }
 
-        public void Play() => sound.Play();
-        public void Pause() => sound.Pause();
-        public void Resume() => sound.Resume();
-        public void Stop() => sound.Stop();
+        public void Play()
+        {
+            Sound.Play();
+        }
+
+        public void PlayAsMusic()
+        {
+            Unit.SetMusic(this);
+        }
+
+        public void Pause() => Sound.Pause();
+        public void Resume() => Sound.Resume();
+        public void Stop() => Sound.Stop();
     }
 }

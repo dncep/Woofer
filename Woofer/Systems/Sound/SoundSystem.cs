@@ -39,7 +39,10 @@ namespace WooferGame.Systems.Sounds
                     soundEffect.Pitch = sound.Pitch;
                     soundEffect.Pan = (float) pan;
                     soundEffect.Looping = sound.Looping;
-                    soundEffect.Play();
+                    if (em.Music)
+                        soundEffect.PlayAsMusic();
+                    else
+                        soundEffect.Play();
                 }
             }
         }

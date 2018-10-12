@@ -12,8 +12,10 @@ namespace GameInterfaces.Audio
         float Volume { get; set; }
         float Pitch { get; set; }
         float Pan { get; set; }
+        string Name { get; set; }
 
         void Play();
+        void PlayAsMusic();
         void Pause();
         void Resume();
         void Stop();
