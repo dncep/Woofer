@@ -51,7 +51,7 @@ namespace WooferGame.Systems.Visual.Animation
                     if(anim.SpriteIndex >= 0 && anim.SpriteIndex < renderable.Sprites.Count)
                     {
                         if (anim.FrameProgress >= 0) renderable.Sprites[anim.SpriteIndex].Source = anim.Frame + (anim.Step * anim.CurrentFrame);
-                        else renderable.Sprites[anim.SpriteIndex].Source = new Rectangle();
+                        else renderable.Sprites[anim.SpriteIndex].Source = new Rectangle(-1, -1, 0, 0);
                     }
                 }
             }

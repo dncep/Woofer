@@ -106,35 +106,41 @@ namespace WooferGame.Systems.Player.Animation
                 if (physical == null || movement == null || orientation == null) continue;
                 PulseAbility pulse = player.Owner.Components.Get<PulseAbility>();
 
-                bool freeArms = pulse == null;
+                bool handsFree = pulse == null;
 
                 if (orientation.Unit.X > 0 || player.LastLookedRight)
                 {
                     for (int i = Legs; i <= Arms; i++) srcOffsets[i] += OrientationOffset;
                 }
 
+                bool forceLook = handsFree && !movement.OnGround;
+
                 if(orientation.Unit.Y >= Math.Sin(Math.PI/9))
                 {
-
-                    srcOffsets[Head].X += 32;
+                    if(!forceLook) srcOffsets[Head].X += 32;
                     srcOffsets[Woofer].X += 32;
-                    if(!freeArms) srcOffsets[Arms].X += 32;
+                    if(!handsFree) srcOffsets[Arms].X += 32;
                     if(orientation.Unit.Y >= Math.Sin(2*Math.PI/6))
                     {
                         srcOffsets[Woofer].X += 32;
-                        if (!freeArms) srcOffsets[Arms].X += 32;
+                        if (!handsFree) srcOffsets[Arms].X += 32;
                     }
                 } else if(orientation.Unit.Y <= Math.Sin(-Math.PI/9))
                 {
-                    srcOffsets[Head].X += 64;
+                    if (!forceLook) srcOffsets[Head].X += 64;
                     srcOffsets[Woofer].X += 96;
-                    if (!freeArms) srcOffsets[Arms].X += 96;
+                    if (!handsFree) srcOffsets[Arms].X += 96;
                     if (orientation.Unit.Y <= Math.Sin(-2 * Math.PI / 6))
                     {
                         srcOffsets[Woofer].X += 32;
                         destOffsets[Woofer] += new Vector2D(0, -3); //Offset woofer down since it goes out of the spritesheet grid
-                        if (!freeArms) srcOffsets[Arms].X += 32;
+                        if (!handsFree) srcOffsets[Arms].X += 32;
                     }
+                }
+
+                if (forceLook)
+                {
+                    srcOffsets[Head].X += physical.Velocity.Y <= 0 ? 64 : 32;
                 }
 
                 if (orientation.Unit.X != 0) player.LastLookedRight = orientation.Unit.X > 0;
@@ -146,7 +152,7 @@ namespace WooferGame.Systems.Player.Animation
                     if (pulse.EnergyMeter == 0 && player.WooferBlinkingTime >= 0.375) srcOffsets[Woofer].Y += 32;
                 }
 
-                if (freeArms) srcOffsets[Arms].Y += 32;
+                if (handsFree) srcOffsets[Arms].Y += 32;
 
                 if (!movement.OnGround || Math.Abs(physical.Velocity.X) <= 1e-2) {/*player.WalkAnimationProgress = 0;*/}
                 else if (Math.Abs(physical.Velocity.X) > 1e-2)
@@ -154,7 +160,7 @@ namespace WooferGame.Systems.Player.Animation
                     int frameDuration = 8;
                     int animationFrames = 6;
                     srcOffsets[Legs].X += 32 * (1 + (player.WalkAnimationProgress / frameDuration));
-                    if (freeArms) srcOffsets[Arms].X += 32 * (1 + (player.WalkAnimationProgress / frameDuration));
+                    if (handsFree && movement.OnGround) srcOffsets[Arms].X += 32 * (1 + (player.WalkAnimationProgress / frameDuration));
 
                     for (int i = Legs; i <= Arms; i++)
                     {
@@ -172,12 +178,22 @@ namespace WooferGame.Systems.Player.Animation
                 if(!movement.OnGround)
                 {
                     srcOffsets[Legs] += new Vector2D(32, 32);
+                    if(handsFree)
+                    {
+                        srcOffsets[Arms] += new Vector2D(0, 32);
+                        if (physical.Velocity.Y <= 0) srcOffsets[Arms] += new Vector2D(32, 0);
+                        if (physical.Velocity.Y <= -96) srcOffsets[Arms] += new Vector2D(32, 0);
+                    }
                 }
 
                 for (int i = Legs; i <= Arms; i++)
                 {
                     int size = 32;
-                    if (i == Woofer && pulse == null) size = 0;
+                    if (i == Woofer && pulse == null)
+                    {
+                        size = 0;
+                        srcOffsets[i] = new Vector2D(-1, -1);
+                    }
                     renderable.Sprites[i].Source = new Rectangle(srcOffsets[i], size, size);
                     renderable.Sprites[i].Destination = Destination + destOffsets[i];
                 }
