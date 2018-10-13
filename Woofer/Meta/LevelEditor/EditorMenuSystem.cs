@@ -104,6 +104,8 @@ namespace WooferGame.Meta.LevelEditor
             }
         }
 
+        internal static readonly Sprite CogIcon = new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 32, 16, 16));
+
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
             if (!ModalVisible) return;
@@ -119,7 +121,7 @@ namespace WooferGame.Meta.LevelEditor
             int x = EditorRendering.SidebarX + 2 * EditorRendering.SidebarMargin;
             int y = EditorRendering.SidebarMargin + 4;
 
-            new TextUnit(new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 32, 16, 16)), Owner.Name, index == SelectedIndex ? Color.CornflowerBlue : Color.White).Render(r, layer, new Point(x, y), 2);
+            new TextUnit(CogIcon, Owner.Name, index == SelectedIndex ? Color.CornflowerBlue : Color.White).Render(r, layer, new Point(x, y), 2);
             y += 20;
             index++;
 

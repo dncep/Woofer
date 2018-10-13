@@ -190,6 +190,14 @@ namespace WooferGame.Meta.LevelEditor.Systems
             Helper.Update(Selected);
         }
 
+        internal static readonly Sprite ObjectIcon = new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 16, 16, 16));
+        internal static readonly Sprite CheckboxIcon = new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 48, 8, 8));
+
+        private static void SetCheckboxChecked(bool value)
+        {
+            CheckboxIcon.Source.X = value ? 8 : 0;
+        }
+
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
             if (!ModalVisible) return;
@@ -202,13 +210,14 @@ namespace WooferGame.Meta.LevelEditor.Systems
             int x = EditorRendering.SidebarX + 2*EditorRendering.SidebarMargin;
             int y = EditorRendering.SidebarMargin + 4;
 
-            new TextUnit(new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 16, 16, 16)), entity.Name, SelectedComponentIndex == -2 ? Color.CornflowerBlue : Color.White).Render(r, layer, new Point(x, y), 2);
+            new TextUnit(ObjectIcon, entity.Name, SelectedComponentIndex == -2 ? Color.CornflowerBlue : Color.White).Render(r, layer, new Point(x, y), 2);
             y += 20;
             new TextUnit("ID: " + Selected, Color.DarkGray).Render(r, layer, new Point(x, y), 1);
             y += 22;
 
             if(SelectedComponentIndex == -1) layer.FillRect(new System.Drawing.Rectangle(x - 4, y - 2, EditorRendering.SidebarWidth - 2 * EditorRendering.SidebarMargin, 20), Color.CornflowerBlue);
-            new TextUnit(new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(entity.Active ? 8 : 0, 48, 8, 8)), "Active").Render(r, layer, new Point(x, y), 2);
+            SetCheckboxChecked(entity.Active);
+            new TextUnit(CheckboxIcon, "Active").Render(r, layer, new Point(x, y), 2);
 
             y += 20;
 

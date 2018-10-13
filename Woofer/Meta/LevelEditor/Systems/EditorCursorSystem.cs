@@ -29,7 +29,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
         }
 
         internal Vector2D SelectionStart;
-        internal readonly Rectangle SelectionRectangle = new Rectangle();
+        internal Rectangle SelectionRectangle = new Rectangle();
         internal RectangleOutline Outline = null;
 
         internal bool BoundToGrid = true;

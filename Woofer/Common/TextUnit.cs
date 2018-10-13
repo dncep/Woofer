@@ -65,7 +65,7 @@ namespace WooferGame.Common
                 Rectangle iconDestination = new Rectangle(Icon.Destination);
                 iconDestination.X += destination.X;
                 iconDestination.Y += destination.Y;
-                layer.Draw(r.SpriteManager[Icon.Texture], iconDestination.ToDrawing(), Icon.Source?.ToDrawing());
+                layer.Draw(r.SpriteManager[Icon.Texture], iconDestination.ToDrawing(), Icon.Source != Rectangle.Empty ? Icon.Source.ToDrawing() : (System.Drawing.Rectangle?)null);
 
                 destX += (int)iconDestination.Width + 4;
             }

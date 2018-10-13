@@ -19,6 +19,9 @@ namespace WooferGame.Systems.Physics
 
         private float accumulator = 0.0f;
 
+        private List<Component> sweeper = new List<Component>();
+        private List<SingleCollision> collisions = new List<SingleCollision>();
+
         public override void Update()
         {
             if (Owner.FixedDeltaTime == 0) return;
@@ -45,9 +48,6 @@ namespace WooferGame.Systems.Physics
                 }
                 
                 WatchedComponents = WatchedComponents.OrderBy(a => GetCrossTickLeft(a)).ToList();
-
-                List<Component> sweeper = new List<Component>();
-                List<SingleCollision> collisions = new List<SingleCollision>();
 
                 //Handle collision
                 foreach (Component c0 in WatchedComponents)
@@ -187,6 +187,9 @@ namespace WooferGame.Systems.Physics
                     sweeper.Add(c0);
                 }
             }
+            
+            sweeper.Clear();
+            collisions.Clear();
         }
 
         public override void EventFired(object sender, Event e)
@@ -305,7 +308,7 @@ namespace WooferGame.Systems.Physics
         }
     }
 
-    internal class SingleCollision
+    internal struct SingleCollision
     {
         internal SoftBody objA;
         internal Component objB;

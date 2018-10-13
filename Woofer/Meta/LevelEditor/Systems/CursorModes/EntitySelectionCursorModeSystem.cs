@@ -111,7 +111,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             if (Selected.Contains(id)) return;
             Selected.Add(id);
 
-            ILine line = new SimpleLine(Source, EditorUtil.GetSelectionBounds(Owner.Entities[id])?.Center ?? Vector2D.Empty, Color.Aqua, 4);
+            ILine line = new SimpleLine(Source, EditorUtil.GetSelectionBounds(Owner.Entities[id]).Center, Color.Aqua, 4);
             Lines.Add(id, line);
             Owner.Events.InvokeEvent(new BeginOverlay(line));
         }
@@ -127,7 +127,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 if (entity.Id == ForbiddenLink) continue;
                 if (limitToSelected && !Selected.Contains(entity.Id)) continue;
                 Rectangle bounds = EditorUtil.GetSelectionBounds(entity);
-                if (bounds?.Contains(CursorSystem.CursorPos) ?? false)
+                if (bounds != Rectangle.Empty && bounds.Contains(CursorSystem.CursorPos))
                 {
                     HoverOutline.Id = entity.Id;
                     HoverLine.End = bounds.Center;
@@ -159,7 +159,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
 
                 foreach (long id in Selected)
                 {
-                    ILine line = new SimpleLine(Source, EditorUtil.GetSelectionBounds(Owner.Entities[id])?.Center ?? Vector2D.Empty, Color.Aqua, 4);
+                    ILine line = new SimpleLine(Source, EditorUtil.GetSelectionBounds(Owner.Entities[id]).Center, Color.Aqua, 4);
                     Lines.Add(id, line);
                     Owner.Events.InvokeEvent(new BeginOverlay(line));
                 }

@@ -45,6 +45,7 @@ namespace WooferGame.Systems.Player.Animation
                 PlayerOrientation orientation = player.Owner.Components.Get<PlayerOrientation>();
                 PulseAbility pulse = player.Owner.Components.Get<PulseAbility>();
                 if (physical == null || movement == null || orientation == null) continue;
+
                 if (pulse != null && pulse.EnergyMeter == 0)
                 {
                     player.WooferBlinkingTime += Owner.DeltaTime;
@@ -102,7 +103,10 @@ namespace WooferGame.Systems.Player.Animation
                 Physical physical = player.Owner.Components.Get<Physical>();
                 PlayerMovementComponent movement = player.Owner.Components.Get<PlayerMovementComponent>();
                 PlayerOrientation orientation = player.Owner.Components.Get<PlayerOrientation>();
+                if (physical == null || movement == null || orientation == null) continue;
                 PulseAbility pulse = player.Owner.Components.Get<PulseAbility>();
+
+                bool freeArms = pulse == null;
 
                 if (orientation.Unit.X > 0 || player.LastLookedRight)
                 {
@@ -114,22 +118,22 @@ namespace WooferGame.Systems.Player.Animation
 
                     srcOffsets[Head].X += 32;
                     srcOffsets[Woofer].X += 32;
-                    srcOffsets[Arms].X += 32;
+                    if(!freeArms) srcOffsets[Arms].X += 32;
                     if(orientation.Unit.Y >= Math.Sin(2*Math.PI/6))
                     {
                         srcOffsets[Woofer].X += 32;
-                        srcOffsets[Arms].X += 32;
+                        if (!freeArms) srcOffsets[Arms].X += 32;
                     }
                 } else if(orientation.Unit.Y <= Math.Sin(-Math.PI/9))
                 {
                     srcOffsets[Head].X += 64;
                     srcOffsets[Woofer].X += 96;
-                    srcOffsets[Arms].X += 96;
+                    if (!freeArms) srcOffsets[Arms].X += 96;
                     if (orientation.Unit.Y <= Math.Sin(-2 * Math.PI / 6))
                     {
                         srcOffsets[Woofer].X += 32;
                         destOffsets[Woofer] += new Vector2D(0, -3); //Offset woofer down since it goes out of the spritesheet grid
-                        srcOffsets[Arms].X += 32;
+                        if (!freeArms) srcOffsets[Arms].X += 32;
                     }
                 }
 
@@ -142,12 +146,15 @@ namespace WooferGame.Systems.Player.Animation
                     if (pulse.EnergyMeter == 0 && player.WooferBlinkingTime >= 0.375) srcOffsets[Woofer].Y += 32;
                 }
 
+                if (freeArms) srcOffsets[Arms].Y += 32;
+
                 if (!movement.OnGround || Math.Abs(physical.Velocity.X) <= 1e-2) {/*player.WalkAnimationProgress = 0;*/}
                 else if (Math.Abs(physical.Velocity.X) > 1e-2)
                 {
                     int frameDuration = 8;
                     int animationFrames = 6;
                     srcOffsets[Legs].X += 32 * (1 + (player.WalkAnimationProgress / frameDuration));
+                    if (freeArms) srcOffsets[Arms].X += 32 * (1 + (player.WalkAnimationProgress / frameDuration));
 
                     for (int i = Legs; i <= Arms; i++)
                     {

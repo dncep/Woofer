@@ -84,7 +84,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             int x = EditorRendering.SidebarX + 2 * EditorRendering.SidebarMargin;
             int y = EditorRendering.SidebarMargin + 4;
 
-            new TextUnit(new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 32, 16, 16)), new[] {"Top", "Right", "Bottom", "Left"}[FaceIndex] + " Face").Render(r, layer, new Point(x, y), 2);
+            new TextUnit(EditorMenuSystem.CogIcon, new[] {"Top", "Right", "Bottom", "Left"}[FaceIndex] + " Face").Render(r, layer, new Point(x, y), 2);
             y += 20;
 
             layer.FillRect(new System.Drawing.Rectangle(x - 2 * EditorRendering.SidebarMargin, y, EditorRendering.SidebarWidth - 2 * EditorRendering.SidebarMargin, 3), Color.FromArgb(45, 45, 48));

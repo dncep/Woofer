@@ -68,13 +68,16 @@ namespace WooferGame.Systems.Movement
                     //Raycast down under the player's feet up to a distance of 4 pixels
                     RaycastEvent raycast = new RaycastEvent(pmc, new FreeVector2D(rb.Position, rb.Position - 4 * Vector2D.UnitJ));
                     Owner.Events.InvokeEvent(raycast);
-                    foreach(RaycastIntersection intersection in raycast.Intersected)
+                    if(raycast.Intersected != null)
                     {
-                        if(intersection.Component.Owner != pmc.Owner)
+                        foreach(RaycastIntersection intersection in raycast.Intersected)
                         {
-                            if(intersection.FaceProperties.Snap) //If the intersected face has the 'snap' property enabled (for slopes)
+                            if(intersection.Component.Owner != pmc.Owner)
                             {
-                                rb.Position = intersection.Point; //Move the player down to the point of intersection, assuming the player's origin is at their feet
+                                if(intersection.FaceProperties.Snap) //If the intersected face has the 'snap' property enabled (for slopes)
+                                {
+                                    rb.Position = intersection.Point; //Move the player down to the point of intersection, assuming the player's origin is at their feet
+                                }
                             }
                         }
                     }

@@ -136,19 +136,22 @@ namespace WooferGame.Systems.Pulse
                     {
                         RaycastEvent raycast = new RaycastEvent(evt.Sender, new FreeVector2D(pe.Source, pe.Source + pe.Direction.Rotate(i * (Math.PI / 4)) * pe.Reach));
                         Owner.Events.InvokeEvent(raycast);
-                        foreach(RaycastIntersection intersection in raycast.Intersected)
+                        if(raycast.Intersected != null)
                         {
-                            if(intersection.Component.Owner != pe.Sender.Owner && 
-                                intersection.Component.Owner.Components.Has<PulseReceiverPhysical>() && 
-                                !hit.Contains(intersection.Component.Owner))
+                            foreach(RaycastIntersection intersection in raycast.Intersected)
                             {
-                                hit.Add(intersection.Component.Owner);
-                            }
-                            else if (intersection.Component.Owner != pe.Sender.Owner &&
-                                intersection.Component.Owner.Components.Has<PulseDamaged>() &&
-                                !damaged.Contains(intersection.Component.Owner))
-                            {
-                                damaged.Add(intersection.Component.Owner);
+                                if(intersection.Component.Owner != pe.Sender.Owner && 
+                                    intersection.Component.Owner.Components.Has<PulseReceiverPhysical>() && 
+                                    !hit.Contains(intersection.Component.Owner))
+                                {
+                                    hit.Add(intersection.Component.Owner);
+                                }
+                                else if (intersection.Component.Owner != pe.Sender.Owner &&
+                                    intersection.Component.Owner.Components.Has<PulseDamaged>() &&
+                                    !damaged.Contains(intersection.Component.Owner))
+                                {
+                                    damaged.Add(intersection.Component.Owner);
+                                }
                             }
                         }
                     }

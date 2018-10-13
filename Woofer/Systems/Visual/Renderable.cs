@@ -126,14 +126,7 @@ namespace WooferGame.Systems.Visual
 
                 System.Drawing.Rectangle drawingRect = new System.Drawing.Rectangle((int)Math.Floor(x), (int)Math.Floor(y), (int)width, (int)height);
 
-                if (sprite.Source is Rectangle source)
-                {
-                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, sprite.Source.ToDrawing(), new DrawInfo() { Mode = sprite.DrawMode, Color = System.Drawing.Color.FromArgb((int)(sprite.Opacity * 255), 255, 255, 255) });
-                }
-                else
-                {
-                    layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, info: new DrawInfo() { Mode = sprite.DrawMode, Color = System.Drawing.Color.FromArgb((int)(sprite.Opacity * 255), 255, 255, 255) });
-                }
+                layer.Draw(r.SpriteManager[sprite.Texture], drawingRect, sprite.Source != Rectangle.Empty ? sprite.Source.ToDrawing() : (System.Drawing.Rectangle?)null, new DrawInfo() { Mode = sprite.DrawMode, Color = System.Drawing.Color.FromArgb((int)(sprite.Opacity * 255), 255, 255, 255) });
             }
         }
     }

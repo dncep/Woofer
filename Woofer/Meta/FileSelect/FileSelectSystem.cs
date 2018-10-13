@@ -160,7 +160,7 @@ namespace WooferGame.Meta.FileSelect
             int iconY = y + 56;
             foreach(Sprite sprite in icons)
             {
-                layer.Draw(r.SpriteManager[sprite.Texture], new System.Drawing.Rectangle(iconX+(int)sprite.Destination.X, iconY+(int)sprite.Destination.Y, (int)sprite.Destination.Width, (int)sprite.Destination.Height), sprite.Source?.ToDrawing());
+                layer.Draw(r.SpriteManager[sprite.Texture], new System.Drawing.Rectangle(iconX+(int)sprite.Destination.X, iconY+(int)sprite.Destination.Y, (int)sprite.Destination.Width, (int)sprite.Destination.Height), sprite.Source != Rectangle.Empty ? sprite.Source.ToDrawing() : (System.Drawing.Rectangle?)null);
                 iconX += 24;
             }
         }
