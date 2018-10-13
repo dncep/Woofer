@@ -96,7 +96,7 @@ namespace WooferGame.Meta.LevelEditor
                         }
                     case 5:
                         {
-                            Woofer.Controller.CommandFired(new DirectSceneChangeCommand(new MainMenuScene()));
+                            Woofer.Controller.CommandFired(new InternalSceneChangeCommand(new MainMenuScene()));
                             Woofer.Controller.Paused = false;
                             break;
                         }

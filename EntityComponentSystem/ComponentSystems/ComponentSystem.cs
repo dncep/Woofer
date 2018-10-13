@@ -194,6 +194,7 @@ namespace EntityComponentSystem.ComponentSystems
         Input = 1,
         Update = 2,
         Render = 4,
+        All = Input | Update | Render,
     }
 
     [Flags]

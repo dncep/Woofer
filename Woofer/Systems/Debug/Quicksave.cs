@@ -71,7 +71,7 @@ namespace WooferGame.Systems.Debug
                 load.AddConverter(new EnumConverter<DrawMode>());
                 load.AddConverter(new BoolMapConverter());
 
-                Woofer.Controller.CommandFired(new DirectSceneChangeCommand(load.Load()));
+                Woofer.Controller.CommandFired(new InternalSceneChangeCommand(load.Load()));
                 Woofer.Controller.ActiveScene.Events.InvokeEvent(new ShowTextEvent("Loaded", null));
                 Woofer.Controller.Paused = false;
             }

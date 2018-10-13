@@ -57,7 +57,7 @@ namespace WooferGame.Meta.FileSelect
 
             if (inputMap.Back.Consume())
             {
-                Woofer.Controller.CommandFired(new DirectSceneChangeCommand(new MainMenuScene()));
+                Woofer.Controller.CommandFired(new InternalSceneChangeCommand(new MainMenuScene()));
             }
 
             SelectInput.RegisterState(inputMap.Movement.Magnitude > 0 ? ButtonState.Pressed : ButtonState.Released);

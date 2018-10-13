@@ -11,6 +11,7 @@ using WooferGame.Input;
 using WooferGame.Meta.LevelEditor;
 using WooferGame.Meta.Loading;
 using WooferGame.Scenes;
+using WooferGame.Scenes.Intro;
 
 namespace WooferGame.Controller
 {
@@ -36,8 +37,8 @@ namespace WooferGame.Controller
 
         public void Initialize() {
             InputManager = new InputMapManager(this);
-            InputManager.Add(new GamePadInputMap(InputUnit.GamePads[0]));
             InputManager.Add(new KeyboardInputMap(InputUnit.Keyboard, InputUnit.Mouse));
+            InputManager.Add(new GamePadInputMap(InputUnit.GamePads[0]));
 
             AudioUnit.Load("pulse_low_alt");
             AudioUnit.Load("pulse_low");
@@ -51,7 +52,7 @@ namespace WooferGame.Controller
             AudioUnit.Load("bgmboss");
 
 
-            ActiveScene = new MainMenuScene();
+            ActiveScene = new IntroScreen();
         }
 
         private bool InputQueued = true;
@@ -84,7 +85,7 @@ namespace WooferGame.Controller
             Console.WriteLine("Received command " + command);
             switch(command)
             {
-                case DirectSceneChangeCommand changeScene:
+                case InternalSceneChangeCommand changeScene:
                     {
                         Scene oldScene = ActiveScene;
                         ActiveScene = changeScene.NewScene;
@@ -96,7 +97,7 @@ namespace WooferGame.Controller
                 case SavedSceneChangeCommand changeScene:
                     {
                         Scene oldScene = ActiveScene;
-                        Woofer.Controller.CommandFired(new DirectSceneChangeCommand(new LoadingScreen()));
+                        Woofer.Controller.CommandFired(new InternalSceneChangeCommand(new LoadingScreen()));
                         oldScene.Dispose();
                         LevelRenderingLayer.LevelScreenSize = LevelRenderingLayer.DefaultLevelScreenSize;
                         ResolutionChanged = true;
