@@ -6,6 +6,8 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
+using WooferGame.Systems.Enemies.Boss;
+using WooferGame.Systems.Player;
 using WooferGame.Systems.Player.Actions;
 
 namespace WooferGame.Systems.Physics
@@ -139,7 +141,7 @@ namespace WooferGame.Systems.Physics
                                 if (normal.X == 0)
                                 {
                                     double displacement = Math.Abs(normalSide.A.Y - (normal.Y > 0 ? objA.Bounds.Offset(physA.Position).Bottom : objA.Bounds.Offset(physA.Position).Top));
-                                    if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.Y - physA.PreviousPosition.Y), 8))
+                                    if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.Y - physA.PreviousPosition.Y) + Math.Abs(physB.Position.Y - physB.PreviousPosition.Y), 8))
                                     {
                                         physA.Position += new Vector2D(0, displacement) * normal.Y;
                                         physA.Velocity = new Vector2D(physA.Velocity.X * (1 - faceProperties.Friction), 0) + physB.Velocity * faceProperties.Friction;
@@ -149,7 +151,7 @@ namespace WooferGame.Systems.Physics
                                 else
                                 {
                                     double displacement = Math.Abs(normalSide.A.X - (normal.X > 0 ? objA.Bounds.Offset(physA.Position).Left : objA.Bounds.Offset(physA.Position).Right));
-                                    if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.X - physA.PreviousPosition.X), 8))
+                                    if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.X - physA.PreviousPosition.X) + Math.Abs(physB.Position.X - physB.PreviousPosition.X), 8))
                                     {
                                         physA.Position += new Vector2D(displacement, 0) * normal.X;
                                         physA.Velocity = new Vector2D(0, physA.Velocity.Y * (1 - faceProperties.Friction)) + physB.Velocity * faceProperties.Friction;

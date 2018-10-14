@@ -153,6 +153,8 @@
     <Compile Include="Systems\Debug\DebugClipping.cs" />
     <Compile Include="Systems\Debug\Quicksave.cs" />
     <Compile Include="Systems\Enemies\AISystem.cs" />
+    <Compile Include="Systems\Enemies\Boss\Boss.cs" />
+    <Compile Include="Systems\Enemies\Boss\BossSystem.cs" />
     <Compile Include="Systems\Enemies\DeflectOnPulseComponent.cs" />
     <Compile Include="Systems\Enemies\EnemyComponent.cs" />
     <Compile Include="Systems\Enemies\Projectile.cs" />
