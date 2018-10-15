@@ -60,7 +60,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.ObjectEditor
                 IMemberSummary member = Members.ElementAt(SelectedPropertyIndex);
                 if (member.CanSet)
                 {
-                    bool modalNeedsChange = member.TriggerEdit();
+                    bool modalNeedsChange = member.TriggerEdit(inputMap.Interact.Pressed);
                     if (modalNeedsChange)
                     {
                         ModalActive = false;

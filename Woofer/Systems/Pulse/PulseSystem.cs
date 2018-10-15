@@ -103,7 +103,7 @@ namespace WooferGame.Systems.Pulse
 
                     if (distance > pe.Reach) continue;
 
-                    if(pe.Source.Magnitude == 0 || GeneralUtil.SubtractAngles((center - pe.Source).Angle, pe.Direction.Angle) <= Math.PI/4)
+                    if(pe.Direction.Magnitude == 0 || GeneralUtil.SubtractAngles((center - pe.Source).Angle, pe.Direction.Angle) <= Math.Atan(1/pe.Direction.Magnitude))
                     {
                         double mass = 1;
                         if (pp.Owner.Components.Has<SoftBody>()) mass = pp.Owner.Components.Get<SoftBody>().Mass;

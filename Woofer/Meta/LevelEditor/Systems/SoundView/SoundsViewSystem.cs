@@ -114,7 +114,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.SoundView
                     IMemberSummary member = SelectedElement.Members.Values.ElementAt(SelectedPropertyIndex);
                     if (member.CanSet)
                     {
-                        bool modalNeedsChange = member.TriggerEdit();
+                        bool modalNeedsChange = member.TriggerEdit(inputMap.Interact.Pressed);
                         if (modalNeedsChange)
                         {
                             ModalActive = false;

@@ -108,7 +108,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
             {
                 if(SelectedComponentIndex == -2)
                 {
-                    new PropertySummary(Owner, typeof(Entity).GetProperty("Name"), entity).TriggerEdit();
+                    new PropertySummary(Owner, typeof(Entity).GetProperty("Name"), entity).TriggerEdit(inputMap.Interact.Pressed);
                     ModalActive = false;
                 }
                 else if (SelectedComponentIndex == -1)
@@ -140,7 +140,7 @@ namespace WooferGame.Meta.LevelEditor.Systems
                     IMemberSummary member = Helper.Components.Values.ElementAt(SelectedComponentIndex).Members.Values.ElementAt(SelectedPropertyIndex);
                     if (member.CanSet)
                     {
-                        bool modalNeedsChange = member.TriggerEdit();
+                        bool modalNeedsChange = member.TriggerEdit(inputMap.Interact.Pressed);
                         if (modalNeedsChange)
                         {
                             ModalActive = false;

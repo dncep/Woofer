@@ -60,8 +60,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 IMemberSummary member = Members.ElementAt(SelectedPropertyIndex);
                 if (member.CanSet)
                 {
-                    Console.WriteLine("CHANGED");
-                    bool modalNeedsChange = member.TriggerEdit();
+                    bool modalNeedsChange = member.TriggerEdit(inputMap.Interact.Pressed);
                     if (modalNeedsChange)
                     {
                         ModalActive = false;

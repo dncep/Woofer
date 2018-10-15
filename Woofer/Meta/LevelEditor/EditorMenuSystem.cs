@@ -61,7 +61,7 @@ namespace WooferGame.Meta.LevelEditor
                     case 0:
                         {
                             PropertySummary property = new PropertySummary(Owner, typeof(Scene).GetProperty("Name"), Owner);
-                            property.TriggerEdit();
+                            property.TriggerEdit(inputMap.Interact.Pressed);
                             ModalActive = false;
                             break;
                         }

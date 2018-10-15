@@ -114,7 +114,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.AnimationView
                     IMemberSummary member = SelectedAnimation.Members.Values.ElementAt(SelectedPropertyIndex);
                     if (member.CanSet)
                     {
-                        bool modalNeedsChange = member.TriggerEdit();
+                        bool modalNeedsChange = member.TriggerEdit(inputMap.Interact.Pressed);
                         if (modalNeedsChange)
                         {
                             ModalActive = false;

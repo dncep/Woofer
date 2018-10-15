@@ -220,7 +220,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
     internal static class MemberEdits
     {
-        public static bool TriggerEdit(this IMemberSummary member)
+        public static bool TriggerEdit(this IMemberSummary member, bool forceDirect = false)
         {
             Type type = member.DataType;
             if (type == typeof(bool))
@@ -230,14 +230,14 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
             }
             else if (type == typeof(Vector2D))
             {
-                if (member.EditType == InspectorEditType.Position)
+                if (!forceDirect && member.EditType == InspectorEditType.Position)
                 {
                     member.Scene.Events.InvokeEvent(new ForceMoveCursorEvent((Vector2D)member.GetValue()));
                     member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("move_cursor_mode", null));
                     member.Scene.Events.InvokeEvent(new StartMoveModeEvent((vec, def) => member.SetValue(vec)));
                     return true;
                 }
-                else if (member.EditType == InspectorEditType.Offset)
+                else if (!forceDirect && member.EditType == InspectorEditType.Offset)
                 {
                     Vector2D pivot = Vector2D.Empty;
                     if (member.Owner != null)
