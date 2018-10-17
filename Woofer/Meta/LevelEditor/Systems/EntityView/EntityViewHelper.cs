@@ -117,7 +117,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
     {
         public ComponentSummary Owner { get; private set; }
         public Scene Scene { get; private set; }
-        private readonly PropertyInfo property;
+        private readonly PropertyInfo Property;
         private readonly object Object;
 
         public string Name { get; private set; }
@@ -125,11 +125,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
         public InspectorEditType EditType { get; private set; }
 
-        public Type DataType => property.PropertyType;
+        public Type DataType => Property.PropertyType;
 
-        public TextUnit Label => (property.PropertyType == typeof(bool)) ? new TextUnit(new Sprite("editor", new Rectangle(0, 0, 8, 8), new Rectangle((bool)GetValue() ? 8 : 0, 48, 8, 8)), Name) :
+        public static readonly Sprite CheckedSprite = new Sprite("editor", new Rectangle(0, 0, 8, 8), new Rectangle(8, 48, 8, 8));
+        public static readonly Sprite UncheckedSprite = new Sprite("editor", new Rectangle(0, 0, 8, 8), new Rectangle(0, 48, 8, 8));
+
+        public TextUnit Label => (Property.PropertyType == typeof(bool)) ? new TextUnit((bool)GetValue() ? CheckedSprite : UncheckedSprite, Name) :
             new TextUnit(Name + ": " + GetValue());
-        
 
         public PropertySummary(Scene scene, PropertyInfo property, object obj) : this(null, scene, property, obj) { }
 
@@ -139,7 +141,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
         {
             this.Owner = owner;
             this.Scene = scene;
-            this.property = property;
+            this.Property = property;
             this.Object = obj;
 
             Name = property.Name;
@@ -152,13 +154,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
             else EditType = InspectorEditType.Default;
         }
 
-        public object GetValue() => property.GetValue(Object);
+        public object GetValue() => Property.GetValue(Object);
 
         public bool SetValue(object val)
         {
-            if(CanSet && property.PropertyType.IsAssignableFrom(val.GetType()))
+            if(CanSet && Property.PropertyType.IsAssignableFrom(val.GetType()))
             {
-                property.SetValue(Object, val);
+                Property.SetValue(Object, val);
                 return true;
             }
             return false;
@@ -179,7 +181,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
         public Type DataType => Field.FieldType;
 
-        public TextUnit Label => (Field.FieldType == typeof(bool)) ? new TextUnit(new Sprite("editor", new Rectangle(0, 0, 8, 8), new Rectangle((bool)GetValue() ? 8 : 0, 48, 8, 8)), Name) :
+        public TextUnit Label => (Field.FieldType == typeof(bool)) ? new TextUnit((bool)GetValue() ? PropertySummary.CheckedSprite : PropertySummary.UncheckedSprite, Name) :
             new TextUnit(Name + ": " + GetValue());
 
         public FieldSummary(Scene scene, FieldInfo field, object obj) : this(null, scene, field, obj) { }
@@ -218,7 +220,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
 
     internal static class MemberEdits
     {
-        public static bool TriggerEdit(this IMemberSummary member)
+        public static bool TriggerEdit(this IMemberSummary member, bool forceDirect = false)
         {
             Type type = member.DataType;
             if (type == typeof(bool))
@@ -228,14 +230,14 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
             }
             else if (type == typeof(Vector2D))
             {
-                if (member.EditType == InspectorEditType.Position)
+                if (!forceDirect && member.EditType == InspectorEditType.Position)
                 {
                     member.Scene.Events.InvokeEvent(new ForceMoveCursorEvent((Vector2D)member.GetValue()));
                     member.Scene.Events.InvokeEvent(new ForceModalChangeEvent("move_cursor_mode", null));
                     member.Scene.Events.InvokeEvent(new StartMoveModeEvent((vec, def) => member.SetValue(vec)));
                     return true;
                 }
-                else if (member.EditType == InspectorEditType.Offset)
+                else if (!forceDirect && member.EditType == InspectorEditType.Offset)
                 {
                     Vector2D pivot = Vector2D.Empty;
                     if (member.Owner != null)
@@ -413,7 +415,6 @@ namespace WooferGame.Meta.LevelEditor.Systems.EntityView
             else if (type == typeof(Rectangle))
             {
                 Rectangle rect = (Rectangle)member.GetValue();
-                if (rect == null) rect = new Rectangle(0, 0, 16, 16);
 
                 StartNumberInputEvent.OnSubmit onReceiveHeight = v =>
                 {

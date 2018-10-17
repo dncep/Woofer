@@ -30,6 +30,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,7 +63,6 @@
     <Compile Include="Input\IInputMap.cs" />
     <Compile Include="Input\InputMapSwitcher.cs" />
     <Compile Include="Input\InputTimeframe.cs" />
-    <Compile Include="Input\IScreenAwareInput.cs" />
     <Compile Include="Input\KeyboardInputMap.cs" />
     <Compile Include="Meta\FileSelect\FileSelect.cs" />
     <Compile Include="Meta\FileSelect\FileSelectSystem.cs" />
@@ -103,7 +109,10 @@
     <Compile Include="Controller\WooferController.cs" />
     <Compile Include="Controller\WooferRenderingUnit.cs" />
     <Compile Include="Scenes\CommonSprites\Vent.cs" />
+    <Compile Include="Scenes\EndScene.cs" />
     <Compile Include="Scenes\IntroScene.cs" />
+    <Compile Include="Scenes\Intro\IntroScreen.cs" />
+    <Compile Include="Scenes\Intro\IntroSystem.cs" />
     <Compile Include="Scenes\LabRoomBuilder.cs" />
     <Compile Include="Scenes\LabRoomTileset.cs" />
     <Compile Include="Scenes\LevelObjects\InteractableButton.cs" />
@@ -144,6 +153,13 @@
     <Compile Include="Systems\Debug\DebugClipping.cs" />
     <Compile Include="Systems\Debug\Quicksave.cs" />
     <Compile Include="Systems\Enemies\AISystem.cs" />
+    <Compile Include="Systems\Enemies\Boss\Boss.cs" />
+    <Compile Include="Systems\Enemies\Boss\BossLaser.cs" />
+    <Compile Include="Systems\Enemies\Boss\BossLaserSystem.cs" />
+    <Compile Include="Systems\Enemies\Boss\BossProjectile.cs" />
+    <Compile Include="Systems\Enemies\Boss\BossProjectileCatcher.cs" />
+    <Compile Include="Systems\Enemies\Boss\BossSystem.cs" />
+    <Compile Include="Systems\Enemies\Boss\GameEnd.cs" />
     <Compile Include="Systems\Enemies\DeflectOnPulseComponent.cs" />
     <Compile Include="Systems\Enemies\EnemyComponent.cs" />
     <Compile Include="Systems\Enemies\Projectile.cs" />
@@ -238,6 +254,7 @@
     <Compile Include="Systems\Sound\Sound.cs" />
     <Compile Include="Systems\Sound\SoundEmitter.cs" />
     <Compile Include="Systems\Sound\SoundSystem.cs" />
+    <Compile Include="Systems\Sound\StopMusic.cs" />
     <Compile Include="Systems\Spatial.cs" />
     <Compile Include="Systems\Spawner\EntitySpawner.cs" />
     <Compile Include="Systems\Spawner\Spawned.cs" />
@@ -280,6 +297,5 @@
       <Name>GameBase</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

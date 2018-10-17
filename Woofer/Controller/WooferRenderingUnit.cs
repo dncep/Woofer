@@ -26,12 +26,17 @@ namespace WooferGame.Controller
         public void LoadContent<TSurface, TSource>(ScreenRenderer<TSurface, TSource> screenRenderer)
         {
             ISpriteManager<TSource> SpriteManager = screenRenderer.SpriteManager;
+            SpriteManager.LoadSprite("logo");
+            SpriteManager.LoadSprite("logo_board");
+
             SpriteManager.LoadSprite("sprites0");
             SpriteManager.LoadSprite("intro_bg");
             SpriteManager.LoadSprite("tutorial_room5_bg");
             SpriteManager.LoadSprite("char");
             SpriteManager.LoadSprite("woofer");
             SpriteManager.LoadSprite("enemies");
+            SpriteManager.LoadSprite("boss");
+            SpriteManager.LoadSprite("boss_particles");
             SpriteManager.LoadSprite("particles");
             SpriteManager.LoadSprite("collectibles");
             SpriteManager.LoadSprite("overlays");

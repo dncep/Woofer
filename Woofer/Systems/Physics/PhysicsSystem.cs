@@ -6,6 +6,8 @@ using EntityComponentSystem.Components;
 using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
+using WooferGame.Systems.Enemies.Boss;
+using WooferGame.Systems.Player;
 using WooferGame.Systems.Player.Actions;
 
 namespace WooferGame.Systems.Physics
@@ -18,6 +20,9 @@ namespace WooferGame.Systems.Physics
         private Vector2D Gravity = new Vector2D(0, -362);
 
         private float accumulator = 0.0f;
+
+        private List<Component> sweeper = new List<Component>();
+        private List<SingleCollision> collisions = new List<SingleCollision>();
 
         public override void Update()
         {
@@ -46,9 +51,6 @@ namespace WooferGame.Systems.Physics
                 
                 WatchedComponents = WatchedComponents.OrderBy(a => GetCrossTickLeft(a)).ToList();
 
-                List<Component> sweeper = new List<Component>();
-                List<SingleCollision> collisions = new List<SingleCollision>();
-
                 //Handle collision
                 foreach (Component c0 in WatchedComponents)
                 {
@@ -72,6 +74,8 @@ namespace WooferGame.Systems.Physics
 
                         Physical physA = objA.Owner.Components.Get<Physical>();
                         Physical physB = objB.Owner.Components.Get<Physical>();
+
+                        if (physA == null || physB == null) continue;
 
                         if (objB is RigidBody rb && !rb.UnionBounds.Offset(physB.Position).IntersectsWith(objA.Bounds.Offset(physA.Position))) continue;
 
@@ -139,7 +143,7 @@ namespace WooferGame.Systems.Physics
                                 if (normal.X == 0)
                                 {
                                     double displacement = Math.Abs(normalSide.A.Y - (normal.Y > 0 ? objA.Bounds.Offset(physA.Position).Bottom : objA.Bounds.Offset(physA.Position).Top));
-                                    if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.Y - physA.PreviousPosition.Y), 8))
+                                    if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.Y - physA.PreviousPosition.Y) + Math.Abs(physB.Position.Y - physB.PreviousPosition.Y), 8))
                                     {
                                         physA.Position += new Vector2D(0, displacement) * normal.Y;
                                         physA.Velocity = new Vector2D(physA.Velocity.X * (1 - faceProperties.Friction), 0) + physB.Velocity * faceProperties.Friction;
@@ -149,7 +153,7 @@ namespace WooferGame.Systems.Physics
                                 else
                                 {
                                     double displacement = Math.Abs(normalSide.A.X - (normal.X > 0 ? objA.Bounds.Offset(physA.Position).Left : objA.Bounds.Offset(physA.Position).Right));
-                                    if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.X - physA.PreviousPosition.X), 8))
+                                    if (faceProperties.Snap || Math.Round(displacement, 8) <= Math.Round(Math.Abs(physA.Position.X - physA.PreviousPosition.X) + Math.Abs(physB.Position.X - physB.PreviousPosition.X), 8))
                                     {
                                         physA.Position += new Vector2D(displacement, 0) * normal.X;
                                         physA.Velocity = new Vector2D(0, physA.Velocity.Y * (1 - faceProperties.Friction)) + physB.Velocity * faceProperties.Friction;
@@ -187,6 +191,9 @@ namespace WooferGame.Systems.Physics
                     sweeper.Add(c0);
                 }
             }
+            
+            sweeper.Clear();
+            collisions.Clear();
         }
 
         public override void EventFired(object sender, Event e)
@@ -202,11 +209,12 @@ namespace WooferGame.Systems.Physics
                 foreach(Component c in intersectingX)
                 {
                     Physical phys = c.Owner.Components.Get<Physical>();
+                    Spatial sp = c.Owner.Components.Get<Spatial>();
 
                     IEnumerable<CollisionBox> solidBoxes =
                             c is SoftBody ?
-                                new CollisionBox[] { (c as SoftBody).Bounds.Offset(phys.Position) } :
-                                (c as RigidBody).Bounds.Select(b => b.Offset(phys.Position));
+                                new CollisionBox[] { (c as SoftBody).Bounds.Offset(phys?.Position ?? sp?.Position ?? Vector2D.Empty) } :
+                                (c as RigidBody).Bounds.Select(b => b.Offset(phys?.Position ?? sp?.Position ?? Vector2D.Empty));
 
                     foreach(CollisionBox box in solidBoxes)
                     {
@@ -281,12 +289,13 @@ namespace WooferGame.Systems.Physics
             if (c is Physical ph) return Math.Min(ph.Position.X, ph.PreviousPosition.X);
             ph = c.Owner.Components.Get<Physical>();
             SoftBody sb = c as SoftBody;
+            Spatial sp = c.Owner.GetComponent<Spatial>();
 
             CollisionBox box = (c is RigidBody rb) ? rb.UnionBounds : sb?.Bounds;
 
             return Math.Min(
-                box.Offset(ph.Position).Left,
-                box.Offset(ph.PreviousPosition).Left
+                box.Offset(ph?.Position ?? sp?.Position ?? Vector2D.Empty).Left,
+                box.Offset(ph?.PreviousPosition ?? sp?.Position ?? Vector2D.Empty).Left
             );
         }
 
@@ -295,17 +304,18 @@ namespace WooferGame.Systems.Physics
             if (c is Physical ph) return Math.Min(ph.Position.X, ph.PreviousPosition.X);
             ph = c.Owner.Components.Get<Physical>();
             SoftBody sb = c as SoftBody;
+            Spatial sp = c.Owner.GetComponent<Spatial>();
 
             CollisionBox box = (c is RigidBody rb) ? rb.UnionBounds : sb?.Bounds;
 
             return Math.Max(
-                box.Offset(ph.Position).Right,
-                box.Offset(ph.PreviousPosition).Right
+                box.Offset(ph?.Position ?? sp?.Position ?? Vector2D.Empty).Right,
+                box.Offset(ph?.PreviousPosition ?? sp?.Position ?? Vector2D.Empty).Right
             );
         }
     }
 
-    internal class SingleCollision
+    internal struct SingleCollision
     {
         internal SoftBody objA;
         internal Component objB;

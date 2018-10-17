@@ -20,7 +20,7 @@ namespace WooferGame.Meta.LevelSelect
         {
             if(e is ModalChangeEvent change)
             {
-                Woofer.Controller.CommandFired(new DirectSceneChangeCommand(new MainMenuScene()));
+                Woofer.Controller.CommandFired(new InternalSceneChangeCommand(new MainMenuScene()));
             }
         }
     }

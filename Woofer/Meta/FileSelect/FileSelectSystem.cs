@@ -57,7 +57,7 @@ namespace WooferGame.Meta.FileSelect
 
             if (inputMap.Back.Consume())
             {
-                Woofer.Controller.CommandFired(new DirectSceneChangeCommand(new MainMenuScene()));
+                Woofer.Controller.CommandFired(new InternalSceneChangeCommand(new MainMenuScene()));
             }
 
             SelectInput.RegisterState(inputMap.Movement.Magnitude > 0 ? ButtonState.Pressed : ButtonState.Released);
@@ -160,7 +160,7 @@ namespace WooferGame.Meta.FileSelect
             int iconY = y + 56;
             foreach(Sprite sprite in icons)
             {
-                layer.Draw(r.SpriteManager[sprite.Texture], new System.Drawing.Rectangle(iconX+(int)sprite.Destination.X, iconY+(int)sprite.Destination.Y, (int)sprite.Destination.Width, (int)sprite.Destination.Height), sprite.Source?.ToDrawing());
+                layer.Draw(r.SpriteManager[sprite.Texture], new System.Drawing.Rectangle(iconX+(int)sprite.Destination.X, iconY+(int)sprite.Destination.Y, (int)sprite.Destination.Width, (int)sprite.Destination.Height), sprite.Source != Rectangle.Empty ? sprite.Source.ToDrawing() : (System.Drawing.Rectangle?)null);
                 iconX += 24;
             }
         }

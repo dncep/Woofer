@@ -34,13 +34,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
         private List<Sprite> Sprites = new List<Sprite>();
 
         private List<IOutline> Outlines = new List<IOutline>();
-        private RectangleOutline faceOutline = null;
+        private RectangleOutline FaceOutline = null;
 
         private Sprite SelectedSprite = null;
         private bool SelectionLocked = false;
 
         private int DraggingSide = -1;
-        private Rectangle PreResizeBounds = null;
+        private Rectangle PreResizeBounds = Rectangle.Empty;
 
         private bool Creating = false;
 
@@ -78,19 +78,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             {
                 if (Math.Abs(selectedBounds.Left - CursorSystem.CursorPos.X) <= 4)
                 {
-                    faceOutline.Bounds.X = selectedBounds.Left;
-                    faceOutline.Bounds.Width = 1;
-                    faceOutline.Bounds.Y = selectedBounds.Bottom;
-                    faceOutline.Bounds.Height = selectedBounds.Height;
+                    FaceOutline.Bounds = new Rectangle(selectedBounds.Left, selectedBounds.Bottom, 1, selectedBounds.Height);
 
                     return 3;
                 }
                 else if (Math.Abs(selectedBounds.Right - CursorSystem.CursorPos.X) <= 4)
                 {
-                    faceOutline.Bounds.X = selectedBounds.Right;
-                    faceOutline.Bounds.Width = 1;
-                    faceOutline.Bounds.Y = selectedBounds.Bottom;
-                    faceOutline.Bounds.Height = selectedBounds.Height;
+                    FaceOutline.Bounds = new Rectangle(selectedBounds.Right, selectedBounds.Bottom, 1, selectedBounds.Height);
 
                     return 1;
                 }
@@ -99,19 +93,13 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             {
                 if (Math.Abs(selectedBounds.Bottom - CursorSystem.CursorPos.Y) <= 4)
                 {
-                    faceOutline.Bounds.X = selectedBounds.Left;
-                    faceOutline.Bounds.Width = selectedBounds.Width;
-                    faceOutline.Bounds.Y = selectedBounds.Bottom;
-                    faceOutline.Bounds.Height = 1;
+                    FaceOutline.Bounds = new Rectangle(selectedBounds.Left, selectedBounds.Bottom, selectedBounds.Width, 1);
 
                     return 2;
                 }
                 else if (Math.Abs(selectedBounds.Top - CursorSystem.CursorPos.Y) <= 4)
                 {
-                    faceOutline.Bounds.X = selectedBounds.Left;
-                    faceOutline.Bounds.Width = selectedBounds.Width;
-                    faceOutline.Bounds.Y = selectedBounds.Top;
-                    faceOutline.Bounds.Height = 1;
+                    FaceOutline.Bounds = new Rectangle(selectedBounds.Left, selectedBounds.Top, selectedBounds.Width, 1);
 
                     return 0;
                 }
@@ -140,9 +128,9 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                 Outlines.Add(pivotOutline);
                 Owner.Events.InvokeEvent(new BeginOverlay(pivotOutline));
 
-                faceOutline = new RectangleOutline(new Rectangle(0, 0, 0, 0), Color.White, 4);
-                Outlines.Add(faceOutline);
-                Owner.Events.InvokeEvent(new BeginOverlay(faceOutline));
+                FaceOutline = new RectangleOutline(new Rectangle(0, 0, 0, 0), Color.White, 4);
+                Outlines.Add(FaceOutline);
+                Owner.Events.InvokeEvent(new BeginOverlay(FaceOutline));
             }
             else if (e is ModalChangeEvent changed)
             {
@@ -209,7 +197,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                     {
                         DraggingSide = -1;
                     }
-                    faceOutline.Bounds.Width = faceOutline.Bounds.Height = 0;
+                    FaceOutline.Bounds = new Rectangle(FaceOutline.Bounds?.X ?? 0, FaceOutline.Bounds?.Y ?? 0, 0, 0);
 
                     Rectangle selectedBounds = SelectedSprite.Destination + Origin;
 
@@ -294,7 +282,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
             {
                 if (CursorSystem.StartedDragging)
                 {
-                    Sprite newSprite = new Sprite("null", CursorSystem.SelectionRectangle - Origin, null);
+                    Sprite newSprite = new Sprite("null", CursorSystem.SelectionRectangle - Origin, Rectangle.Empty);
                     AddSprite(newSprite);
                     Creating = true;
                 }
@@ -376,7 +364,7 @@ namespace WooferGame.Meta.LevelEditor.Systems.CursorModes
                         {
                             Texture = SelectedSprite.Texture,
                             Destination = new Rectangle(SelectedSprite.Destination) + new Vector2D(4, 4),
-                            Source = SelectedSprite.Source != null ? new Rectangle(SelectedSprite.Source) : null,
+                            Source = SelectedSprite.Source,
                             DrawMode = SelectedSprite.DrawMode,
                             Modifiers = SelectedSprite.Modifiers,
                             Opacity = SelectedSprite.Opacity

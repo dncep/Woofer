@@ -38,16 +38,16 @@ namespace WooferGame.Meta.LevelEditor.Systems
             {
                 if (overlay is IOutline outline)
                 {
-                    Rectangle realBounds = outline.Bounds;
-                    if (realBounds != null)
+                    Rectangle? realBounds = outline.Bounds;
+                    if (realBounds.HasValue)
                     {
                         System.Drawing.Size screenSize = Woofer.Controller.RenderingUnit.ScreenSize;
                         System.Drawing.Size layerSize = layer.GetSize();
 
-                        float x = (float)realBounds.X;
-                        float y = (float)realBounds.Y;
-                        float width = (float)realBounds.Width;
-                        float height = (float)realBounds.Height;
+                        float x = (float)realBounds.Value.X;
+                        float y = (float)realBounds.Value.Y;
+                        float width = (float)realBounds.Value.Width;
+                        float height = (float)realBounds.Value.Height;
 
                         if (!new Rectangle(x, y, width, height)
                             .IntersectsWith(

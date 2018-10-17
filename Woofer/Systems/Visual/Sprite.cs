@@ -53,7 +53,7 @@ namespace WooferGame.Systems.Visual
         {
         }
 
-        public Sprite(string texture, Rectangle destination) : this(texture, destination, null)
+        public Sprite(string texture, Rectangle destination) : this(texture, destination, Rectangle.Empty)
         {
         }
 

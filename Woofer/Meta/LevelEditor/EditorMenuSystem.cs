@@ -61,7 +61,7 @@ namespace WooferGame.Meta.LevelEditor
                     case 0:
                         {
                             PropertySummary property = new PropertySummary(Owner, typeof(Scene).GetProperty("Name"), Owner);
-                            property.TriggerEdit();
+                            property.TriggerEdit(inputMap.Interact.Pressed);
                             ModalActive = false;
                             break;
                         }
@@ -96,13 +96,15 @@ namespace WooferGame.Meta.LevelEditor
                         }
                     case 5:
                         {
-                            Woofer.Controller.CommandFired(new DirectSceneChangeCommand(new MainMenuScene()));
+                            Woofer.Controller.CommandFired(new InternalSceneChangeCommand(new MainMenuScene()));
                             Woofer.Controller.Paused = false;
                             break;
                         }
                 }
             }
         }
+
+        internal static readonly Sprite CogIcon = new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 32, 16, 16));
 
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
@@ -119,7 +121,7 @@ namespace WooferGame.Meta.LevelEditor
             int x = EditorRendering.SidebarX + 2 * EditorRendering.SidebarMargin;
             int y = EditorRendering.SidebarMargin + 4;
 
-            new TextUnit(new Sprite("editor", new Rectangle(0, 0, 16, 16), new Rectangle(0, 32, 16, 16)), Owner.Name, index == SelectedIndex ? Color.CornflowerBlue : Color.White).Render(r, layer, new Point(x, y), 2);
+            new TextUnit(CogIcon, Owner.Name, index == SelectedIndex ? Color.CornflowerBlue : Color.White).Render(r, layer, new Point(x, y), 2);
             y += 20;
             index++;
 

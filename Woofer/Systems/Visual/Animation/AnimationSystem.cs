@@ -41,6 +41,7 @@ namespace WooferGame.Systems.Visual.Animation
 
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
+            if (Owner.Controller.Paused) return;
             foreach(AnimationComponent c in WatchedComponents)
             {
                 Renderable renderable = c.Owner.Components.Get<Renderable>();
@@ -51,7 +52,7 @@ namespace WooferGame.Systems.Visual.Animation
                     if(anim.SpriteIndex >= 0 && anim.SpriteIndex < renderable.Sprites.Count)
                     {
                         if (anim.FrameProgress >= 0) renderable.Sprites[anim.SpriteIndex].Source = anim.Frame + (anim.Step * anim.CurrentFrame);
-                        else renderable.Sprites[anim.SpriteIndex].Source = new Rectangle();
+                        else renderable.Sprites[anim.SpriteIndex].Source = new Rectangle(-1, -1, 0, 0);
                     }
                 }
             }

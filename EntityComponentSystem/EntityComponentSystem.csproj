@@ -66,7 +66,6 @@
     <Compile Include="Entities\EntityMap.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\EventManager.cs" />
-    <Compile Include="Exceptions\BadMethodReturnException.cs" />
     <Compile Include="Interfaces\Audio\ISoundEffect.cs" />
     <Compile Include="Interfaces\Controller\IAudioUnit.cs" />
     <Compile Include="Interfaces\Controller\IGameController.cs" />
@@ -109,7 +108,6 @@
     <Compile Include="Util\HorizontalDirection.cs" />
     <Compile Include="Util\Rectangle.cs" />
     <Compile Include="Util\Size.cs" />
-    <Compile Include="Util\SpriteSet.cs" />
     <Compile Include="Util\Vector2D.cs" />
   </ItemGroup>
   <ItemGroup />

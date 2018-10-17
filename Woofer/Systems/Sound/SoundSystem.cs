@@ -44,6 +44,9 @@ namespace WooferGame.Systems.Sounds
                     else
                         soundEffect.Play();
                 }
+            } else if(evt is ActivationEvent ae1 && ae1.Affected.HasComponent<StopMusic>())
+            {
+                Owner.Controller.AudioUnit.StopMusic();
             }
         }
     }

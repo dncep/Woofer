@@ -8,7 +8,7 @@ using EntityComponentSystem.Saves;
 namespace EntityComponentSystem.Util
 {
     [PersistentObject]
-    public class Rectangle
+    public struct Rectangle : IEquatable<Rectangle>
     {
         [PersistentProperty]
         public double X;
@@ -18,6 +18,7 @@ namespace EntityComponentSystem.Util
         public double Width;
         [PersistentProperty]
         public double Height;
+        public static readonly Rectangle Empty = new Rectangle();
 
         public Vector2D Position => new Vector2D(X, Y);
         public Size Size => new Size(Width, Height);
@@ -59,12 +60,11 @@ namespace EntityComponentSystem.Util
             Height = size.Height;
         }
 
-        public Rectangle() : this(0, 0, 0, 0)
-        {
-        }
-
         public static Rectangle operator +(Rectangle rect, Vector2D vect) => new Rectangle(rect.X + vect.X, rect.Y + vect.Y, rect.Width, rect.Height);
         public static Rectangle operator -(Rectangle rect, Vector2D vect) => new Rectangle(rect.X - vect.X, rect.Y - vect.Y, rect.Width, rect.Height);
+
+        public static bool operator ==(Rectangle a, Rectangle b) => a.X == b.X && a.Y == b.Y && a.Width == b.Width && a.Height == b.Height;
+        public static bool operator !=(Rectangle a, Rectangle b) => !(a == b);
 
         public override string ToString() => $"[x:{X}, y:{Y}, w:{Width}, h:{Height}]";
         public bool IntersectsWith(Rectangle other) => 
@@ -86,6 +86,19 @@ namespace EntityComponentSystem.Util
             double y2 = Math.Max(this.Top, other.Top);
 
             return new Rectangle(x1, y1, x2 - x1, y2 - y1);
+        }
+
+        public override bool Equals(object obj) => obj is Rectangle && Equals((Rectangle)obj);
+        public bool Equals(Rectangle other) => X == other.X && Y == other.Y && Width == other.Width && Height == other.Height;
+
+        public override int GetHashCode()
+        {
+            var hashCode = 466501756;
+            hashCode = hashCode * -1521134295 + X.GetHashCode();
+            hashCode = hashCode * -1521134295 + Y.GetHashCode();
+            hashCode = hashCode * -1521134295 + Width.GetHashCode();
+            hashCode = hashCode * -1521134295 + Height.GetHashCode();
+            return hashCode;
         }
     }
 

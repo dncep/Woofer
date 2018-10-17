@@ -44,7 +44,7 @@ namespace WooferGame.Systems.Pulse
                 {
                     if(pulseButton.Consume())
                     {
-                        double strength = (pa.PulseStrength * Math.Sqrt(pa.EnergyMeter / 100));
+                        double strength = (pa.PulseStrength * Math.Sqrt(pa.EnergyMeter / pa.MaxEnergy));
 
                         if (pa.Owner.Components.Has<Physical>() && pa.Owner.Components.Has<PlayerOrientation>())
                         {
@@ -103,7 +103,7 @@ namespace WooferGame.Systems.Pulse
 
                     if (distance > pe.Reach) continue;
 
-                    if(pe.Source.Magnitude == 0 || GeneralUtil.SubtractAngles((center - pe.Source).Angle, pe.Direction.Angle) <= Math.PI/4)
+                    if(pe.Direction.Magnitude == 0 || GeneralUtil.SubtractAngles((center - pe.Source).Angle, pe.Direction.Angle) <= Math.Atan(1/pe.Direction.Magnitude))
                     {
                         double mass = 1;
                         if (pp.Owner.Components.Has<SoftBody>()) mass = pp.Owner.Components.Get<SoftBody>().Mass;
@@ -136,19 +136,22 @@ namespace WooferGame.Systems.Pulse
                     {
                         RaycastEvent raycast = new RaycastEvent(evt.Sender, new FreeVector2D(pe.Source, pe.Source + pe.Direction.Rotate(i * (Math.PI / 4)) * pe.Reach));
                         Owner.Events.InvokeEvent(raycast);
-                        foreach(RaycastIntersection intersection in raycast.Intersected)
+                        if(raycast.Intersected != null)
                         {
-                            if(intersection.Component.Owner != pe.Sender.Owner && 
-                                intersection.Component.Owner.Components.Has<PulseReceiverPhysical>() && 
-                                !hit.Contains(intersection.Component.Owner))
+                            foreach(RaycastIntersection intersection in raycast.Intersected)
                             {
-                                hit.Add(intersection.Component.Owner);
-                            }
-                            else if (intersection.Component.Owner != pe.Sender.Owner &&
-                                intersection.Component.Owner.Components.Has<PulseDamaged>() &&
-                                !damaged.Contains(intersection.Component.Owner))
-                            {
-                                damaged.Add(intersection.Component.Owner);
+                                if(intersection.Component.Owner != pe.Sender.Owner && 
+                                    intersection.Component.Owner.Components.Has<PulseReceiverPhysical>() && 
+                                    !hit.Contains(intersection.Component.Owner))
+                                {
+                                    hit.Add(intersection.Component.Owner);
+                                }
+                                else if (intersection.Component.Owner != pe.Sender.Owner &&
+                                    intersection.Component.Owner.Components.Has<PulseDamaged>() &&
+                                    !damaged.Contains(intersection.Component.Owner))
+                                {
+                                    damaged.Add(intersection.Component.Owner);
+                                }
                             }
                         }
                     }

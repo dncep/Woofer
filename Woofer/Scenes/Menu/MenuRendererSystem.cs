@@ -62,17 +62,16 @@ namespace WooferGame.Scenes.Menu
                     case 0:
                         //Woofer.Controller.CurrentSave = new SaveGame("main");
                         //Woofer.Controller.CommandFired(new SavedSceneChangeCommand("Tutorial"));
-                        Woofer.Controller.CommandFired(new DirectSceneChangeCommand(new FileSelect()));
+                        Woofer.Controller.CommandFired(new InternalSceneChangeCommand(new FileSelect()));
                         break;
                     case 1:
                         break;
                     case 2:
-                        Woofer.Controller.CommandFired(new DirectSceneChangeCommand(new LevelSelect()));
+                        Woofer.Controller.CommandFired(new InternalSceneChangeCommand(new LevelSelect()));
                         break;
                     case 3:
                         Environment.Exit(0);
                         break;
-
                 }
             }
         }
@@ -82,6 +81,8 @@ namespace WooferGame.Scenes.Menu
             var layer = r.GetLayerGraphics("hud");
 
             layer.Draw(r.SpriteManager["menu_bg"], new System.Drawing.Rectangle(new Point(0, 0), layer.GetSize()));
+            
+            r.GetLayerGraphics("hi_res_overlay").Draw(r.SpriteManager["logo"], new System.Drawing.Rectangle(648, 128, 480, 152));
 
             int destY = 100;
             int index = 0;
