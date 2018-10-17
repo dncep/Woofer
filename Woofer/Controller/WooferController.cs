@@ -51,6 +51,7 @@ namespace WooferGame.Controller
             AudioUnit.Load("bgm1");
             AudioUnit.Load("bgmboss");
 
+            AudioUnit.Load("boss_defeat");
 
             ActiveScene = new IntroScreen();
         }

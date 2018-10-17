@@ -20,11 +20,13 @@ namespace WooferGame.Scenes.Intro
     [ComponentSystem("intro_system", ProcessingCycles.All)]
     class IntroSystem : ComponentSystem
     {
-        private double Delay = 2;
+        public double Delay = 2;
+
+        public bool Locked { get; internal set; } = false;
 
         public override void Input()
         {
-            if(Woofer.Controller.InputManager.ActiveInputMap.Jump.Consume())
+            if(!Locked && Woofer.Controller.InputManager.ActiveInputMap.Jump.Consume())
             {
                 Woofer.Controller.CommandFired(new InternalSceneChangeCommand(new MainMenuScene()));
             }

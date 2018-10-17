@@ -100,6 +100,7 @@ namespace WooferGame.Systems.Visual
             
             foreach (Sprite sprite in sprites)
             {
+                if (sprite.Source.X < 0 || sprite.Source.Y < 0) continue;
                 float x = (float)sprite.Destination.X;
                 float y = (float)sprite.Destination.Y;
                 if (spatial != null)

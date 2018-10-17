@@ -41,6 +41,7 @@ namespace WooferGame.Systems.Visual.Animation
 
         public override void Render<TSurface, TSource>(ScreenRenderer<TSurface, TSource> r)
         {
+            if (Owner.Controller.Paused) return;
             foreach(AnimationComponent c in WatchedComponents)
             {
                 Renderable renderable = c.Owner.Components.Get<Renderable>();

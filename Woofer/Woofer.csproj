@@ -110,6 +110,7 @@
     <Compile Include="Controller\WooferController.cs" />
     <Compile Include="Controller\WooferRenderingUnit.cs" />
     <Compile Include="Scenes\CommonSprites\Vent.cs" />
+    <Compile Include="Scenes\EndScene.cs" />
     <Compile Include="Scenes\IntroScene.cs" />
     <Compile Include="Scenes\Intro\IntroScreen.cs" />
     <Compile Include="Scenes\Intro\IntroSystem.cs" />
@@ -154,6 +155,10 @@
     <Compile Include="Systems\Debug\Quicksave.cs" />
     <Compile Include="Systems\Enemies\AISystem.cs" />
     <Compile Include="Systems\Enemies\Boss\Boss.cs" />
+    <Compile Include="Systems\Enemies\Boss\BossLaser.cs" />
+    <Compile Include="Systems\Enemies\Boss\BossLaserSystem.cs" />
+    <Compile Include="Systems\Enemies\Boss\BossProjectile.cs" />
+    <Compile Include="Systems\Enemies\Boss\BossProjectileCatcher.cs" />
     <Compile Include="Systems\Enemies\Boss\BossSystem.cs" />
     <Compile Include="Systems\Enemies\DeflectOnPulseComponent.cs" />
     <Compile Include="Systems\Enemies\EnemyComponent.cs" />

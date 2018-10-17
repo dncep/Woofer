@@ -26,7 +26,7 @@ namespace WooferGame.Systems.Visual.Particles
                 Spatial sp = projectile.Owner.Components.Get<Spatial>();
                 if(sp != null)
                 {
-                    Owner.Entities.Add(new AmberParticle(sp.Position, Owner.Random.Next(0, 3)));
+                    Owner.Entities.Add(new EmberParticle(sp.Position, Owner.Random.Next(0, 3)));
                 }
             }
         }

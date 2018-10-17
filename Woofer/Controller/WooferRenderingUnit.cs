@@ -36,6 +36,7 @@ namespace WooferGame.Controller
             SpriteManager.LoadSprite("woofer");
             SpriteManager.LoadSprite("enemies");
             SpriteManager.LoadSprite("boss");
+            SpriteManager.LoadSprite("boss_particles");
             SpriteManager.LoadSprite("particles");
             SpriteManager.LoadSprite("collectibles");
             SpriteManager.LoadSprite("overlays");

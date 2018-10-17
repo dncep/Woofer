@@ -75,6 +75,8 @@ namespace WooferGame.Systems.Physics
                         Physical physA = objA.Owner.Components.Get<Physical>();
                         Physical physB = objB.Owner.Components.Get<Physical>();
 
+                        if (physA == null || physB == null) continue;
+
                         if (objB is RigidBody rb && !rb.UnionBounds.Offset(physB.Position).IntersectsWith(objA.Bounds.Offset(physA.Position))) continue;
 
                         IEnumerable<CollisionBox> solidBoxes =
@@ -207,11 +209,12 @@ namespace WooferGame.Systems.Physics
                 foreach(Component c in intersectingX)
                 {
                     Physical phys = c.Owner.Components.Get<Physical>();
+                    Spatial sp = c.Owner.Components.Get<Spatial>();
 
                     IEnumerable<CollisionBox> solidBoxes =
                             c is SoftBody ?
-                                new CollisionBox[] { (c as SoftBody).Bounds.Offset(phys.Position) } :
-                                (c as RigidBody).Bounds.Select(b => b.Offset(phys.Position));
+                                new CollisionBox[] { (c as SoftBody).Bounds.Offset(phys?.Position ?? sp?.Position ?? Vector2D.Empty) } :
+                                (c as RigidBody).Bounds.Select(b => b.Offset(phys?.Position ?? sp?.Position ?? Vector2D.Empty));
 
                     foreach(CollisionBox box in solidBoxes)
                     {
@@ -286,12 +289,13 @@ namespace WooferGame.Systems.Physics
             if (c is Physical ph) return Math.Min(ph.Position.X, ph.PreviousPosition.X);
             ph = c.Owner.Components.Get<Physical>();
             SoftBody sb = c as SoftBody;
+            Spatial sp = c.Owner.GetComponent<Spatial>();
 
             CollisionBox box = (c is RigidBody rb) ? rb.UnionBounds : sb?.Bounds;
 
             return Math.Min(
-                box.Offset(ph.Position).Left,
-                box.Offset(ph.PreviousPosition).Left
+                box.Offset(ph?.Position ?? sp?.Position ?? Vector2D.Empty).Left,
+                box.Offset(ph?.PreviousPosition ?? sp?.Position ?? Vector2D.Empty).Left
             );
         }
 
@@ -300,12 +304,13 @@ namespace WooferGame.Systems.Physics
             if (c is Physical ph) return Math.Min(ph.Position.X, ph.PreviousPosition.X);
             ph = c.Owner.Components.Get<Physical>();
             SoftBody sb = c as SoftBody;
+            Spatial sp = c.Owner.GetComponent<Spatial>();
 
             CollisionBox box = (c is RigidBody rb) ? rb.UnionBounds : sb?.Bounds;
 
             return Math.Max(
-                box.Offset(ph.Position).Right,
-                box.Offset(ph.PreviousPosition).Right
+                box.Offset(ph?.Position ?? sp?.Position ?? Vector2D.Empty).Right,
+                box.Offset(ph?.PreviousPosition ?? sp?.Position ?? Vector2D.Empty).Right
             );
         }
     }

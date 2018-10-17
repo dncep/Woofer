@@ -109,6 +109,12 @@ namespace EntityComponentSystem.Scenes
             Systems.InvokeUpdate();
 
             Update();
+
+            while(AfterTick.Count > 0)
+            {
+                AfterTick[0]();
+                AfterTick.RemoveAt(0);
+            }
         }
 
         /// <summary>
@@ -128,6 +134,13 @@ namespace EntityComponentSystem.Scenes
             {
                 e.Entity.Components.Changed += NotifyComponentChange;
             }
+        }
+
+        protected List<Action> AfterTick = new List<Action>();
+
+        public void QueueAction(Action action)
+        {
+            AfterTick.Add(action);
         }
 
         /// <summary>
