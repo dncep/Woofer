@@ -19,9 +19,9 @@ using WooferGame.Input;
 using WooferGame.Systems.HUD;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Generators;
-using WooferGame.Systems.Sounds;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Animation;
+using WooferGame.Systems.Sounds;
 
 namespace WooferGame.Systems.Debug
 {

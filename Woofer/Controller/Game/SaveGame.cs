@@ -30,7 +30,7 @@ namespace WooferGame.Controller.Game
 
         public async Task<Scene> PrepareScene(string sceneName)
         {
-            if (Scenes.ContainsKey(sceneName)) return Scenes[sceneName];
+            if (Scenes.ContainsKey(sceneName) && !Scenes[sceneName].Disposed) return Scenes[sceneName];
             if(LoadingTasks.ContainsKey(sceneName))
             {
                 return await LoadingTasks[sceneName];

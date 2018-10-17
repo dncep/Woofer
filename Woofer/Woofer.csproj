@@ -255,6 +255,7 @@
     <Compile Include="Systems\Sound\Sound.cs" />
     <Compile Include="Systems\Sound\SoundEmitter.cs" />
     <Compile Include="Systems\Sound\SoundSystem.cs" />
+    <Compile Include="Systems\Sound\StopMusic.cs" />
     <Compile Include="Systems\Spatial.cs" />
     <Compile Include="Systems\Spawner\EntitySpawner.cs" />
     <Compile Include="Systems\Spawner\Spawned.cs" />

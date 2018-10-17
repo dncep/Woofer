@@ -43,6 +43,7 @@ namespace GameBase.MonoGameAudio
         public void StopMusic()
         {
             ActiveSong?.Stop();
+            ActiveSong = null;
         }
 
         public void SetMusic(ISoundEffect sound)
