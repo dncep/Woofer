@@ -57,7 +57,7 @@ namespace WooferGame.Scenes.Intro
         }
         public override void Update()
         {
-            if(Delay >= 0) Delay -= Owner.DeltaTime;
+            if(!Locked && Delay >= 0) Delay -= Owner.DeltaTime;
         }
     }
 }

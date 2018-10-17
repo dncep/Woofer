@@ -83,7 +83,6 @@ namespace WooferGame.Controller
 
         public void CommandFired(Command command)
         {
-            Console.WriteLine("Received command " + command);
             switch(command)
             {
                 case InternalSceneChangeCommand changeScene:

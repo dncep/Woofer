@@ -18,6 +18,8 @@ namespace WooferGame.Systems.Debug
         Listening(typeof(CameraLocationQueryEvent))]
     class DebugClipping : ComponentSystem
     {
+        public override bool ShouldSave => false;
+
         public override void Input()
         {
             IInputMap inputMap = Woofer.Controller.InputManager.ActiveInputMap;

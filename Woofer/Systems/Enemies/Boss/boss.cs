@@ -43,7 +43,7 @@ namespace WooferGame.Systems.Enemies.Boss
         [PersistentProperty]
         public long RightPropeller { get; set; } = 0;
         
-        public long Difficulty { get; set; } = 1;
+        public int Difficulty { get; set; } = 0;
 
         [PersistentProperty]
         public int Health { get; set; } = 30;

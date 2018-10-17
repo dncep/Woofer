@@ -8,11 +8,14 @@ using EntityComponentSystem.ComponentSystems;
 using EntityComponentSystem.Entities;
 using EntityComponentSystem.Events;
 using EntityComponentSystem.Util;
+using WooferGame.Controller.Commands;
+using WooferGame.Scenes;
 using WooferGame.Systems.Camera.Shake;
 using WooferGame.Systems.Interaction;
 using WooferGame.Systems.Linking;
 using WooferGame.Systems.Physics;
 using WooferGame.Systems.Player;
+using WooferGame.Systems.Timer;
 using WooferGame.Systems.Visual;
 using WooferGame.Systems.Visual.Particles;
 
@@ -249,6 +252,13 @@ namespace WooferGame.Systems.Enemies.Boss
                     if (boss.Health <= 0) KillBoss(boss);
                 }
             }
+            if(e is ActivationEvent ae2 && ae2.Affected.HasComponent<GameEnd>())
+            {
+                Woofer.Controller.AudioUnit["pulse_high"].Play();
+                Woofer.Controller.AudioUnit["pulse_high"].Play();
+                Woofer.Controller.AudioUnit["pulse_high"].Play();
+                Owner.QueueAction(() => Owner.Controller.CommandFired(new InternalSceneChangeCommand(new EndScene())));
+            }
         }
 
         private void KillBoss(Boss boss)
@@ -285,6 +295,11 @@ namespace WooferGame.Systems.Enemies.Boss
 
             Entity next = boss.OnDefeat != 0 ? Owner.Entities[boss.OnDefeat] : null;
             if(next != null) Owner.Events.InvokeEvent(new ActivationEvent(boss, next, null));
+
+            Entity end = new Entity();
+            end.Components.Add(new GameEnd());
+            end.Components.Add(new TimerComponent(8));
+            Owner.Entities.Add(end);
         }
 
         private void KillPropeller(Entity propeller)

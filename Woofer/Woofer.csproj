@@ -160,6 +160,7 @@
     <Compile Include="Systems\Enemies\Boss\BossProjectile.cs" />
     <Compile Include="Systems\Enemies\Boss\BossProjectileCatcher.cs" />
     <Compile Include="Systems\Enemies\Boss\BossSystem.cs" />
+    <Compile Include="Systems\Enemies\Boss\GameEnd.cs" />
     <Compile Include="Systems\Enemies\DeflectOnPulseComponent.cs" />
     <Compile Include="Systems\Enemies\EnemyComponent.cs" />
     <Compile Include="Systems\Enemies\Projectile.cs" />

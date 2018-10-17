@@ -18,6 +18,7 @@ using WooferGame.Meta.LevelEditor.Systems.InputModes;
 using WooferGame.Meta.LevelEditor.Systems.ObjectEditor;
 using WooferGame.Meta.LevelEditor.Systems.SoundView;
 using WooferGame.Scenes;
+using WooferGame.Systems.Debug;
 
 namespace WooferGame.Meta.LevelEditor
 {
@@ -59,6 +60,8 @@ namespace WooferGame.Meta.LevelEditor
             scene.Systems.Add(new EnumerationSelectViewSystem());
 
             scene.Systems.Add(new ModalFocusSystem());
+
+            scene.Systems.Add(new DebugClipping());
         }
     }
 
