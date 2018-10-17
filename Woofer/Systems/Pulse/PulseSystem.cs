@@ -57,6 +57,9 @@ namespace WooferGame.Systems.Pulse
                             ISoundEffect sound_high = Woofer.Controller.AudioUnit["pulse_high"];
                             sound_high.Pitch = sound_low.Pitch;
 
+                            sound_low.Volume = 0.6f;
+
+
                             sound_low.Play();
                             sound_mid.Play();
                             sound_high.Play();
