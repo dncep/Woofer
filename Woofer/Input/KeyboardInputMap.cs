@@ -7,11 +7,9 @@ using GameInterfaces.Input.Keyboard;
 
 namespace WooferGame.Input
 {
-    class KeyboardInputMap : IInputMap, IScreenAwareInput
+    class KeyboardInputMap : IInputMap
     {
         public string Name => "Keyboard and Mouse";
-
-        public Vector2D Origin;
 
         public Vector2D Movement
         {
@@ -75,8 +73,6 @@ namespace WooferGame.Input
         public string IconSpritesheet => "keyboard_icons";
 
         public void SetVibration(float amount) { }
-
-        public void SetOrientationOrigin(Vector2D origin) => Origin = origin;
 
         public void ProcessInput()
         {

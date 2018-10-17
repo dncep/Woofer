@@ -63,7 +63,6 @@
     <Compile Include="Input\IInputMap.cs" />
     <Compile Include="Input\InputMapSwitcher.cs" />
     <Compile Include="Input\InputTimeframe.cs" />
-    <Compile Include="Input\IScreenAwareInput.cs" />
     <Compile Include="Input\KeyboardInputMap.cs" />
     <Compile Include="Meta\FileSelect\FileSelect.cs" />
     <Compile Include="Meta\FileSelect\FileSelectSystem.cs" />

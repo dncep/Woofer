@@ -31,7 +31,8 @@ namespace WooferGame.Systems.Movement
                 }
                 if ((pmc.Owner.Components.Get<Health>()?.CurrentHealth ?? 1) <= 0) continue;
 
-                Physical rb = pmc.Owner.Components.Get<Physical>();
+                Physical phys = pmc.Owner.Components.Get<Physical>();
+                if (phys == null) continue;
 
                 ButtonInput jumpButton = inputMap.Jump;
 
@@ -40,7 +41,7 @@ namespace WooferGame.Systems.Movement
                 {
                     if(jumpButton.Consume())
                     {
-                        rb.Velocity.Y = pmc.JumpSpeed;
+                        phys.Velocity.Y = pmc.JumpSpeed;
                         Owner.Events.InvokeEvent(new PlayerJumpEvent(pmc));
                     }
                 }
@@ -50,23 +51,23 @@ namespace WooferGame.Systems.Movement
                 double xMovementCap = pmc.CurrentMaxSpeed;
                 if(xMovement > 0)
                 {
-                    if(rb.Velocity.X <= xMovementCap)
+                    if(phys.Velocity.X <= xMovementCap)
                     {
-                        rb.Velocity.X = Math.Min(rb.Velocity.X + xMovement, xMovementCap);
+                        phys.Velocity.X = Math.Min(phys.Velocity.X + xMovement, xMovementCap);
                     }
                 } else if(xMovement < 0)
                 {
-                    if (rb.Velocity.X >= -xMovementCap)
+                    if (phys.Velocity.X >= -xMovementCap)
                     {
-                        rb.Velocity.X = Math.Max(rb.Velocity.X + xMovement, -xMovementCap);
+                        phys.Velocity.X = Math.Max(phys.Velocity.X + xMovement, -xMovementCap);
                     }
                 }
 
                 //For smoothly walking down slopes
-                if(rb.Velocity.Y <= 0)
+                if(phys.Velocity.Y <= 0)
                 {
                     //Raycast down under the player's feet up to a distance of 4 pixels
-                    RaycastEvent raycast = new RaycastEvent(pmc, new FreeVector2D(rb.Position, rb.Position - 4 * Vector2D.UnitJ));
+                    RaycastEvent raycast = new RaycastEvent(pmc, new FreeVector2D(phys.Position, phys.Position - 8 * Vector2D.UnitJ));
                     Owner.Events.InvokeEvent(raycast);
                     if(raycast.Intersected != null)
                     {
@@ -76,7 +77,7 @@ namespace WooferGame.Systems.Movement
                             {
                                 if(intersection.FaceProperties.Snap) //If the intersected face has the 'snap' property enabled (for slopes)
                                 {
-                                    rb.Position = intersection.Point; //Move the player down to the point of intersection, assuming the player's origin is at their feet
+                                    phys.Position = intersection.Point; //Move the player down to the point of intersection, assuming the player's origin is at their feet
                                 }
                             }
                         }
